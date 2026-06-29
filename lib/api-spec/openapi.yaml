@@ -1,0 +1,1150 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: analytics
+    description: Analytics ingest and read endpoints
+  - name: trend-radar
+    description: Trend Radar ingestion and reviewer queue endpoints
+  - name: corrections
+    description: Reader-flagged corrections inbox
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /analytics/shelf-click:
+    post:
+      operationId: recordShelfClicks
+      tags: [analytics]
+      summary: Record shelf outbound clicks
+      description: |
+        Persist a batch of "Visit brand" outbound clicks emitted by the
+        "On our shelf" cards on ingredient briefs, routine pages, and
+        concern guides. Designed to be called from
+        `navigator.sendBeacon` (or `fetch` with `keepalive`); the
+        endpoint always responds 204 so the browser never blocks
+        navigation waiting on a body.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShelfClickBatch"
+      responses:
+        "204":
+          description: Accepted — clicks were persisted.
+        "400":
+          description: Malformed payload.
+  /analytics/shelf-clicks:
+    get:
+      operationId: listShelfClicks
+      tags: [analytics]
+      summary: List recent shelf outbound clicks
+      description: |
+        Editorial-only readout of recent "Visit brand" clicks, newest
+        first. Returns at most `limit` rows (default 200, max 1000) so
+        editors can spot which brand links readers actually use.
+
+        Optional `since`/`until` ISO-8601 timestamps narrow the window
+        in SQL — necessary so date-range chips like `Last 30 days` or
+        `All recent` don't silently cap at the most recent 1000 rows
+        once a busy month exceeds that ceiling.
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 200
+        - name: pageKind
+          in: query
+          required: false
+          description: Optional filter to a single page kind (ingredient, routine, concern).
+          schema:
+            $ref: "#/components/schemas/ShelfPageKind"
+        - name: pageSlug
+          in: query
+          required: false
+          description: |
+            Optional filter to a single source page (e.g. an ingredient
+            slug like `tretinoin`, or a routine/concern component name
+            like `RoutineBareMinimum`).
+          schema:
+            type: string
+        - name: since
+          in: query
+          required: false
+          description: |
+            Inclusive lower bound on `createdAt` (ISO-8601). When set,
+            only clicks with `createdAt >= since` are returned.
+          schema:
+            type: string
+            format: date-time
+        - name: until
+          in: query
+          required: false
+          description: |
+            Inclusive upper bound on `createdAt` (ISO-8601). When set,
+            only clicks with `createdAt <= until` are returned.
+          schema:
+            type: string
+            format: date-time
+      security:
+        - editorSession: []
+      responses:
+        "200":
+          description: Recent shelf clicks.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShelfClickList"
+        "401":
+          description: |
+            Missing or invalid editor session. Callers must first sign
+            in via `POST /editor/sign-in` to receive the HttpOnly
+            `evidently_editor` session cookie.
+  /analytics/shelf-clicks/export:
+    get:
+      operationId: exportShelfClicks
+      tags: [analytics]
+      summary: Stream every shelf click in a date window as NDJSON
+      description: |
+        Editorial-only export endpoint for "Download CSV". Unlike the
+        dashboard's `GET /analytics/shelf-clicks` listing — which is
+        capped at 1000 rows so a busy month silently truncates — this
+        endpoint streams every row matching the supplied filters, one
+        JSON object per line (`application/x-ndjson`). The dashboard
+        builds the CSV from the stream so the column order, escaping,
+        and page-label resolution stay identical to the in-memory
+        exporter.
+
+        The stream is keyset-paginated server-side on
+        `(createdAt DESC, id DESC)` so only one page is in flight at a
+        time and memory / database connection use stays bounded
+        regardless of how busy the window is. There is no upper row
+        cap — the whole point of the route is to give editors the full
+        date window without silent truncation, so the only bounds are
+        the `since` / `until` query params.
+      parameters:
+        - name: pageKind
+          in: query
+          required: false
+          description: Optional filter to a single page kind (ingredient, routine, concern).
+          schema:
+            $ref: "#/components/schemas/ShelfPageKind"
+        - name: pageSlug
+          in: query
+          required: false
+          description: |
+            Optional filter to a single source page (e.g. an ingredient
+            slug like `tretinoin`, or a routine/concern component name
+            like `RoutineBareMinimum`). Used by the dashboard's drill-in
+            view so the export only contains the page the editor is
+            looking at.
+          schema:
+            type: string
+        - name: since
+          in: query
+          required: false
+          description: |
+            Inclusive lower bound on `createdAt` (ISO-8601). When set,
+            only clicks with `createdAt >= since` are streamed.
+          schema:
+            type: string
+            format: date-time
+        - name: until
+          in: query
+          required: false
+          description: |
+            Inclusive upper bound on `createdAt` (ISO-8601). When set,
+            only clicks with `createdAt <= until` are streamed.
+          schema:
+            type: string
+            format: date-time
+      security:
+        - editorSession: []
+      responses:
+        "200":
+          description: |
+            Newline-delimited stream of `ShelfClickRecord` objects
+            (one JSON object per line, no enclosing array). Newest
+            first, matching the dashboard's listing order. The
+            response may be empty (no rows in the window) but a
+            successful export still returns 200.
+          content:
+            application/x-ndjson:
+              schema:
+                type: string
+                description: |
+                  One `ShelfClickRecord` JSON object per line, terminated
+                  by `\n`. Clients should parse line-by-line rather than
+                  buffering the whole body, since busy windows can be
+                  arbitrarily large.
+        "400":
+          description: Malformed query string.
+        "401":
+          description: |
+            Missing or invalid editor session. Callers must first sign
+            in via `POST /editor/sign-in`.
+  /editor/sign-in:
+    post:
+      operationId: editorSignIn
+      tags: [analytics]
+      summary: Exchange the shared editor token for a session cookie
+      description: |
+        The editor dashboard prompts for the shared `EDITOR_TOKEN`
+        once. Posting it here exchanges it for an HttpOnly,
+        signed session cookie (`evidently_editor`) that the
+        editor-only API surface (currently `GET /analytics/shelf-clicks`)
+        validates. The token itself is never returned to the browser
+        and the cookie cannot be read from JavaScript.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditorSignInBody"
+      responses:
+        "204":
+          description: Session cookie issued.
+          headers:
+            Set-Cookie:
+              description: HttpOnly signed `evidently_editor` cookie.
+              schema:
+                type: string
+        "401":
+          description: Token did not match the configured editor token.
+        "503":
+          description: |
+            Server-side `EDITOR_TOKEN` is not configured, so no editor
+            credential can possibly be valid.
+  /editor/sign-out:
+    post:
+      operationId: editorSignOut
+      tags: [analytics]
+      summary: Clear the editor session cookie
+      responses:
+        "204":
+          description: Cookie cleared.
+  /editor/trend-queue:
+    get:
+      operationId: listTrendQueue
+      tags: [trend-radar]
+      summary: List candidate trends awaiting reviewer verdict
+      description: |
+        Reviewer-only readout of trend candidates produced by the Trend
+        Radar clustering pass. Returns the queued items (or, with
+        `?status=`, items in another state) newest-first along with an
+        expandable list of their source signals.
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Filter to a single candidate status. Defaults to `queued`.
+          schema:
+            type: string
+            enum: [queued, approved-trendwatch, approved-draft, rejected, snoozed]
+            default: queued
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 100
+      security:
+        - editorSession: []
+      responses:
+        "200":
+          description: Trend candidates matching the requested status.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrendQueueList"
+        "401":
+          description: Missing or invalid editor session.
+  /editor/trend-queue/{id}/approve:
+    post:
+      operationId: approveTrendCandidate
+      tags: [trend-radar]
+      summary: Approve a trend candidate and publish it
+      description: |
+        Approving a `trend-watch` candidate writes a fresh
+        `issue-NNN.json` into the Astro `trend-watch` content
+        collection. Approving a `ingredient-draft` candidate writes a
+        stub JSON to `src/content/ingredients/_drafts/`. The reviewer
+        may override the auto-suggested name, summary, verdict, and
+        tier in the request body before publication.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApproveTrendBody"
+      security:
+        - editorSession: []
+      responses:
+        "200":
+          description: Candidate published.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApproveTrendResponse"
+        "400":
+          description: Malformed body or unknown template type.
+        "404":
+          description: Candidate not found.
+        "409":
+          description: Candidate already published or in a non-queued state.
+  /editor/trend-queue/{id}/sync-retry:
+    post:
+      operationId: retryTrendCandidateSync
+      tags: [trend-radar]
+      summary: Retry the GitHub PR sync for an already-published candidate
+      description: |
+        When the GitHub PR sync that runs after `POST /approve` fails
+        (bad token, GitHub outage, network blip, etc.), the approved
+        JSON file is on disk in the api-server's local checkout but
+        `pullRequestUrl` is null. This route re-runs the sync against
+        the existing local file — it does *not* re-write the file or
+        allocate a new `issue-NNN.json`. On success the new PR URL is
+        persisted on the candidate row.
+
+        Eligible candidates have `status` of `approved-trendwatch` or
+        `approved-draft`, a non-null `publishedSlug`, and a null
+        `pullRequestUrl`. Calling against a row that already has a PR
+        URL is a no-op that returns the existing URL.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      security:
+        - editorSession: []
+      responses:
+        "200":
+          description: Sync attempted; outcome described in `syncStatus`.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RetryTrendSyncResponse"
+        "404":
+          description: Candidate not found.
+        "409":
+          description: |
+            Candidate is not in an approved state, or has no
+            `publishedSlug` recorded.
+  /editor/trend-queue/{id}/reject:
+    post:
+      operationId: rejectTrendCandidate
+      tags: [trend-radar]
+      summary: Reject a trend candidate
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      security:
+        - editorSession: []
+      responses:
+        "204":
+          description: Candidate marked rejected.
+        "404":
+          description: Candidate not found.
+  /editor/trend-queue/{id}/snooze:
+    post:
+      operationId: snoozeTrendCandidate
+      tags: [trend-radar]
+      summary: Snooze a trend candidate for 30 days
+      description: |
+        Snoozes the candidate so it disappears from the default queue
+        listing for 30 days. After that window it automatically returns
+        to the `queued` listing.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      security:
+        - editorSession: []
+      responses:
+        "204":
+          description: Candidate snoozed.
+        "404":
+          description: Candidate not found.
+  /corrections:
+    post:
+      operationId: submitCorrection
+      tags: [corrections]
+      summary: Submit a reader-flagged correction
+      description: |
+        Public endpoint backing the "Submit a correction" form on the
+        `/corrections` page (and the small CTA in the site footer of
+        every page). Persists the submission to the editor inbox so
+        the corrections workflow can triage and apply the fix per the
+        SLA in the page's published five-rule policy (typo: 24h,
+        factual: 7 days).
+
+        The endpoint is intentionally unauthenticated — any reader
+        should be able to flag an error without signing up — so abuse
+        defences live at the API edge: a same-origin Origin/Referer
+        allowlist, a per-IP fixed-window rate limit, and a server-side
+        honeypot field (`website`) that real browsers leave blank.
+        Submissions whose honeypot is filled in are silently accepted
+        (HTTP 204) but never persisted, so bots can't tell they were
+        rejected.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CorrectionSubmissionBody"
+      responses:
+        "204":
+          description: Submission recorded (or silently dropped as honeypot spam).
+        "400":
+          description: Malformed payload.
+        "403":
+          description: Origin/Referer not on the allowlist.
+        "429":
+          description: Per-IP rate limit exceeded.
+  /editor/corrections:
+    get:
+      operationId: listEditorCorrections
+      tags: [corrections]
+      summary: List reader-submitted corrections for the editor inbox
+      description: |
+        Editor-only inbox of reader-submitted corrections produced by
+        the public `POST /corrections` form. Returns rows newest-first
+        (by `createdAt`) so an editor scanning the queue every morning
+        sees fresh submissions at the top, with the SLA clock derived
+        client-side from `createdAt`.
+
+        With `?status=` the list is filtered to a single workflow
+        state. The default is `new`, matching the typical "what came
+        in since I last checked" workflow. Pass `all` to disable the
+        filter.
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Filter to a single submission status, or `all`.
+          schema:
+            type: string
+            enum: [new, triaged, applied, dismissed, all]
+            default: new
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 500
+            default: 200
+      security:
+        - editorSession: []
+      responses:
+        "200":
+          description: Reader-submitted corrections matching the filter.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EditorCorrectionsList"
+        "401":
+          description: Missing or invalid editor session.
+  /editor/corrections/{id}:
+    patch:
+      operationId: updateEditorCorrection
+      tags: [corrections]
+      summary: Update a reader-submitted correction's status or internal note
+      description: |
+        Updates the workflow status and/or the internal note on a
+        reader-submitted correction. Both body fields are optional —
+        sending just `status` advances the row through the workflow
+        without touching the note, and sending just `internalNote`
+        records a triage comment without changing the state. At least
+        one field must be present or the request is rejected 400.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCorrectionBody"
+      security:
+        - editorSession: []
+      responses:
+        "200":
+          description: Updated correction row.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CorrectionRecord"
+        "400":
+          description: Malformed body (no fields, or invalid status).
+        "401":
+          description: Missing or invalid editor session.
+        "404":
+          description: Correction not found.
+  /editor/session:
+    get:
+      operationId: editorSessionStatus
+      tags: [analytics]
+      summary: Report whether the current cookie is a valid editor session
+      description: |
+        Status probe for editor-only UI on otherwise-public pages — for
+        example, the deep link a guide page renders to its slice of the
+        shelf-click dashboard. Public visitors get `signedIn: false` and
+        see no link; signed-in editors get `signedIn: true` and the link
+        is rendered. The actual editor authorisation on the data routes
+        (`GET /analytics/shelf-clicks`) is still enforced by the
+        `editorSession` security scheme; this endpoint never returns any
+        sensitive state, so it is intentionally not gated.
+      responses:
+        "200":
+          description: Session status.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EditorSessionStatus"
+components:
+  securitySchemes:
+    editorSession:
+      type: apiKey
+      in: cookie
+      name: evidently_editor
+      description: |
+        HttpOnly signed session cookie. Issued by `POST /editor/sign-in`
+        in exchange for the shared `EDITOR_TOKEN`, and valid for 30
+        days. Endpoints without this scheme listed are public.
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    EditorSignInBody:
+      type: object
+      properties:
+        token:
+          type: string
+          minLength: 1
+          maxLength: 1000
+          description: |
+            The shared editor token (the value of the server's
+            `EDITOR_TOKEN` env var). Sent only on this request and never
+            echoed back to the browser.
+      required:
+        - token
+    CorrectionSubmissionBody:
+      type: object
+      properties:
+        pageUrl:
+          type: string
+          minLength: 1
+          maxLength: 2000
+          description: |
+            URL of the page the reader spotted the error on. Stored as
+            free text so a submission about a third-party page or a
+            link copied from elsewhere still records cleanly.
+        description:
+          type: string
+          minLength: 5
+          maxLength: 4000
+          description: |
+            Reader's description of what they think is wrong. The 5-char
+            floor stops empty-form spam; the 4000-char ceiling keeps
+            abuse cheap.
+        evidenceUrl:
+          type: string
+          minLength: 1
+          maxLength: 2000
+          nullable: true
+          description: Optional supporting URL (study, manufacturer page, …).
+        email:
+          type: string
+          maxLength: 320
+          nullable: true
+          description: |
+            Optional reply-to so the editors can attribute the catch and
+            send confirmation when the fix ships, per the policy
+            ("with attribution to the reader if one prompted it").
+        website:
+          type: string
+          maxLength: 200
+          nullable: true
+          description: |
+            Honeypot field. Real browsers leave this blank because the
+            input is visually hidden via CSS; bots that scrape the form
+            and fill every field will populate it. Submissions where
+            this is non-empty are silently accepted but never persisted.
+      required:
+        - pageUrl
+        - description
+    CorrectionRecord:
+      type: object
+      description: |
+        A reader-submitted correction as the editor inbox sees it.
+        Includes the same fields the reader posted plus the workflow
+        state (`status`, `internalNote`) and timestamps the inbox
+        renders the SLA clock from.
+      properties:
+        id:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+          description: When the reader hit Submit. The SLA clock starts here.
+        updatedAt:
+          type: string
+          format: date-time
+          description: |
+            Last time an editor PATCHed the row. Equal to `createdAt`
+            for untouched submissions.
+        pageUrl:
+          type: string
+        description:
+          type: string
+        evidenceUrl:
+          type: string
+          nullable: true
+        submitterEmail:
+          type: string
+          nullable: true
+        userAgent:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [new, triaged, applied, dismissed]
+        internalNote:
+          type: string
+          nullable: true
+          description: |
+            Editor-only scratchpad. Never surfaced to readers; only
+            visible inside the inbox UI.
+      required:
+        - id
+        - createdAt
+        - updatedAt
+        - pageUrl
+        - description
+        - evidenceUrl
+        - submitterEmail
+        - userAgent
+        - status
+        - internalNote
+    EditorCorrectionsList:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [new, triaged, applied, dismissed, all]
+          description: The status filter the response is scoped to.
+        corrections:
+          type: array
+          items:
+            $ref: "#/components/schemas/CorrectionRecord"
+      required:
+        - status
+        - corrections
+    UpdateCorrectionBody:
+      type: object
+      description: |
+        At least one of `status` / `internalNote` must be supplied.
+        Send `internalNote: null` to clear an existing note.
+      properties:
+        status:
+          type: string
+          enum: [new, triaged, applied, dismissed]
+          description: New workflow state for the row.
+        internalNote:
+          type: string
+          maxLength: 4000
+          nullable: true
+          description: |
+            Replacement value for the editor-only note. Set to `null`
+            to clear an existing note.
+    EditorSessionStatus:
+      type: object
+      properties:
+        signedIn:
+          type: boolean
+          description: |
+            `true` when the request carried a valid editor session
+            cookie, `false` otherwise. Used by editor-only UI on the
+            public site (e.g. the per-page deep link to the shelf-click
+            dashboard) to decide whether to render itself.
+      required:
+        - signedIn
+    ShelfPageKind:
+      type: string
+      enum: [ingredient, routine, concern]
+      description: |
+        Which kind of editorial page surfaced the shelf card. Combined
+        with `pageSlug`, this identifies the source page so analytics
+        can be sliced by page kind, by individual page, or both.
+    ShelfClickEvent:
+      type: object
+      properties:
+        pageKind:
+          $ref: "#/components/schemas/ShelfPageKind"
+        pageSlug:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: |
+            Per-kind identifier for the source page. Ingredient briefs
+            use the catalogue ingredient slug (e.g. `tretinoin`); routine
+            and concern pages use the detail-page component file name
+            (e.g. `RoutineBareMinimum`, `ConcernRosacea`) because
+            multiple catalogue slugs can alias the same component.
+        brand:
+          type: string
+          minLength: 1
+          maxLength: 200
+        productName:
+          type: string
+          minLength: 1
+          maxLength: 400
+        href:
+          type: string
+          minLength: 1
+          maxLength: 2000
+      required:
+        - pageKind
+        - pageSlug
+        - brand
+        - productName
+        - href
+    ShelfClickBatch:
+      type: object
+      properties:
+        events:
+          type: array
+          minItems: 1
+          maxItems: 50
+          items:
+            $ref: "#/components/schemas/ShelfClickEvent"
+      required:
+        - events
+    ShelfClickRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        pageKind:
+          $ref: "#/components/schemas/ShelfPageKind"
+        pageSlug:
+          type: string
+        brand:
+          type: string
+        productName:
+          type: string
+        href:
+          type: string
+        userAgent:
+          type: string
+          nullable: true
+      required:
+        - id
+        - createdAt
+        - pageKind
+        - pageSlug
+        - brand
+        - productName
+        - href
+    ShelfClickList:
+      type: object
+      properties:
+        clicks:
+          type: array
+          items:
+            $ref: "#/components/schemas/ShelfClickRecord"
+        limit:
+          type: integer
+          description: |
+            The row cap that was applied to this query — i.e. the
+            maximum number of rows the response could possibly contain.
+            Returned so clients can phrase a "showing the most recent N"
+            banner using the same number the server actually used.
+        hasMore:
+          type: boolean
+          description: |
+            `true` when matching rows exist past the response — i.e.
+            when `totalCount > limit`. The dashboard uses this to warn
+            editors that the totals on screen are a truncated view and
+            they should narrow the date range to see the full picture.
+            Computed from the count rather than from `clicks.length ===
+            limit` so the exact-edge case where the total equals the
+            cap (`totalCount === limit`) does not falsely claim
+            truncation.
+        totalCount:
+          type: integer
+          minimum: 0
+          description: |
+            Total number of rows matching the same `pageKind` / `pageSlug`
+            / `since` / `until` filters, ignoring `limit`. Always present
+            so clients can phrase the truncation concretely (e.g.
+            "Showing the most recent 1,000 of 12,438 clicks"). When the
+            cap was not hit the server avoids the extra `SELECT COUNT(*)`
+            round-trip and reports `clicks.length` directly — that
+            already is the true total in that case, so this field is
+            cheap on the common path and only triggers a count query
+            when `hasMore === true`.
+      required:
+        - clicks
+        - limit
+        - hasMore
+        - totalCount
+    TrendSignalSource:
+      type: string
+      enum: [reddit, pubmed, google-trends, fda-news]
+      description: Origin of a raw trend signal row.
+    TrendVerdict:
+      type: string
+      enum: [Holds Up, Promising, Partly True, Misleading, Skip]
+    TrendTier:
+      type: string
+      enum: [A, B, C, D]
+    TrendTemplate:
+      type: string
+      enum: [trend-watch, ingredient-draft]
+    TrendVelocity:
+      type: string
+      enum: [rising, steady, fading]
+    TrendStatus:
+      type: string
+      enum: [queued, approved-trendwatch, approved-draft, rejected, snoozed]
+    TrendSignalSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        source:
+          $ref: "#/components/schemas/TrendSignalSource"
+        sourceUrl:
+          type: string
+        title:
+          type: string
+        publishedAt:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - id
+        - source
+        - sourceUrl
+        - title
+    TrendCandidateRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        name:
+          type: string
+        summary:
+          type: string
+        suggestedVerdict:
+          $ref: "#/components/schemas/TrendVerdict"
+        suggestedTier:
+          $ref: "#/components/schemas/TrendTier"
+        suggestedTemplate:
+          $ref: "#/components/schemas/TrendTemplate"
+        velocity:
+          $ref: "#/components/schemas/TrendVelocity"
+        sourceCount:
+          type: integer
+        status:
+          $ref: "#/components/schemas/TrendStatus"
+        publishedSlug:
+          type: string
+          nullable: true
+        pullRequestUrl:
+          type: string
+          nullable: true
+          description: |
+            URL of the GitHub PR opened by the trend-sync helper after
+            the approval write. Null when the sync is unconfigured
+            (env vars missing) or when the sync attempt failed.
+        lastSyncError:
+          type: string
+          nullable: true
+          description: |
+            Most recent failure reason from the trend-sync helper
+            (e.g. "401 Bad credentials", "422 file already exists").
+            Persisted across page loads so editors can see why the
+            last sync attempt failed even after the dashboard reloads.
+            Cleared on a successful sync.
+        lastSyncAttemptAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: |
+            Timestamp of the most recent sync attempt that recorded a
+            `lastSyncError`. Paired with `lastSyncError` so the editor
+            card can render a relative-time hint ("2h ago"). Cleared
+            alongside `lastSyncError` on a successful sync.
+        signals:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrendSignalSummary"
+      required:
+        - id
+        - createdAt
+        - updatedAt
+        - name
+        - summary
+        - suggestedVerdict
+        - suggestedTier
+        - suggestedTemplate
+        - velocity
+        - sourceCount
+        - status
+        - signals
+    TrendQueueList:
+      type: object
+      properties:
+        candidates:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrendCandidateRecord"
+        status:
+          $ref: "#/components/schemas/TrendStatus"
+        lastClusterRun:
+          $ref: "#/components/schemas/TrendClusterRunSummary"
+          nullable: true
+          description: |
+            Summary of the most recent nightly clustering pass. Null
+            until the first run has been recorded — older deployments
+            won't have a row in `trend_cluster_runs` yet.
+      required:
+        - candidates
+        - status
+    TrendClusterRunSummary:
+      type: object
+      description: |
+        Per-night telemetry from the LLM clustering pass. The script
+        sometimes drops clusters (bad shape, hallucinated signal ids)
+        before they ever reach the queue, so a quiet queue can be
+        either "model returned little" or "model returned plenty but
+        we threw most of it away". Editors look at this badge to tell
+        the difference.
+      properties:
+        finishedAt:
+          type: string
+          format: date-time
+          description: When the clustering pass finished writing.
+        chunksTotal:
+          type: integer
+          description: Number of chunks the script attempted in this run.
+        chunksFailed:
+          type: integer
+          description: |
+            Chunks where the LLM call threw (rate limit, transient
+            5xx, malformed JSON). These don't contribute to the
+            counts below.
+        modelReturnedTotal:
+          type: integer
+          description: |
+            Sum across surviving chunks of clusters the model
+            returned, before any schema or hallucination filtering.
+        schemaRejectedTotal:
+          type: integer
+          description: |
+            Clusters dropped because they failed the schema guards
+            (bad verdict / tier / template, short name, single
+            signal, non-integer ids).
+        hallucinationDroppedTotal:
+          type: integer
+          description: |
+            Clusters dropped because too many of their signal ids
+            weren't in the batch we sent — i.e. the model invented
+            ids and the cluster fell below the min-signals floor
+            after filtering them out.
+        candidatesCreatedTotal:
+          type: integer
+          description: |
+            Candidate rows actually inserted into `trend_candidates`
+            on this run. Same number the script logs as "total
+            candidates" at the end.
+        rejectionRate:
+          type: number
+          format: float
+          description: |
+            `(schemaRejectedTotal + hallucinationDroppedTotal) /
+            modelReturnedTotal`, rounded to two decimals. 0 when the
+            model returned nothing. The reviewer queue UI flashes a
+            warning banner when this is above 0.5.
+        note:
+          type: string
+          nullable: true
+          description: |
+            Optional tag for unusual run states. Set to `no_signals`
+            when the run had nothing to cluster.
+      required:
+        - finishedAt
+        - chunksTotal
+        - chunksFailed
+        - modelReturnedTotal
+        - schemaRejectedTotal
+        - hallucinationDroppedTotal
+        - candidatesCreatedTotal
+        - rejectionRate
+    ApproveTrendBody:
+      type: object
+      properties:
+        template:
+          $ref: "#/components/schemas/TrendTemplate"
+        name:
+          type: string
+          minLength: 3
+          maxLength: 200
+          description: Final reviewer-edited trend name.
+        summary:
+          type: string
+          minLength: 10
+          maxLength: 4000
+          description: Final reviewer-edited summary used as the verdict body.
+        verdict:
+          $ref: "#/components/schemas/TrendVerdict"
+        tier:
+          $ref: "#/components/schemas/TrendTier"
+        bottom:
+          type: string
+          maxLength: 400
+          description: Optional bottom-line callout.
+      required:
+        - template
+        - name
+        - summary
+        - verdict
+        - tier
+    ApproveTrendResponse:
+      type: object
+      properties:
+        publishedSlug:
+          type: string
+          description: Slug or filename of the published Astro content entry.
+        publishedPath:
+          type: string
+          description: Project-relative path of the published content file.
+        syncStatus:
+          type: string
+          enum:
+            - synced
+            - skipped
+            - failed
+          description: |
+            Outcome of the GitHub PR sync attempt that runs after the
+            local file write. `synced` ⇒ a PR was opened and
+            `pullRequestUrl` is populated; `skipped` ⇒ the sync helper
+            was unconfigured (missing TREND_SYNC_GITHUB_* env vars);
+            `failed` ⇒ the local file is on disk but the PR could not
+            be opened (`syncReason` describes why and a founder must
+            push the file by hand).
+        pullRequestUrl:
+          type: string
+          description: |
+            URL of the opened GitHub Pull Request. Present only when
+            `syncStatus` is `synced`.
+        syncReason:
+          type: string
+          description: |
+            Human-readable explanation of why the sync was skipped or
+            failed. Present when `syncStatus` is `skipped` or `failed`.
+      required:
+        - publishedSlug
+        - publishedPath
+        - syncStatus
+    RetryTrendSyncResponse:
+      type: object
+      description: |
+        Outcome of a `POST /editor/trend-queue/{id}/sync-retry` call.
+        Same shape as `ApproveTrendResponse` minus the side effects of
+        publishing — the local file already exists from the original
+        approve call and is not re-written.
+      properties:
+        publishedSlug:
+          type: string
+          description: Slug of the previously-published Astro content entry.
+        publishedPath:
+          type: string
+          description: |
+            Project-relative path of the previously-published content
+            file, derived from the candidate's status + slug. Reported
+            so the editor UI can repeat the "Published to …" callout
+            after a retry without needing a separate fetch.
+        syncStatus:
+          type: string
+          enum:
+            - synced
+            - skipped
+            - failed
+          description: |
+            Outcome of this retry attempt. `synced` ⇒ a PR was opened
+            and `pullRequestUrl` is populated; `skipped` ⇒ the sync
+            helper is unconfigured (missing TREND_SYNC_GITHUB_* env
+            vars); `failed` ⇒ the GitHub call did not succeed
+            (`syncReason` describes why) and the row is left with no
+            PR URL so the editor can retry again or push by hand.
+        pullRequestUrl:
+          type: string
+          description: |
+            URL of the opened GitHub Pull Request. Present when
+            `syncStatus` is `synced`.
+        syncReason:
+          type: string
+          description: |
+            Human-readable explanation of why the sync was skipped or
+            failed. Present when `syncStatus` is `skipped` or `failed`.
+      required:
+        - publishedSlug
+        - publishedPath
+        - syncStatus

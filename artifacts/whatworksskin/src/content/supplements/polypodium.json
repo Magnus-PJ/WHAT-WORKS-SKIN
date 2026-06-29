@@ -1,0 +1,92 @@
+{
+  "slug": "polypodium",
+  "name": "Polypodium leucotomos",
+  "family": "Photoprotection",
+  "target": "UV defence",
+  "tier": "B",
+  "dose": "240 mg × 2/d",
+  "rxOnly": false,
+  "oneliner": "Most-studied oral photoprotectant. Adjunct, not replacement.",
+  "pageRef": "P. 05",
+  "filed": "17 APR 2026",
+  "eyebrow": "Supplement · Photoprotection · Polypodium leucotomos",
+  "headline": "Polypodium leucotomos",
+  "evidence": [
+    {
+      "yr": "2014",
+      "n": 22,
+      "design": "RCT, double-blind, crossover",
+      "dose": "240 mg × 2/d × 60 d",
+      "outcome": "Significant ↑ MED (minimum erythema dose) at 60 d",
+      "grade": "B"
+    },
+    {
+      "yr": "2018",
+      "n": 40,
+      "design": "RCT, melasma adjunct",
+      "dose": "240 mg × 2/d × 12 wk",
+      "outcome": "MASI reduction 28% vs SPF-only 12%",
+      "grade": "B"
+    },
+    {
+      "yr": "2020",
+      "n": 60,
+      "design": "RCT, vitiligo adjunct",
+      "dose": "480 mg/d × 6 mo",
+      "outcome": "Repigmentation rate ↑ vs phototherapy alone",
+      "grade": "C"
+    },
+    {
+      "yr": "2022",
+      "n": 12,
+      "design": "Open-label pilot, polymorphic light eruption",
+      "dose": "480 mg/d × 8 wk",
+      "outcome": "Symptom severity ↓ in 9/12 subjects",
+      "grade": "C"
+    }
+  ],
+  "forms": [
+    {
+      "brand": "Heliocare",
+      "name": "Ultra Capsules",
+      "tier": "A",
+      "dose": "240 mg PLE",
+      "price": "₹ 2,400 / 30",
+      "why": "The clinical-trial brand. Most studies use this exact extract."
+    },
+    {
+      "brand": "Fernblock",
+      "name": "Daily Capsules",
+      "tier": "B",
+      "dose": "240 mg PLE",
+      "price": "₹ 1,800 / 30",
+      "why": "Same patented extract under a different label. Same evidence."
+    },
+    {
+      "brand": "Setria / 3rd-party",
+      "name": "PLE 250 mg",
+      "tier": "C",
+      "dose": "250 mg generic",
+      "price": "₹ 700 / 60",
+      "why": "Generic PLE. Cheaper, no third-party confirmation of active fraction."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Does it replace sunscreen?",
+      "a": "No, and no credible practitioner has ever claimed it does. Polypodium adds a small fraction of additional protection from the inside — typically described as 'one-fifth of an SPF.' It's an adjunct, not a substitute. Skip the sunscreen and you skip the protection."
+    },
+    {
+      "q": "Will I notice anything in a week?",
+      "a": "Unlikely. The clinical signal builds at 6–8 weeks. Expect to commit to a full 12-week trial before deciding whether it's working for you."
+    },
+    {
+      "q": "Can I take it long-term?",
+      "a": "The longest published safety dataset is around 12 months at 480 mg/day. For longer use, build in a 4-week pause every 6 months and discuss with your physician — particularly if you take any anticoagulants."
+    },
+    {
+      "q": "Why is it Tier B and not Tier A?",
+      "a": "Because the clinical trials are small (typically n < 50), the effect sizes are modest, and the long-term outcomes are not as robust as we'd want for a Tier A. The molecule is supported, but the data isn't yet conclusive."
+    }
+  ]
+}

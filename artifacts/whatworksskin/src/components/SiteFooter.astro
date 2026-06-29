@@ -1,0 +1,263 @@
+---
+import Wordmark from "./Wordmark.astro";
+import { url } from "@/lib/url";
+
+// Each footer label resolves to its real destination via this map.
+// Labels without a dedicated page fall back to the closest existing
+// index (e.g. "Compare" → /ingredients) so the link is never silently
+// dropped to the home page. The four "Tools" entries are fall-throughs:
+// the Works Score calculator and routine/ingredient match tools haven't
+// been built yet, so they point at the closest editorial surface that
+// explains the same idea (methodology / routines / ingredients).
+const HREFS: Record<string, string> = {
+  // Evidence
+  "Ingredients": url("ingredients"),
+  "Products": url("products"),
+  "Supplements": url("supplements"),
+  "Trend Watch": url("trend-watch"),
+  "Compare": url("ingredients"),
+  // Tools (no dedicated page yet — route to nearest existing surface)
+  "Works Score calculator": url("methodology"),
+  "Routine builder": url("routines"),
+  "Ingredient match": url("ingredients"),
+  "Concerns": url("concerns"),
+  // Transparency
+  "Methodology": url("methodology"),
+  "How we rate": url("how-we-rate"),
+  "Sources": url("sources"),
+  "Corrections": url("corrections"),
+};
+
+const cols = [
+  { h: "Evidence", l: ["Ingredients", "Products", "Supplements", "Trend Watch", "Compare"] },
+  { h: "Tools", l: ["Works Score calculator", "Routine builder", "Ingredient match", "Concerns"] },
+  { h: "Transparency", l: ["Methodology", "How we rate", "Sources", "Corrections"] },
+];
+
+// Fail the build if any label in `cols` is missing from `HREFS`. This
+// prevents the historical bug where unmapped labels silently fell back
+// to the home page from ever returning.
+for (const col of cols) {
+  for (const label of col.l) {
+    if (!(label in HREFS)) {
+      throw new Error(
+        `SiteFooter: label "${label}" in column "${col.h}" has no entry in HREFS. ` +
+        `Add it to the HREFS map or remove it from cols.`
+      );
+    }
+  }
+}
+---
+<section class="newsletter-section">
+  <div class="container">
+    <div class="newsletter-card">
+      <div>
+        <p class="eyebrow eyebrow-accent">Newsletter</p>
+        <h3 class="news-h">
+          Once a fortnight. <span class="ital">Never a sell.</span>
+        </h3>
+        <p class="news-sub">
+          New ingredient grades, updated product scores, and trend verdicts from Dr. Paul and Dr. Sundeep.
+        </p>
+      </div>
+      <div>
+        <form class="news-form" onsubmit="return false;">
+          <input type="email" placeholder="you@inbox.com" />
+          <button type="submit">Subscribe</button>
+        </form>
+        <p class="news-meta">3,400+ readers · Plain-text · One unsubscribe link.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <Wordmark size={20} />
+        <p class="footer-blurb">
+          An independent, ad-free, evidence-first skincare reference. Led by Dr. Paul and Dr. Sundeep.
+        </p>
+        <p class="footer-copy">© 2026 WHAT WORKS SKIN · METHODOLOGY v1.0</p>
+      </div>
+      {cols.map((col) => (
+        <div>
+          <p class="eyebrow">{col.h}</p>
+          <ul class="footer-links">
+            {col.l.map((label) => (
+              <li><a href={HREFS[label]}>{label}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <div class="footer-bottom">
+      <span>Information only. Not medical advice. Editorial prose CC BY-NC 4.0 · Data CC BY 4.0.</span>
+      <span class="footer-contact">
+        <a class="footer-correct" href={url("corrections") + "?page=" + encodeURIComponent(new URL(Astro.url.pathname, Astro.site).toString()) + "#submit"}>Spotted an error? Submit a correction →</a>
+        <span class="footer-dot">·</span>
+        <span>whatworksskin.com · editorial@whatworksskin.com</span>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .container {
+    margin-inline: auto;
+    padding-inline: 32px;
+    max-width: 1200px;
+  }
+  .eyebrow {
+    margin: 0;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .eyebrow-accent { color: var(--accent); }
+  .newsletter-section {
+    position: relative;
+    z-index: 10;
+    padding-block: 80px;
+    border-block: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .newsletter-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+    border: 1px solid var(--rule);
+    padding: 40px;
+  }
+  @media (min-width: 768px) {
+    .newsletter-card { grid-template-columns: 1fr 1fr; }
+  }
+  .news-h {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    font-variation-settings: "opsz" 144;
+    color: var(--ink);
+  }
+  .news-h .ital {
+    font-style: italic;
+    color: var(--accent);
+    font-family: var(--font-serif-ed);
+  }
+  .news-sub {
+    margin: 16px 0 0;
+    max-width: 28rem;
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .news-form {
+    display: flex;
+    border: 1px solid var(--ink);
+  }
+  .news-form input {
+    flex: 1;
+    background: transparent;
+    padding: 14px 16px;
+    outline: 0;
+    border: 0;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .news-form button {
+    padding: 14px 24px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .news-meta {
+    margin-top: 12px;
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    color: var(--muted-soft);
+  }
+  .site-footer {
+    position: relative;
+    z-index: 10;
+    padding-block: 64px;
+    background: var(--paper);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) {
+    .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+  }
+  .footer-brand { grid-column: span 2 / span 2; }
+  @media (min-width: 768px) {
+    .footer-brand { grid-column: auto; }
+  }
+  .footer-blurb {
+    margin: 20px 0 0;
+    max-width: 20rem;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .footer-copy {
+    margin: 20px 0 0;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-soft);
+    letter-spacing: 0.08em;
+  }
+  .footer-links {
+    margin: 16px 0 0;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer-links a {
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .footer-bottom {
+    padding-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    color: var(--muted);
+  }
+  .footer-contact {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .footer-correct {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 500;
+  }
+  .footer-dot { color: var(--muted-soft); }
+</style>

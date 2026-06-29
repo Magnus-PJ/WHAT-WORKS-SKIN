@@ -1,0 +1,104 @@
+{
+  "slug": "am-acne",
+  "featured": true,
+  "title": "The morning that doesn't strip.",
+  "sub": "AM · Adult acne",
+  "goal": "Acne",
+  "time": "Morning",
+  "skinType": "Oily / Combination",
+  "stepCount": 4,
+  "minutes": 10,
+  "cost": "₹ 3–5k",
+  "difficulty": "Beginner",
+  "body": "Salicylic cleanser, niacinamide, zinc-only SPF. Gentle on the barrier, hostile to C. acnes.",
+  "reviewer": "Dr. Paul",
+  "pageRef": "P. 09",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · AM · Adult acne",
+  "steps": [
+    {
+      "n": "01",
+      "time": "AM",
+      "title": "Salicylic acid 2% cleanser",
+      "sub": "60 seconds, lukewarm water",
+      "body": "Salicylic dwells in the pore long enough to do useful keratolytic work even in a 60-second cleanser. The trick is to actually leave it on for those 60 seconds — not the seven seconds people use for a foaming wash. Once daily in the morning is plenty; twice strips the barrier within a fortnight.",
+      "products": [
+        {
+          "brand": "CeraVe",
+          "name": "SA Smoothing Cleanser",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Neutrogena",
+          "name": "Oil-Free Acne Wash",
+          "note": "Budget",
+          "tier": "B"
+        }
+      ]
+    },
+    {
+      "n": "02",
+      "time": "AM",
+      "title": "Niacinamide 4–10% serum",
+      "sub": "Sebum + post-inflammatory tone",
+      "body": "The single most-replicated 'do-no-harm' active in adult acne. Reduces sebum production modestly, evens post-inflammatory tone meaningfully, and pairs cleanly with everything else in the stack. Apply to damp skin, two pumps, then wait sixty seconds before moisturiser.",
+      "products": [
+        {
+          "brand": "Minimalist",
+          "name": "Niacinamide 10% + Zinc",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "The Ordinary",
+          "name": "Niacinamide 10% + Zinc 1%",
+          "note": "Budget",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "03",
+      "time": "AM",
+      "title": "Lightweight gel moisturiser",
+      "sub": "Non-comedogenic, fragrance-free",
+      "body": "Acne-prone skin is rarely as oily as it feels — most people are dehydrated and over-stripping. A light gel moisturiser, applied to slightly damp skin after the niacinamide, prevents the rebound oil that follows a too-aggressive cleansing routine.",
+      "products": [
+        {
+          "brand": "Neutrogena",
+          "name": "Hydro Boost Water Gel",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Minimalist",
+          "name": "10% Squalane Moisturiser",
+          "note": "For dryness",
+          "tier": "B"
+        }
+      ]
+    },
+    {
+      "n": "04",
+      "time": "AM",
+      "title": "Zinc-only SPF 50 fluid",
+      "sub": "PA++++, no chemical filters",
+      "body": "Chemical filters can sting on barrier-irritated, retinoid-using or BPO-treated skin. A modern zinc-only fluid avoids the sting without sacrificing UVA protection. Two finger-lengths, every morning, including weekends and the monsoon.",
+      "products": [
+        {
+          "brand": "Re'equil",
+          "name": "Sheer Zinc SPF 50",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "ISDIN",
+          "name": "Eryfotona Ageless",
+          "note": "Premium",
+          "tier": "A"
+        }
+      ]
+    }
+  ]
+}

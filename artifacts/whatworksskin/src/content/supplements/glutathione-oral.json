@@ -1,0 +1,79 @@
+{
+  "slug": "glutathione-oral",
+  "name": "Glutathione (oral)",
+  "family": "Pigmentation",
+  "target": "Tone",
+  "tier": "C",
+  "dose": "250–500 mg/d × 12 wk",
+  "rxOnly": false,
+  "oneliner": "Mixed signals. Bioavailability is the open question.",
+  "pageRef": "P. 12",
+  "filed": "17 APR 2026",
+  "eyebrow": "Supplement · Pigmentation · Oral glutathione",
+  "headline": "Glutathione",
+  "dek": "The most-marketed pigmentation supplement in the Indian and Filipino market. The oral evidence is mixed — partly because glutathione is largely degraded in the gut, and partly because the studies that show effect use doses that supplement marketing rarely matches.",
+  "subheadA": "Bioavailability is the question.",
+  "subheadB": "Effect modest at best.",
+  "bottom": "The marketing ambition exceeds the evidence. A reasonable 12-week trial with disciplined photography; not a category we recommend as a default.",
+  "evidence": [
+    {
+      "c": "Tone lightening (small RCTs)",
+      "n": "250–500 mg/d × 12 wk",
+      "w": "40%",
+      "note": "Modest effect on cheek pigmentation. Heterogeneous trial methodology."
+    },
+    {
+      "c": "Melasma severity",
+      "n": "—",
+      "w": "20%",
+      "note": "Inconsistent. Topical or oral tranexamic outperform in head-to-head consideration."
+    },
+    {
+      "c": "Antioxidant biomarker shifts",
+      "n": "Small trials",
+      "w": "60%",
+      "note": "Real shifts in plasma glutathione status. Whether this translates to skin endpoints is the open question."
+    },
+    {
+      "c": "Marketing 'whitening' claims",
+      "n": "—",
+      "w": "15%",
+      "note": "Not what the literature supports. The category survives on aspiration, not endpoints."
+    }
+  ],
+  "forms": [
+    {
+      "f": "Setria L-glutathione 250 mg",
+      "abs": "Modest",
+      "note": "The form used in most positive trials. Sublingual variants claim better absorption — data is thinner than the marketing."
+    },
+    {
+      "f": "S-acetyl L-glutathione",
+      "abs": "Better",
+      "note": "Acetylated form survives gut degradation. Limited but more promising trial data."
+    },
+    {
+      "f": "Liposomal glutathione",
+      "abs": "Better",
+      "note": "Liposomal delivery improves absorption. Premium pricing, modestly better evidence."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Why is the gut a problem?",
+      "a": "Glutathione is a tripeptide that is largely hydrolysed in the small intestine, meaning the bulk of an oral dose is converted to constituent amino acids before reaching the bloodstream. Acetylated and liposomal forms partly address this; cysteine precursors (NAC, glycine + cysteine) often work better as a glutathione strategy."
+    },
+    {
+      "q": "What about IV glutathione?",
+      "a": "See the IV brief. Short answer: clinic marketing has outpaced the evidence by a wide margin, and the price point is hard to justify for the endpoints actually measured."
+    },
+    {
+      "q": "How long should I trial it?",
+      "a": "12 weeks at 250–500 mg/d. If no measurable cheek-pigment shift in standardised photos, the supplement is not working for you. Most positive responders see early changes by week 6–8."
+    },
+    {
+      "q": "Is it safe long-term?",
+      "a": "Generally yes — glutathione is endogenous and the supplemental doses are modest. There is no compelling case for indefinite supplementation, however; cycle off after 12 weeks and reassess whether topicals + SPF maintain the result."
+    }
+  ]
+}

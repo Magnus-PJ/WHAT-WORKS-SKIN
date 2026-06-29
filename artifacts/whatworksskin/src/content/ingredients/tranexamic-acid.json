@@ -1,0 +1,235 @@
+{
+  "slug": "tranexamic-acid",
+  "name": "Tranexamic acid",
+  "number": "12 / 28",
+  "filed": "11 APR 2026",
+  "eyebrowKicker": "Ingredient · Lysine analogue · Tranexamic",
+  "tier": "A",
+  "headlineSize": 100,
+  "tagline": {
+    "italic": "The pigment fix",
+    "rest": "retinoids quietly miss."
+  },
+  "lead": "A synthetic lysine analogue first used as an oral anti-fibrinolytic. Its second life as a topical pigment-modulator is one of the most important developments in melasma care of the last decade — particularly for users who cannot tolerate hydroquinone.",
+  "atGlance": [
+    [
+      "INCI",
+      "Tranexamic acid"
+    ],
+    [
+      "Family",
+      "Lysine derivative"
+    ],
+    [
+      "Useful range",
+      "2 – 5% (topical)"
+    ],
+    [
+      "Vehicle",
+      "Water-based serum"
+    ],
+    [
+      "Pregnancy-safe",
+      "Topical: limited data, considered cautious"
+    ],
+    [
+      "Photo-stable",
+      "Yes"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul · 11-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "What it is"
+    ],
+    [
+      "02",
+      "Mechanism"
+    ],
+    [
+      "03",
+      "Evidence overview"
+    ],
+    [
+      "04",
+      "Concentration & vehicle"
+    ],
+    [
+      "05",
+      "Where it earns its tier"
+    ],
+    [
+      "06",
+      "Pairings & conflicts"
+    ],
+    [
+      "07",
+      "On our shelf"
+    ],
+    [
+      "08",
+      "FAQ"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "T",
+    "title": {
+      "plain": "What tranexamic acid",
+      "italic": "actually is."
+    },
+    "body": "ranexamic acid (TXA) is a synthetic analogue of the amino acid lysine. Orally it inhibits plasminogen-to-plasmin conversion and slows bleeding — its primary medical use. The dermatology relevance is downstream: plasmin signalling in the keratinocyte drives prostaglandin and arachidonic-acid pathways that, in turn, drive melanogenesis. Inhibit plasmin and you blunt one of the loops that keeps melasma stubborn.",
+    "body2": "That mechanism is fundamentally different from tyrosinase inhibitors (HQ, arbutin) and from melanosome-transfer inhibitors (niacinamide). It is also why TXA shows benefit on melasma that retinoids and vitamin C alone do not move — UV-driven, hormonally-influenced pigment that depends on the inflammatory loop rather than on direct synthesis."
+  },
+  "mechanism": [
+    {
+      "k": "On plasmin",
+      "b": "Competitively inhibits plasminogen binding to keratinocytes; downregulates the inflammatory loop that drives melasma."
+    },
+    {
+      "k": "On melanocytes",
+      "b": "Indirectly reduces melanocyte stimulation via the prostaglandin and α-MSH cascades."
+    },
+    {
+      "k": "On the vascular component",
+      "b": "Reduces angiogenesis around chronic melasma lesions; slow but visible."
+    }
+  ],
+  "evidence": [
+    {
+      "c": "Melasma (topical)",
+      "n": "RCTs vs vehicle, vs HQ",
+      "w": "78%",
+      "note": "2–5% topical reproducibly reduces MASI scores. Slower than HQ but with a cleaner safety tail."
+    },
+    {
+      "c": "Melasma (oral)",
+      "n": "RCTs, dermatology",
+      "w": "84%",
+      "note": "Most powerful topical/oral combo for stubborn melasma. Requires medical supervision."
+    },
+    {
+      "c": "Post-inflammatory pigment",
+      "n": "Smaller trials",
+      "w": "60%",
+      "note": "Useful adjunct, particularly in deeper skin tones."
+    },
+    {
+      "c": "Erythema (rosacea overlap)",
+      "n": "Open-label",
+      "w": "52%",
+      "note": "Mild but real reduction in baseline redness, especially with niacinamide."
+    }
+  ],
+  "concentration": [
+    {
+      "c": "2%",
+      "v": "Beginner serum",
+      "b": "Daily AM or PM. The default."
+    },
+    {
+      "c": "3 – 5%",
+      "v": "Standard serum",
+      "b": "Twice-daily for established melasma."
+    },
+    {
+      "c": "+ Niacinamide",
+      "v": "Pigment stack",
+      "b": "Synergistic. The combination most studies converge on."
+    },
+    {
+      "c": "Oral 250–500mg",
+      "v": "Rx melasma",
+      "b": "Off-label, dermatologist-supervised. Real efficacy, real screening."
+    }
+  ],
+  "pairings": [
+    {
+      "with": "Niacinamide",
+      "verdict": "Synergistic",
+      "note": "The pigment-blocker stack we recommend for melasma. Layer freely.",
+      "ok": true
+    },
+    {
+      "with": "Vitamin C",
+      "verdict": "Excellent",
+      "note": "C in AM, TXA either AM or PM. Antioxidant + plasmin block.",
+      "ok": true
+    },
+    {
+      "with": "Retinoids",
+      "verdict": "Compatible",
+      "note": "PM retinoid, TXA AM or layered after retinoid. Complementary.",
+      "ok": true
+    },
+    {
+      "with": "Hydroquinone",
+      "verdict": "Compatible (Rx)",
+      "note": "Stronger together, dermatologist-led. Three-month courses.",
+      "ok": true
+    },
+    {
+      "with": "AHAs / BHAs",
+      "verdict": "Wait",
+      "note": "Apply acid first, normalise pH, then TXA.",
+      "ok": false
+    }
+  ],
+  "products": [
+    {
+      "brand": "SkinCeuticals",
+      "name": "Discoloration Defense (TXA + Niacin)",
+      "tier": "A",
+      "score": 88,
+      "note": "Reference Western product. The TXA + niacinamide stack in one bottle."
+    },
+    {
+      "brand": "Murad",
+      "name": "Replenishing Multi-Acid Peel + TXA",
+      "tier": "B",
+      "score": 76,
+      "note": "Combo product. Useful for users wanting acid + pigment in one step."
+    },
+    {
+      "brand": "Minimalist",
+      "name": "Tranexamic 03% Serum",
+      "tier": "A",
+      "score": 84,
+      "note": "Indian-market standout. Honest dose, water vehicle, very fair pricing."
+    },
+    {
+      "brand": "The Inkey List",
+      "name": "Tranexamic Acid Overnight Treatment",
+      "tier": "B",
+      "score": 74,
+      "note": "Affordable PM-only option. Lower TXA dose, supportive ingredients."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tranexamic or hydroquinone for melasma?",
+      "a": "HQ is faster and more powerful but has rebound, ochronosis, and tolerability issues. Tranexamic is slower, cleaner, and sustainable for years. The modern answer is often: TXA as the long-term backbone, HQ in 8–12 week courses for flare control."
+    },
+    {
+      "q": "How long until I see results?",
+      "a": "Eight to twelve weeks for visible MASI reduction. Twelve to sixteen for confidence. Tranexamic is a marathon active."
+    },
+    {
+      "q": "Can I take it orally?",
+      "a": "Yes — but only under a dermatologist who has screened for thrombosis risk, smoking, oestrogen use, and family history. Oral TXA is real medicine, not a supplement."
+    },
+    {
+      "q": "Is it safe in pregnancy?",
+      "a": "Topical use has limited data and is generally avoided during pregnancy out of caution. Azelaic acid is the standard pregnancy-safe pigment option."
+    }
+  ],
+  "relatedIngredients": [
+    "niacinamide",
+    "alpha-arbutin",
+    "l-ascorbic-acid",
+    "azelaic-acid"
+  ]
+}

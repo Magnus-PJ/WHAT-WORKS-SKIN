@@ -1,0 +1,315 @@
+---
+import SiteHeader from "./SiteHeader.astro";
+import ThinContentBanner from "./ThinContentBanner.astro";
+import SiteFooter from "./SiteFooter.astro";
+import Breadcrumbs from "./Breadcrumbs.astro";
+import PaperEffects from "./PaperEffects.astro";
+import AmbientFlask from "./AmbientFlask.astro";
+import TierBadge from "./TierBadge.astro";
+import MaybeLink from "./MaybeLink.astro";
+import { url, home } from "@/lib/url";
+import { findIngredientSlug, findProductSlug } from "@/lib/links";
+import CitedSourcesBlock from "./CitedSourcesBlock.astro";
+
+type Tier = "A" | "B" | "C" | "D";
+
+export interface Props {
+  data: {
+    slug: string;
+    title: string;
+    sub: string;
+    goal?: string;
+    time?: string;
+    skinType?: string;
+    stepCount?: number;
+    minutes?: number;
+    cost?: string;
+    difficulty?: string;
+    body?: string;
+    reviewer?: string;
+    pageRef?: string;
+    filed?: string;
+    eyebrow?: string;
+    // `steps` arrives from a passthrough zod schema, so the inferred type
+    // for `products` collapses to `unknown[]`. Widen that one slot to keep
+    // the rest of the step shape strict; the loop below normalises each
+    // product entry to a known record before reading fields.
+    steps?: {
+      n?: string; t?: string; time?: string; title?: string; sub?: string; body?: string;
+      products?: unknown[];
+      activeKey?: string; activeVal?: string;
+    }[];
+    timeline?: { d: string; t: string; body: string }[];
+    forbidden?: { d: string; what: string }[];
+    citations?: string[];
+  };
+}
+const { data } = Astro.props;
+// Resolve each step's product references to product brief slugs so
+// the cards can become clickable when a brief exists.
+const stepProductLinks: (string | undefined)[][] = data.steps
+  ? await Promise.all(
+      data.steps.map((s) =>
+        Promise.all(
+          ((s.products ?? []) as unknown[]).map((raw) => {
+            const p = (raw ?? {}) as { brand?: string; name?: string };
+            return findProductSlug(p.brand, p.name);
+          }),
+        ),
+      ),
+    )
+  : [];
+// Outbound link-coverage caption — mirrors the catalogue index card's
+// "Linked to N products · N ingredients" line. Counts distinct product
+// and ingredient briefs the routine actually resolves to, using the
+// same `findProductSlug` / `findIngredientSlug` helpers (and the same
+// step-text "haystack" the index uses) so the counts match.
+const linkedProductSlugs = new Set<string>();
+for (const row of stepProductLinks) {
+  for (const slug of row) if (slug) linkedProductSlugs.add(slug);
+}
+const linkedIngredientSlugs = new Set<string>();
+if (data.steps) {
+  for (const s of data.steps) {
+    const haystack = `${s.title ?? ""} ${s.sub ?? ""} ${s.activeKey ?? ""} ${s.activeVal ?? ""}`;
+    const slug = await findIngredientSlug(haystack);
+    if (slug) linkedIngredientSlugs.add(slug);
+  }
+}
+const linkedProductCount = linkedProductSlugs.size;
+const linkedIngredientCount = linkedIngredientSlugs.size;
+---
+<div class="page">
+  <ThinContentBanner kind="routines" slug={data.slug} />
+  <SiteHeader active="Routines" />
+  <Breadcrumbs trail={[
+    { label: "Home", href: home },
+    { label: "Routines", href: url("routines") },
+    { label: data.sub },
+  ]} />
+
+  <section class="hero">
+    <PaperEffects vignette columns columnsOpacity={0.32} />
+    <div class="flask"><AmbientFlask size={520} opacity={0.06} /></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-main">
+          <div class="hero-eyebrow-row">
+            <p class="eyebrow eyebrow-accent">{data.eyebrow ?? `Routine · ${data.sub}`}</p>
+            {data.pageRef && <span class="hero-pageref">{data.pageRef} · ROUTINE</span>}
+          </div>
+          <h1 class="hero-h1">{data.title}</h1>
+          {data.body && <p class="hero-lead">{data.body}</p>}
+        </div>
+        <aside class="hero-aside">
+          <div class="card">
+            <div class="card-head"><p class="eyebrow eyebrow-accent">At a glance</p></div>
+            <dl>
+              {data.goal && <div class="kv"><dt>Goal</dt><dd>{data.goal}</dd></div>}
+              {data.time && <div class="kv"><dt>Time</dt><dd>{data.time}</dd></div>}
+              {data.skinType && <div class="kv"><dt>Skin type</dt><dd>{data.skinType}</dd></div>}
+              {typeof data.stepCount === "number" && <div class="kv"><dt>Steps</dt><dd>{data.stepCount}</dd></div>}
+              {typeof data.minutes === "number" && <div class="kv"><dt>Minutes</dt><dd>{data.minutes}</dd></div>}
+              {data.cost && <div class="kv"><dt>Cost</dt><dd>{data.cost}</dd></div>}
+              {data.difficulty && <div class="kv"><dt>Difficulty</dt><dd>{data.difficulty}</dd></div>}
+              {data.reviewer && <div class="kv"><dt>Reviewer</dt><dd>{data.reviewer}</dd></div>}
+            </dl>
+            <p
+              class="bk-caption"
+              aria-label={`Linked to ${linkedProductCount} products and ${linkedIngredientCount} ingredients`}
+            >
+              <span class="bk-caption-label">Linked to</span>
+              {linkedProductCount > 0 ? (
+                <a class="bk-caption-link" href="#routine-steps">
+                  <span class="bk-caption-n on">{linkedProductCount}</span> products
+                </a>
+              ) : (
+                <><span class="bk-caption-n">{linkedProductCount}</span> products</>
+              )}
+              <span class="bk-caption-dot" aria-hidden="true">·</span>
+              {linkedIngredientCount > 0 ? (
+                <a class="bk-caption-link" href="#routine-steps">
+                  <span class="bk-caption-n on">{linkedIngredientCount}</span> ingredients
+                </a>
+              ) : (
+                <><span class="bk-caption-n">{linkedIngredientCount}</span> ingredients</>
+              )}
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="body-col">
+      {data.steps && data.steps.length > 0 && (
+        <article id="routine-steps">
+          <p class="folio">— § 01</p>
+          <h2 class="h-display">The <span class="ital">steps.</span></h2>
+          <ol class="steps">
+            {data.steps.map((s, stepIdx) => (
+              <li class="step">
+                <div class="step-rail">
+                  <div class="step-n">{s.n ?? ""}</div>
+                  {s.time && <div class="step-time">{s.time}</div>}
+                  {s.t && !s.time && <div class="step-time">{s.t}</div>}
+                </div>
+                <div class="step-body">
+                  <h3 class="step-title">{s.title}</h3>
+                  {s.sub && <p class="step-sub">{s.sub}</p>}
+                  {s.body && <p class="step-prose">{s.body}</p>}
+                  {s.products && s.products.length > 0 && (
+                    <div class="step-products">
+                      {s.products.map((raw, pidx) => {
+                        const p = (raw ?? {}) as { brand?: string; name?: string; note?: string; tier?: Tier };
+                        const slug = stepProductLinks[stepIdx]?.[pidx];
+                        return (
+                        <MaybeLink
+                          href={slug ? url(`products/${slug}`) : undefined}
+                          class={`step-prod${slug ? " step-prod-link" : ""}`}
+                        >
+                          <div class="step-prod-head">
+                            <span class="shelf-brand">{p.brand}</span>
+                            {p.tier && <TierBadge tier={p.tier} />}
+                          </div>
+                          <div class="step-prod-name">{p.name}{slug && <span class="link-arrow" aria-hidden="true"> →</span>}</div>
+                          {p.note && <p class="step-prod-note">{p.note}</p>}
+                        </MaybeLink>
+                        );
+                      })}
+                    </div>
+                  )}
+                  {s.activeKey && s.activeVal && (
+                    <div class="step-active"><span class="step-active-k">{s.activeKey}</span><span class="step-active-v">{s.activeVal}</span></div>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </article>
+      )}
+
+      {data.timeline && data.timeline.length > 0 && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article>
+            <p class="folio">— § 02</p>
+            <h2 class="h-display">The <span class="ital">timeline.</span></h2>
+            <div class="timeline">
+              {data.timeline.map((row) => (
+                <div class="tl-row">
+                  <div class="tl-d">{row.d}</div>
+                  <div class="tl-t">{row.t}</div>
+                  <p class="tl-body">{row.body}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+        </>
+      )}
+
+      {data.forbidden && data.forbidden.length > 0 && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article>
+            <p class="folio">— § 03</p>
+            <h2 class="h-display">What to <span class="ital">avoid.</span></h2>
+            <div class="forbidden">
+              {data.forbidden.map((row) => (
+                <div class="fb-row">
+                  <div class="fb-d">{row.d}</div>
+                  <div class="fb-what">{row.what}</div>
+                </div>
+              ))}
+            </div>
+          </article>
+        </>
+      )}
+    </div>
+  </div>
+  <div class="container"><CitedSourcesBlock ids={data.citations} /></div>
+  <SiteFooter />
+</div>
+
+<style>
+  .page { position: relative; background: var(--paper); color: var(--ink); font-family: var(--font-sans); }
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .eyebrow { margin: 0; font-family: var(--font-sans); font-size: 10.5px; letter-spacing: 0.18em; font-weight: 600; text-transform: uppercase; color: var(--muted); }
+  .eyebrow-accent { color: var(--accent); }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+  .folio { margin: 0; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--muted-soft); }
+  .h-display { margin: 8px 0 0; font-family: var(--font-serif); font-size: 52px; line-height: 1; font-weight: 400; font-variation-settings: "opsz" 144, "SOFT" 30; color: var(--ink); letter-spacing: -0.025em; }
+  .asterism { display: flex; align-items: center; justify-content: center; gap: 24px; padding-block: 40px; }
+  .asterism .rule { height: 1px; width: 96px; background: var(--rule); display: block; }
+  .asterism .ast { font-family: var(--font-serif); font-size: 22px; color: var(--muted); letter-spacing: 0.4em; font-variation-settings: "opsz" 144; }
+
+  .hero { position: relative; z-index: 10; overflow: hidden; border-bottom: 1px solid var(--rule); }
+  .flask { position: absolute; right: -64px; top: -64px; z-index: 0; }
+  .hero-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 40px; padding-block: 96px; position: relative; }
+  .hero-main { grid-column: span 12 / span 12; }
+  @media (min-width: 1024px) { .hero-main { grid-column: span 8 / span 8; padding-left: 48px; } }
+  .hero-eyebrow-row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--rule); padding-bottom: 16px; }
+  .hero-pageref { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); }
+  .hero-h1 { margin: 40px 0 0; font-family: var(--font-serif); font-size: clamp(56px, 9vw, 96px); line-height: 0.95; letter-spacing: -0.04em; font-weight: 400; color: var(--ink); font-variation-settings: "opsz" 144, "SOFT" 30; }
+  .hero-lead { margin: 36px 0 0; max-width: 36rem; font-family: var(--font-serif); font-size: 21px; line-height: 1.55; color: var(--ink-soft); }
+  .hero-aside { grid-column: span 12 / span 12; }
+  @media (min-width: 1024px) { .hero-aside { grid-column: span 4 / span 4; display: flex; align-items: flex-end; } }
+  .card { width: 100%; border: 1px solid var(--rule); background: var(--paper); }
+  .card-head { padding: 16px 24px; border-bottom: 1px solid var(--rule); background: var(--paper2); }
+  dl { margin: 0; padding: 0; }
+  .kv { padding: 12px 24px; border-bottom: 1px solid var(--rule-soft); }
+  .kv:last-child { border-bottom: 0; }
+  .kv dt { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; color: var(--muted-soft); text-transform: uppercase; }
+  .kv dd { margin: 4px 0 0; font-family: var(--font-serif); font-size: 14.5px; color: var(--ink); }
+  /* link-coverage caption — same mono treatment as the catalogue index card */
+  .bk-caption { margin: 0; padding: 14px 24px; border-top: 1px solid var(--rule-soft); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); text-transform: uppercase; line-height: 1.4; }
+  .bk-caption-label { margin-right: 4px; }
+  .bk-caption-n { font-weight: 600; color: var(--muted-soft); margin-right: 2px; }
+  .bk-caption-n.on { color: var(--accent); }
+  .bk-caption-dot { margin: 0 6px; color: var(--muted-soft); }
+  .bk-caption-link { color: inherit; text-decoration: none; border-bottom: 1px dotted transparent; transition: border-color 0.15s ease, color 0.15s ease; }
+  .bk-caption-link:hover { border-bottom-color: var(--accent); color: var(--accent); }
+  .bk-caption-link:hover .bk-caption-n.on { color: var(--accent); }
+  :target { scroll-margin-top: 24px; }
+
+  .body-col { padding-block: 80px; }
+  article { margin-block: 32px; }
+
+  .steps { list-style: none; margin: 36px 0 0; padding: 0; border-top: 1px solid var(--rule); }
+  .step { display: grid; grid-template-columns: 1fr; gap: 16px; padding: 32px 0; border-bottom: 1px solid var(--rule-soft); }
+  @media (min-width: 768px) { .step { grid-template-columns: 160px 1fr; gap: 32px; } }
+  .step-n { font-family: var(--font-serif); font-size: 64px; color: var(--accent); letter-spacing: -0.04em; line-height: 0.85; font-variation-settings: "opsz" 144; }
+  .step-time { margin-top: 8px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted-soft); text-transform: uppercase; }
+  .step-title { margin: 0; font-family: var(--font-serif); font-size: 32px; color: var(--ink); font-variation-settings: "opsz" 144; line-height: 1.1; font-weight: 400; }
+  .step-sub { margin: 6px 0 0; font-family: var(--font-sans); font-size: 13px; color: var(--muted); }
+  .step-prose { margin: 16px 0 0; font-family: var(--font-serif); font-size: 17px; line-height: 1.6; color: var(--ink-soft); }
+  .step-products { margin-top: 20px; display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+  @media (min-width: 640px) { .step-products { grid-template-columns: repeat(2, 1fr); } }
+  .step-prod { padding: 16px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--paper); }
+  .step-prod-link { color: inherit; text-decoration: none; transition: background 0.15s ease; display: block; }
+  .step-prod-link:hover { background: var(--paper2); }
+  .step-prod-link .step-prod-name { color: var(--accent); }
+  .link-arrow { font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-left: 4px; }
+  .step-prod-head { display: flex; align-items: center; justify-content: space-between; }
+  .shelf-brand { font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+  .step-prod-name { margin-top: 6px; font-family: var(--font-serif); font-size: 16px; color: var(--ink); }
+  .step-prod-note { margin: 6px 0 0; font-family: var(--font-serif); font-size: 13.5px; color: var(--muted); font-style: italic; }
+  .step-active { margin-top: 16px; display: inline-flex; gap: 12px; align-items: baseline; padding: 8px 14px; background: var(--paper2); border: 1px solid var(--rule-soft); }
+  .step-active-k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted-soft); text-transform: uppercase; }
+  .step-active-v { font-family: var(--font-serif); font-size: 14px; color: var(--ink); }
+
+  .timeline { margin-top: 36px; border: 1px solid var(--rule); }
+  .tl-row { display: grid; grid-template-columns: 1fr; gap: 6px; padding: 18px 24px; border-bottom: 1px solid var(--rule-soft); }
+  @media (min-width: 768px) { .tl-row { grid-template-columns: 200px 240px 1fr; gap: 24px; align-items: baseline; } }
+  .tl-row:last-child { border-bottom: 0; }
+  .tl-d { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; }
+  .tl-t { font-family: var(--font-serif); font-size: 17px; color: var(--ink); }
+  .tl-body { margin: 0; font-family: var(--font-serif); font-size: 14.5px; color: var(--muted); font-style: italic; line-height: 1.5; }
+
+  .forbidden { margin-top: 36px; border: 1px solid var(--rule); }
+  .fb-row { display: grid; grid-template-columns: 120px 1fr; gap: 24px; padding: 16px 24px; border-bottom: 1px solid var(--rule-soft); align-items: baseline; }
+  .fb-row:last-child { border-bottom: 0; }
+  .fb-d { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; }
+  .fb-what { font-family: var(--font-serif); font-size: 15px; color: var(--ink-soft); line-height: 1.5; }
+</style>

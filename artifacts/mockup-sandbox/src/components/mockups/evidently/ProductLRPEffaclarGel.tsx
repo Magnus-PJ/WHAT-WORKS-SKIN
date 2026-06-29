@@ -1,0 +1,61 @@
+import React from "react";
+import { ProductTemplate, ProductData } from "./_ProductTemplate";
+
+const D: ProductData = {
+  brand: "La Roche-Posay",
+  productName: "Effaclar Purifying Foaming Gel",
+  tagline: "the oily-skin foaming default.",
+  category: "Cleansers",
+  pageRef: "P. 19",
+  filed: "22-APR-2026",
+  reviewer: "Dr. Aanya Mehta",
+  eyebrow: "Product · Cleanser · Foaming · Acne",
+  tier: "A",
+  hero: "LRP's foaming gel for oily and acne-prone skin: trace salicylic acid, zinc PCA, thermal-water carrier. Cleans deeper than Cetaphil without the post-wash tightness most acne cleansers leave behind.",
+  facts: [
+    ["Format", "Foaming gel, 200 / 400 mL"],
+    ["pH", "5.5"],
+    ["Salicylic acid", "Trace formulation-grade"],
+    ["Zinc PCA", "Sebum-modulating"],
+    ["Price", "₹ 1,150 / 200 mL"],
+    ["Pregnancy-safe", "Yes (trace SA)"],
+  ],
+  scoreBreakdown: [
+    { k: "Surfactant gentleness", v: 21, max: 25, n: "Mild surfactant blend; just below CeraVe Foaming on dryness." },
+    { k: "Acne-supportive actives", v: 21, max: 25, n: "Trace SA + zinc PCA give a real (small) anti-comedonal nudge." },
+    { k: "pH alignment", v: 22, max: 25, n: "5.5 — preserves the acid mantle." },
+    { k: "Value", v: 16, max: 25, n: "₹ 1,150 is steep; CeraVe Foaming costs ~20% less." },
+  ],
+  ingredients: [
+    { i: "Cocamidopropyl betaine", role: "Mild amphoteric surfactant", tier: "A", note: "Standard mild backbone." },
+    { i: "Salicylic acid (trace)", role: "Comedolytic adjunct", tier: "B", note: "At rinse-off dose, modest but real." },
+    { i: "Zinc PCA", role: "Sebum modulator", tier: "B", note: "Small effect; valuable for combination skin." },
+    { i: "LHA (capryloyl salicylic)", role: "Surface exfoliant", tier: "B", note: "Lipophilic SA — reaches pore openings." },
+    { i: "La Roche-Posay thermal water", role: "Soothing carrier", tier: "C", note: "Marketing centerpiece. Modest skin benefit." },
+  ],
+  useCases: [
+    { k: "Mild-to-moderate acne", b: "PM cleanse before adapalene or BPO. Sets a clean canvas." },
+    { k: "Oily combination skin", b: "Daily AM workhorse — cuts overnight sebum without stripping." },
+    { k: "Post-mask cleanup", b: "After clay or sulfur masks, restores skin neutral without re-strip." },
+  ],
+  alts: [
+    { brand: "CeraVe", name: "Foaming Facial Cleanser", tier: "A", score: 84, note: "Cheaper; no SA. Same gentleness profile." },
+    { brand: "Sebamed", name: "Clear Face Cleansing Foam", tier: "B", score: 71, note: "pH 5.5 alternate; weaker formulation." },
+    { brand: "Cetaphil", name: "PRO Oil Removing Foam Wash", tier: "B", score: 73, note: "Slightly more drying; budget-tier alternate." },
+  ],
+  faq: [
+    { q: "Is the salicylic acid actually working?", a: "At rinse-off contact-time of 30-60 seconds, expect a 5-10% adjunctive benefit on comedone counts vs a placebo wash. The leave-on Paula's Choice 2% BHA is the actual treatment." },
+    { q: "Will it irritate skin already on tretinoin?", a: "Usually no — but if you're 4-6 weeks into tret and peeling, switch to Toleriane Hydrating for a fortnight, then return." },
+    { q: "Effaclar Gel vs Effaclar Duo — same family?", a: "Same family; gel is the cleanser, Duo is the leave-on treatment. Use them together, not one or the other." },
+    { q: "Pregnancy-safe?", a: "Yes — SA is rinse-off and at trace dose. Far below systemic-absorption thresholds. Dermatology pregnancy guidelines list rinse-off SA cleansers as acceptable." },
+  ],
+  sources: [
+    { n: "Kornhauser A et al. Salicylic acid in acne. Cosm Toiletries 2011.", w: "REVIEW" },
+    { n: "Kligman AM, Mills OH. Acne cosmetica and acne mechanica. JAAD 1972.", w: "REVIEW" },
+    { n: "Chularojanamontri L et al. Moisturizers for acne. Indian J Dermatol 2014.", w: "REVIEW" },
+    { n: "LRP Effaclar dossier, in vivo seborrhea data. 2022.", w: "MFR DATA" },
+  ],
+};
+
+const ProductLRPEffaclarGel: React.FC = () => <ProductTemplate d={D} />;
+export default ProductLRPEffaclarGel;

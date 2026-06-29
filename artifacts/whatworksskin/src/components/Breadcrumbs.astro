@@ -1,0 +1,63 @@
+---
+export interface Props {
+  trail: { label: string; href?: string }[];
+}
+const { trail } = Astro.props;
+---
+<nav class="crumbs" aria-label="Breadcrumb">
+  <div class="container">
+    <ol>
+      {trail.map((t, i) => {
+        const isLast = i === trail.length - 1;
+        return (
+          <li>
+            {i > 0 && <span class="sep" aria-hidden="true">/</span>}
+            {t.href && !isLast ? (
+              <a href={t.href} class="muted">{t.label}</a>
+            ) : (
+              <span class="current" aria-current={isLast ? "page" : undefined}>{t.label}</span>
+            )}
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+</nav>
+
+<style>
+  .container {
+    margin-inline: auto;
+    padding-inline: 32px;
+    max-width: 1200px;
+  }
+  .crumbs {
+    position: relative;
+    z-index: 10;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  ol {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-block: 12px;
+    margin: 0;
+    padding-inline-start: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  ol a { text-decoration: none; }
+  .current { color: var(--ink); }
+  .muted { color: var(--muted-soft); }
+  .sep { color: var(--muted-soft); }
+</style>

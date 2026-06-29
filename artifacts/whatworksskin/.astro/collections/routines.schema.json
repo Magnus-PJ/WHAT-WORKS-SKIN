@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sub": {
+      "type": "string",
+      "minLength": 1
+    },
+    "featured": {
+      "type": "boolean"
+    },
+    "goal": {
+      "type": "string"
+    },
+    "time": {
+      "type": "string"
+    },
+    "skinType": {
+      "type": "string"
+    },
+    "stepCount": {
+      "type": "number"
+    },
+    "minutes": {
+      "type": "number"
+    },
+    "cost": {
+      "type": "string"
+    },
+    "difficulty": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "reviewer": {
+      "type": "string"
+    },
+    "pageRef": {
+      "type": "string"
+    },
+    "filed": {
+      "type": "string"
+    },
+    "eyebrow": {
+      "type": "string"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "n": {
+            "type": "string"
+          },
+          "t": {
+            "type": "string"
+          },
+          "time": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "sub": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "products": {
+            "type": "array",
+            "items": {}
+          },
+          "activeKey": {
+            "type": "string"
+          },
+          "activeVal": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": {}
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "d": {
+            "type": "string"
+          },
+          "t": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "d",
+          "t",
+          "body"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "forbidden": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "d": {
+            "type": "string"
+          },
+          "what": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "d",
+          "what"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "slug",
+    "title",
+    "sub"
+  ]
+}

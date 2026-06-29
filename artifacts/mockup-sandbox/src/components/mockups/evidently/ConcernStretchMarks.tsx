@@ -1,0 +1,44 @@
+// ConcernStretchMarks — Stretch marks (striae distensae) guide.
+//
+// Reached primarily from the Tretinoin "Concentration by concern"
+// row that mentions "Stretch marks (early)" — before this page
+// existed that mention had no destination at all. Built around the
+// only honest framing of the category: the red phase responds, the
+// silver phase rarely does, and procedures outperform topicals once
+// striae mature.
+
+import React from "react";
+import { ConcernPage } from "./_concernTemplate";
+
+const ConcernStretchMarks: React.FC = () => (
+  <ConcernPage
+    pageSlug="ConcernStretchMarks"
+    slug="stretch-marks"
+    title="Stretch marks (striae distensae)"
+    page="P. 22"
+    hero1="Two phases,"
+    hero2="two prognoses."
+    signs={[
+      { k: "Red / purple linear streaks (striae rubrae)", w: "70%", n: "The early, inflammatory phase. Pink to violaceous, slightly raised, often itchy. This is the window where topicals and energy-based devices still meaningfully respond." },
+      { k: "Pearly white, atrophic streaks (striae albae)", w: "85%", n: "The mature phase. Hypopigmented, slightly depressed, parallel to lines of skin tension. Topicals plateau here; procedural options take over." },
+      { k: "Distribution along lines of skin tension", w: "92%", n: "Abdomen, breasts, thighs, lower back, upper arms. Bilateral and parallel. The pattern is what distinguishes striae from scarring." },
+      { k: "Onset paired with rapid stretch or steroid load", w: "78%", n: "Adolescent growth spurts, pregnancy, rapid muscle gain, prolonged systemic or topical corticosteroids. The trigger is mechanical and endocrine, not 'dryness.'" },
+    ]}
+    ingredients={[
+      { name: "Tretinoin 0.05–0.1%", tier: "B", role: "Red-phase first-line", evidence: "Kang 1996 and later RCTs show meaningful improvement in length and width of striae rubrae. Albae do not respond. Avoid in pregnancy." },
+      { name: "Centella asiatica + hyaluronic acid", tier: "B", role: "Pregnancy-prevention adjunct", evidence: "Modest reduction in incidence in pregnancy when applied prophylactically; the strongest of an otherwise weak prevention literature." },
+      { name: "Glycolic acid 10–20% leave-on", tier: "C", role: "Adjunct exfoliation", evidence: "Limited evidence as monotherapy; sometimes paired with tretinoin or ascorbic acid in clinic protocols for the red phase." },
+      { name: "Fractional non-ablative laser (clinic)", tier: "A", role: "Procedural · both phases", evidence: "The most-evidenced procedural option. Multiple sessions; works on both rubrae and albae, with stronger response on the red phase." },
+      { name: "Microneedling with PRP (clinic)", tier: "B", role: "Procedural · albae", evidence: "Useful for the white-phase striae that topicals cannot move. Series of 3–6 sessions; texture and tone improvement, not full resolution." },
+    ]}
+    phases={[
+      { w: "Red phase, week 1–12", t: "Topical-first window", b: "Tretinoin 0.05% nightly to the affected sites (not in pregnancy). Daily moisturiser; this is the only phase where the topical literature is encouraging." },
+      { w: "Red phase, month 4+", t: "Add fractional laser", b: "Series of 3–4 sessions of fractional non-ablative laser — the response is meaningfully better when the lesion is still pink than once it has gone white." },
+      { w: "White phase, year 1+", t: "Procedural-led", b: "Topicals plateau. Fractional laser ± microneedling with PRP becomes the primary lever. Realistic goal is 30–50% improvement, not erasure." },
+      { w: "Maintenance", t: "Sun-protect the area", b: "Mature striae burn and pigment differently than surrounding skin. Daily SPF on exposed sites prevents the cosmetic gap from widening over a decade." },
+    ]}
+    bottom="The honest version of the conversation: the red phase responds and the silver phase rarely does. There is no topical that closes mature striae — and no honest brand should sell you one."
+  />
+);
+
+export default ConcernStretchMarks;

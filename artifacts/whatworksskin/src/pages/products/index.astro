@@ -1,0 +1,140 @@
+---
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import TierBadge from "@/components/TierBadge.astro";
+import ThinDot from "@/components/ThinDot.astro";
+import ThinSummary from "@/components/ThinSummary.astro";
+import ThinLegend from "@/components/ThinLegend.astro";
+import { url, home } from "@/lib/url";
+import { getProductBacklinks } from "@/lib/links";
+import SortToggle from "@/components/SortToggle.astro";
+import { resolveSortMode, sortCatalogueItems } from "@/lib/catalogue-sort";
+
+// Active sort comes from `?sort=…` so a shared link arrives with
+// the catalogue already in the requested order at SSR time.
+const SORT_MODES = ["default", "links"] as const;
+const activeSort = resolveSortMode(Astro.url, SORT_MODES, "default");
+
+const products = await getCollection("products");
+products.sort((a, b) => {
+  const t = a.data.tier.localeCompare(b.data.tier);
+  if (t !== 0) return t;
+  return a.data.brand.localeCompare(b.data.brand);
+});
+
+// Backlink-coverage badges. Reuses `getProductBacklinks` so the index
+// counts match the brief's "Where it appears" panel exactly.
+type LinkCounts = { concerns: number; routines: number };
+const linkCounts = new Map<string, LinkCounts>();
+for (const entry of products) {
+  const bl = await getProductBacklinks(entry.data.slug);
+  linkCounts.set(entry.data.slug, {
+    concerns: bl.concerns.length,
+    routines: bl.routines.length,
+  });
+}
+---
+<Base title="Products — What Works Skin" description="Every product reviewed, scored against the formula and the evidence.">
+  <SiteHeader active="Products" />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Products" }]} />
+  <main class="wrap">
+    <div class="container">
+      <p class="eyebrow">Index · Products</p>
+      <h1 class="title">Every product, <span class="ital">scored honestly.</span></h1>
+      <p class="lead">
+        Each product below is graded on formulation, evidence, tolerability, and value — out
+        of 100. Tier A is reference; Tier D is what we'd quietly leave on the shelf.
+      </p>
+
+      <ThinSummary kind="products" slugs={products.map((e) => e.data.slug)} />
+      <ThinLegend />
+
+      <SortToggle active={activeSort} buttons={[{ mode: "default", label: "By tier" }, { mode: "links", label: "Most linked" }]} />
+
+      <ul class="grid" data-sortable-grid>
+        {sortCatalogueItems(
+          products.map((entry, i) => {
+            const c = linkCounts.get(entry.data.slug) ?? { concerns: 0, routines: 0 };
+            return { entry, defaultIndex: i, linkCount: c.concerns + c.routines };
+          }),
+          activeSort,
+        ).map(({ entry, defaultIndex, linkCount }) => {
+          const c = linkCounts.get(entry.data.slug) ?? { concerns: 0, routines: 0 };
+          return (
+            <li data-default-index={defaultIndex} data-link-count={linkCount}>
+              <a href={url(`products/${entry.data.slug}`)} class="card">
+                <div class="card-head">
+                  <span class="brand-wrap">
+                    <span class="brand">{entry.data.brand}</span>
+                    <ThinDot kind="products" slug={entry.data.slug} />
+                  </span>
+                  <TierBadge tier={entry.data.tier} />
+                </div>
+                <div class="name">{entry.data.name}</div>
+                {entry.data.bottom ? (
+                  <div class="bottom-line">
+                    <p class="bottom-line-eyebrow">Bottom line</p>
+                    <p class="bottom-line-body">{entry.data.bottom}</p>
+                  </div>
+                ) : (
+                  entry.data.hero && <p class="tagline">{entry.data.hero}</p>
+                )}
+                <p class="links" aria-label={`Featured in ${c.concerns} concerns and ${c.routines} routines`}>
+                  <span class="links-label">Featured in</span>
+                  <span class={`links-n${c.concerns > 0 ? " on" : ""}`}>{c.concerns}</span> concerns
+                  <span class="links-dot" aria-hidden="true">·</span>
+                  <span class={`links-n${c.routines > 0 ? " on" : ""}`}>{c.routines}</span> routines
+                </p>
+                <div class="card-foot">
+                  {typeof entry.data.score === "number" && (
+                    <span class="score">{entry.data.score}<span class="score-max">⁄{entry.data.maxScore ?? 100}</span></span>
+                  )}
+                  {entry.data.filed && <span class="filed">Filed {entry.data.filed}</span>}
+                </div>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .wrap { padding-block: 96px; }
+  .eyebrow { margin: 0; font-family: var(--font-sans); font-size: 10.5px; letter-spacing: 0.18em; font-weight: 600; color: var(--accent); text-transform: uppercase; }
+  .title { margin: 24px 0 0; font-family: var(--font-serif); font-size: clamp(48px, 8vw, 88px); line-height: 0.95; letter-spacing: -0.045em; font-weight: 400; color: var(--ink); font-variation-settings: "opsz" 144, "SOFT" 30; }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+  .lead { margin: 32px 0 0; max-width: 40rem; font-family: var(--font-serif); font-size: 19px; line-height: 1.6; color: var(--ink-soft); }
+  .grid { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  .card { display: flex; flex-direction: column; text-decoration: none; padding: 28px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--paper); color: var(--ink); height: 100%; transition: background 0.15s ease; }
+  .card:hover { background: var(--paper2); }
+  .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+  .brand-wrap { display: inline-flex; align-items: center; gap: 8px; }
+  .brand { font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+  .name { font-family: var(--font-serif); font-size: 22px; font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); font-variation-settings: "opsz" 144; }
+  .tagline { margin: 12px 0 0; font-family: var(--font-serif); font-size: 14.5px; line-height: 1.5; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  /* Bottom-line callout — scaled-down sibling of the home page in-focus
+     card's `.focus-bottom`. Lives in place of the hero one-liner when
+     the brief has an editorial verdict; otherwise the tagline above renders. */
+  .bottom-line { margin: 12px 0 0; padding: 12px 14px; background: var(--paper2); border-left: 3px solid var(--accent); }
+  .card:hover .bottom-line { background: var(--paper); }
+  .bottom-line-eyebrow { margin: 0; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; color: var(--muted-soft); text-transform: uppercase; line-height: 1.3; }
+  .bottom-line-body { margin: 6px 0 0; font-family: var(--font-serif); font-size: 14.5px; font-style: italic; color: var(--ink); line-height: 1.5; }
+  .links { margin: 16px 0 0; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); text-transform: uppercase; line-height: 1.4; }
+  .links-label { margin-right: 4px; }
+  .links-n { font-weight: 600; color: var(--muted-soft); margin-right: 2px; }
+  .links-n.on { color: var(--accent); }
+  .links-dot { margin: 0 6px; color: var(--muted-soft); }
+  .card-foot { margin-top: auto; padding-top: 20px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-top: 1px solid var(--rule-soft); margin-top: 24px; }
+  .score { font-family: var(--font-serif); font-size: 28px; color: var(--ink); letter-spacing: -0.02em; font-variation-settings: "opsz" 144; }
+  .score-max { font-size: 11px; color: var(--muted-soft); margin-left: 2px; }
+  .filed { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); text-transform: uppercase; }
+</style>

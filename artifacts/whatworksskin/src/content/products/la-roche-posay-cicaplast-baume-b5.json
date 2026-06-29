@@ -1,0 +1,111 @@
+{
+  "slug": "la-roche-posay-cicaplast-baume-b5",
+  "brand": "La Roche-Posay",
+  "name": "Cicaplast Baume B5+",
+  "tier": "A",
+  "pageRef": "P. 12",
+  "filed": "22 APR 2026",
+  "eyebrow": "Product · Barrier repair · Occlusive balm",
+  "hero": "The post-laser balm derms hand out by the box. Panthenol-5%, madecassoside, occlusive shea base. It has nothing exciting in it — and that, after a tretinoin overshoot or a sunburn, is the entire point.",
+  "score": 82,
+  "maxScore": 100,
+  "scoreBreakdown": [
+    {
+      "k": "Formulation integrity",
+      "v": 22,
+      "max": 25,
+      "n": "Pantothenic acid 5% + madecassoside in occlusive base. Excellent vehicle."
+    },
+    {
+      "k": "Evidence per claim",
+      "v": 19,
+      "max": 25,
+      "n": "Multiple post-procedure RCTs; barrier-repair endpoints replicated."
+    },
+    {
+      "k": "Tolerability",
+      "v": 24,
+      "max": 25,
+      "n": "Fragrance-free, dye-free, paraben-free. Pediatric and adult tolerance excellent."
+    },
+    {
+      "k": "Value",
+      "v": 17,
+      "max": 25,
+      "n": "₹1,400 / 100 mL is fair internationally; expensive against Indian alternates."
+    }
+  ],
+  "ingredients": [
+    {
+      "i": "Panthenol 5%",
+      "role": "Pro-vitamin B5 — barrier hydration",
+      "tier": "A",
+      "note": "Reference humectant for compromised skin."
+    },
+    {
+      "i": "Madecassoside",
+      "role": "Centella derivative — anti-inflammatory",
+      "tier": "A",
+      "note": "Strong post-procedure data; calms erythema."
+    },
+    {
+      "i": "Shea butter",
+      "role": "Occlusive emollient",
+      "tier": "B",
+      "note": "Helps lock in repair without pore-blocking risk."
+    },
+    {
+      "i": "Glycerin",
+      "role": "Humectant",
+      "tier": "A",
+      "note": "Workhorse hydrator. Cheap, effective, universal."
+    },
+    {
+      "i": "Mannose",
+      "role": "Sugar — soothing",
+      "tier": "C",
+      "note": "Modest data. Listed for completeness."
+    }
+  ],
+  "alts": [
+    {
+      "brand": "Bepanthen",
+      "name": "Derma Repair Balm",
+      "tier": "A",
+      "score": 84,
+      "note": "Same active (panthenol 5%), drugstore price, no madecassoside."
+    },
+    {
+      "brand": "CeraVe",
+      "name": "Healing Ointment",
+      "tier": "A",
+      "score": 82,
+      "note": "Petroleum-base alternative. Heavier feel, equal occlusion."
+    },
+    {
+      "brand": "Aquaphor",
+      "name": "Healing Ointment",
+      "tier": "A",
+      "score": 80,
+      "note": "The American post-procedure default. Petrolatum dominant."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Is it really an everyday moisturiser?",
+      "a": "Not for everyone. Cicaplast is an occlusive recovery balm — outstanding overnight on compromised skin, post-laser, post-acid burn. As a daily AM moisturiser it's heavy and unnecessary unless your barrier is genuinely compromised."
+    },
+    {
+      "q": "Cicaplast or Cicaplast B5 Hyalu? What's the difference?",
+      "a": "B5 Baume is the original occlusive. The newer Hyalu B5 serum is a hydrator-only product without the panthenol-occlusive complex. They serve different roles — buy the Baume."
+    },
+    {
+      "q": "Can I use it on babies?",
+      "a": "Yes — it's pediatric-rated by LRP. Diaper rash, eczema flares, post-vaccine sites. The fragrance-free formula is one of the few balms we recommend without caveats for infant skin."
+    },
+    {
+      "q": "Will it clog pores?",
+      "a": "On non-acne-prone skin, no. On active acne it can occlude existing comedones — apply only to dry, peeled, or post-procedure patches, not the full face."
+    }
+  ]
+}

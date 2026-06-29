@@ -1,0 +1,31 @@
+{
+  "slug": "issue-004",
+  "n": 4,
+  "date": "01 December 2025",
+  "year": 2025,
+  "headline": "Mandelic acid is having a moment. We agree, with footnotes.",
+  "dek": "The case for mandelic in skin of colour is stronger than the case for glycolic. Here is the evidence.",
+  "signed": "Dr. Paul",
+  "pageRef": "P. 04",
+  "eyebrow": "Trend Watch · Issue 004 · 01 December 2025",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "Mandelic 10% serums",
+      "tier": "A",
+      "verdict": "Holds Up",
+      "color": "",
+      "body": "Mandelic acid's larger molecular weight (152 Da, vs glycolic's 76) means slower, gentler stratum-corneum penetration — historically dismissed as 'less effective' by AHA enthusiasts, now re-evaluated as exactly the property that makes it the better choice for skin of colour, sensitive types, and acne-prone surfaces. Three new Indian RCTs through 2025 have shown 10% mandelic at pH 3.4–3.6 producing comparable comedonal-acne and PIH endpoints to glycolic at lower irritation rates.",
+      "bottom": "The default AHA for melanin-rich and reactive skin. Tier A on its own merits, not by deference."
+    },
+    {
+      "n": "02",
+      "name": "Mandelic + lactic blends",
+      "tier": "B",
+      "verdict": "Partly True",
+      "color": "",
+      "body": "Combination AHA serums (mandelic + lactic, often + a small percentage of salicylic) chase a 'wider exfoliation envelope' that the literature only partially supports. The blend formulations are typically pH-managed reasonably well, but the additive endpoints often plateau at what 10% mandelic alone delivers. Not bad — the best of these are very tolerable — but rarely meaningfully different from a clean single-acid serum.",
+      "bottom": "Tolerable, marginally additive. Pay for the formulation only if texture differs meaningfully."
+    }
+  ]
+}

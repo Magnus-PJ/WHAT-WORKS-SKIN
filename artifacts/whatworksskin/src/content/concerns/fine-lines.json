@@ -1,0 +1,71 @@
+{
+  "slug": "fine-lines",
+  "name": "Fine lines & early wrinkles",
+  "family": "Anti-aging",
+  "eyebrow": "Concern · Anti-aging · Fine lines",
+  "dek": "The conversation that should be entirely about prevention is, on social media, almost entirely about reversal. Topicals can soften visible lines and noticeably improve texture; they cannot replace the thirty years of high-UVA-PF SPF you should have started yesterday.",
+  "oneliner": "Retinoid-led prevention is the only conversation.",
+  "reviewer": "Dr. Sundeep",
+  "pageRef": "P. 20",
+  "filed": "22 APR 2026",
+  "triggers": [
+    {
+      "k": "Cumulative UV (photoaging)",
+      "w": "75%",
+      "n": "The single largest contributor. SPF prevents what topicals can only partly reverse."
+    },
+    {
+      "k": "Intrinsic / chronological",
+      "w": "55%",
+      "n": "Collagen synthesis declines ~1% per year after 25. Mostly genetic."
+    },
+    {
+      "k": "Glycation",
+      "w": "40%",
+      "n": "Sugar cross-linking with collagen. Diet contributes; topicals contribute less."
+    },
+    {
+      "k": "Tobacco / pollution",
+      "w": "65%",
+      "n": "Free-radical load + microvascular damage. Quitting reverses some."
+    }
+  ],
+  "ingredients": [
+    {
+      "name": "Tretinoin 0.025–0.05% (Rx)",
+      "tier": "A",
+      "role": "Retinoid · gold-standard",
+      "evidence": "Most-evidenced cosmetic active in dermatology"
+    },
+    {
+      "name": "Retinol 0.3–1.0%",
+      "tier": "A",
+      "role": "OTC retinoid",
+      "evidence": "Replicated wrinkle improvement; slower onset than tretinoin"
+    },
+    {
+      "name": "Sunscreen SPF 50+",
+      "tier": "A",
+      "role": "Photoprotection",
+      "evidence": "Single most-evidenced anti-aging intervention"
+    },
+    {
+      "name": "Vitamin C 10–15%",
+      "tier": "A",
+      "role": "Antioxidant · collagen",
+      "evidence": "Cofactor for prolyl hydroxylase; modest visible firmness"
+    },
+    {
+      "name": "Peptides (Matrixyl 3000)",
+      "tier": "B",
+      "role": "Signal peptide",
+      "evidence": "Modest; works as a stack member, not solo"
+    },
+    {
+      "name": "Bakuchiol 1%",
+      "tier": "B",
+      "role": "Plant 'retinol' alt.",
+      "evidence": "Single 12-week RCT vs retinol 0.5%; useful for retinoid-intolerant"
+    }
+  ]
+}

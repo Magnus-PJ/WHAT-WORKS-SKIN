@@ -1,0 +1,656 @@
+---
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { home, url } from "@/lib/url";
+
+type Q = {
+  id: string;
+  section: string;
+  prompt: string;
+  sub: string;
+  opts: { id: string; label: string }[];
+};
+
+const QUESTIONS: Q[] = [
+  {
+    id: "skin",
+    section: "§ 01 · Baseline",
+    prompt: "Where does your skin sit on a normal Tuesday?",
+    sub: "Not after a flare, not after a holiday. The middle of an ordinary week.",
+    opts: [
+      { id: "dry",       label: "Dry — tightness, occasional flake" },
+      { id: "balanced",  label: "Balanced — neither tight nor shiny" },
+      { id: "combo",     label: "Combination — oily T-zone, drier cheeks" },
+      { id: "oily",      label: "Oily — visible shine by midday" },
+      { id: "reactive",  label: "Reactive — stings with most actives" },
+    ],
+  },
+  {
+    id: "concern",
+    section: "§ 02 · Concern",
+    prompt: "What would you most like the next six months to change?",
+    sub: "Pick the one you'd notice in a mirror first. You can add more later.",
+    opts: [
+      { id: "pigment",  label: "Pigment — melasma, post-inflammatory marks, sun damage" },
+      { id: "lines",    label: "Texture & lines — fine lines, crepiness, loss of bounce" },
+      { id: "acne",     label: "Acne — active breakouts or recurring spots" },
+      { id: "redness",  label: "Redness — rosacea, persistent flushing" },
+      { id: "barrier",  label: "Barrier — sensitised, stinging, over-exfoliated" },
+      { id: "dullness", label: "Dullness — uneven tone, lack of glow" },
+    ],
+  },
+  {
+    id: "climate",
+    section: "§ 03 · Context",
+    prompt: "What does the air around you look like?",
+    sub: "Climate moves the routine more than most people realise.",
+    opts: [
+      { id: "humid",     label: "Hot & humid — coastal, tropical, Gulf" },
+      { id: "dry-hot",   label: "Hot & dry — desert, Mediterranean summer" },
+      { id: "temperate", label: "Temperate — most of Europe, US east coast" },
+      { id: "cold-dry",  label: "Cold & dry — Nordic winter, high altitude" },
+      { id: "indoor",    label: "Mostly indoors, air-conditioned" },
+    ],
+  },
+  {
+    id: "age",
+    section: "§ 04 · Decade",
+    prompt: "Which decade are you in?",
+    sub: "Used only to weight prevention vs repair. Never stored beyond this session.",
+    opts: [
+      { id: "20s", label: "20s — under 30" },
+      { id: "30s", label: "30s" },
+      { id: "40s", label: "40s" },
+      { id: "50s", label: "50s" },
+      { id: "60+", label: "60 and over" },
+    ],
+  },
+  {
+    id: "intensity",
+    section: "§ 05 · Tolerance",
+    prompt: "How does your skin respond to actives?",
+    sub: "Honest answer. There is no virtue in tolerating retinoids that wreck your barrier.",
+    opts: [
+      { id: "novice",   label: "I've barely used any. Start me gently." },
+      { id: "moderate", label: "I tolerate most things at moderate strength." },
+      { id: "veteran",  label: "I tolerate prescription tretinoin without flinching." },
+      { id: "scarred",  label: "I've over-done it before and want to be cautious." },
+    ],
+  },
+];
+
+const RESULTS = [
+  {
+    tier: "A",
+    title: "Melasma — the long answer",
+    reason: "Matches: pigment concern + temperate climate + 30s. The sunscreen-first protocol.",
+    href: "concerns/melasma",
+  },
+  {
+    tier: "A",
+    title: "The pigment-prone AM routine",
+    reason: "5-step morning routine for skin that marks easily. Built around UVMune 400.",
+    href: "routines/am-pigment",
+  },
+  {
+    tier: "B",
+    title: "Tranexamic acid — what we know",
+    reason: "Most-cited ingredient for your concern. Tier B oral, Tier C topical.",
+    href: "ingredients/tranexamic-acid",
+  },
+];
+
+const TRUST: { k: string; v: string }[] = [
+  { k: "40 sec",        v: "Median completion" },
+  { k: "No email",      v: "No account, no list" },
+  { k: "No storage",    v: "Answers cleared on close" },
+  { k: "No routine sold", v: "Guides only, never products" },
+];
+
+const total = QUESTIONS.length;
+---
+<Base
+  title="Diagnostic — What Works Skin"
+  description="Five questions, a hundred or so seconds, three guides written for what you described. No accounts, no email, no data stored beyond this page."
+>
+  <SiteHeader />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Diagnostic" }]} />
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="eyebrow">The Diagnostic · 40 seconds · No email</p>
+        <h1 class="title">
+          Five honest questions.<br />
+          <span class="ital">Three guides back.</span>
+        </h1>
+        <p class="lead">
+          Not a quiz that sells you a routine. A short triage that tells you which two or three of our concern guides match what you described — and where to start reading.
+        </p>
+
+        <dl class="trust">
+          {TRUST.map((t) => (
+            <div class="trust-row">
+              <dt>{t.k}</dt>
+              <dd>{t.v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <section class="tree-section">
+      <div class="container narrow">
+        <div class="dx-tree">
+          <ol class="dx-rail" aria-label="Progress through the diagnostic">
+            {QUESTIONS.map((_qq, i) => (
+              <li class="dx-rail-step">
+                <span class="dx-rail-bar" data-rail-bar={i} data-state={i === 0 ? "on" : "off"} />
+                <span class="dx-rail-num" data-rail-num={i} data-state={i === 0 ? "current" : "idle"}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              </li>
+            ))}
+          </ol>
+
+          {QUESTIONS.map((q, i) => (
+            <section class="dx-step" data-step={i} hidden={i !== 0} aria-labelledby={`dx-q-${q.id}`}>
+              <header class="dx-q-head">
+                <p class="dx-eyebrow">{q.section}</p>
+                <span class="dx-q-counter">
+                  QUESTION {String(i + 1).padStart(2, "0")} OF {String(total).padStart(2, "0")}
+                </span>
+              </header>
+              <h2 id={`dx-q-${q.id}`} class="dx-q-prompt">{q.prompt}</h2>
+              <p class="dx-q-sub">{q.sub}</p>
+
+              <fieldset class="dx-opts">
+                <legend class="dx-sr">{q.prompt}</legend>
+                {q.opts.map((o) => (
+                  <button
+                    type="button"
+                    class="dx-opt"
+                    data-q-id={q.id}
+                    data-opt-id={o.id}
+                    data-selected="false"
+                    aria-pressed="false"
+                  >
+                    <span>{o.label}</span>
+                    <span class="dx-opt-check" aria-hidden="true"></span>
+                  </button>
+                ))}
+              </fieldset>
+
+              <div class="dx-actions">
+                <button type="button" class="dx-back" disabled={i === 0}>← Back</button>
+                <button type="button" class="dx-next" disabled>
+                  {i === total - 1 ? "See your guides" : "Continue"} →
+                </button>
+              </div>
+            </section>
+          ))}
+
+          <section class="dx-step dx-result-step" data-step="result" hidden aria-labelledby="dx-results">
+            <p class="dx-eyebrow">§ 06 · Your guides</p>
+            <h2 id="dx-results" class="dx-result-h">
+              Three places <span class="dx-ital">to start.</span>
+            </h2>
+            <p class="dx-q-sub">
+              Based on what you described, these three guides answer the most of your situation. Read in order. The first usually solves 70% of the question.
+            </p>
+
+            <ol class="dx-results">
+              {RESULTS.map((r, i) => (
+                <li>
+                  <a class="dx-result" href={url(r.href)}>
+                    <span class="dx-result-num">№ {String(i + 1).padStart(2, "0")}</span>
+                    <div class="dx-result-body">
+                      <div class="dx-result-meta">
+                        <span class={`dx-tier dx-tier-${r.tier.toLowerCase()}`}>
+                          Tier&nbsp;{r.tier}
+                        </span>
+                        <span class="dx-result-href">/{r.href}</span>
+                      </div>
+                      <h3 class="dx-result-title">{r.title}</h3>
+                      <p class="dx-result-reason">{r.reason}</p>
+                    </div>
+                    <span class="dx-result-arrow" aria-hidden="true">→</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+
+            <div class="dx-actions dx-actions-end">
+              <button type="button" class="dx-back" data-restart>← Run the diagnostic again</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="note-section">
+      <div class="container narrow">
+        <div class="note-grid">
+          <div class="note-meta">
+            <p class="eyebrow muted">From the editors</p>
+            <p class="note-kicker">ON THIS DIAGNOSTIC</p>
+          </div>
+          <div class="note-body-wrap">
+            <p class="note-body">
+              "Five questions can't replace a dermatologist. They can stop you reading the wrong guide for a fortnight. That's all this is for."
+            </p>
+            <p class="note-sig">
+              — Dr. Sundeep, Medical Review Lead. The matching weights are documented in the methodology under § 4.2.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</Base>
+
+<script is:inline>
+  (() => {
+    const tree = document.querySelector(".dx-tree");
+    if (!tree) return;
+    const steps = Array.from(tree.querySelectorAll(".dx-step"));
+    const questionSteps = steps.filter((s) => s.getAttribute("data-step") !== "result");
+    const resultStep = steps.find((s) => s.getAttribute("data-step") === "result");
+    const railBars = Array.from(tree.querySelectorAll(".dx-rail-bar"));
+    const railNums = Array.from(tree.querySelectorAll(".dx-rail-num"));
+    let currentIdx = 0;
+
+    function show(idx) {
+      currentIdx = idx;
+      const onResult = idx >= questionSteps.length;
+      questionSteps.forEach((s, i) => s.toggleAttribute("hidden", onResult || i !== idx));
+      if (resultStep) resultStep.toggleAttribute("hidden", !onResult);
+      railBars.forEach((bar, i) => {
+        const sec = questionSteps[i];
+        const done = !!(sec && sec.querySelector('.dx-opt[data-selected="true"]'));
+        const cur = !onResult && i === idx;
+        bar.setAttribute("data-state", done || cur ? "on" : "off");
+      });
+      railNums.forEach((num, i) => {
+        num.setAttribute("data-state", !onResult && i === idx ? "current" : "idle");
+      });
+    }
+
+    tree.addEventListener("click", (e) => {
+      const t = e.target instanceof Element ? e.target.closest("button") : null;
+      if (!t || !tree.contains(t)) return;
+
+      if (t.classList.contains("dx-opt")) {
+        const fieldset = t.closest("fieldset");
+        if (!fieldset) return;
+        fieldset.querySelectorAll(".dx-opt").forEach((b) => {
+          b.setAttribute("data-selected", "false");
+          b.setAttribute("aria-pressed", "false");
+        });
+        t.setAttribute("data-selected", "true");
+        t.setAttribute("aria-pressed", "true");
+        const section = t.closest(".dx-step");
+        const next = section ? section.querySelector(".dx-next") : null;
+        if (next) next.disabled = false;
+        const bar = railBars[currentIdx];
+        if (bar) bar.setAttribute("data-state", "on");
+      } else if (t.classList.contains("dx-next")) {
+        if (currentIdx + 1 <= questionSteps.length) show(currentIdx + 1);
+      } else if (t.classList.contains("dx-back")) {
+        if (t.hasAttribute("data-restart")) {
+          tree.querySelectorAll(".dx-opt").forEach((b) => {
+            b.setAttribute("data-selected", "false");
+            b.setAttribute("aria-pressed", "false");
+          });
+          tree.querySelectorAll(".dx-next").forEach((b) => { b.disabled = true; });
+          show(0);
+        } else if (currentIdx > 0) {
+          show(currentIdx - 1);
+        }
+      }
+    });
+
+    show(0);
+  })();
+</script>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .container.narrow { max-width: 880px; }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+
+  .eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .eyebrow.muted { color: var(--muted); }
+
+  .hero {
+    padding-block: 72px 64px;
+    border-bottom: 1px solid var(--rule);
+    background: linear-gradient(180deg, var(--paper2) 0%, var(--paper) 100%);
+  }
+  .title {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(56px, 9vw, 92px);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .lead {
+    margin: 28px 0 0;
+    max-width: 44rem;
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .trust {
+    margin: 48px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    max-width: 720px;
+  }
+  @media (min-width: 768px) { .trust { grid-template-columns: repeat(4, 1fr); } }
+  .trust-row {
+    background: var(--paper);
+    padding: 20px 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .trust-row dt {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 28px;
+    color: var(--ink);
+    line-height: 1;
+    font-variation-settings: "opsz" 144;
+  }
+  .trust-row dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .tree-section { padding-block: 80px; }
+
+  .note-section {
+    padding-block: 64px 96px;
+    border-top: 1px solid var(--rule);
+    background: var(--paper2);
+  }
+  .note-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  @media (min-width: 768px) {
+    .note-grid { grid-template-columns: 3fr 9fr; gap: 32px; }
+  }
+  .note-meta { display: flex; flex-direction: column; gap: 12px; }
+  .note-kicker {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-soft);
+    letter-spacing: 0.08em;
+  }
+  .note-body {
+    margin: 0;
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .note-sig {
+    margin: 16px 0 0;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .dx-tree { display: flex; flex-direction: column; gap: 56px; }
+  .dx-sr {
+    position: absolute; width: 1px; height: 1px; padding: 0;
+    margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+    white-space: nowrap; border: 0;
+  }
+  .dx-eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .dx-ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+
+  .dx-rail {
+    margin: 0; padding: 0; list-style: none;
+    display: flex; align-items: stretch; gap: 8px;
+  }
+  .dx-rail-step { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .dx-rail-bar {
+    display: block; height: 3px; width: 100%; background: var(--rule);
+  }
+  .dx-rail-bar[data-state="on"] { background: var(--ink); }
+  .dx-rail-num {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    color: var(--muted-soft);
+  }
+  .dx-rail-num[data-state="current"] { color: var(--ink); }
+
+  .dx-q-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; margin-bottom: 24px;
+  }
+  .dx-q-counter {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-soft);
+    letter-spacing: 0.1em;
+  }
+  .dx-q-prompt {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 6vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .dx-q-sub {
+    margin: 16px 0 0;
+    max-width: 40rem;
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .dx-opts {
+    margin: 40px 0 0;
+    padding: 0;
+    border: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .dx-opt {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    font-family: var(--font-serif);
+    font-size: 19.5px;
+    line-height: 1.3;
+    color: var(--ink);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 120ms, background 120ms;
+  }
+  .dx-opt:hover { border-color: var(--ink-soft); }
+  .dx-opt[data-selected="true"] {
+    border-color: var(--ink);
+    background: var(--paper2);
+  }
+  .dx-opt-check {
+    width: 24px; height: 24px; border-radius: 999px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid var(--rule);
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: 13px; line-height: 1;
+    color: var(--paper);
+    flex-shrink: 0;
+  }
+  .dx-opt[data-selected="true"] .dx-opt-check {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .dx-opt[data-selected="true"] .dx-opt-check::after { content: "✓"; }
+
+  .dx-actions {
+    margin-top: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .dx-actions-end { justify-content: flex-start; }
+  .dx-back {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    background: transparent;
+    padding: 8px 0;
+    cursor: pointer;
+    border: 0;
+  }
+  .dx-back:disabled { opacity: 0.3; cursor: not-allowed; }
+  .dx-next {
+    padding: 12px 24px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border: 0;
+  }
+  .dx-next:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .dx-result-h {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(40px, 7vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .dx-results {
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex; flex-direction: column;
+    gap: 1px;
+    background: var(--rule);
+  }
+  .dx-result {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 24px;
+    padding: 32px;
+    background: var(--paper);
+    color: var(--ink);
+    text-decoration: none;
+    transition: background 120ms;
+  }
+  .dx-result:hover { background: var(--paper2); }
+  .dx-result-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-soft);
+    letter-spacing: 0.1em;
+    padding-top: 6px;
+    flex-shrink: 0;
+  }
+  .dx-result-body { flex: 1; }
+  .dx-result-meta {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 8px;
+  }
+  .dx-tier {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .dx-tier-a { color: var(--tier-a); background: var(--tier-a-soft); border-color: color-mix(in srgb, var(--tier-a) 33%, transparent); }
+  .dx-tier-b { color: var(--tier-b); background: var(--tier-b-soft); border-color: color-mix(in srgb, var(--tier-b) 33%, transparent); }
+  .dx-tier-c { color: var(--tier-c); background: var(--tier-c-soft); border-color: color-mix(in srgb, var(--tier-c) 33%, transparent); }
+  .dx-tier-d { color: var(--tier-d); background: var(--tier-d-soft); border-color: color-mix(in srgb, var(--tier-d) 33%, transparent); }
+  .dx-result-href {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-soft);
+    letter-spacing: 0.08em;
+  }
+  .dx-result-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 30px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .dx-result-reason {
+    margin: 8px 0 0;
+    max-width: 36rem;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .dx-result-arrow {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    color: var(--ink);
+    padding-top: 6px;
+    flex-shrink: 0;
+  }
+</style>

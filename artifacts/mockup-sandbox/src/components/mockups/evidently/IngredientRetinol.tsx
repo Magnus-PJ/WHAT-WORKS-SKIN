@@ -1,0 +1,81 @@
+// IngredientRetinol — full ingredient brief for retinol.
+import React from "react";
+import { IngredientBrief, type IngredientBriefData } from "./_IngredientBrief";
+
+export const data: IngredientBriefData = {
+  slug: "retinol",
+  name: "Retinol",
+  number: "02 / 28",
+  filed: "16 APR 2026",
+  eyebrowKicker: "Ingredient · Retinoid · Retinol",
+  tier: "A",
+  tagline: { italic: "The over-the-counter retinoid", rest: "that earns the comparison." },
+  lead:
+    "The OTC member of the retinoid family. Two enzymatic conversions away from tretinoin, slower to act, gentler on the way in. The honest framing: most people don't need a prescription, they need three months of consistency.",
+  atGlance: [
+    ["INCI", "Retinol"],
+    ["Family", "Vitamin A · alcohol form"],
+    ["Useful range", "0.1 – 1.0%"],
+    ["Vehicle", "Anhydrous or encapsulated"],
+    ["Pregnancy-safe", "No"],
+    ["Photo-stable", "No — PM only"],
+    ["Reviewer", "Dr. Paul · 16-Apr-2026"],
+  ],
+  toc: [
+    ["01", "What it is"],
+    ["02", "Mechanism"],
+    ["03", "Evidence overview"],
+    ["04", "Concentration & vehicle"],
+    ["05", "Onboarding"],
+    ["06", "Pairings & conflicts"],
+    ["07", "On our shelf"],
+    ["08", "FAQ"],
+  ],
+  whatItIs: {
+    dropCap: "R",
+    title: { plain: "What retinol", italic: "actually is." },
+    body:
+      "etinol is the alcohol form of vitamin A. Inside the keratinocyte it is oxidised first to retinaldehyde, then to retinoic acid — the same molecule prescription tretinoin delivers directly. That two-step conversion is why retinol is slower to act and gentler on the barrier: only a fraction of what you apply ever becomes the active species.",
+    body2:
+      "Decades of formulation work have built around that limitation: encapsulation, anhydrous vehicles, and slow-release polymers that protect the molecule from oxidation and meter its conversion. A well-formulated 0.5% can outperform a poorly-formulated 1.0%. Concentration on the label is necessary but not sufficient.",
+  },
+  mechanism: [
+    { k: "On collagen", b: "Binds nuclear retinoic-acid receptors after conversion. Upregulates types I and III collagen, downregulates MMP-1. Visible 12–24 weeks." },
+    { k: "On pigment", b: "Accelerates keratinocyte turnover and disrupts melanosome transfer. Modest but cumulative pigment improvement." },
+    { k: "On acne", b: "Normalises follicular keratinisation. Useful adjunct for comedonal acne; less powerful than adapalene or tretinoin." },
+  ],
+  evidence: [
+    { c: "Photoaging / wrinkles", n: "Multiple RCTs, 24-wk", w: "76%", note: "0.4–1.0% retinol shows reproducible improvement on crow's-feet and forehead lines. Slower than tretinoin, but the curve catches up." },
+    { c: "Dyspigmentation", n: "RCTs vs vehicle", w: "62%", note: "Modest. Better when stacked with niacinamide or vitamin C." },
+    { c: "Comedonal acne", n: "Smaller trials", w: "48%", note: "Useful but not first-line; adapalene wins on acne endpoints." },
+    { c: "Tolerability", n: "VAS, retinisation studies", w: "55%", note: "Initial 4–6 wk irritation is the rule, not the exception. Encapsulated forms blunt the curve." },
+  ],
+  concentration: [
+    { c: "0.1 – 0.3%", v: "Beginner", b: "Twice weekly to start. Ramp over 8 weeks." },
+    { c: "0.3 – 0.5%", v: "Standard", b: "The sensible default after onboarding. Nightly for most." },
+    { c: "0.5 – 1.0%", v: "Advanced", b: "Tolerable skin, established routine. Diminishing returns above 1%." },
+    { c: "> 1.0%", v: "Marketing", b: "Stability becomes the limit, not skin tolerance." },
+  ],
+  pairings: [
+    { with: "Niacinamide", verdict: "Excellent", note: "Buffers irritation and supports barrier overnight. The default pairing.", ok: true },
+    { with: "Peptides", verdict: "Compatible", note: "Layer over retinol; complementary mechanisms.", ok: true },
+    { with: "AHAs / BHAs", verdict: "Avoid same night", note: "Compounded irritation with no added benefit. Alternate evenings.", ok: false },
+    { with: "Benzoyl peroxide", verdict: "Avoid layering", note: "BPO oxidises retinol on contact. AM/PM split or alternate nights.", ok: false },
+    { with: "Vitamin C (AM)", verdict: "Synergistic", note: "C in the morning, retinol at night. Antioxidant + remodelling stack.", ok: true },
+  ],
+  products: [
+    { brand: "La Roche-Posay", name: "Retinol B3 Serum", tier: "A", score: 84, note: "0.3% retinol + niacinamide. Gold-standard onboarding bottle." },
+    { brand: "The Ordinary", name: "Retinol 0.5% in Squalane", tier: "B", score: 72, note: "Affordable workhorse. Squalane vehicle limits irritation but also penetration." },
+    { brand: "SkinCeuticals", name: "Retinol 0.3 / 0.5 / 1.0", tier: "A", score: 86, note: "Reference clinical line. Stepwise ladder, quietly excellent stability." },
+    { brand: "Minimalist", name: "Retinol 0.3% Serum", tier: "B", score: 76, note: "Indian-market beginner option. Honest dose, simple vehicle." },
+  ],
+  faq: [
+    { q: "Retinol or tretinoin?", a: "Tretinoin is faster and better-evidenced. Retinol is more accessible and gentler. If you can get tretinoin and tolerate it, that is the ceiling. Retinol is for everyone else — and that is most people." },
+    { q: "How long until I see results?", a: "Eight weeks for tone and texture. Sixteen for fine lines. Twenty-four before you judge collagen endpoints. Retinoids are a discipline, not an event." },
+    { q: "Why does my skin get worse first?", a: "Retinisation. Increased turnover surfaces existing comedones and inflames the barrier. Reduce frequency, support with a ceramide moisturiser, do not abandon the molecule." },
+    { q: "Can I use retinol while pregnant?", a: "No. All vitamin A derivatives — including OTC retinol — are contraindicated. Switch to bakuchiol or azelaic acid." },
+  ],
+};
+
+const IngredientRetinol: React.FC = () => <IngredientBrief data={data} />;
+export default IngredientRetinol;

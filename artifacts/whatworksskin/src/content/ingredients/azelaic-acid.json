@@ -1,0 +1,212 @@
+{
+  "slug": "azelaic-acid",
+  "name": "Azelaic acid",
+  "number": "04 / 28",
+  "filed": "17 APR 2026",
+  "eyebrowKicker": "Ingredient \u00b7 Dicarboxylic acid \u00b7 Azelaic",
+  "tier": "A",
+  "featured": true,
+  "headlineSize": 116,
+  "tagline": {
+    "italic": "Three jobs at once.",
+    "rest": "Quietly underused."
+  },
+  "lead": "The molecule that treats acne, rosacea, and pigment from a single jar \u2014 without bleaching towels, drying skin, or being banned in pregnancy. The fact that you have not heard of it the way you have heard of retinol is a marketing failure, not a clinical one.",
+  "atGlance": [
+    [
+      "INCI",
+      "Azelaic acid"
+    ],
+    [
+      "Family",
+      "Saturated dicarboxylic acid"
+    ],
+    [
+      "OTC range",
+      "10%"
+    ],
+    [
+      "Rx range",
+      "15 \u2013 20%"
+    ],
+    [
+      "pH window",
+      "4.0 \u2013 5.0"
+    ],
+    [
+      "Pregnancy-safe",
+      "Yes \u2014 one of very few"
+    ],
+    [
+      "Photo-stable",
+      "Yes \u2014 AM/PM"
+    ],
+    [
+      "Reviewer",
+      "Dr. Sundeep \u00b7 17-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "What it is"
+    ],
+    [
+      "02",
+      "Mechanism \u2014 three jobs at once"
+    ],
+    [
+      "03",
+      "Evidence overview"
+    ],
+    [
+      "04",
+      "OTC vs Rx (10% vs 15\u201320%)"
+    ],
+    [
+      "05",
+      "Pregnancy & melasma"
+    ],
+    [
+      "06",
+      "Pairings & conflicts"
+    ],
+    [
+      "07",
+      "On our shelf"
+    ],
+    [
+      "08",
+      "FAQ"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "A",
+    "title": {
+      "plain": "What azelaic",
+      "italic": "actually is."
+    },
+    "body": "zelaic acid is a saturated, nine-carbon dicarboxylic acid produced by the yeast Malassezia furfur, the same skin-resident organism implicated in pityriasis and fungal acne. The body has been making and tolerating azelaic acid on the skin's surface for millennia; topical formulations replicate that exposure at therapeutic doses. The result is a molecule with antibacterial, anti-inflammatory, comedolytic, and tyrosinase-inhibiting effects all from a single application \u2014 a pharmacological elegance no other OTC active matches.",
+    "body2": "The reason it is under-prescribed in India is partly cultural \u2014 patients want \"lightening creams\" not anti-inflammatories \u2014 and partly pharmacy economics: at \u20b9400 a tube, the marketing budget is small."
+  },
+  "mechanism": [
+    {
+      "k": "Antibacterial",
+      "b": "Selectively suppresses C. acnes proliferation in the follicle. Reaches BPO-comparable endpoints in some RCTs."
+    },
+    {
+      "k": "Anti-inflammatory",
+      "b": "Reduces ROS in keratinocytes; calms papular rosacea. The endpoint dermatologists actually prescribe it for."
+    },
+    {
+      "k": "Tyrosinase inhibition",
+      "b": "Selectively targets hyperactive melanocytes (i.e., PIH, melasma) without affecting baseline pigment."
+    }
+  ],
+  "evidence": [
+    {
+      "c": "Inflammatory acne",
+      "n": "RCTs vs BPO 5%",
+      "w": "78%",
+      "note": "20% azelaic reaches BPO efficacy without the bleach-and-burn profile."
+    },
+    {
+      "c": "Comedonal acne",
+      "n": "Open-label 12 wk",
+      "w": "62%",
+      "note": "Slower than adapalene; useful in adapalene-intolerant patients."
+    },
+    {
+      "c": "Rosacea (papulopustular)",
+      "n": "RCTs vs metronidazole",
+      "w": "82%",
+      "note": "First-line in many derm guidelines. The molecule rosacea was waiting for."
+    },
+    {
+      "c": "Melasma / PIH",
+      "n": "RCT vs HQ 4%",
+      "w": "70%",
+      "note": "Comparable endpoints to hydroquinone in some 24-week trials."
+    }
+  ],
+  "concentration": [
+    {
+      "c": "10%",
+      "v": "OTC cream/gel",
+      "b": "Adequate for mild\u2013moderate acne and most PIH. Twice-daily, 12 weeks."
+    },
+    {
+      "c": "15%",
+      "v": "Rx foam / gel",
+      "b": "Reference for papulopustular rosacea. Foam or gel vehicle."
+    },
+    {
+      "c": "20%",
+      "v": "Rx cream",
+      "b": "Strongest documented efficacy for melasma. Slower vehicle, more pilling."
+    },
+    {
+      "c": "Compounded",
+      "v": "Pharmacy-prepared",
+      "b": "Not necessary in most cases. The OTC and Rx ladder covers the use cases."
+    }
+  ],
+  "products": [
+    {
+      "brand": "The Ordinary",
+      "name": "Azelaic Acid Suspension 10%",
+      "tier": "A",
+      "score": 80,
+      "note": "Cheapest serious azelaic in India. Twice-daily for 12 weeks."
+    },
+    {
+      "brand": "Paula's Choice",
+      "name": "10% Azelaic Acid Booster",
+      "tier": "A",
+      "score": 84,
+      "note": "Better vehicle, less pilling. Worth the premium for sensitive skin."
+    },
+    {
+      "brand": "Bioderma",
+      "name": "S\u00e9bium AKN",
+      "tier": "B",
+      "score": 76,
+      "note": "Azelaic + niacinamide combo. Convenient single-step option."
+    },
+    {
+      "brand": "Galderma",
+      "name": "Finacea Foam 15% (Rx)",
+      "tier": "A",
+      "score": 90,
+      "note": "Rx-strength reference for rosacea. Foam vehicle is genuinely elegant."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Why does it tingle for the first week?",
+      "a": "Azelaic at clinical doses produces transient burning or tingling for 5\u201310 minutes after application \u2014 it's a pharmacological signature, not damage. Almost universal in week one, fades by week three. If it persists past four weeks, switch vehicle (foam over gel) or move to alternate-day."
+    },
+    {
+      "q": "Is the OTC 10% strong enough?",
+      "a": "For acne and PIH, yes \u2014 particularly twice-daily for the full 12 weeks. For severe rosacea or melasma, the 15\u201320% prescription forms are meaningfully stronger and worth the consultation."
+    },
+    {
+      "q": "Can I use it with retinoids?",
+      "a": "Yes \u2014 among the most reliable pairings we recommend. Azelaic morning, retinoid evening. Or alternate nights if your skin tolerates both poorly. The mechanisms complement; the irritation does not stack much."
+    },
+    {
+      "q": "Safe in pregnancy?",
+      "a": "Yes \u2014 one of very few actives with clear pregnancy-safe data. Often the only effective choice when retinoids and tranexamic acid are off the table."
+    }
+  ],
+  "relatedIngredients": [
+    "tranexamic-acid",
+    "niacinamide",
+    "adapalene",
+    "alpha-arbutin"
+  ],
+  "reviewer": {
+    "name": "Dr. Sundeep",
+    "title": "Reviewed by"
+  }
+}

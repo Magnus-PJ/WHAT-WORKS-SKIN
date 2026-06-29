@@ -1,0 +1,229 @@
+{
+  "slug": "exosomes",
+  "name": "Exosomes (cosmetic)",
+  "number": "27 / 28",
+  "filed": "20 APR 2026",
+  "eyebrowKicker": "Ingredient · Cell-derived vesicles · Cosmetic exosomes",
+  "tier": "D",
+  "headlineSize": 80,
+  "tagline": {
+    "italic": "Real biology, premature product.",
+    "rest": "The most expensive maybe in skincare."
+  },
+  "lead": "Exosome biology is one of the most exciting areas of regenerative medicine. The translation to a $400 cosmetic serum is, frankly, not. The honest framing: real molecules, no proper topical evidence, real regulatory grey area, and pricing that depends almost entirely on the absence of scrutiny.",
+  "atGlance": [
+    [
+      "INCI",
+      "Plant or mammalian exosomes / extracellular vesicles"
+    ],
+    [
+      "Family",
+      "Lipid-bound nanovesicles"
+    ],
+    [
+      "Useful range",
+      "Not established for topical cosmetics"
+    ],
+    [
+      "Vehicle",
+      "Reconstituted lyophilised powder + serum"
+    ],
+    [
+      "Pregnancy-safe",
+      "Insufficient data — avoid"
+    ],
+    [
+      "Photo-stable",
+      "Variable; cold-chain dependent"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul · 20-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "What they are"
+    ],
+    [
+      "02",
+      "What the actual science says"
+    ],
+    [
+      "03",
+      "Evidence overview"
+    ],
+    [
+      "04",
+      "The regulatory grey zone"
+    ],
+    [
+      "05",
+      "Where they fall short"
+    ],
+    [
+      "06",
+      "Pairings & conflicts"
+    ],
+    [
+      "07",
+      "On our shelf"
+    ],
+    [
+      "08",
+      "FAQ"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "E",
+    "title": {
+      "plain": "What cosmetic exosomes",
+      "italic": "actually are."
+    },
+    "body": "xosomes are small membrane-bound vesicles (30–150 nm) that cells release as part of intercellular communication. They carry proteins, lipids, and nucleic acids and are a genuine area of regenerative-medicine research — for things like wound healing, post-operative recovery, and inflammation modulation, mostly via injection or directed delivery in clinical trials.",
+    "body2": "Cosmetic exosomes — typically derived from plant cells, salmon, or human-cell-line cultures — are sold as topical serums on the pitch that those vesicles will reach the dermis and deliver regenerative cargo. They almost certainly do not. The stratum corneum exists. The vesicles, even at the smaller end of the size range, are an order of magnitude too large to passively cross intact skin."
+  },
+  "mechanism": [
+    {
+      "k": "On the surface",
+      "b": "Modest humectant and supportive role from accompanying ingredients (HA, peptides, antioxidants in the vehicle)."
+    },
+    {
+      "k": "On dermal regeneration",
+      "b": "Claimed but not demonstrated for topical application on intact skin. Marketing outpaces evidence by a wide margin."
+    },
+    {
+      "k": "Post-procedure (microneedled / laser)",
+      "b": "Some weak signal when applied to compromised skin barrier — but evidence is small, mostly industry-funded, and not yet replicated."
+    }
+  ],
+  "evidence": [
+    {
+      "c": "Topical anti-aging (intact skin)",
+      "n": "Industry-led / small",
+      "w": "22%",
+      "note": "Claims dramatic; data does not match. Mostly observational and unblinded."
+    },
+    {
+      "c": "Post-microneedling adjunct",
+      "n": "Smaller RCTs",
+      "w": "44%",
+      "note": "Some signal when delivered through compromised barrier; replication needed."
+    },
+    {
+      "c": "Wound / post-procedure (clinical)",
+      "n": "Early clinical trials",
+      "w": "60%",
+      "note": "The honest area — therapeutic context, controlled delivery, dermatologist-led."
+    },
+    {
+      "c": "Topical 'regeneration' (consumer)",
+      "n": "Marketing only",
+      "w": "10%",
+      "note": "The headline claim. Not supported by meaningful topical evidence."
+    }
+  ],
+  "concentration": [
+    {
+      "c": "Particle counts",
+      "v": "Variable",
+      "b": "Brand-to-brand 1000x differences with no standard. Specs are marketing."
+    },
+    {
+      "c": "Cold-chain required",
+      "v": "Most products",
+      "b": "If your bottle ships at room temperature, you are buying degradation products."
+    },
+    {
+      "c": "+ Vitamin C / peptides",
+      "v": "Vehicle effect",
+      "b": "Most measured benefit comes from the supporting ingredients, not the exosomes."
+    }
+  ],
+  "pairings": [
+    {
+      "with": "In-clinic microneedling",
+      "verdict": "Promising",
+      "note": "The honest use case — applied through a compromised barrier under clinical control. Even here, evidence is early.",
+      "ok": true
+    },
+    {
+      "with": "Standalone topical use",
+      "verdict": "Avoid (overpriced)",
+      "note": "$200–500 per bottle for unproven topical effect. The supporting actives could be bought à la carte.",
+      "ok": false
+    },
+    {
+      "with": "Retinoids",
+      "verdict": "Compatible",
+      "note": "Layer freely; no incompatibility, but no demonstrated synergy either.",
+      "ok": true
+    },
+    {
+      "with": "Pregnancy",
+      "verdict": "Avoid",
+      "note": "Insufficient data on bioactive cargo; conservative avoidance.",
+      "ok": false
+    },
+    {
+      "with": "Room-temperature storage",
+      "verdict": "Avoid",
+      "note": "Most cosmetic exosomes degrade rapidly without cold chain. Refrigerate or skip.",
+      "ok": false
+    }
+  ],
+  "products": [
+    {
+      "brand": "Various clinical brands",
+      "name": "ASCE+ / ExoCobio / Plated",
+      "tier": "D",
+      "score": 48,
+      "note": "Market leaders by price; evidence base is thin. Cold-chain compliance variable."
+    },
+    {
+      "brand": "Salmon-PDRN serums",
+      "name": "Plump'n Glow / Rejuran-adjacent",
+      "tier": "D",
+      "score": 50,
+      "note": "Different molecule (polynucleotides), often marketed alongside exosome claims. Topical case still weak."
+    },
+    {
+      "brand": "Medicube",
+      "name": "Exosome Shot 2000",
+      "tier": "D",
+      "score": 44,
+      "note": "Plant-derived exosome essence — cheaper than ASCE+, even less translational evidence. Most of the perceived benefit comes from the supporting actives in the base."
+    },
+    {
+      "brand": "Benev",
+      "name": "Exosome Regenerative Complex+",
+      "tier": "C",
+      "score": 62,
+      "note": "The credible use case: applied by clinicians as a microneedling adjunct under cold-chain conditions. Operator-dependent and evidence still emerging, but the most defensible exosome product on the market today."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Why is this Tier D?",
+      "a": "Because the gap between the claimed benefits and the demonstrated topical evidence is the largest in the entire library. Real biology, premature product. We expect to revisit this in 2028 when the trial data catches up."
+    },
+    {
+      "q": "Is exosome science fake?",
+      "a": "No, the basic biology is robust and exosome therapeutics are an active clinical research area. The fakeness lives in the cosmetic translation and pricing, not in the underlying science."
+    },
+    {
+      "q": "Should I get the in-clinic exosome facial?",
+      "a": "Maybe, with a dermatologist who can speak to source, sterility, and protocol. The clinical context is the only place exosomes have a credible cosmetic application today."
+    },
+    {
+      "q": "Is it FDA-approved?",
+      "a": "No exosome cosmetic product is FDA-approved as a drug. Most are sold as cosmetics under the 'cosmetic' regulatory floor, which requires no efficacy proof. Safety oversight is similarly minimal."
+    }
+  ],
+  "relatedIngredients": [
+    { "slug": "peptides-copper", "sub": "Peptide-metal complex" },
+    { "slug": "peptides-signal", "sub": "Peptides" },
+    "retinol"
+  ]
+}

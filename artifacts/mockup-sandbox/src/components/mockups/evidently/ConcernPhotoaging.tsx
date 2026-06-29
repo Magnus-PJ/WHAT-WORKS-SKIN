@@ -1,0 +1,46 @@
+// ConcernPhotoaging — Photoaging guide.
+//
+// Distinct from the Fine Lines guide on purpose: photoaging is the
+// upstream cause and the larger histologic story (solar elastosis,
+// dermal collagen loss, mottled pigment, telangiectasia), of which
+// fine wrinkling is one downstream sign. Brief mentions of
+// "photoaging reversal" — most prominently the Tretinoin
+// "Concentration by concern" row — now land here instead of the
+// Fine Lines guide.
+
+import React from "react";
+import { ConcernPage } from "./_concernTemplate";
+
+const ConcernPhotoaging: React.FC = () => (
+  <ConcernPage
+    pageSlug="ConcernPhotoaging"
+    slug="photoaging"
+    title="Photoaging"
+    page="P. 21"
+    hero1="The face the sun"
+    hero2="actually drew."
+    signs={[
+      { k: "Mottled hyperpigmentation on cheeks & temples", w: "82%", n: "Patchy, irregular pigment that doesn't match the symmetry of melasma. Maps to lifetime UV dose, not hormone cycles." },
+      { k: "Coarse and fine wrinkling on sun-exposed sites", w: "78%", n: "The forehead, perioral, and lateral periorbital lines that read as 'older than your years' — almost always UV-driven, almost never intrinsic alone." },
+      { k: "Sallow, yellowed, leathery texture", w: "61%", n: "Solar elastosis on biopsy. The skin loses its pink translucency and gains a thickened, slightly yellow cast that no moisturiser fixes." },
+      { k: "Telangiectasia and persistent erythema", w: "44%", n: "Dilated superficial vessels on cheeks and nose. Often mistaken for rosacea — but the trigger is cumulative UV, not vascular reactivity." },
+    ]}
+    ingredients={[
+      { name: "Mineral SPF 50+ daily", tier: "A", role: "Prevention", evidence: "The Australian Nambour RCT remains the reference: daily SPF reduced photoaging endpoints over 4.5 years where intermittent SPF did not." },
+      { name: "Tretinoin 0.025–0.05%", tier: "A", role: "Reversal", evidence: "Forty years of histologic and clinical evidence — the molecule that established the entire photoaging-reversal category." },
+      { name: "Retinol 0.3–1.0%", tier: "A", role: "OTC alternative", evidence: "Replicated wrinkle and pigment improvement; slower onset than tretinoin but reaches a similar destination on a 12-month timeline." },
+      { name: "Vitamin C 10–15% (L-ascorbic acid)", tier: "A", role: "Antioxidant + collagen cofactor", evidence: "Cofactor for prolyl and lysyl hydroxylase; modest visible firmness and tone improvement when paired with daily SPF." },
+      { name: "Hydroquinone 4% (cycled)", tier: "A", role: "Pigment fade", evidence: "First-line for the mottled-pigment component. Cycle 3 months on, 2 off, paired with tretinoin and SPF." },
+      { name: "Fractional laser (clinic)", tier: "A", role: "Procedural", evidence: "The procedural option that meaningfully moves dermal collagen and remodels solar elastosis. Best after a year of topical groundwork." },
+    ]}
+    phases={[
+      { w: "Week 1–4", t: "Prevention first", b: "Mineral SPF 50+ with high UVA-PF every morning, two finger-lengths. No reversal protocol works without this in place." },
+      { w: "Week 4–12", t: "Add the retinoid", b: "Begin tretinoin 0.025% every third night, escalating to nightly over 8 weeks. Buffer with a ceramide moisturiser sandwich." },
+      { w: "Month 4–6", t: "Layer pigment correction", b: "If mottled pigment is dominant, add hydroquinone 4% (cycled) or azelaic acid for the eight-week cycle. Continue tretinoin throughout." },
+      { w: "Year 1+", t: "Procedural escalation", b: "Once topical groundwork is established, fractional laser is the most efficient lever for dermal remodelling. Without daily SPF, the result regresses." },
+    ]}
+    bottom="Photoaging is the only common 'aging' diagnosis with a real prevention drug. People who started SPF in their 30s do not have most of this conversation in their 60s."
+  />
+);
+
+export default ConcernPhotoaging;

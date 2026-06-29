@@ -1,0 +1,41 @@
+{
+  "slug": "issue-014",
+  "n": 14,
+  "date": "20 April 2026",
+  "year": 2026,
+  "headline": "Beef tallow, the LED mask reckoning, and a sunscreen recall in Korea",
+  "dek": "Three trends that filled our inbox in March. Two don't survive a closer look.",
+  "signed": "Dr. Paul + Dr. Sundeep",
+  "pageRef": "P. 14",
+  "eyebrow": "Trend Watch · Issue 014 · 20 April 2026",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "Beef tallow as moisturiser",
+      "verdict": "Skip",
+      "body": "We graded grass-fed tallow balms a Skip in Issue 007, and three months on the verdict has hardened, not softened. The category has doubled in shelf count — Primally Pure, Toups & Co, Fatworks now sit on the same prestige racks as La Roche-Posay — and a fresh round of consumer testing in March turned up the same picture: tallow is a competent occlusive that reduces TEWL by sitting on top of skin, and petrolatum does the identical job for one-tenth the price with no oxidation, no scent drift, and no comedogenicity question mark. Nothing in the new evidence base changes the core read. The premium is paid for the ancestral story, not the lipid.",
+      "bottom": "Re-graded. Still a Skip. Petrolatum or shea butter; keep the ₹ 2,400.",
+      "tier": "B"
+    },
+    {
+      "n": "02",
+      "name": "At-home red-light masks",
+      "verdict": "Partly true",
+      "body": "The in-clinic 633 nm and 830 nm LED data is genuinely good — meaningful improvements in fine lines, post-procedure healing, and inflammatory acne at the irradiance levels dermatology offices actually deliver. The problem is the consumer category. Most at-home masks (CurrentBody, Omnilux, Dr. Dennis Gross) run at a fraction of clinic irradiance, and the manufacturer studies that anchor the marketing are small, often unblinded, and cherry-pick endpoints. Red light at 633 nm has some collagen signal even at consumer doses; the deeper 830 nm wavelengths the brochures lean on barely penetrate at these power levels. Acne claims are the weakest link — blue-light antimicrobial effect at home is modest at best.",
+      "bottom": "Real science, diluted hardware. Treat as a mild collagen nudge — not a clinic substitute, and not an acne device.",
+      "tier": "B"
+    },
+    {
+      "n": "03",
+      "name": "Korean PA++++ recall",
+      "verdict": "Holds up",
+      "body": [
+        "Korea's MFDS pulled three SKUs from two mid-tier brands in late March after independent labs found measured PA values one to two grades below the PA++++ printed on the bottle. The recall is the right call: PA++++ is the honest long-UVA standard the rest of the world's sunscreens are now benchmarked against — see our ",
+        { "text": "UV filters brief", "kind": "ingredient", "slug": "uv-filters" },
+        " for why long-UVA coverage matters more than the SPF figure on the front — and a label that overstates UVA performance is a label that quietly green-lights photoaging and pigmentation damage the buyer thinks they have paid to prevent. None of the recalled SKUs are widely sold outside Korea, but the broader lesson generalises: check that your daily sunscreen carries a real long-UVA rating — PA++++ or PPD 16+ — and not just an SPF number."
+      ],
+      "bottom": "Recall is correct. Audit your own SPF for a long-UVA rating, not just the SPF figure on the front.",
+      "tier": "B"
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+---
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { url, home } from "@/lib/url";
+import { findIngredientSlug, findProductSlug } from "@/lib/links";
+import ThinDot from "@/components/ThinDot.astro";
+import ThinSummary from "@/components/ThinSummary.astro";
+import ThinLegend from "@/components/ThinLegend.astro";
+import SortToggle from "@/components/SortToggle.astro";
+import { resolveSortMode, sortCatalogueItems } from "@/lib/catalogue-sort";
+
+// Active sort comes from `?sort=…` so a shared link arrives with
+// the catalogue already in the requested order at SSR time.
+const SORT_MODES = ["default", "links"] as const;
+const activeSort = resolveSortMode(Astro.url, SORT_MODES, "default");
+
+const routines = await getCollection("routines");
+routines.sort((a, b) => a.data.sub.localeCompare(b.data.sub));
+
+// Outbound cross-link coverage: how many distinct product briefs and
+// ingredient briefs each routine actually resolves to. Uses the same
+// `findProductSlug` / `findIngredientSlug` helpers (and the same
+// step-text "haystack" the brief and back-link helpers use) so the
+// counts stay consistent across the site.
+type LinkCounts = { products: number; ingredients: number };
+const linkCounts = new Map<string, LinkCounts>();
+for (const entry of routines) {
+  const productSlugs = new Set<string>();
+  const ingredientSlugs = new Set<string>();
+  for (const s of entry.data.steps ?? []) {
+    const haystack = `${s.title ?? ""} ${s.sub ?? ""} ${s.activeKey ?? ""} ${s.activeVal ?? ""}`;
+    const ingSlug = await findIngredientSlug(haystack);
+    if (ingSlug) ingredientSlugs.add(ingSlug);
+    // Step `products` is schema-typed as `unknown[]` (the catalogue
+    // tolerates a few legacy shapes), so narrow each row to the
+    // brand/name fields we actually read — same approach
+    // `RoutineBrief.astro` and `getProductBacklinks` use.
+    const stepProducts = (s.products ?? []) as Array<{ brand?: string; name?: string }>;
+    for (const p of stepProducts) {
+      const pSlug = await findProductSlug(p?.brand, p?.name);
+      if (pSlug) productSlugs.add(pSlug);
+    }
+  }
+  linkCounts.set(entry.data.slug, {
+    products: productSlugs.size,
+    ingredients: ingredientSlugs.size,
+  });
+}
+---
+<Base title="Routines — What Works Skin" description="Every routine, step-by-step. Evidence-led, not influencer-led.">
+  <SiteHeader active="Routines" />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Routines" }]} />
+  <main class="wrap">
+    <div class="container">
+      <p class="eyebrow">Index · Routines</p>
+      <h1 class="title">Every routine, <span class="ital">step-by-step.</span></h1>
+      <p class="lead">
+        Morning, evening, recovery, weekly — each routine below is the version we'd actually
+        recommend in clinic. Step counts, time, cost, and skin type at a glance.
+      </p>
+
+      <ThinSummary kind="routines" slugs={routines.map((e) => e.data.slug)} />
+      <ThinLegend />
+
+      <SortToggle active={activeSort} buttons={[{ mode: "default", label: "Default" }, { mode: "links", label: "Most linked" }]} />
+
+      <ul class="grid" data-sortable-grid>
+        {sortCatalogueItems(
+          routines.map((entry, i) => {
+            const c = linkCounts.get(entry.data.slug) ?? { products: 0, ingredients: 0 };
+            return { entry, defaultIndex: i, linkCount: c.products + c.ingredients };
+          }),
+          activeSort,
+        ).map(({ entry, defaultIndex, linkCount }) => {
+          const c = linkCounts.get(entry.data.slug) ?? { products: 0, ingredients: 0 };
+          return (
+            <li data-default-index={defaultIndex} data-link-count={linkCount}>
+              <a href={url(`routines/${entry.data.slug}`)} class="card">
+                <div class="card-head">
+                  <span class="kicker">{entry.data.sub}</span>
+                  <ThinDot kind="routines" slug={entry.data.slug} />
+                </div>
+                <div class="name">{entry.data.title}</div>
+                {entry.data.body && <p class="tagline">{entry.data.body}</p>}
+                <p class="links" aria-label={`Linked to ${c.products} products and ${c.ingredients} ingredients`}>
+                  <span class="links-label">Linked to</span>
+                  <span class={`links-n${c.products > 0 ? " on" : ""}`}>{c.products}</span> products
+                  <span class="links-dot" aria-hidden="true">·</span>
+                  <span class={`links-n${c.ingredients > 0 ? " on" : ""}`}>{c.ingredients}</span> ingredients
+                </p>
+                <div class="meta">
+                  {typeof entry.data.stepCount === "number" && <span>{entry.data.stepCount} steps</span>}
+                  {typeof entry.data.minutes === "number" && <span>{entry.data.minutes} min</span>}
+                  {entry.data.difficulty && <span>{entry.data.difficulty}</span>}
+                  {entry.data.cost && <span>{entry.data.cost}</span>}
+                </div>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .wrap { padding-block: 96px; }
+  .eyebrow { margin: 0; font-family: var(--font-sans); font-size: 10.5px; letter-spacing: 0.18em; font-weight: 600; color: var(--accent); text-transform: uppercase; }
+  .title { margin: 24px 0 0; font-family: var(--font-serif); font-size: clamp(48px, 8vw, 88px); line-height: 0.95; letter-spacing: -0.045em; font-weight: 400; color: var(--ink); font-variation-settings: "opsz" 144, "SOFT" 30; }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+  .lead { margin: 32px 0 0; max-width: 40rem; font-family: var(--font-serif); font-size: 19px; line-height: 1.6; color: var(--ink-soft); }
+  .grid { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  .card { display: flex; flex-direction: column; text-decoration: none; padding: 28px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--paper); color: var(--ink); height: 100%; transition: background 0.15s ease; }
+  .card:hover { background: var(--paper2); }
+  .card-head { margin-bottom: 12px; }
+  .kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; }
+  .name { font-family: var(--font-serif); font-size: 26px; font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); font-variation-settings: "opsz" 144; }
+  .tagline { margin: 12px 0 0; font-family: var(--font-serif); font-size: 15px; line-height: 1.5; color: var(--muted); }
+  .links { margin: 16px 0 0; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); text-transform: uppercase; line-height: 1.4; }
+  .links-label { margin-right: 4px; }
+  .links-n { font-weight: 600; color: var(--muted-soft); margin-right: 2px; }
+  .links-n.on { color: var(--accent); }
+  .links-dot { margin: 0 6px; color: var(--muted-soft); }
+  .meta { margin-top: auto; padding-top: 20px; display: flex; flex-wrap: wrap; gap: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); text-transform: uppercase; border-top: 1px solid var(--rule-soft); margin-top: 24px; }
+</style>

@@ -1,0 +1,19 @@
+---
+// Render an `<a>` when `href` is provided, otherwise a `<div>`. Used by
+// catalogue templates so a card / row can become a clickable link to a
+// detail brief when one exists, and remain a static element when none
+// has been written yet — without forcing every call site to duplicate
+// its child markup across two parent variants.
+export interface Props {
+  href?: string | undefined;
+  class?: string | undefined;
+  style?: string | undefined;
+  ariaLabel?: string | undefined;
+}
+const { href, class: className, style, ariaLabel } = Astro.props;
+---
+{href ? (
+  <a href={href} class={className} style={style} aria-label={ariaLabel}><slot /></a>
+) : (
+  <div class={className} style={style}><slot /></div>
+)}

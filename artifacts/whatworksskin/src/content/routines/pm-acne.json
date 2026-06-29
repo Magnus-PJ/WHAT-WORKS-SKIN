@@ -1,0 +1,103 @@
+{
+  "slug": "pm-acne",
+  "title": "Adapalene the right way.",
+  "sub": "PM · Adult acne",
+  "goal": "Acne",
+  "time": "Evening",
+  "skinType": "Oily / Combination",
+  "stepCount": 4,
+  "minutes": 9,
+  "cost": "₹ 1–3k",
+  "difficulty": "Beginner",
+  "body": "The OTC retinoid most clinicians wish patients started with first.",
+  "reviewer": "Dr. Paul",
+  "pageRef": "P. 10",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · PM · Adult acne",
+  "steps": [
+    {
+      "n": "01",
+      "time": "PM",
+      "title": "Gentle non-foaming cleanser",
+      "sub": "Low pH, fragrance-free",
+      "body": "Adapalene's tolerance window is set by what you do before it. A non-foaming, low-pH cleanser preserves the acid mantle and avoids the cumulative micro-injury that turns a tolerable retinoid into an intolerable one.",
+      "products": [
+        {
+          "brand": "Cetaphil",
+          "name": "Gentle Skin Cleanser",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "La Roche-Posay",
+          "name": "Toleriane Hydrating",
+          "note": "For dryness",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "02",
+      "time": "PM",
+      "title": "Adapalene 0.1% gel",
+      "sub": "Pea-sized, dry skin",
+      "body": "Apply to fully dry skin (wait 20 minutes after cleansing) at a pea-sized dose for the entire face. Start three nights a week for two weeks, then alternate nights for two weeks, then every night. The biggest mistake is starting nightly — and quitting in the third week.",
+      "products": [
+        {
+          "brand": "Differin",
+          "name": "Adapalene Gel 0.1%",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Galderma",
+          "name": "Deriva-CMS",
+          "note": "With moisturiser",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "03",
+      "time": "PM",
+      "title": "Ceramide moisturiser",
+      "sub": "Wait 5 minutes after adapalene",
+      "body": "Sandwiching the retinoid between moisturiser layers (the so-called 'sandwich method') significantly improves tolerance with minimal efficacy loss. We prefer the simpler 'wait + buffer' approach for adult acne — moisturiser five minutes after the adapalene, slightly more generously than usual.",
+      "products": [
+        {
+          "brand": "CeraVe",
+          "name": "PM Facial Lotion",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "La Roche-Posay",
+          "name": "Cicaplast Baume B5+",
+          "note": "For irritation",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "04",
+      "time": "PM",
+      "title": "Spot treatment as needed",
+      "sub": "Benzoyl peroxide 2.5%, 2× per week",
+      "body": "On active inflammatory lesions only. BPO is bactericidal and prevents adapalene resistance over years; nightly full-face use is unnecessary and dries the surrounding skin. Apply to the lesion, wait, moisturise around it.",
+      "products": [
+        {
+          "brand": "PanOxyl",
+          "name": "BPO 2.5%",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "La Roche-Posay",
+          "name": "Effaclar Duo+M",
+          "note": "Combination",
+          "tier": "A"
+        }
+      ]
+    }
+  ]
+}

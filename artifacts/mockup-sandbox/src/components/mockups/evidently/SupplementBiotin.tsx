@@ -1,0 +1,37 @@
+// SupplementBiotin — Biotin (B7) for hair and nails.
+
+import React from "react";
+import { SupplementPage } from "./_supplementTemplate";
+
+const SupplementBiotin: React.FC = () => (
+  <SupplementPage
+    family="Hair & nails"
+    name="Biotin"
+    page="P. 07"
+    eyebrow="Supplement · Hair & nails · Biotin (B7)"
+    hero="Biotin."
+    subheadA="Real for deficiency."
+    subheadB="Marketing for everyone else."
+    dek="The supplement category most aggressively over-sold in the last decade. Biotin deficiency is genuinely rare in adults eating an unrestricted diet — and biotin supplementation in non-deficient individuals is one of the most-studied null effects in trichology. It also interferes with thyroid blood tests."
+    evidence={[
+      { c: "Hair shedding (with deficiency)", n: "Case series", w: "75%", note: "Real, occasionally dramatic effect when biotin is genuinely low. Document deficiency before supplementing." },
+      { c: "Hair shedding (without deficiency)", n: "Multiple null RCTs", w: "10%", note: "The 2017 Patel review remains definitive: no convincing data for benefit in biotin-replete adults." },
+      { c: "Brittle nails", n: "Small case series", w: "55%", note: "Mixed but more positive signal than hair. Reasonable trial in nail-specific complaints." },
+      { c: "Thyroid lab interference", n: "Established", w: "Caution", note: "High-dose biotin (>5 mg/d) interferes with TSH and T4 immunoassays. Stop 72 hours before thyroid tests." },
+    ]}
+    forms={[
+      { f: "Biotin 30 mcg/d (RDA)", abs: "Good", note: "Daily-multivitamin level. Sufficient to prevent deficiency in healthy adults." },
+      { f: "Biotin 1 mg/d", abs: "Good", note: "Mid-range supplement dose. Reasonable trial when deficiency genuinely suspected." },
+      { f: "'Hair, skin, nails' formula 5–10 mg", abs: "Good", note: "Marketing-driven dose. Lab-test interference is the main concern at this strength." },
+    ]}
+    faq={[
+      { q: "How do I know if I'm deficient?", a: "Most healthy adults are not. Deficiency is associated with prolonged raw-egg-white consumption, specific genetic conditions (biotinidase deficiency), severe malnutrition, long-term anti-epileptic use, or after prolonged broth diets. Ask for a serum biotin or 3-hydroxyisovalerate test if uncertain." },
+      { q: "Why does it interfere with thyroid tests?", a: "Many immunoassay platforms use streptavidin-biotin chemistry to detect target molecules. High serum biotin competes with the assay's biotin reagents, producing false high T4/T3 and false low TSH — a pattern that mimics hyperthyroidism. Stop biotin 72 hours before any thyroid testing." },
+      { q: "How long to trial it?", a: "12 weeks. If hair shedding has not improved measurably (count shed hairs over a defined surface for 60 seconds; standardise the comparison), the supplement is not your bottleneck. Look at iron, ferritin, thyroid status, and androgen-driven shedding instead." },
+      { q: "Will it help nails specifically?", a: "Possibly. The case-series literature on biotin and brittle nails is more positive than for hair. Reasonable 12-week trial; not a guaranteed effect." },
+    ]}
+    bottom="The marketing-to-evidence ratio in this category is among the worst we cover. Test before supplementing; stop before thyroid testing; do not expect transformative results in healthy adults."
+  />
+);
+
+export default SupplementBiotin;

@@ -1,0 +1,480 @@
+---
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import TierBadge from "@/components/TierBadge.astro";
+import { url, home } from "@/lib/url";
+import { getIngredientBacklinks, getIngredientMentionedBy } from "@/lib/links";
+import { buildPairedBadge } from "@/lib/catalogue-paired-badge";
+import SortToggle from "@/components/SortToggle.astro";
+import { resolveSortMode, sortCatalogueItems } from "@/lib/catalogue-sort";
+
+const ingredients = await getCollection("ingredients");
+ingredients.sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+// Active sort comes from `?sort=…` so a shared link arrives with the
+// catalogue already in the requested order at SSR time — no
+// reorder-flash on hydration. The `SortToggle` script keeps its
+// runtime reorder so quick toggles don't round-trip the server.
+const SORT_MODES = ["default", "links", "paired"] as const;
+const activeSort = resolveSortMode(Astro.url, SORT_MODES, "default");
+
+// Backlink-coverage badges. We reuse `getIngredientBacklinks` so the
+// counts on the index match exactly what the brief's "Where it
+// appears" panel would render — no parallel resolution logic.
+type LinkCounts = { concerns: number; routines: number };
+const linkCounts = new Map<string, LinkCounts>();
+// Hub badges. We reuse the inverse `relatedIngredients` index that
+// powers the brief's "Mentioned by" section so the per-card "Paired
+// in N briefs" caption matches exactly what the brief itself would
+// render — no second pass over the ingredient JSON files. The index
+// is built once per build and cached in `links.ts`, so the per-card
+// lookups below are O(1) map reads.
+const pairedCounts = new Map<string, number>();
+for (const entry of ingredients) {
+  const bl = await getIngredientBacklinks(entry.data.slug);
+  linkCounts.set(entry.data.slug, {
+    concerns: bl.concerns.length,
+    routines: bl.routines.length,
+  });
+  const mentionedBy = await getIngredientMentionedBy(entry.data.slug);
+  pairedCounts.set(entry.data.slug, mentionedBy.length);
+}
+
+const pairingsData = ingredients.map((ing) => ({
+  name: ing.data.name,
+  slug: ing.data.slug,
+  pairings: (ing.data.pairings || []).map((p) => ({
+    with: p.with,
+    verdict: p.verdict,
+    note: p.note,
+    ok: p.ok,
+  })),
+}));
+---
+<Base title="Ingredients — What Works Skin" description="Every ingredient, graded by evidence. Independent, ad-free, evidence-first.">
+  <SiteHeader active="Ingredients" />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Ingredients" }]} />
+  <main class="wrap">
+    <div class="container">
+      <p class="eyebrow">Index · Ingredients</p>
+      <h1 class="title">
+        Every ingredient, <span class="ital">graded honestly.</span>
+      </h1>
+      <p class="lead">
+        We score ingredients on the strength of the evidence behind their claims, not on hype, packaging, or what's trending. Each entry below links to a full brief: mechanism, evidence, concentration ranges, pairings, and the products we'd actually buy.
+      </p>
+
+      <!-- INTERACTIVE PAIRING CHECKER -->
+      <div class="pair-checker-card">
+        <div class="pair-checker-header">
+          <h2 class="pair-checker-title">Ingredient Pairing Checker</h2>
+          <p class="pair-checker-subtitle">Select two ingredients to verify clinical compatibility and synergies.</p>
+        </div>
+        <div class="pair-checker-inputs">
+          <div class="select-wrapper">
+            <label for="ing-a" class="select-label">Ingredient A</label>
+            <select id="ing-a" class="pair-select">
+              <option value="">Select ingredient...</option>
+              {ingredients.map((ing) => (
+                <option value={ing.data.slug}>{ing.data.name}</option>
+              ))}
+            </select>
+          </div>
+          <div class="pair-checker-vs">×</div>
+          <div class="select-wrapper">
+            <label for="ing-b" class="select-label">Ingredient B</label>
+            <select id="ing-b" class="pair-select">
+              <option value="">Select ingredient...</option>
+              {ingredients.map((ing) => (
+                <option value={ing.data.slug}>{ing.data.name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div id="pair-result" class="pair-result-box" hidden>
+          <div class="pair-verdict-badge" id="pair-badge">COMPATIBLE</div>
+          <p class="pair-verdict-text" id="pair-text"></p>
+          <p class="pair-verdict-note" id="pair-note"></p>
+        </div>
+      </div>
+
+      <script is:inline define:vars={{ pairingsData }}>
+        window.__WWS_PAIRINGS__ = pairingsData;
+      </script>
+
+      <script is:inline>
+        document.addEventListener("DOMContentLoaded", () => {
+          const selectA = document.getElementById("ing-a");
+          const selectB = document.getElementById("ing-b");
+          const resultBox = document.getElementById("pair-result");
+          const badge = document.getElementById("pair-badge");
+          const text = document.getElementById("pair-text");
+          const note = document.getElementById("pair-note");
+
+          const checkPairing = () => {
+            const valA = selectA.value;
+            const valB = selectB.value;
+
+            if (!valA || !valB || valA === valB) {
+              resultBox.hidden = true;
+              return;
+            }
+
+            const db = window.__WWS_PAIRINGS__ || [];
+            const ingA = db.find(x => x.slug === valA);
+            const ingB = db.find(x => x.slug === valB);
+
+            if (!ingA) {
+              resultBox.hidden = true;
+              return;
+            }
+
+            const pairing = ingA.pairings.find(p => p.with.toLowerCase() === ingB.name.toLowerCase());
+            const inversePairing = ingB ? ingB.pairings.find(p => p.with.toLowerCase() === ingA.name.toLowerCase()) : null;
+            const finalPairing = pairing || inversePairing;
+
+            resultBox.hidden = false;
+            if (finalPairing) {
+              badge.textContent = finalPairing.verdict;
+              badge.className = `pair-verdict-badge ${finalPairing.ok ? 'is-ok' : 'is-warning'}`;
+              text.innerHTML = `<strong>${ingA.name}</strong> + <strong>${ingB.name}</strong> &rarr; ${finalPairing.verdict}`;
+              note.textContent = finalPairing.note;
+            } else {
+              badge.textContent = "NO KNOWN CONFLICT";
+              badge.className = "pair-verdict-badge is-neutral";
+              text.innerHTML = `<strong>${ingA.name}</strong> + <strong>${ingB.name}</strong>`;
+              note.textContent = "No specific clinical conflicts or direct synergies are documented in our database. Can generally be used together with caution.";
+            }
+          };
+
+          selectA.addEventListener("change", checkPairing);
+          selectB.addEventListener("change", checkPairing);
+        });
+      </script>
+
+      <SortToggle active={activeSort} buttons={[{ mode: "default", label: "A–Z" }, { mode: "links", label: "Most linked" }, { mode: "paired", label: "Most paired" }]} />
+
+      <ul class="grid" data-sortable-grid>
+        {sortCatalogueItems(
+          ingredients.map((entry, i) => {
+            const c = linkCounts.get(entry.data.slug) ?? { concerns: 0, routines: 0 };
+            return {
+              entry,
+              defaultIndex: i,
+              linkCount: c.concerns + c.routines,
+              pairedCount: pairedCounts.get(entry.data.slug) ?? 0,
+            };
+          }),
+          activeSort,
+        ).map(({ entry, defaultIndex, linkCount, pairedCount }) => {
+          const c = linkCounts.get(entry.data.slug) ?? { concerns: 0, routines: 0 };
+          return (
+            <li data-default-index={defaultIndex} data-link-count={linkCount} data-paired-count={pairedCount}>
+              <a href={url(`ingredients/${entry.data.slug}`)} class="card">
+                <div class="card-head">
+                  <span class="kicker">{entry.data.eyebrowKicker}</span>
+                  <TierBadge tier={entry.data.tier} />
+                </div>
+                <div class="name">{entry.data.name}</div>
+                {entry.data.tagline ? (
+                  <p class="tagline"><span class="ital">{entry.data.tagline.italic}</span> {entry.data.tagline.rest}</p>
+                ) : entry.data.chemistry ? (
+                  <p class="tagline"><span class="ital" set:html={entry.data.chemistry} /></p>
+                ) : null}
+                <p class="links" aria-label={`Used in ${c.concerns} concerns and ${c.routines} routines`}>
+                  <span class="links-label">Used in</span>
+                  <span class={`links-n${c.concerns > 0 ? " on" : ""}`}>{c.concerns}</span> concerns
+                  <span class="links-dot" aria-hidden="true">·</span>
+                  <span class={`links-n${c.routines > 0 ? " on" : ""}`}>{c.routines}</span> routines
+                </p>
+                {(() => {
+                  // Badge gating lives in the shared `buildPairedBadge`
+                  // helper so the contract test in
+                  // `scripts/test-catalogue-paired-badge.ts` exercises
+                  // the exact same code path the page renders from.
+                  const badge = buildPairedBadge(pairedCounts.get(entry.data.slug) ?? 0);
+                  if (!badge) return null;
+                  return (
+                    <p class="paired" aria-label={badge.label}>
+                      <span class="paired-label">Paired in</span>
+                      <span class="paired-n">{badge.count}</span> {badge.noun}
+                    </p>
+                  );
+                })()}
+                <div class="card-foot">
+                  <span class="num">{entry.data.number}</span>
+                  <span class="filed">Filed {entry.data.filed}</span>
+                </div>
+              </a>
+            </li>
+          );
+        })}
+        {ingredients.length === 0 && (
+          <li class="empty">
+            <p>No ingredient briefs published yet.</p>
+          </li>
+        )}
+      </ul>
+    </div>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .wrap { padding-block: 96px; }
+  .eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .title {
+    margin: 24px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(48px, 8vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+  .lead {
+    margin: 32px 0 0;
+    max-width: 40rem;
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .grid {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  .card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    padding: 32px 28px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink);
+    transition: background 0.15s ease;
+  }
+  .card:hover { background: var(--paper2); }
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+  .name {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .tagline {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .links {
+    margin: 16px 0 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+  .links-label { margin-right: 4px; }
+  .links-n { font-weight: 600; color: var(--muted-soft); margin-right: 2px; }
+  .links-n.on { color: var(--accent); }
+  .links-dot { margin: 0 6px; color: var(--muted-soft); }
+  /* Hub-popularity caption — same mono caption family as `.links` so it
+     reads as a sibling note, not a competing badge. Sits below the
+     "Used in" caption when present and is omitted entirely on briefs
+     with zero inbound mentions (so brand-new briefs don't carry a
+     "0" tag). The count is always emphasised because if we render
+     this caption at all, the count is at least 1. */
+  .paired {
+    margin: 6px 0 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+  .paired-label { margin-right: 4px; }
+  .paired-n { font-weight: 600; color: var(--accent); margin-right: 2px; }
+  .card-foot {
+    margin-top: auto;
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    border-top: 1px solid var(--rule-soft);
+    margin-top: 24px;
+  }
+  .empty {
+    grid-column: 1 / -1;
+    padding: 48px 28px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  /* ---------- pairing checker ---------- */
+  .pair-checker-card {
+    margin-block: 48px;
+    padding: 32px;
+    background: var(--paper2);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+  }
+  .pair-checker-header {
+    margin-bottom: 24px;
+  }
+  .pair-checker-title {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    margin: 0 0 6px;
+    color: var(--ink);
+  }
+  .pair-checker-subtitle {
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    color: var(--muted);
+    margin: 0;
+  }
+  .pair-checker-inputs {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .select-wrapper {
+    flex: 1 1 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .select-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+  }
+  .pair-select {
+    padding: 12px 16px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    color: var(--ink);
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+    width: 100%;
+  }
+  .pair-select:focus {
+    border-color: var(--accent);
+  }
+  .pair-checker-vs {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-style: italic;
+    color: var(--muted-soft);
+    padding-bottom: 8px;
+    align-self: center;
+  }
+  .pair-result-box {
+    margin-top: 28px;
+    padding: 24px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    animation: fadeIn 0.25s ease-out;
+  }
+  .pair-verdict-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .pair-verdict-badge.is-ok {
+    background: var(--tier-a-soft);
+    color: var(--tier-a);
+  }
+  .pair-verdict-badge.is-warning {
+    background: var(--tier-d-soft);
+    color: var(--tier-d);
+  }
+  .pair-verdict-badge.is-neutral {
+    background: var(--paper2);
+    color: var(--muted);
+  }
+  .pair-verdict-text {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+  .pair-verdict-note {
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

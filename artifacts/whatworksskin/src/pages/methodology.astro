@@ -1,0 +1,877 @@
+---
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import PaperEffects from "@/components/PaperEffects.astro";
+import AmbientFlask from "@/components/AmbientFlask.astro";
+import TierBadge from "@/components/TierBadge.astro";
+import { url, home } from "@/lib/url";
+import { loadTransparencyMeta, formatLongDate, yearOf } from "@/lib/transparency";
+
+const meta = await loadTransparencyMeta();
+const methodologyVersion = meta.methodology.version;
+const methodologyLastUpdated = meta.pages.methodology;
+const methodologyLastUpdatedLong = formatLongDate(methodologyLastUpdated);
+
+// Editorial copy ported byte-for-byte from
+// `artifacts/mockup-sandbox/src/components/mockups/evidently/Methodology.tsx`.
+// Per the original migration brief, the React mockup is the authoritative
+// source for wording — only the rendering surface (React → Astro) changes.
+const TOC: [string, string][] = [
+  ["01", "Editorial principles"],
+  ["02", "How we grade ingredients"],
+  ["03", "How we grade products"],
+  ["04", "How we grade supplements"],
+  ["05", "Conflicts of interest"],
+  ["06", "Review cadence"],
+  ["07", "Corrections policy"],
+  ["08", "Funding"],
+];
+
+const PRINCIPLES = [
+  { n: "01", h: "Independence first.", b: "We earn no affiliate revenue, accept no brand sponsorship, and refuse PR samples." },
+  { n: "02", h: "Evidence, then experience.", b: "If an RCT contradicts what we see in clinic, we say both. The trial is the headline." },
+  { n: "03", h: "Specificity over hedging.", b: "If a product works, we say so. If it doesn't, we say so. No 'may help' wallpaper." },
+  { n: "04", h: "Update or retire.", b: "Every guide is reviewed at least every 12 months. If it can't be updated, it is retired." },
+  { n: "05", h: "Make the boring honourable.", b: "We do not chase novelty. We chase the molecule that holds up across replications." },
+  { n: "06", h: "Two reviewers minimum.", b: "Dr. Paul leads research; Dr. Sundeep leads medical review. Both sign every guide." },
+];
+
+const RUBRIC: { tier: "A" | "B" | "C" | "D"; evidence: string; consensus: string; recommended: string }[] = [
+  { tier: "A", evidence: "≥ 2 RCTs, n > 50, vehicle-controlled, replicated end-points", consensus: "International guideline body lists as standard of care", recommended: "Recommended without qualification" },
+  { tier: "B", evidence: "1 RCT or strong observational data; mechanism well-established", consensus: "Mainstream practitioner adoption", recommended: "Recommended for the right person, with caveats" },
+  { tier: "C", evidence: "Mixed or modest data; small studies; preliminary signals", consensus: "Some practitioner support, no consensus", recommended: "Optional; try if low-cost and low-risk" },
+  { tier: "D", evidence: "No human evidence, contradicted by trials, or marketing-only claims", consensus: "Marketing exceeds science", recommended: "Skip" },
+];
+
+const HEADLINE_NUMBERS: [string, string][] = [
+  ["Guides published", "184"],
+  ["Avg. sources per guide", "11"],
+  ["Reviewers per guide", "2 minimum"],
+  ["Update cycle", "12 months max"],
+  ["Affiliate revenue", "₹ 0"],
+];
+
+const PRODUCT_CRITERIA = [
+  "Active concentration verified",
+  "Vehicle pH where relevant",
+  "Compatibility with claimed routine",
+  "No known issue ingredients without reason",
+];
+
+const SUPPLEMENT_CRITERIA = [
+  "Human RCTs, not in-vitro",
+  "Standardised extract documented",
+  "Realistic real-world dose",
+  "Drug-interaction and pregnancy review",
+];
+
+const ACCEPT = [
+  "Reader donations (rare, capped, listed)",
+  "Publication revenue (book, course)",
+  "Honoraria for academic teaching (declared)",
+];
+
+const REFUSE = [
+  "Affiliate links of any kind",
+  "Brand sponsorship or display ads",
+  "PR product samples",
+  "Paid placement in Trend Watch or guides",
+];
+
+const CADENCE: [string, string, string][] = [
+  ["WEEKLY", "Trend Watch", "Eight new claims graded each Monday."],
+  ["MONTHLY", "Sources sweep", "Every guide checked against new publications in the last 30 days."],
+  ["QUARTERLY", "Tier audit", "Reassign any guide where new evidence has shifted the tier."],
+  ["ANNUAL", "Full editorial review", "Every guide read end-to-end by the second editor; retired if not defensible."],
+];
+
+const CORRECTION_STATS: [string, string][] = [
+  ["Substantive corrections", "7"],
+  ["Tier downgrades", "11"],
+  ["Tier upgrades", "4"],
+  ["Guides retired", "3"],
+];
+
+const FUNDING: [string, string, string][] = [
+  ["Reader donations", "62%", "1,840 donors · capped at ₹ 5,000"],
+  ["Editor practice", "31%", "Subsidised by clinical income"],
+  ["Speaking / books", "7%", "Non-recurring, declared"],
+];
+---
+<Base
+  title="Methodology — What Works Skin"
+  description="How we research, grade, review, declare conflicts, and update. The trust spine of the publication, written down and signed."
+>
+  <SiteHeader active="Methodology" />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Methodology" }]} />
+  <main>
+    <section class="masthead">
+      <PaperEffects vignette columns columnsOpacity={0.32} />
+      <div class="flask"><AmbientFlask size={520} opacity={0.06} /></div>
+      <div class="container">
+        <div class="masthead-grid">
+          <aside class="rail" aria-hidden="true">
+            <span class="rail-text">SECTION 08 / METHODOLOGY</span>
+            <div class="rail-rule"></div>
+            <span class="rail-text">RUBRIC {methodologyVersion} · {yearOf(methodologyLastUpdated)}</span>
+          </aside>
+          <div class="masthead-body">
+            <div class="masthead-head">
+              <p class="eyebrow">Methodology · The Trust Spine</p>
+              <p class="folio-mini">P. 14 · DOSSIER</p>
+            </div>
+            <p class="last-updated" data-testid="page-last-updated">
+              <span class="last-updated-label">Last updated</span>
+              <time datetime={methodologyLastUpdated}>{methodologyLastUpdatedLong}</time>
+              <span class="last-updated-sep" aria-hidden="true">·</span>
+              <span class="last-updated-version">Rubric {methodologyVersion}</span>
+            </p>
+            <h1 class="h1">
+              How we <br />
+              <span class="ital">grade.</span>
+            </h1>
+            <p class="lead">
+              Every claim on this site is filtered through the same rubric. This page is the rubric — written down, signed by both editors, updated quarterly, and open to challenge. If something feels wrong on a guide page, it should be checkable against the rules below.
+            </p>
+          </div>
+          <aside class="numbers">
+            <div class="numbers-card">
+              <p class="eyebrow">Headline numbers</p>
+              <dl>
+                {HEADLINE_NUMBERS.map(([k, v]) => (
+                  <div class="num-row">
+                    <dt>{k}</dt>
+                    <dd>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <div class="container body-grid">
+      <aside class="toc">
+        <div class="toc-sticky">
+          <p class="eyebrow muted">Inside this dossier</p>
+          <ol>
+            {TOC.map(([n, t], i) => (
+              <li class:list={[i === 0 && "is-active"]}>
+                <span class="toc-num">{n}</span>
+                <span class="toc-label">{t}</span>
+              </li>
+            ))}
+          </ol>
+          <div class="download-card">
+            <p class="eyebrow muted">Download</p>
+            <p class="download-blurb">The full methodology dossier (12 pp) as a single PDF.</p>
+            <span class="download-link">methodology-{methodologyVersion}.pdf</span>
+          </div>
+        </div>
+      </aside>
+
+      <div class="body">
+        <article>
+          <p class="folio">§ 01</p>
+          <h2 class="section-h">Editorial <span class="ital">principles.</span></h2>
+          <p class="section-lead">
+            Six rules that shape every page. They predate the rubric. They are the reason the rubric exists at all.
+          </p>
+          <div class="principles">
+            {PRINCIPLES.map((p) => (
+              <div class="principle">
+                <span class="principle-num">{p.n}</span>
+                <h3 class="principle-h">{p.h}</h3>
+                <p class="principle-b">{p.b}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <hr class="asterism" />
+
+        <article>
+          <p class="folio">§ 02</p>
+          <h2 class="section-h">The four-tier <span class="ital">rubric.</span></h2>
+          <p class="section-lead">
+            Tiers A–D apply to ingredients, products, and supplements alike. The criteria differ slightly by category (below). The badge stays the same so you can read it at a glance across the site.
+          </p>
+          <div class="rubric">
+            <div class="rubric-head">
+              <div>Tier</div>
+              <div>Evidence threshold</div>
+              <div>Consensus</div>
+              <div>What we say</div>
+            </div>
+            {RUBRIC.map((r) => (
+              <div class="rubric-row">
+                <div class="rubric-cell"><TierBadge tier={r.tier} /></div>
+                <div class="rubric-cell evidence">{r.evidence}</div>
+                <div class="rubric-cell consensus">{r.consensus}</div>
+                <div class="rubric-cell recommended">{r.recommended}</div>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <hr class="asterism" />
+
+        <article class="adj-grid">
+          <div>
+            <p class="folio">§ 03</p>
+            <h2 class="section-h-sm">Adjustments for <span class="ital">products.</span></h2>
+            <p class="adj-body">
+              A product Tier reflects the formulation as a whole — not just the active. We assess: in-spec dose of the active, vehicle quality (penetration / stability), realistic price-per-use, and complete ingredient list (we down-grade for known sensitisers in unnecessary positions).
+            </p>
+            <ul class="checks">
+              {PRODUCT_CRITERIA.map((s) => (
+                <li><span class="check" aria-hidden="true">✓</span>{s}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p class="folio">§ 04</p>
+            <h2 class="section-h-sm">Adjustments for <span class="ital">supplements.</span></h2>
+            <p class="adj-body">
+              Supplement tiers weight bioavailability, third-party testing, and human (not in-vitro) outcomes more heavily. Anything Rx-only carries a parallel safety review by Dr. Sundeep before publication.
+            </p>
+            <ul class="checks">
+              {SUPPLEMENT_CRITERIA.map((s) => (
+                <li><span class="check" aria-hidden="true">✓</span>{s}</li>
+              ))}
+            </ul>
+          </div>
+        </article>
+
+        <hr class="asterism" />
+
+        <article>
+          <p class="folio">§ 05</p>
+          <h2 class="section-h">Conflicts of <span class="ital">interest.</span></h2>
+          <p class="section-lead">
+            We declare every relationship our editors have with the industry. Both editors clinical-practice; that practice is disclosed. Any product, brand, or molecule discussed on this site that touches an editor's practice is reviewed by the other editor only.
+          </p>
+          <div class="conflicts">
+            <div class="conflict accept">
+              <p class="conflict-h">What we accept</p>
+              <ul>
+                {ACCEPT.map((s) => (
+                  <li><span class="check" aria-hidden="true">✓</span>{s}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="conflict refuse">
+              <p class="conflict-h">What we never accept</p>
+              <ul>
+                {REFUSE.map((s) => (
+                  <li><span class="cross" aria-hidden="true">✕</span>{s}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <hr class="asterism" />
+
+        <article>
+          <p class="folio">§ 06</p>
+          <h2 class="section-h">Review <span class="ital">cadence.</span></h2>
+          <div class="cadence">
+            {CADENCE.map(([k, t, b]) => (
+              <div class="cadence-row">
+                <div class="cadence-k">{k}</div>
+                <div class="cadence-t">{t}</div>
+                <div class="cadence-b">{b}</div>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <hr class="asterism" />
+
+        <article class="corr-grid">
+          <div>
+            <p class="folio">§ 07</p>
+            <h2 class="section-h-md">Corrections <span class="ital">policy.</span></h2>
+            <p class="corr-body">
+              If something on the site is wrong, we want to know. Substantive errors are corrected within seven days, with a dated note at the foot of the page describing what changed and why. We do not silently edit. The corrections log is public.
+            </p>
+            <a href={url("corrections")} class="inline-cta">Read the corrections log →</a>
+          </div>
+          <aside class="corr-stats">
+            <p class="eyebrow muted">Last 12 months</p>
+            <dl>
+              {CORRECTION_STATS.map(([k, v]) => (
+                <div class="num-row">
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
+        </article>
+
+        <hr class="asterism" />
+
+        <article>
+          <p class="folio">§ 08</p>
+          <h2 class="section-h">Where the money <span class="ital">comes from.</span></h2>
+          <p class="section-lead">
+            The site costs roughly ₹ 18,000 a month to run (hosting, citation tools, a research assistant). It is funded by reader donations and the editors' clinical practice. The complete annual budget is published every January.
+          </p>
+          <div class="funding">
+            {FUNDING.map(([k, v, n]) => (
+              <div class="fund-cell">
+                <p class="eyebrow muted">{k}</p>
+                <div class="fund-pct">{v}</div>
+                <p class="fund-note">{n}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <div class="signoff">
+          <div class="sign-grid">
+            {["Dr. Paul · Research Lead", "Dr. Sundeep · Medical Review Lead"].map((name) => (
+              <div>
+                <div class="sig">{name.split(" ")[1]}</div>
+                <div class="sig-name">{name}</div>
+              </div>
+            ))}
+          </div>
+          <p class="sign-note">
+            Dossier last updated {methodologyLastUpdatedLong}. Signed by both editors. Public PDF on file.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+
+  .eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .eyebrow.muted { color: var(--muted); }
+
+  .last-updated {
+    margin: 16px 0 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .last-updated-label { color: var(--muted); }
+  .last-updated time { color: var(--ink); font-family: var(--font-serif); font-size: 13px; letter-spacing: 0; text-transform: none; }
+  .last-updated-sep { color: var(--rule); }
+  .last-updated-version { color: var(--accent); }
+
+  /* Masthead */
+  .masthead {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--rule);
+  }
+  .flask { position: absolute; right: -64px; top: -48px; z-index: 0; }
+  .masthead-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-block: 80px;
+  }
+  @media (min-width: 1024px) {
+    .masthead-grid { grid-template-columns: 28px 1fr 320px; gap: 48px; }
+  }
+  .rail { display: none; flex-direction: column; align-items: center; justify-content: space-between; }
+  @media (min-width: 1024px) { .rail { display: flex; } }
+  .rail-text {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.3em;
+    color: var(--muted-soft);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-transform: uppercase;
+  }
+  .rail-rule { height: 1px; width: 12px; background: var(--rule); }
+
+  .masthead-body { min-width: 0; }
+  .masthead-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 16px;
+  }
+  .folio-mini {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+  }
+  .h1 {
+    margin: 36px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(64px, 11vw, 110px);
+    line-height: 0.93;
+    letter-spacing: -0.045em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .lead {
+    margin: 36px 0 0;
+    max-width: 40rem;
+    font-family: var(--font-serif);
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .numbers { align-self: end; }
+  .numbers-card {
+    border: 1px solid var(--rule);
+    background: var(--paper2);
+    padding: 28px;
+  }
+  .numbers-card dl { margin: 20px 0 0; padding: 0; }
+  .num-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 12px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .num-row:first-child { border-top: 0; }
+  .num-row dt {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .num-row dd {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+
+  /* Body grid */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-block: 72px;
+  }
+  @media (min-width: 1024px) {
+    .body-grid { grid-template-columns: 240px 1fr; gap: 56px; }
+  }
+  .toc-sticky { position: relative; }
+  @media (min-width: 1024px) {
+    .toc-sticky { position: sticky; top: 32px; }
+  }
+  .toc ol {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .toc li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding-block: 4px;
+  }
+  .toc li.is-active { padding-left: 12px; border-left: 2px solid var(--accent); }
+  .toc-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--muted-soft);
+  }
+  .toc li.is-active .toc-num { color: var(--accent); }
+  .toc-label {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.3;
+  }
+  .toc li.is-active .toc-label { color: var(--ink); }
+  .download-card {
+    margin-top: 48px;
+    border: 1px solid var(--rule);
+    background: var(--paper2);
+    padding: 20px;
+  }
+  .download-blurb {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .download-link {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  /* Body content */
+  .folio {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .section-h {
+    margin: 8px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(40px, 6vw, 56px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .section-h-sm, .section-h-md {
+    margin: 8px 0 0;
+    font-family: var(--font-serif);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .section-h-sm { font-size: 36px; }
+  .section-h-md { font-size: 44px; letter-spacing: -0.025em; }
+  .section-lead {
+    margin: 28px 0 0;
+    max-width: 40rem;
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  /* Principles */
+  .principles {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) {
+    .principles { grid-template-columns: 1fr 1fr; }
+    .principle:nth-child(2n+1) { border-right: 1px solid var(--rule); }
+    .principle:nth-child(n+3) { border-top: 1px solid var(--rule); }
+    .principle:nth-child(2n+1) { background: var(--paper); }
+    .principle:nth-child(2n) { background: var(--paper2); }
+  }
+  .principle { padding: 28px; }
+  .principle + .principle { border-top: 1px solid var(--rule); }
+  @media (min-width: 768px) {
+    .principle + .principle { border-top: 0; }
+    .principle:nth-child(n+3) { border-top: 1px solid var(--rule); }
+  }
+  .principle-num {
+    display: inline-block;
+    font-family: var(--font-serif);
+    font-size: 60px;
+    font-weight: 400;
+    color: var(--accent);
+    line-height: 0.85;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    letter-spacing: -0.04em;
+  }
+  .principle-h {
+    margin: 20px 0 0;
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+  .principle-b {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  /* Rubric */
+  .rubric {
+    margin-top: 40px;
+    border: 1px solid var(--rule);
+  }
+  .rubric-head, .rubric-row {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 16px;
+    padding: 14px 20px;
+  }
+  @media (min-width: 768px) {
+    .rubric-head, .rubric-row {
+      grid-template-columns: 56px 5fr 3fr 3fr;
+    }
+  }
+  .rubric-head {
+    background: var(--paper2);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .rubric-row {
+    padding-block: 24px;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: baseline;
+  }
+  .rubric-row:last-child { border-bottom: 0; }
+  .rubric-cell.evidence { font-family: var(--font-serif); font-size: 16px; color: var(--ink-soft); line-height: 1.5; }
+  .rubric-cell.consensus { font-family: var(--font-serif); font-size: 15px; color: var(--muted); line-height: 1.5; font-style: italic; }
+  .rubric-cell.recommended { font-family: var(--font-serif); font-size: 16px; color: var(--ink); line-height: 1.4; }
+
+  /* Adjustments grid */
+  .adj-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  @media (min-width: 768px) { .adj-grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
+  .adj-body {
+    margin: 20px 0 0;
+    font-family: var(--font-serif);
+    font-size: 16.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .checks {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .checks li, .conflict li { display: flex; gap: 8px; align-items: baseline; }
+  .check { color: var(--accent); font-size: 12px; }
+  .cross { color: var(--tier-d); font-size: 12px; }
+
+  /* Conflicts */
+  .conflicts {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) { .conflicts { grid-template-columns: 1fr 1fr; } }
+  .conflict { padding: 28px; }
+  .conflict.accept { background: var(--paper2); }
+  @media (min-width: 768px) {
+    .conflict.accept { border-right: 1px solid var(--rule); }
+  }
+  .conflict.refuse { background: var(--paper); border-top: 1px solid var(--rule); }
+  @media (min-width: 768px) {
+    .conflict.refuse { border-top: 0; }
+  }
+  .conflict-h {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .conflict.accept .conflict-h { color: var(--tier-a); }
+  .conflict.refuse .conflict-h { color: var(--tier-d); }
+  .conflict ul {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: var(--font-serif);
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  /* Cadence */
+  .cadence { margin-top: 36px; border: 1px solid var(--rule); }
+  .cadence-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: baseline;
+  }
+  .cadence-row:last-child { border-bottom: 0; }
+  @media (min-width: 768px) {
+    .cadence-row { grid-template-columns: 2fr 3fr 7fr; gap: 16px; }
+  }
+  .cadence-k {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    font-weight: 600;
+  }
+  .cadence-t {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+    line-height: 1.25;
+  }
+  .cadence-b {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  /* Corrections */
+  .corr-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  @media (min-width: 768px) { .corr-grid { grid-template-columns: 7fr 5fr; gap: 24px; } }
+  .corr-body {
+    margin: 24px 0 0;
+    font-family: var(--font-serif);
+    font-size: 17.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .inline-cta {
+    display: inline-block;
+    margin-top: 24px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .corr-stats {
+    border: 1px solid var(--rule);
+    background: var(--paper2);
+    padding: 24px;
+  }
+  .corr-stats dl { margin: 16px 0 0; padding: 0; }
+
+  /* Funding */
+  .funding {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) { .funding { grid-template-columns: 1fr 1fr 1fr; } }
+  .fund-cell { padding: 28px; background: var(--paper); }
+  .fund-cell + .fund-cell { border-top: 1px solid var(--rule); }
+  @media (min-width: 768px) {
+    .fund-cell + .fund-cell { border-top: 0; border-left: 1px solid var(--rule); }
+    .fund-cell:nth-child(2) { background: var(--paper2); }
+  }
+  .fund-pct {
+    margin-top: 12px;
+    font-family: var(--font-serif);
+    font-size: 60px;
+    font-weight: 400;
+    color: var(--accent);
+    line-height: 0.9;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    letter-spacing: -0.04em;
+  }
+  .fund-note {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 14.5px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  /* Asterism + sign-off */
+  .asterism {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin-block: 64px;
+    height: 0;
+  }
+  .signoff {
+    margin-top: 64px;
+    border-top: 1px solid var(--rule);
+    padding-top: 40px;
+  }
+  .sign-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .sig {
+    font-family: var(--font-serif-ed);
+    font-size: 38px;
+    color: var(--ink);
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .sig-name {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-soft);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .sign-note {
+    margin-top: 40px;
+    font-family: var(--font-serif);
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+  }
+</style>

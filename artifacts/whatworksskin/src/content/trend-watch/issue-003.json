@@ -1,0 +1,40 @@
+{
+  "slug": "issue-003",
+  "n": 3,
+  "date": "17 November 2025",
+  "year": 2025,
+  "headline": "The peptide gold rush, sorted",
+  "dek": "Copper peptides, GHK, Matrixyl, palmitoyl tripeptide-1. Which ones earned their badge.",
+  "signed": "Dr. Paul",
+  "pageRef": "P. 03",
+  "eyebrow": "Trend Watch · Issue 003 · 17 November 2025",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "GHK-Cu 1% (copper tripeptide)",
+      "tier": "B",
+      "verdict": "Partly True",
+      "color": "",
+      "body": "Copper peptides have a respectable basic-science file: GHK binds copper, and the resulting complex modulates wound-healing pathways in cell culture. The translation to topical cosmetic outcomes is real but small, and most positive trials use compositions that match the original patent rather than the bargain-shelf reformulations sold at one-tenth the price. Pair sensibly with a retinoid; do not stack with vitamin C, which destabilises the complex.",
+      "bottom": "Real molecule, modest endpoints. Buy serious formulations or skip."
+    },
+    {
+      "n": "02",
+      "name": "Matrixyl 3000 (palmitoyl tripeptide-1 + tetrapeptide-7)",
+      "tier": "A",
+      "verdict": "Holds Up",
+      "color": "",
+      "body": "The peptide complex with the most reproducible 12-week wrinkle data, including independent (non-Sederma) trials. Mechanism is plausible (collagen and hyaluronan signalling), the formulations on shelf are stable, and the 5%–8% inclusion levels seen in serious products correspond to the published doses. Not retinoid-replacing — but the most defensible peptide in the category for prevention-stage anti-aging stacks.",
+      "bottom": "The peptide we actually recommend. Use alongside a retinoid, not instead of it."
+    },
+    {
+      "n": "03",
+      "name": "Argireline (acetyl hexapeptide-8)",
+      "tier": "D",
+      "verdict": "Misleading",
+      "color": "",
+      "body": "Re-graded down. We weighted the early industry-funded trials too heavily in our original read; the independent literature, when assembled, does not support the 'topical Botox' claim. The molecule is too large to penetrate to the dermis at the concentrations used, and SNAP-25 inhibition by topical application has not been demonstrated in vivo. A reasonable humectant; a poor neuromodulator.",
+      "bottom": "We were wrong on first pass. The independent data does not support the marketing."
+    }
+  ]
+}

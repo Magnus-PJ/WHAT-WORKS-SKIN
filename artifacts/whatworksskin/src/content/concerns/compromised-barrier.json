@@ -1,0 +1,99 @@
+{
+  "slug": "compromised-barrier",
+  "name": "Compromised barrier",
+  "family": "Sensitive & barrier",
+  "eyebrow": "Concern · Sensitive & Barrier · Compromised barrier",
+  "dek": "The condition produced by skincare itself, more often than by anything else. Six weeks of strict, boring repair will resolve almost every case — but the temptation to \"add one active\" too early is the reason most people cycle through the same problem twice a year.",
+  "oneliner": "Over-exfoliated skin needs the boring stack for 8 weeks.",
+  "reviewer": "Dr. Paul",
+  "pageRef": "P. 19",
+  "filed": "22 APR 2026",
+  "triggers": [
+    {
+      "k": "Stinging on water alone",
+      "w": "92%",
+      "n": "The cardinal sign. Means the stratum corneum is no longer intact."
+    },
+    {
+      "k": "Tightness within minutes",
+      "w": "85%",
+      "n": "TEWL has spiked. Hydration evaporates faster than it can be replaced."
+    },
+    {
+      "k": "Sudden product intolerance",
+      "w": "78%",
+      "n": "Things that worked last month now sting. Your barrier is the variable."
+    },
+    {
+      "k": "Visible flaking / micropeel",
+      "w": "65%",
+      "n": "Stratum corneum desquamation is disorganised. Often confused for 'glow'."
+    }
+  ],
+  "ingredients": [
+    {
+      "name": "Ceramides 3 + 1 + 6-II",
+      "tier": "A",
+      "role": "Lipid replacement",
+      "evidence": "Biomimetic ratios. Multi-vesicular emulsion preferred."
+    },
+    {
+      "name": "Cholesterol",
+      "tier": "A",
+      "role": "Lipid replacement",
+      "evidence": "Rebuilds the stratum-corneum bilayer alongside ceramides."
+    },
+    {
+      "name": "Free fatty acids",
+      "tier": "A",
+      "role": "Lipid replacement",
+      "evidence": "Linoleic acid; supports the third pillar of the bilayer."
+    },
+    {
+      "name": "Panthenol 5%",
+      "tier": "A",
+      "role": "Hydration · soothing",
+      "evidence": "Pro-vitamin B5. Reduces TEWL within 48 hours."
+    },
+    {
+      "name": "Niacinamide 4–5%",
+      "tier": "A",
+      "role": "Ceramide upregulation",
+      "evidence": "Replicated upregulation of endogenous ceramide synthesis."
+    },
+    {
+      "name": "Centella asiatica",
+      "tier": "B",
+      "role": "Anti-inflammatory",
+      "evidence": "Symptomatic relief; modest barrier endpoints."
+    },
+    {
+      "name": "Petrolatum",
+      "tier": "A",
+      "role": "Occlusive",
+      "evidence": "Reduces TEWL by ~99%. The reference occlusive."
+    }
+  ],
+  "phases": [
+    {
+      "w": "Week 1–2",
+      "t": "Strip back",
+      "b": "Cleanser + ceramide moisturiser + SPF only. No actives, no acids, no retinoids, no fragrance."
+    },
+    {
+      "w": "Week 3–4",
+      "t": "Add panthenol",
+      "b": "Centella or panthenol serum AM + PM. Continue zero-active routine."
+    },
+    {
+      "w": "Week 5–6",
+      "t": "First active",
+      "b": "Niacinamide 4–5% in moisturiser only. Watch for sting; hold if any."
+    },
+    {
+      "w": "Week 7+",
+      "t": "Slow re-introduction",
+      "b": "Twice-weekly retinoid OR azelaic — never both, never more than twice a week to start."
+    }
+  ]
+}

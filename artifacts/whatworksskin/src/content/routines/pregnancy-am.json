@@ -1,0 +1,103 @@
+{
+  "slug": "pregnancy-am",
+  "title": "Pregnancy-safe morning.",
+  "sub": "AM · Pregnancy",
+  "goal": "Pregnancy",
+  "time": "Morning",
+  "skinType": "All",
+  "stepCount": 4,
+  "minutes": 10,
+  "cost": "₹ 3–6k",
+  "difficulty": "Beginner",
+  "body": "Mineral SPF, alpha arbutin, niacinamide. No retinoids, no salicylic, no hydroquinone.",
+  "reviewer": "Dr. Sundeep",
+  "pageRef": "P. 14",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · AM · Pregnancy",
+  "steps": [
+    {
+      "n": "01",
+      "time": "AM",
+      "title": "Gentle cleanser",
+      "sub": "Fragrance-free, low-pH",
+      "body": "A simple, fragrance-free cleanser. The hormonal shifts of pregnancy frequently push reactive episodes; this is not the trimester to introduce new actives or a foaming wash.",
+      "products": [
+        {
+          "brand": "Cetaphil",
+          "name": "Gentle Skin Cleanser",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Vanicream",
+          "name": "Gentle Facial Cleanser",
+          "note": "Sensitive",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "02",
+      "time": "AM",
+      "title": "Alpha arbutin 2%",
+      "sub": "Pigment-blocker, pregnancy-safe",
+      "body": "Melasma is the most common pregnancy-related skin concern, and the standard pigment regimen — hydroquinone, retinoids, oral tranexamic — is off-limits. Alpha arbutin is the best-evidenced safe substitute. Apply to dry skin under the moisturiser.",
+      "products": [
+        {
+          "brand": "The Ordinary",
+          "name": "Alpha Arbutin 2% + HA",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Minimalist",
+          "name": "Alpha Arbutin 2%",
+          "note": "Budget",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "03",
+      "time": "AM",
+      "title": "Niacinamide moisturiser",
+      "sub": "4% niacinamide + ceramides",
+      "body": "Niacinamide is fully pregnancy-safe and addresses the redness and reactivity that come with hormonal shifts. The ceramide pairing addresses the dryness many people experience in the second trimester.",
+      "products": [
+        {
+          "brand": "CeraVe",
+          "name": "PM Facial Lotion",
+          "note": "Default (AM use OK)",
+          "tier": "A"
+        },
+        {
+          "brand": "La Roche-Posay",
+          "name": "Toleriane Sensitive",
+          "note": "Sensitive",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "04",
+      "time": "AM",
+      "title": "Mineral SPF 50+",
+      "sub": "Zinc-only, no chemical filters",
+      "body": "Pregnancy melasma is heavily UV-sensitive; SPF is the single most consequential variable. Mineral filters are universally recognised as pregnancy-safe and avoid the absorption-and-fetal-exposure questions that sit around chemical filters. Two finger-lengths, every morning.",
+      "products": [
+        {
+          "brand": "Re'equil",
+          "name": "Sheer Zinc SPF 50",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "ISDIN",
+          "name": "Eryfotona Ageless",
+          "note": "Premium",
+          "tier": "A"
+        }
+      ]
+    }
+  ]
+}

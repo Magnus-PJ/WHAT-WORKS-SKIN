@@ -1,0 +1,127 @@
+{
+  "slug": "collagen-peptides",
+  "name": "Hydrolysed collagen peptides",
+  "family": "Hair & nails",
+  "target": "Skin elasticity",
+  "tier": "B",
+  "dose": "5–10 g/d × 12 wk",
+  "rxOnly": false,
+  "oneliner": "Modest, replicated benefit on elasticity. Quality varies by brand.",
+  "pageRef": "P. 07",
+  "filed": "17 APR 2026",
+  "eyebrow": "Supplement · Hair & nails · Hydrolysed collagen peptides",
+  "headline": "Hydrolysed collagen peptides",
+  "glance": [
+    [
+      "Class",
+      "Hydrolysed protein peptide"
+    ],
+    [
+      "Source",
+      "Bovine type I/III · marine type I"
+    ],
+    [
+      "Dose",
+      "5 – 10 g/d"
+    ],
+    [
+      "Timeline",
+      "8 – 12 weeks visible"
+    ],
+    [
+      "Pregnancy",
+      "Generally regarded as safe"
+    ],
+    [
+      "Reviewer",
+      "Dr. Sundeep · 18-Apr-2026"
+    ]
+  ],
+  "evidence": [
+    {
+      "c": "Skin elasticity",
+      "n": "RCTs, 5–10 g/d, 8–12 wk",
+      "w": "72%",
+      "note": "Replicated improvement across 19+ trials. Effect size: small-to-moderate."
+    },
+    {
+      "c": "Hydration",
+      "n": "RCTs",
+      "w": "65%",
+      "note": "Modest TEWL reduction; clinically visible at 12 weeks."
+    },
+    {
+      "c": "Visible wrinkles",
+      "n": "Meta-analysis",
+      "w": "55%",
+      "note": "Statistically significant, clinically subtle. Not a substitute for a retinoid."
+    },
+    {
+      "c": "Nail growth",
+      "n": "Smaller trials",
+      "w": "60%",
+      "note": "Real signal but trial quality variable."
+    },
+    {
+      "c": "'Joint glow' marketing",
+      "n": "—",
+      "w": "10%",
+      "note": "Wishful."
+    }
+  ],
+  "forms": [
+    {
+      "brand": "Vital Proteins",
+      "form": "Bovine type I/III",
+      "dose": "10 g",
+      "price": "₹ 4,500 / month",
+      "tier": "A",
+      "note": "Reference Western brand; dye-free."
+    },
+    {
+      "brand": "Power Gummies",
+      "form": "Marine type I",
+      "dose": "5 g",
+      "price": "₹ 1,800 / month",
+      "tier": "B",
+      "note": "Indian-market entry; dosing on the low end."
+    },
+    {
+      "brand": "Wellbeing Nutrition",
+      "form": "Marine type I",
+      "dose": "10 g",
+      "price": "₹ 2,400 / month",
+      "tier": "A",
+      "note": "Best India-availability + honest dose."
+    },
+    {
+      "brand": "BeautyDose etc.",
+      "form": "'Marine 10g'",
+      "dose": "Variable",
+      "price": "₹ 3–4k",
+      "tier": "C",
+      "note": "Marketing premium without formula advantage. Skip."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Does it actually rebuild collagen?",
+      "a": "Not directly — and any marketing that says so is wrong. The peptides are broken down to amino acids during digestion. The mechanism is plausibly upstream signalling (specifically dipeptides like Pro-Hyp) that stimulates fibroblast collagen synthesis. The result is real but modest, and takes 12 weeks to read on the face."
+    },
+    {
+      "q": "Does the type matter (I, II, III, marine, bovine)?",
+      "a": "For skin endpoints, less than the marketing suggests. Most positive trials use type I (the dominant skin collagen) from either bovine or marine sources at 5–10 g/d. Type II is for cartilage research. Match price and dose, not type."
+    },
+    {
+      "q": "Vegan alternatives?",
+      "a": "Not yet. 'Vegan collagen' powders contain amino acids that may support endogenous collagen synthesis but have no direct trial evidence for the same endpoints. Better to spend on diet protein + vitamin C and bank the remainder."
+    },
+    {
+      "q": "Coffee or tea?",
+      "a": "Either. Coffee is the most-popular vehicle and does not affect bioavailability."
+    }
+  ],
+  "citations": [
+    "pmid-18046911"
+  ]
+}

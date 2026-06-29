@@ -1,0 +1,74 @@
+{
+  "slug": "la-roche-posay-anthelios-uvmune-400-invisible-fluid-spf-50",
+  "brand": "La Roche-Posay",
+  "name": "Anthelios UVMune 400 Invisible Fluid SPF 50+",
+  "tier": "A",
+  "pageRef": "P. 04",
+  "filed": "22 APR 2026",
+  "eyebrow": "Sun Protection · Daily Fluid SPF",
+  "hero": "The first consumer sunscreen to seriously close the long-UVA gap. Two years after launch, still the highest UVA-PF we can document in a fluid SPF — and the daily default we recommend for pigment, photoaging, and post-procedure skin.",
+  "ingredients": [
+    {
+      "i": "Mexoryl 400 (MBBT-derivative)",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Tinosorb S (Bemotrizinol)",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Tinosorb M (Bisoctrizole)",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Uvinul A Plus",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Uvinul T 150",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Mexoryl SX (Ecamsule)",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Glycerin",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Tocopherol (Vit E)",
+      "role": "",
+      "note": ""
+    }
+  ],
+  "faq": [
+    {
+      "q": "Is UVMune 400 the same as the old Anthelios?",
+      "a": "No. It is reformulated around Mexoryl 400 (MBBT-derivative), a UVA filter active in the 380–400 nm range that older Anthelios did not reach. It is the strongest long-UVA defence available in consumer skincare."
+    },
+    {
+      "q": "Does it work for melasma and PIH?",
+      "a": "Yes — long-UVA is the primary driver of pigment relapse. UVMune 400's UVA-PF of 46 makes it our default recommendation for pigment-prone and post-treatment skin."
+    },
+    {
+      "q": "Is it safe in pregnancy?",
+      "a": "All six filters are non-nano and EU-approved with negligible systemic absorption in the published literature. We score it safe for pregnancy and breastfeeding."
+    },
+    {
+      "q": "Why so expensive in India?",
+      "a": "Six premium filters, EU manufacturing, import duty. There are cheaper SPFs that perform well — see the comparison table — but no consumer SPF currently matches its UVA coverage."
+    },
+    {
+      "q": "Can I use it under makeup?",
+      "a": "Yes. Wait 60 seconds for the fluid to set, then apply foundation. It does not pill under most water-based or silicone primers we tested."
+    }
+  ]
+}

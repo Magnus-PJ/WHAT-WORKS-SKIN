@@ -1,0 +1,61 @@
+import React from "react";
+import { ProductTemplate, ProductData } from "./_ProductTemplate";
+
+const D: ProductData = {
+  brand: "Vichy",
+  productName: "Capital Soleil UV-Age Daily SPF 50+",
+  tagline: "the pigment-prone daily.",
+  category: "Sun protection",
+  pageRef: "P. 13",
+  filed: "22-APR-2026",
+  reviewer: "Dr. Aanya Mehta",
+  eyebrow: "Product · Sun protection · Daily fluid",
+  tier: "A",
+  hero: "A fluid built for melasma and PIH-prone skin: PPD ≈ 46, niacinamide 4%, and the lightest LRP-style cast in this price band. The pigment patient's everyday default.",
+  facts: [
+    ["Format", "Fluid, 40 mL"],
+    ["UVA-PF (PPD)", "≈ 46"],
+    ["SPF", "50+"],
+    ["Active extras", "Niacinamide 4%"],
+    ["Price", "₹ 2,100 / 40 mL"],
+    ["Pregnancy-safe", "Yes"],
+  ],
+  scoreBreakdown: [
+    { k: "UVA-PF / SPF balance", v: 23, max: 25, n: "PPD ≈ 46 — top quartile in fluids. SPF tested in vivo." },
+    { k: "Pigment-prone bonus", v: 21, max: 25, n: "Niacinamide 4% adds real anti-pigment value vs a plain SPF." },
+    { k: "Cosmetic elegance", v: 21, max: 25, n: "Light fluid; faint cast on deep skin tones, much less than mineral." },
+    { k: "Value", v: 21, max: 25, n: "₹ 2,100 / 40 mL — premium but justified by formula depth." },
+  ],
+  ingredients: [
+    { i: "Mexoryl 400", role: "Long-UVA filter", tier: "A", note: "The new long-UVA standard. Outside US markets only." },
+    { i: "Tinosorb S", role: "Broad-spectrum", tier: "A", note: "Photostable. Stabilises the rest of the system." },
+    { i: "Uvinul A Plus", role: "UVA filter", tier: "A", note: "Pure UVA workhorse. Pairs with Mexoryl for full curve." },
+    { i: "Niacinamide 4%", role: "Anti-pigment / barrier", tier: "A", note: "Inhibits melanosome transfer at clinically active dose." },
+    { i: "Phe-Resorcinol", role: "Tyrosinase inhibitor", tier: "B", note: "Modest pigment-bonus active. Real but not the headline." },
+  ],
+  useCases: [
+    { k: "Melasma maintenance", b: "Daily Mexoryl 400 + niacinamide is the closest off-the-shelf melasma defence." },
+    { k: "Post-laser pigmentation", b: "Months 2-12 after pigment laser. Critical that PPD stays high." },
+    { k: "Daily commute on Indian skin", b: "Fluid finish, faint cast even on Type V/VI. Reapplies cleanly under makeup." },
+  ],
+  alts: [
+    { brand: "La Roche-Posay", name: "Anthelios UVMune 400 SPF 50+", tier: "A", score: 89, note: "Higher PPD; no niacinamide. Pure photoprotection champion." },
+    { brand: "Bioderma", name: "Photoderm Spot-Age SPF 50+", tier: "B", score: 78, note: "Antioxidant-loaded; UVA modest. Pigment chase, soft." },
+    { brand: "Avene", name: "Cleanance SPF 50+", tier: "B", score: 74, note: "Mattifying for oily-skin pigment patients." },
+  ],
+  faq: [
+    { q: "Is the niacinamide actually useful?", a: "Yes — at 4%, it's at the dose proven to reduce melanosome transfer in 8-12 week trials. It won't replace a tranexamic acid serum, but it's a free anti-pigment bonus inside the SPF." },
+    { q: "How does it compare with UVMune 400?", a: "UVMune has a higher PPD and a slightly more elegant skin feel. UV-Age Daily adds the niacinamide bonus and a niacinamide-trained vehicle. Pigment-prone patients usually prefer UV-Age Daily; everyone else marginally prefers UVMune." },
+    { q: "Can I layer my vitamin C under it?", a: "Yes — let the C sink in for 5 minutes. The two are complementary, not redundant. C handles the small dose of UV that gets through; the SPF blocks the rest." },
+    { q: "Does it pill under makeup?", a: "Less than mineral SPFs but more than UVMune. Apply, wait 90 seconds, then pat foundation — don't rub." },
+  ],
+  sources: [
+    { n: "Bissonnette R et al. Long-UVA protection of a new sunscreen filter. JEADV 2022.", w: "RCT" },
+    { n: "Hakozaki T et al. Niacinamide in pigmentation: melanosome transfer inhibition. BJD 2002.", w: "MECHANISM" },
+    { n: "Vichy clinical dossier. Capital Soleil UV-Age in vivo PPD 46. 2023.", w: "MFR DATA" },
+    { n: "Passeron T et al. Sunscreens with biological filters in melasma. Pigm Cell Res 2018.", w: "REVIEW" },
+  ],
+};
+
+const ProductVichyAgeDay: React.FC = () => <ProductTemplate d={D} />;
+export default ProductVichyAgeDay;

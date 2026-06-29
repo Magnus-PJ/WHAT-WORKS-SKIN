@@ -1,0 +1,73 @@
+---
+import { isThin, isPartiallyThin, type ThinKind } from "@/lib/thin-content";
+
+export interface Props {
+  kind: ThinKind;
+  slugs: string[];
+}
+const { kind, slugs } = Astro.props;
+const dev = import.meta.env.DEV;
+const total = slugs.length;
+const thinCount = dev ? slugs.filter((slug) => isThin(kind, slug)).length : 0;
+const partialCount = dev
+  ? slugs.filter((slug) => !isThin(kind, slug) && isPartiallyThin(kind, slug)).length
+  : 0;
+const entryWord = total === 1 ? "entry" : "entries";
+const ariaLabel = `${thinCount} thin and ${partialCount} partially thin of ${total} ${entryWord}`;
+---
+{dev && total > 0 && (
+  <p class="thin-summary" role="status" aria-label={ariaLabel}>
+    <span class="thin-summary-item">
+      <span class="thin-summary-dot" aria-hidden="true" />
+      <strong>{thinCount}</strong> thin
+    </span>
+    <span class="thin-summary-sep" aria-hidden="true">·</span>
+    <span class="thin-summary-item">
+      <span class="thin-summary-dot thin-summary-dot--partial" aria-hidden="true" />
+      <strong>{partialCount}</strong> partial
+    </span>
+    <span class="thin-summary-tail">{` of ${total} ${entryWord}`}</span>
+  </p>
+)}
+
+<style>
+  .thin-summary {
+    margin: 24px 0 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+    line-height: 1.4;
+  }
+  .thin-summary strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .thin-summary-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .thin-summary-sep {
+    opacity: 0.6;
+  }
+  .thin-summary-dot {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #d99a00;
+    box-shadow: 0 0 0 2px #fff8e1;
+  }
+  .thin-summary-dot--partial {
+    background: transparent;
+    border: 1.5px solid #d99a00;
+    box-shadow: 0 0 0 2px #fff8e1;
+  }
+</style>

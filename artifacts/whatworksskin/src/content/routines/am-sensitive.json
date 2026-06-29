@@ -1,0 +1,82 @@
+{
+  "slug": "am-sensitive",
+  "title": "The minimum viable morning.",
+  "sub": "AM · Reactive skin",
+  "goal": "Sensitive",
+  "time": "Morning",
+  "skinType": "Sensitive / Rosacea",
+  "stepCount": 3,
+  "minutes": 6,
+  "cost": "₹ 3–5k",
+  "difficulty": "Beginner",
+  "body": "Three steps. No actives. Built for skin that flares at the sight of an INCI list.",
+  "reviewer": "Dr. Paul",
+  "pageRef": "P. 06",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · AM · Reactive skin",
+  "steps": [
+    {
+      "n": "01",
+      "time": "AM + PM",
+      "title": "Gentle cleanser",
+      "sub": "Low-pH gel or syndet bar",
+      "body": "One cleanser, used twice daily. Buy a 250 mL pump and forget it for three months. Anything more than this is a hobby, not a routine.",
+      "products": [
+        {
+          "brand": "Cetaphil",
+          "name": "Gentle Skin Cleanser",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "CeraVe",
+          "name": "Hydrating Cleanser",
+          "note": "For dryness",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "02",
+      "time": "AM + PM",
+      "title": "Moisturiser with niacinamide",
+      "sub": "Ceramide + niacinamide",
+      "body": "Niacinamide 4%, ceramides 3+1+6-II. Used after cleansing — twice. Picks up 80% of what people buy 12 products to chase.",
+      "products": [
+        {
+          "brand": "CeraVe",
+          "name": "Moisturising Lotion",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "La Roche-Posay",
+          "name": "Toleriane Sensitive",
+          "note": "For reactive skin",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "03",
+      "time": "AM only",
+      "title": "Broad-spectrum SPF 50",
+      "sub": "High UVA-PF, every day",
+      "body": "The single most evidence-supported anti-aging step you can take. UVA is everyday — through windows, in winter, on overcast days. Two finger-lengths.",
+      "products": [
+        {
+          "brand": "La Roche-Posay",
+          "name": "UVMune 400 Invisible Fluid",
+          "note": "Reference UVA-PF",
+          "tier": "A"
+        },
+        {
+          "brand": "Re'equil",
+          "name": "Sheer Zinc SPF 50",
+          "note": "Sensitive / mineral",
+          "tier": "B"
+        }
+      ]
+    }
+  ]
+}

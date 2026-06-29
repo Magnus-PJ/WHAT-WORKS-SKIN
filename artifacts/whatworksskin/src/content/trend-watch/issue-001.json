@@ -1,0 +1,43 @@
+{
+  "slug": "issue-001",
+  "n": 1,
+  "date": "20 October 2025",
+  "year": 2025,
+  "headline": "The launch issue: what we believe in, what we don't",
+  "dek": "A founding manifesto disguised as a verdict column. Three trends, no advertisers.",
+  "signed": "Dr. Paul + Dr. Sundeep",
+  "pageRef": "P. 01",
+  "eyebrow": "Trend Watch · Issue 001 · 20 October 2025",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "10-step K-beauty routines",
+      "tier": "D",
+      "verdict": "Misleading",
+      "color": "",
+      "body": "The aesthetic appeal of an elaborate routine is real; the marginal benefit beyond a competent four-step protocol is, as far as the literature goes, indistinguishable from zero. Most of the steps in a 10-step regimen are duplicate humectants in different bottles, plus a couple of essences whose function the moisturiser already covers. The category sells variety, not endpoints. We are happy for anyone who enjoys it as a ritual — but the line at which we are willing to call something 'evidence-supported' sits well below ten products.",
+      "bottom": "Pleasing as ritual. Indefensible as efficacy. Five steps is plenty."
+    },
+    {
+      "n": "02",
+      "name": "Daily SPF (high UVA-PF)",
+      "tier": "A",
+      "verdict": "Holds Up",
+      "color": "",
+      "body": "If we could only recommend one habit on the entire site, this would be it. The single most-replicated finding in cosmetic dermatology is that consistent daily application of broad-spectrum, high-UVA-PF sunscreen prevents both photo-aging and the slow accumulation of pigmentary disorder. The 2024 update of the long-running Australian RCT confirmed what we already knew: people who applied SPF 30+ daily for 4.5 years had measurably less photo-aging than the control group. Apply two finger-lengths. Reapply if outdoors.",
+      "bottom": "The single highest-leverage step in any routine. Two finger-lengths, every morning."
+    },
+    {
+      "n": "03",
+      "name": "'Skin types' as fixed identity",
+      "tier": "B",
+      "verdict": "Partly True",
+      "color": "",
+      "body": "The Fitzpatrick scale is useful; the consumer language of 'I have combination skin' less so. Skin shifts seasonally, hormonally, with age, with climate. Treating one's skin type as a fixed identity locks people into product categories that no longer match what their skin is actually doing. The more useful question is 'what is my skin doing right now?' — answered every six to eight weeks. The four-square 'oily / dry / combination / sensitive' grid we have used for 40 years deserves retirement.",
+      "bottom": "Useful starting frame; bad as fixed identity. Re-assess seasonally."
+    }
+  ],
+  "citations": [
+    "pmid-2909796"
+  ]
+}

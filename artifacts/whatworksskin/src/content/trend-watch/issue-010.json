@@ -1,0 +1,40 @@
+{
+  "slug": "issue-010",
+  "n": 10,
+  "date": "23 February 2026",
+  "year": 2026,
+  "headline": "Mineral sunscreens are catching up. Slowly.",
+  "dek": "We tested four new SPF 50 mineral formulations against the chemical category leader.",
+  "signed": "Dr. Sundeep",
+  "pageRef": "P. 10",
+  "eyebrow": "Trend Watch · Issue 010 · 23 February 2026",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "New zinc-only PA++++ filters",
+      "tier": "A",
+      "verdict": "Holds Up",
+      "color": "",
+      "body": "Four mineral SPF 50 formulations now hit PA++++ UVA protection — historically the territory of chemical filters alone. Optimised dispersion and finer particle size are the reasons. Cosmetic acceptability has improved enough that we now recommend mineral as the default for sensitive, post-procedure, and paediatric skin. The chemical category leaders remain marginally more elegant; the gap is the narrowest it has been in fifteen years.",
+      "bottom": "Mineral has caught up. Choose by texture and finish, not by category panic."
+    },
+    {
+      "n": "02",
+      "name": "'Reef-safe' marketing claims",
+      "tier": "D",
+      "verdict": "Misleading",
+      "color": "",
+      "body": "There is no regulatory definition of 'reef-safe.' The phrase typically excludes oxybenzone and octinoxate (reasonably, given the Hawaii ban evidence) but is silent on the much larger consumer-protection concern: real-world UVA protection. Several 'reef-safe' fluids underperform on UVA-PF, the variable that matters most for skin aging. Buy by SPF, by UVA-PF, and by re-application behaviour — not by a marketing claim with no agreed referent.",
+      "bottom": "A meaningless badge. UVA-PF is the metric, not reef rhetoric."
+    },
+    {
+      "n": "03",
+      "name": "SPF in moisturisers",
+      "tier": "D",
+      "verdict": "Skip",
+      "color": "",
+      "body": "Moisturisers labelled 'SPF 30' almost never deliver SPF 30 in real-world use. The application thickness assumed by the label test (2 mg/cm²) is almost three times what people apply when using a moisturiser. The result, repeatedly demonstrated in independent testing, is real-world protection of SPF 8–12 — useful, but a long way from advertised. Use a dedicated sunscreen as the last AM step.",
+      "bottom": "Marketing convenience. Apply a real sunscreen as a separate step."
+    }
+  ]
+}

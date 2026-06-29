@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/whatworksskin/"
+title = "What Works Skin"
+version = "1.0.0"
+id = "artifacts/whatworksskin"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/whatworksskin/" ]
+localPort = 26011
+
+[services.development]
+run = "pnpm --filter @workspace/whatworksskin run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/whatworksskin", "run", "build" ]
+publicDir = "artifacts/whatworksskin/dist"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/404.html"
+
+[services.env]
+PORT = "26011"
+BASE_PATH = "/whatworksskin/"

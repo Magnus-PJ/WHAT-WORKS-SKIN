@@ -1,0 +1,85 @@
+---
+// Atmospheric layers shared across editorial pages: noisy paper grain,
+// faint horizontal "laid paper" lines, a 12-column hairline grid for
+// hero sections, and a warm cream vignette at the top of each section.
+// Mirrors the React equivalents in mockup-sandbox/_chrome.tsx so that
+// any visual tweak can be made in one place per platform.
+export interface Props {
+  vignette?: boolean;
+  columns?: boolean;
+  cols?: number;
+  columnsOpacity?: number;
+}
+const { vignette = true, columns = false, cols = 12, columnsOpacity = 0.5 } = Astro.props;
+---
+<div aria-hidden class="paper-grain" />
+<div aria-hidden class="laid-paper" />
+{vignette && <div aria-hidden class="top-vignette" />}
+{columns && (
+  <div aria-hidden class="column-rules" style={`opacity:${columnsOpacity}`}>
+    <div class="column-rules-grid" style={`grid-template-columns: repeat(${cols}, 1fr);`}>
+      {Array.from({ length: cols }).map((_, i) => (
+        <div style={`border-left:1px solid var(--rule); ${i === cols - 1 ? "border-right:1px solid var(--rule);" : ""}`} />
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  .paper-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .laid-paper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 23px,
+      rgba(228, 226, 219, 0.13) 23px,
+      rgba(228, 226, 219, 0.13) 24px
+    );
+  }
+  .top-vignette {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: 0;
+    pointer-events: none;
+    height: 320px;
+    background: linear-gradient(180deg, var(--paper3) 0%, var(--paper2) 38%, transparent 100%);
+  }
+  .column-rules {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    margin-inline: auto;
+    max-width: 1200px;
+  }
+  .column-rules-grid {
+    display: grid;
+    height: 100%;
+    padding-inline: 32px;
+    column-gap: 24px;
+  }
+  @media (prefers-color-scheme: dark) {
+    .paper-grain {
+      opacity: 0.03;
+      mix-blend-mode: overlay;
+    }
+    .laid-paper {
+      opacity: 0.2;
+    }
+  }
+</style>

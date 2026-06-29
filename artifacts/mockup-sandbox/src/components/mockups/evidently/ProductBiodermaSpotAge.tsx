@@ -1,0 +1,61 @@
+import React from "react";
+import { ProductTemplate, ProductData } from "./_ProductTemplate";
+
+const D: ProductData = {
+  brand: "Bioderma",
+  productName: "Photoderm Spot-Age SPF 50+",
+  tagline: "the antioxidant-tinted daily.",
+  category: "Sun protection",
+  pageRef: "P. 14",
+  filed: "22-APR-2026",
+  reviewer: "Dr. Aanya Mehta",
+  eyebrow: "Product · Sun protection · Tinted fluid",
+  tier: "B",
+  hero: "Bioderma's pigment-prone tinted SPF: light tint, antioxidant trio, and a moderate UVA-PF that puts it a step behind the long-UVA leaders. A pleasant tinted daily — but not the photoprotection champion the marketing implies.",
+  facts: [
+    ["Format", "Tinted fluid, 40 mL"],
+    ["UVA-PF (PPD)", "≈ 28"],
+    ["SPF", "50+"],
+    ["Tint", "Universal warm beige"],
+    ["Price", "₹ 1,800 / 40 mL"],
+    ["Pregnancy-safe", "Yes"],
+  ],
+  scoreBreakdown: [
+    { k: "UVA-PF / SPF balance", v: 17, max: 25, n: "PPD ~28 is moderate. Falls behind UVMune / UV-Age Daily." },
+    { k: "Antioxidant claims", v: 21, max: 25, n: "Vit E + ectoin + bakuchiol — small but real adjunct." },
+    { k: "Cosmetic elegance", v: 22, max: 25, n: "Tinted fluid evens tone, no visible cast on Type IV-V." },
+    { k: "Value", v: 18, max: 25, n: "₹ 1,800 / 40 mL — pricey for the protection level." },
+  ],
+  ingredients: [
+    { i: "Tinosorb M / S", role: "Broad-spectrum filters", tier: "A", note: "Photostable backbone. Standard EU combo." },
+    { i: "Bakuchiol", role: "Antioxidant", tier: "B", note: "Modest in-vivo evidence as a daytime antioxidant." },
+    { i: "Ectoin", role: "Osmolyte / hydrator", tier: "B", note: "Stress-protein adjunct; small barrier benefit." },
+    { i: "Vitamin E", role: "Lipid antioxidant", tier: "A", note: "Workhorse. Quenches lipid peroxidation post-UV." },
+    { i: "Iron oxides", role: "Visible-light tint", tier: "A", note: "Genuinely useful against visible-light pigment." },
+  ],
+  useCases: [
+    { k: "Light-pigment patients", b: "Where iron oxides plus tint outweigh the moderate PPD." },
+    { k: "Daily commute on lighter skin tones", b: "Tint reads neutral on Type II-IV; cosmetic elegance is a strength." },
+    { k: "Travel SPF", b: "Compact 40 mL bottle, photostable EU filters. Reapply often." },
+  ],
+  alts: [
+    { brand: "La Roche-Posay", name: "Anthelios UVMune 400 SPF 50+", tier: "A", score: 89, note: "Higher PPD; no tint. Pure photoprotection." },
+    { brand: "Vichy", name: "Capital Soleil UV-Age Daily SPF 50+", tier: "A", score: 86, note: "Niacinamide 4% + higher PPD. Pigment-prone default." },
+    { brand: "Avene", name: "Cleanance SPF 50+", tier: "B", score: 74, note: "Mattifying for oily skin; UVA average." },
+  ],
+  faq: [
+    { q: "Is the tint enough for visible-light pigment?", a: "Yes for incidental visible light. Iron oxides at the level used here meaningfully reduce visible-light induced pigmentation in melasma trials. For severe melasma, layer over a higher-PPD base SPF." },
+    { q: "Does the bakuchiol do anything in a sunscreen?", a: "Modest. Bakuchiol's antioxidant data is real but cosmetic-grade in this context — it adds, it doesn't replace." },
+    { q: "How does it compare with UV-Age Daily?", a: "UV-Age Daily wins on photoprotection (higher PPD + niacinamide 4%). Spot-Age wins on cosmetic finish (tint). Pick by which problem is louder for your skin." },
+    { q: "Can I layer it over a vitamin C?", a: "Yes — give the C 5 minutes to sink in. The tint sits on top neatly." },
+  ],
+  sources: [
+    { n: "Lim HW et al. Visible light and pigmentation. JAAD 2016.", w: "REVIEW" },
+    { n: "Castanedo-Cazares JP et al. Iron oxide sunscreen in melasma. Photochem Photobiol 2014.", w: "RCT" },
+    { n: "Bioderma Photoderm Spot-Age in vivo dossier. 2023.", w: "MFR DATA" },
+    { n: "Chaudhuri RK et al. Bakuchiol topical antioxidant. Int J Cosm Sci 2014.", w: "MECHANISM" },
+  ],
+};
+
+const ProductBiodermaSpotAge: React.FC = () => <ProductTemplate d={D} />;
+export default ProductBiodermaSpotAge;

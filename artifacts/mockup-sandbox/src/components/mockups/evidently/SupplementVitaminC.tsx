@@ -1,0 +1,38 @@
+// SupplementVitaminC — Oral vitamin C for skin.
+
+import React from "react";
+import { SupplementPage } from "./_supplementTemplate";
+
+const SupplementVitaminC: React.FC = () => (
+  <SupplementPage
+    family="Pigmentation"
+    name="Vitamin C (oral)"
+    page="P. 16"
+    eyebrow="Supplement · Pigmentation · Oral vitamin C"
+    hero="Vitamin C."
+    subheadA="Topical outperforms."
+    subheadB="Real for deficiency only."
+    dek="Oral ascorbic acid is essential — for collagen synthesis, immune function, and several enzymatic pathways. As a skin supplement specifically, the topical formulation outperforms the oral dramatically. Reach for the serum, not the megadose capsule."
+    evidence={[
+      { c: "Skin endpoints (oral, in non-deficient)", n: "Mixed", w: "30%", note: "Beyond the RDA, additional oral vitamin C does not produce measurable skin endpoints. Tissue saturation occurs at ~200 mg/d." },
+      { c: "Wound healing (with deficiency)", n: "Established", w: "85%", note: "Real, dramatic effect when vitamin C is genuinely low. Deficiency in modern Indian adults is rare but not impossible." },
+      { c: "Topical vitamin C 15–20%", n: "Replicated", w: "75%", note: "Different category. Effective for tone, mild pigmentation, and antioxidant protection. The topical formulation is what matters." },
+      { c: "Adjunct to iron supplementation", n: "Established", w: "85%", note: "Vitamin C ~250 mg with iron meaningfully increases absorption. Useful pairing." },
+    ]}
+    forms={[
+      { f: "Ascorbic acid 500 mg", abs: "Good", note: "Standard tablet form. Useful as iron co-supplement; redundant for skin in well-fed adults." },
+      { f: "Ascorbic acid 1000 mg", abs: "Good (saturating)", note: "Body excretes excess once tissues are saturated (~200 mg/d). Higher doses do not produce higher skin endpoints." },
+      { f: "Ester-C / liposomal vitamin C", abs: "Marginally better", note: "Reduced GI upset and slightly higher peak plasma; no defensible skin endpoint advantage." },
+      { f: "Topical vitamin C 15–20%", abs: "Topical", note: "The actually-useful formulation for skin. AM, under SPF. See the topical brief." },
+    ]}
+    faq={[
+      { q: "Why doesn't more help?", a: "Once tissue stores are saturated (around 200 mg/d), additional oral vitamin C is excreted in urine. The plasma ceiling is hard. The skin does receive some vitamin C from oral intake, but the gradient from gut to skin is unfavourable, and topical application delivers vastly higher cutaneous concentrations." },
+      { q: "Should I megadose during a cold?", a: "The literature on megadosing for cold prevention is mixed at best (the Linus Pauling hypothesis has not aged well in trials). Modest doses around the time of viral illness may shorten duration slightly; multi-gram doses produce mostly osmotic diarrhoea and expensive urine." },
+      { q: "Will it pair with my topical?", a: "Yes, with no interaction concern, but the additive effect is small. The topical does the heavy lifting; the oral supports baseline collagen synthesis." },
+      { q: "Am I likely deficient?", a: "Rarely in adults eating fruit and vegetables regularly. True deficiency (scurvy) requires sustained dietary inadequacy — historically a sailor's disease, occasionally seen in restrictive eaters or with severe malabsorption. The supplement aisle has medicalised normal nutritional sufficiency." },
+    ]}
+    bottom="A useful general nutrient at modest dose; not a skin treatment in capsule form. Spend the money on a topical 15% serum and dietary intake instead."
+  />
+);
+
+export default SupplementVitaminC;

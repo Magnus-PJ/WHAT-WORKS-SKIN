@@ -1,0 +1,108 @@
+{
+  "slug": "pm-aging",
+  "featured": true,
+  "title": "Tretinoin without the chaos.",
+  "sub": "PM · 35+ skin",
+  "goal": "Anti-aging",
+  "time": "Evening",
+  "skinType": "Mature / Normal",
+  "stepCount": 4,
+  "minutes": 11,
+  "cost": "₹ 5–9k",
+  "difficulty": "Advanced",
+  "body": "Buffered tretinoin protocol with ceramide sandwich. Twelve-week ramp.",
+  "reviewer": "Dr. Sundeep",
+  "pageRef": "P. 13",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · PM · 35+ skin",
+  "steps": [
+    {
+      "n": "01",
+      "time": "PM",
+      "title": "Oil cleanser, then cream cleanser",
+      "sub": "Double cleanse, gentle",
+      "body": "An oil-then-cream double cleanse removes mineral SPF and the day's oxidative load without stripping the barrier. The single most-skipped step in PM anti-aging routines, and the one that determines whether tretinoin will actually be tolerated.",
+      "products": [
+        {
+          "brand": "DHC",
+          "name": "Deep Cleansing Oil",
+          "note": "Default oil",
+          "tier": "A"
+        },
+        {
+          "brand": "Cetaphil",
+          "name": "Gentle Cleanser",
+          "note": "Cream step",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "02",
+      "time": "PM",
+      "title": "Buffered tretinoin 0.025%",
+      "sub": "Wait 20 min, sandwich method",
+      "body": "Apply a pea-sized amount of tretinoin to a thin moisturiser layer (the buffer) on dry skin. Start twice weekly for two weeks, then alternate nights for four weeks, then nightly. The 12-week ramp matters far more than the strength.",
+      "products": [
+        {
+          "brand": "Galderma",
+          "name": "Retino-A 0.025%",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Janssen",
+          "name": "Retin-A Micro 0.04%",
+          "note": "Premium",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "03",
+      "time": "PM",
+      "title": "Ceramide-rich night cream",
+      "sub": "Generous, occlusive",
+      "body": "The barrier-protecting layer that closes the sandwich. A ceramide + cholesterol + fatty acid blend in a richer texture preserves the lipid bilayer that tretinoin transiently disrupts. Apply 5–10 minutes after the tretinoin.",
+      "products": [
+        {
+          "brand": "CeraVe",
+          "name": "PM Facial Lotion",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "La Roche-Posay",
+          "name": "Toleriane Riche",
+          "note": "Premium",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "04",
+      "time": "PM",
+      "title": "Lip + eye occlusive",
+      "sub": "Targeted, petrolatum-based",
+      "body": "The first signs of tretinoin retinisation appear at the perioral and periorbital margins. A small petrolatum dot at these zones — applied before the tretinoin — preempts the cracking that would otherwise force you to pause the protocol.",
+      "products": [
+        {
+          "brand": "Aquaphor",
+          "name": "Healing Ointment",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Vaseline",
+          "name": "Original",
+          "note": "Budget",
+          "tier": "A"
+        }
+      ]
+    }
+  ],
+  "citations": [
+    "pmid-2909796",
+    "pmid-16230554"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "slug": "dullness",
+  "name": "Dullness",
+  "family": "Anti-aging",
+  "eyebrow": "Concern · Anti-aging · Dullness & tone",
+  "dek": "\"Dull skin\" is rarely a single condition. It is usually three small things stacked — surface dehydration, slowed turnover, and ambient pollutant load. Treating it as a single problem with one \"glow serum\" is exactly why nothing works. Treating each contributor separately, with the boring stack, works reliably.",
+  "oneliner": "Layered surface dehydration, slow turnover, pollutant load.",
+  "reviewer": "Dr. Sundeep",
+  "pageRef": "P. 21",
+  "filed": "22 APR 2026",
+  "triggers": [
+    {
+      "k": "Slow desquamation",
+      "w": "60%",
+      "n": "Stratum corneum cell turnover slows after 30. Light scatter dulls."
+    },
+    {
+      "k": "Surface dehydration",
+      "w": "55%",
+      "n": "Distinct from skin-type dryness. Gives the matte/grey appearance."
+    },
+    {
+      "k": "Pollution & free radicals",
+      "w": "70%",
+      "n": "PM2.5 oxidative load — dramatically higher in Indian metros."
+    },
+    {
+      "k": "Subclinical pigment scatter",
+      "w": "45%",
+      "n": "Diffuse, sub-spot pigment that reads as 'tired.'"
+    }
+  ],
+  "ingredients": [
+    {
+      "name": "Vitamin C 10–15% (LAA)",
+      "tier": "A",
+      "role": "Antioxidant · brightening",
+      "evidence": "Replicated radiance + adjunct lightening"
+    },
+    {
+      "name": "Glycolic acid 5–10%",
+      "tier": "A",
+      "role": "AHA · turnover",
+      "evidence": "Reference exfoliant for tone & texture"
+    },
+    {
+      "name": "Lactic acid 5–10%",
+      "tier": "A",
+      "role": "AHA · gentler",
+      "evidence": "Hydration-friendly · lower PIH risk than glycolic"
+    },
+    {
+      "name": "Mandelic acid 5–10%",
+      "tier": "B",
+      "role": "AHA · gentlest",
+      "evidence": "Larger molecule; pigment-friendly for darker skin"
+    },
+    {
+      "name": "Niacinamide 4–10%",
+      "tier": "A",
+      "role": "Tone evening",
+      "evidence": "Reduces melanosome transfer; modest brightness"
+    },
+    {
+      "name": "Tranexamic acid 3%",
+      "tier": "A",
+      "role": "Pigment-blocker",
+      "evidence": "Strong adjunct for diffuse PIH-driven dullness"
+    }
+  ],
+  "phases": [
+    "Low-pH gel cleanser AM + PM",
+    "Vitamin C 10–15% (LAA) — every morning, on dry skin",
+    "Niacinamide 5–10% — AM + PM in moisturiser or serum",
+    "AHA night, twice weekly (lactic 10% or glycolic 5%)",
+    "SPF 50+ daily — non-negotiable. Dullness rebounds without it",
+    "Evening retinoid 2–3 nights/week — for cumulative texture"
+  ]
+}

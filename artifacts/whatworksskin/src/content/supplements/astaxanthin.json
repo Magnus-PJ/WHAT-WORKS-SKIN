@@ -1,0 +1,106 @@
+{
+  "slug": "astaxanthin",
+  "name": "Astaxanthin",
+  "family": "Photoprotection",
+  "target": "UV defence · elasticity",
+  "tier": "B",
+  "dose": "4–12 mg/d × 12 wk",
+  "rxOnly": false,
+  "oneliner": "Carotenoid antioxidant with replicated elasticity and MED data.",
+  "pageRef": "P. 06",
+  "filed": "17 APR 2026",
+  "eyebrow": "Supplement · Photoprotection · Astaxanthin",
+  "headline": "Astaxanthin",
+  "glance": [
+    [
+      "Class",
+      "Carotenoid (xanthophyll)"
+    ],
+    [
+      "Source",
+      "Haematococcus pluvialis (natural)"
+    ],
+    [
+      "Dose",
+      "4 – 12 mg/d with food"
+    ],
+    [
+      "Timeline",
+      "9 – 12 weeks for effect"
+    ],
+    [
+      "Pregnancy",
+      "Insufficient data — defer"
+    ],
+    [
+      "Interactions",
+      "Mild antiplatelet at high dose"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul · 17-Apr-2026"
+    ]
+  ],
+  "evidence": [
+    {
+      "c": "UV-induced erythema",
+      "n": "RCTs vs placebo",
+      "w": "62%",
+      "note": "Modest reduction in MED at 4–6 mg/d after 9 weeks. Not a sunscreen replacement."
+    },
+    {
+      "c": "Skin elasticity",
+      "n": "RCTs, 4–12 mg/d",
+      "w": "55%",
+      "note": "Replicated bioengineering improvement; visible benefit modest."
+    },
+    {
+      "c": "Hydration / TEWL",
+      "n": "Bioengineering",
+      "w": "48%",
+      "note": "Statistically real, clinically subtle."
+    },
+    {
+      "c": "Wrinkle reduction",
+      "n": "12-wk RCTs",
+      "w": "40%",
+      "note": "Some signal; not the headline most marketing implies."
+    }
+  ],
+  "forms": [
+    {
+      "k": "Best paired with",
+      "v": "Sunscreen + topical vitamin C. Astaxanthin is an *adjunct* to photoprotection, not a stand-in."
+    },
+    {
+      "k": "Form",
+      "v": "Natural (Haematococcus pluvialis) preferred — synthetic exists but data thinner."
+    },
+    {
+      "k": "Dose",
+      "v": "4–12 mg/d with food; 6–8 mg covers most published endpoints."
+    },
+    {
+      "k": "Timeline",
+      "v": "9–12 weeks before judging effect. Stop earlier and you've wasted the trial."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Does it actually 'replace' sunscreen?",
+      "a": "No, and any marketing that implies so is misleading. Oral astaxanthin produces a modest reduction in UV-induced erythema after 6–9 weeks, on the order of 10–20% — useful as an adjunct, useless as a substitute."
+    },
+    {
+      "q": "Natural or synthetic?",
+      "a": "Natural Haematococcus-derived astaxanthin has the bulk of the published in-vivo skin data. Synthetic astaxanthin (used in aquaculture) is structurally similar but its published clinical data is thinner. Spend the small premium for the natural form."
+    },
+    {
+      "q": "Is it safe long-term?",
+      "a": "Yes — well-tolerated up to 12 mg/d in trials lasting 6 months. Mild stool-orange discoloration possible at high doses (it is a carotenoid)."
+    },
+    {
+      "q": "Will it interact with anything?",
+      "a": "Mild blood-thinning effect at high doses. If you are on warfarin or DOACs, mention to your doctor before starting."
+    }
+  ]
+}

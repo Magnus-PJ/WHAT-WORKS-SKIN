@@ -1,0 +1,83 @@
+{
+  "slug": "hormonal-acne",
+  "name": "Hormonal acne",
+  "family": "Acne",
+  "eyebrow": "Concern · Acne · Hormonal pattern",
+  "dek": "Adult acne, jawline-clustered, premenstrually predictable, persistent past the years anyone told you it would be. Treated topically the same way as teen acne — but the third lever is systemic. The patients who do not improve on a topical-only protocol almost always benefit from a derm consult about spironolactone or COCPs.",
+  "oneliner": "Jawline, premenstrual, persistent. Topical + sometimes systemic.",
+  "reviewer": "Dr. Paul",
+  "pageRef": "P. 17",
+  "filed": "22 APR 2026",
+  "triggers": [
+    {
+      "k": "Jawline / chin pattern",
+      "w": "85%",
+      "n": "Distinguishes from comedonal teen acne, which favours the T-zone."
+    },
+    {
+      "k": "Premenstrual flares",
+      "w": "78%",
+      "n": "Days 18–28 of the cycle. Predictable, hormonal."
+    },
+    {
+      "k": "Persists past 25",
+      "w": "70%",
+      "n": "Adult-onset or persistent — the defining feature."
+    },
+    {
+      "k": "Co-existing PCOS signs",
+      "w": "32%",
+      "n": "Hirsutism, irregular cycles. Worth a workup if present."
+    }
+  ],
+  "ingredients": [
+    {
+      "name": "Adapalene 0.1%",
+      "tier": "A",
+      "role": "Comedolytic retinoid",
+      "evidence": "Reference OTC retinoid · 12-week RCTs"
+    },
+    {
+      "name": "Tretinoin 0.025–0.05% (Rx)",
+      "tier": "A",
+      "role": "Retinoid",
+      "evidence": "Stronger; pregnancy-contraindicated"
+    },
+    {
+      "name": "Benzoyl peroxide 2.5%",
+      "tier": "A",
+      "role": "Antibacterial",
+      "evidence": "Reference for inflammatory papules · over decades"
+    },
+    {
+      "name": "Azelaic acid 15–20% (Rx)",
+      "tier": "A",
+      "role": "Anti-inflammatory · pigment",
+      "evidence": "Excellent in pregnancy & PIH-prone skin"
+    },
+    {
+      "name": "Spironolactone (Rx, oral)",
+      "tier": "A",
+      "role": "Anti-androgen",
+      "evidence": "Strong in adult women · derm-prescribed"
+    },
+    {
+      "name": "Salicylic acid 2%",
+      "tier": "B",
+      "role": "BHA",
+      "evidence": "Mild adjunct · not a primary treatment"
+    }
+  ],
+  "protocolAm": [
+    "Low-pH gel cleanser",
+    "Niacinamide 5% — calming",
+    "Lightweight moisturiser (CeraVe AM, Toleriane Double Repair)",
+    "Mineral or hybrid SPF 50+ — non-comedogenic"
+  ],
+  "protocolPm": [
+    "Cleansing oil → gel cleanser (double-cleanse if wearing SPF + makeup)",
+    "Adapalene 0.1% (or tretinoin) — pea-sized, full face",
+    "Buffer: ceramide moisturiser",
+    "Spot-treatment: BPO 2.5% on inflammatory lesions only"
+  ]
+}

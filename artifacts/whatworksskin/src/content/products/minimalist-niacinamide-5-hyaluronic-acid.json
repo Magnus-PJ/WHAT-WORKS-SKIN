@@ -1,0 +1,172 @@
+{
+  "slug": "minimalist-niacinamide-5-hyaluronic-acid",
+  "brand": "Minimalist",
+  "name": "Niacinamide 5% + Hyaluronic Acid",
+  "category": "Wellness adjuncts",
+  "tagline": "evidence-aligned niacinamide.",
+  "reviewer": "Dr. Aanya Mehta",
+  "tier": "B",
+  "pageRef": "P. 31",
+  "filed": "22-APR-2026",
+  "eyebrow": "Product · Wellness · Niacinamide",
+  "hero": "Niacinamide at the clinically validated 5% — not the 10-12% trend that triggers more flushing without measurable extra benefit. Pleasant gel-serum, hyaluronic adjunct, and a price that lets you actually use it daily.",
+  "score": 81,
+  "maxScore": 100,
+  "scoreBreakdown": [
+    {
+      "k": "Active concentration",
+      "v": 21,
+      "max": 25,
+      "n": "5% sits at the dose-response inflection; the 'trendy' 10% adds flushing risk without proportional benefit."
+    },
+    {
+      "k": "Vehicle elegance",
+      "v": 20,
+      "max": 25,
+      "n": "Pleasant gel-serum; absorbs cleanly under SPF."
+    },
+    {
+      "k": "Evidence per claim",
+      "v": 18,
+      "max": 25,
+      "n": "Class evidence solid; brand cites generic niacinamide literature."
+    },
+    {
+      "k": "Value",
+      "v": 22,
+      "max": 25,
+      "n": "₹ 449 / 30 mL — exceptional cost-per-week for daily use."
+    }
+  ],
+  "ingredients": [
+    {
+      "i": "Niacinamide 5%",
+      "role": "Pigment / barrier / sebum",
+      "tier": "A",
+      "note": "Sweet-spot dose; multiple peer-reviewed RCTs."
+    },
+    {
+      "i": "Hyaluronic acid 1%",
+      "role": "Humectant",
+      "tier": "A",
+      "note": "Surface hydrator; supports niacinamide tolerability."
+    },
+    {
+      "i": "Zinc PCA",
+      "role": "Sebum modulator",
+      "tier": "B",
+      "note": "Modest sebum-reducing addition."
+    },
+    {
+      "i": "Glycerin",
+      "role": "Humectant",
+      "tier": "A",
+      "note": "Workhorse."
+    },
+    {
+      "i": "Phenoxyethanol",
+      "role": "Preservative",
+      "tier": "B",
+      "note": "Standard, well-tolerated."
+    }
+  ],
+  "useCases": [
+    {
+      "k": "Daily AM brightening + barrier",
+      "b": "Layer between hydrating mist and SPF."
+    },
+    {
+      "k": "Acne-prone skin maintenance",
+      "b": "Sebum + post-acne pigment double benefit."
+    },
+    {
+      "k": "First-time active user",
+      "b": "Lowest-irritation entry into evidence-led actives."
+    }
+  ],
+  "alts": [
+    {
+      "brand": "The Ordinary",
+      "name": "Niacinamide 10% + Zinc 1%",
+      "tier": "B",
+      "score": 71,
+      "note": "Higher dose; more flush risk, no measurable extra benefit."
+    },
+    {
+      "brand": "Paula's Choice",
+      "name": "10% Niacinamide Booster",
+      "tier": "A",
+      "score": 78,
+      "note": "Cleaner vehicle, much higher cost."
+    },
+    {
+      "brand": "Dot & Key",
+      "name": "10% Niacinamide + Tranexamic",
+      "tier": "B",
+      "score": 70,
+      "note": "Adds TXA; pleasant; underdosed combo."
+    }
+  ],
+  "facts": [
+    [
+      "Format",
+      "Serum, 30 mL"
+    ],
+    [
+      "Niacinamide",
+      "5%"
+    ],
+    [
+      "Hyaluronic acid",
+      "1%"
+    ],
+    [
+      "Fragrance",
+      "None"
+    ],
+    [
+      "Price",
+      "₹ 449 / 30 mL"
+    ],
+    [
+      "Pregnancy-safe",
+      "Yes"
+    ]
+  ],
+  "faq": [
+    {
+      "q": "Why 5% and not 10%?",
+      "a": "Niacinamide's dose-response curve flattens above 5%. Higher concentrations risk flushing and irritation in 8-15% of users without a corresponding clinical gain. 5% is the evidence-led sweet spot."
+    },
+    {
+      "q": "Layer with vitamin C?",
+      "a": "Yes — both AM is fine on tolerant skin. Older 'don't layer' advice was based on out-of-date stability concerns; modern formulas are stable together."
+    },
+    {
+      "q": "How long until I see anything?",
+      "a": "Pigment / pore: 8-12 weeks. Barrier / oil: 2-4 weeks. Photograph baseline; measurement matters."
+    },
+    {
+      "q": "Pregnancy?",
+      "a": "Yes — niacinamide is one of the safest pregnancy actives. Use freely."
+    }
+  ],
+  "sources": [
+    {
+      "n": "Hakozaki T et al. Niacinamide in pigmentation. BJD 2002.",
+      "w": "RCT"
+    },
+    {
+      "n": "Bissett DL et al. Niacinamide: a B vitamin that improves aging facial skin. Dermatol Surg 2005.",
+      "w": "RCT"
+    },
+    {
+      "n": "Soma Y et al. Niacinamide in barrier repair. BJD 2005.",
+      "w": "RCT"
+    },
+    {
+      "n": "Minimalist Niacinamide 5% dossier. 2022.",
+      "w": "MFR DATA"
+    }
+  ]
+}

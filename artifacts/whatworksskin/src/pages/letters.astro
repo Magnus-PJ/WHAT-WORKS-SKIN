@@ -1,0 +1,436 @@
+---
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { home } from "@/lib/url";
+import { loadTransparencyMeta, formatLongDate } from "@/lib/transparency";
+
+const transparencyMeta = await loadTransparencyMeta();
+const lastUpdated = transparencyMeta.pages.letters;
+const lastUpdatedLong = formatLongDate(lastUpdated);
+
+type Tag = "Question" | "Pushback" | "Correction" | "Praise we kept";
+type Letter = {
+  initials: string;
+  name: string;
+  city: string;
+  date: string;
+  subject: string;
+  body: string;
+  reply: { editor: "Dr. Paul" | "Dr. Sundeep"; text: string };
+  tag: Tag;
+};
+
+const LETTERS: Letter[] = [
+  {
+    initials: "MA", name: "M. Adetola", city: "Lagos, Nigeria", date: "11 April 2026",
+    subject: "On Issue 12, the collagen drinks piece",
+    body: "You graded hydrolysed collagen 'Partly true' on the basis of skin elasticity endpoints. But two of the meta-analysis trials measured wrinkle depth, not elasticity. The wrinkle data is weaker. I think your grade is too generous unless you separate those endpoints in the next revision.",
+    reply: { editor: "Dr. Paul", text: "You're right that we conflated endpoints. We've revised the piece (Issue 12 update, posted 18 April) and split the verdict: 'Partly true' for elasticity, 'Skip' for wrinkle-depth claims. Thank you — this is the kind of letter we hope for." },
+    tag: "Pushback",
+  },
+  {
+    initials: "JS", name: "J. Sørensen", city: "Copenhagen", date: "04 April 2026",
+    subject: "Polypodium dosing for fair, rosacea-prone skin",
+    body: "Your supplement piece recommends 240mg twice daily. My derm here suggested 480mg morning only. Is the split-dose preference based on PK, on convenience, or on the trials? I tolerate Heliocare fine but would rather take it once.",
+    reply: { editor: "Dr. Sundeep", text: "Split-dose is a habit from the original Spanish trials, not a pharmacokinetic requirement. The half-life of Polypodium's active fragments supports once-daily 480mg if you take it with food. We've added a sentence to the supplement page making this explicit." },
+    tag: "Question",
+  },
+  {
+    initials: "RV", name: "R. Vargas", city: "Mexico City", date: "29 March 2026",
+    subject: "Methodology § 4.2 — the diagnostic weighting",
+    body: "I love the diagnostic but it routed me to the wrong concern guide. I described pigment + reactive skin, and got Melasma + UVMune. But I have post-inflammatory hyperpigmentation from acne, not melasma. The two need different treatment ladders. Worth distinguishing in the routing logic?",
+    reply: { editor: "Dr. Paul", text: "A real gap. We've added a follow-up question — 'Did the marks appear after spots or independently?' — that splits PIH from melasma at the routing layer. Live since Issue 14. Thank you for the specifics." },
+    tag: "Correction",
+  },
+  {
+    initials: "EK", name: "E. Kaur", city: "Toronto", date: "22 March 2026",
+    subject: "On the LED mask piece",
+    body: "I bought the Currentbody mask three months ago. Your 'Partly true' verdict matches what I'm seeing in the mirror — modest, real, slow. The thing I appreciated most was that you didn't tell me to return it.",
+    reply: { editor: "Dr. Sundeep", text: "Glad the verdict held up. The honest version is that 'modest, real, slow' is what most evidence-based skincare looks like. We try to match the pace of the language to the pace of the result." },
+    tag: "Praise we kept",
+  },
+];
+
+const STATS: { k: string; v: string }[] = [
+  { k: "412", v: "Letters published" },
+  { k: "94%", v: "Replied to within 14 days" },
+  { k: "31",  v: "Pieces revised because of a letter" },
+  { k: "0",   v: "Letters edited for content" },
+];
+
+const tagSlug = (t: Tag): string =>
+  t.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, "");
+---
+<Base
+  title="Letters to the Editors — What Works Skin"
+  description="Pushback, corrections, sharper questions, occasional praise we couldn't bring ourselves to delete. Published verbatim with first initial and city. Editors reply in print, signed."
+>
+  <SiteHeader />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Letters to the Editors" }]} />
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <p class="eyebrow">Correspondence · Published every fortnight</p>
+            <p class="last-updated" data-testid="page-last-updated">
+              <span class="last-updated-label">Last updated</span>
+              <time datetime={lastUpdated}>{lastUpdatedLong}</time>
+            </p>
+            <h1 class="title">
+              Letters<br />
+              <span class="ital">to the Editors.</span>
+            </h1>
+            <p class="lead">
+              Pushback, corrections, sharper questions, occasional praise we couldn't bring ourselves to delete. Published verbatim with first initial and city. The editors reply in print, signed.
+            </p>
+            <p class="hero-meta">
+              editorial@whatworksskin.com · Median reply time, 6 days
+            </p>
+          </div>
+          <aside class="hero-mark" aria-hidden="true">
+            <div class="mark">
+              <span class="mark-quote">&ldquo;</span>
+              <span class="mark-est">EST. 2025</span>
+            </div>
+          </aside>
+        </div>
+
+        <dl class="stats">
+          {STATS.map((s) => (
+            <div class="stat">
+              <dt>{s.k}</dt>
+              <dd>{s.v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <section class="ledger-section">
+      <div class="container narrow">
+        <div class="ledger-head">
+          <p class="eyebrow muted">This issue's correspondence</p>
+          <span class="ledger-meta">ISSUE 014 · 04 LETTERS PUBLISHED</span>
+        </div>
+
+        <ol class="letters">
+          {LETTERS.map((l, i) => (
+            <li>
+              <article class="letter">
+                <aside class="letter-meta">
+                  <div class="initials" aria-hidden="true">{l.initials}</div>
+                  <p class="letter-name">{l.name}</p>
+                  <p class="letter-city">{l.city.toUpperCase()}</p>
+                  <p class="letter-date">{l.date.toUpperCase()}</p>
+                </aside>
+                <div class="letter-body">
+                  <header class="letter-head">
+                    <span class="letter-num">LETTER № {String(i + 1).padStart(3, "0")}</span>
+                    <span class={`tag tag-${tagSlug(l.tag)}`}>{l.tag}</span>
+                  </header>
+                  <h2 class="letter-subject">&ldquo;{l.subject}&rdquo;</h2>
+                  <p class="letter-text">{l.body}</p>
+                  <aside class="reply">
+                    <p class="reply-eyebrow">THE EDITORS REPLY · {l.reply.editor.toUpperCase()}</p>
+                    <p class="reply-text">{l.reply.text}</p>
+                    <p class="reply-sig">— {l.reply.editor}</p>
+                  </aside>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ol>
+
+        <footer class="ledger-foot">
+          <span class="ledger-meta">412 letters published all-time · Earlier issues archived per fortnight</span>
+        </footer>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .container.narrow { max-width: 1040px; }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+
+  .eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .eyebrow.muted { color: var(--muted); }
+
+  .last-updated {
+    margin: 16px 0 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .last-updated-label { color: var(--muted); }
+  .last-updated time { color: var(--ink); font-family: var(--font-serif); font-size: 13px; letter-spacing: 0; text-transform: none; }
+
+  /* Hero */
+  .hero {
+    border-bottom: 1px solid var(--rule);
+    background: linear-gradient(180deg, var(--paper2) 0%, var(--paper) 100%);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-block: 64px;
+  }
+  @media (min-width: 768px) {
+    .hero-grid { grid-template-columns: 2fr 1fr; gap: 40px; }
+  }
+  .title {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(60px, 10vw, 92px);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .lead {
+    margin: 28px 0 0;
+    max-width: 40rem;
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .hero-meta {
+    margin: 24px 0 0;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  .hero-mark { display: flex; justify-content: flex-start; }
+  @media (min-width: 768px) { .hero-mark { justify-content: flex-end; } }
+  .mark {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border: 1px solid var(--muted);
+    display: grid;
+    place-items: center;
+  }
+  .mark::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid var(--rule);
+    pointer-events: none;
+  }
+  .mark-quote {
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 120px;
+    line-height: 0.8;
+    color: var(--accent);
+    opacity: 0.85;
+  }
+  .mark-est {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted-soft);
+  }
+
+  .stats {
+    margin: 0;
+    padding: 24px 0 40px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  @media (min-width: 768px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stat dt {
+    font-family: var(--font-serif);
+    font-size: 44px;
+    line-height: 1;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .stat dd {
+    margin: 6px 0 0;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* Letters body */
+  .ledger-section { padding-block: 80px; }
+  .ledger-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+  .ledger-meta {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-soft);
+    letter-spacing: 0.08em;
+  }
+
+  .letters {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+  }
+  .letter {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  @media (min-width: 768px) {
+    .letter { grid-template-columns: 160px 1fr; gap: 32px; }
+  }
+
+  .letter-meta { display: flex; flex-direction: column; gap: 4px; }
+  .initials {
+    width: 88px;
+    height: 88px;
+    border: 1px solid var(--ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 38px;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+    font-variation-settings: "opsz" 144;
+  }
+  .letter-name {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .letter-city, .letter-date {
+    margin: 2px 0 0;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-soft);
+    letter-spacing: 0.08em;
+  }
+
+  .letter-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .letter-num {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-soft);
+    letter-spacing: 0.1em;
+  }
+  .tag {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .tag-question     { color: var(--tier-c); background: var(--tier-c-soft); border-color: color-mix(in srgb, var(--tier-c) 33%, transparent); }
+  .tag-pushback     { color: var(--tier-b); background: var(--tier-b-soft); border-color: color-mix(in srgb, var(--tier-b) 33%, transparent); }
+  .tag-correction   { color: var(--tier-d); background: var(--tier-d-soft); border-color: color-mix(in srgb, var(--tier-d) 33%, transparent); }
+  .tag-praise-we-kept { color: var(--tier-a); background: var(--tier-a-soft); border-color: color-mix(in srgb, var(--tier-a) 33%, transparent); }
+
+  .letter-subject {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .letter-text {
+    margin: 20px 0 0;
+    font-family: var(--font-serif-ed);
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  .reply {
+    margin-top: 32px;
+    padding: 20px 24px 24px 32px;
+    border-left: 2px solid var(--accent);
+    background: var(--paper2);
+  }
+  .reply-eyebrow {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+  .reply-text {
+    margin: 12px 0 0;
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .reply-sig {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--ink);
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+
+  .ledger-foot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 56px;
+    margin-top: 32px;
+    border-top: 1px solid var(--rule);
+  }
+</style>
+

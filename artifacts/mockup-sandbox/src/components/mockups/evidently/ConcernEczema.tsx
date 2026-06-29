@@ -1,0 +1,38 @@
+// ConcernEczema — Atopic dermatitis (eczema) guide.
+
+import React from "react";
+import { ConcernPage } from "./_concernTemplate";
+
+const ConcernEczema: React.FC = () => (
+  <ConcernPage
+    pageSlug="ConcernEczema"
+    slug="eczema"
+    title="Eczema (atopic dermatitis)"
+    page="P. 13"
+    hero1="A barrier disease,"
+    hero2="not a skincare problem."
+    signs={[
+      { k: "Itchy, red, dry patches in flexural sites", w: "92%", n: "Antecubital, popliteal, neck, eyelids. Itch is cardinal — eczema without itch is rarely eczema." },
+      { k: "Lichenification from chronic scratching", w: "68%", n: "Thickened, leathery patches. Indicates the disease has been active for months unmanaged." },
+      { k: "Personal or family history of atopy", w: "72%", n: "Asthma, allergic rhinitis, food allergy. The atopic march signature." },
+      { k: "Worsens with soap, fragrance, hot showers", w: "85%", n: "All universal triggers. The first audit is bathroom-product elimination, not new product introduction." },
+    ]}
+    ingredients={[
+      { name: "Ceramide-rich emollient", tier: "A", role: "Daily barrier", evidence: "Twice-daily, generous, lifelong. The single most-evidenced intervention." },
+      { name: "Petrolatum / Aquaphor", tier: "A", role: "Acute occlusive", evidence: "Reference occlusive for active flares, particularly overnight wet-wrap protocols." },
+      { name: "Topical corticosteroid (low-mid potency)", tier: "A", role: "Acute flare", evidence: "Hydrocortisone 1% to clobetasol depending on site. Short courses; do not fear them." },
+      { name: "Tacrolimus 0.03–0.1% / Pimecrolimus", tier: "A", role: "Steroid-sparing", evidence: "First-line for face and folds. Long-term safety profile is now well-established." },
+      { name: "Crisaborole 2%", tier: "B", role: "PDE4 inhibitor", evidence: "Newer; useful for mild-moderate disease. Sting is the main limiter." },
+      { name: "Dupilumab (clinic)", tier: "A", role: "Biologic", evidence: "Moderate-severe disease. The single largest advance in eczema treatment in 20 years." },
+    ]}
+    phases={[
+      { w: "Always", t: "Daily emollient", b: "Twice-daily ceramide cream, lifelong. The non-negotiable foundation." },
+      { w: "During flares", t: "Topical anti-inflammatory", b: "Steroid for 7–14 days; tacrolimus for face/folds. Do not under-treat — short courses prevent chronicity." },
+      { w: "Between flares", t: "Trigger audit", b: "Eliminate fragrance, sulfates, drying soaps. Cool showers. Cotton clothing. Identify food triggers if relevant." },
+      { w: "If severe", t: "Systemic options", b: "Dupilumab and JAK inhibitors have transformed moderate-severe disease. See a dermatologist; do not loop on topicals indefinitely." },
+    ]}
+    bottom="A chronic disease that needs lifelong daily emollient and short courses of anti-inflammatory therapy during flares. The dermatology consult belongs to anyone scratching nightly for more than 3 weeks."
+  />
+);
+
+export default ConcernEczema;

@@ -1,0 +1,124 @@
+{
+  "slug": "am-aging",
+  "title": "The AM anti-aging stack.",
+  "sub": "AM · 35+ skin",
+  "goal": "Anti-aging",
+  "time": "Morning",
+  "skinType": "Mature / Normal",
+  "stepCount": 5,
+  "minutes": 14,
+  "cost": "₹ 8–14k",
+  "difficulty": "Intermediate",
+  "body": "Vitamin C, peptides, mineral SPF. Built around prevention, not correction.",
+  "reviewer": "Dr. Sundeep",
+  "pageRef": "P. 12",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · AM · 35+ skin",
+  "steps": [
+    {
+      "n": "01",
+      "time": "AM",
+      "title": "Cream cleanser",
+      "sub": "Non-stripping, low-pH",
+      "body": "Mature skin loses ceramides faster than younger skin replaces them; a foaming cleanser amplifies this. A short, gentle cream cleanse — 30 seconds, lukewarm water — preserves the lipid envelope that the rest of the stack depends on.",
+      "products": [
+        {
+          "brand": "La Roche-Posay",
+          "name": "Toleriane Hydrating",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Avène",
+          "name": "Tolérance Cleansing Lotion",
+          "note": "Sensitive",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "02",
+      "time": "AM",
+      "title": "Vitamin C serum 10–15%",
+      "sub": "L-ascorbic, pH 3.5",
+      "body": "Vitamin C is the AM antioxidant with the strongest 12-week wrinkle and pigment evidence. Apply to dry skin before any peptide or moisturiser. Replace formulations that turn amber within four months — oxidised C does nothing.",
+      "products": [
+        {
+          "brand": "SkinCeuticals",
+          "name": "C E Ferulic",
+          "note": "Reference",
+          "tier": "A"
+        },
+        {
+          "brand": "Dot & Key",
+          "name": "10% Vitamin C + E",
+          "note": "Budget",
+          "tier": "B"
+        }
+      ]
+    },
+    {
+      "n": "03",
+      "time": "AM",
+      "title": "Peptide moisturiser",
+      "sub": "Matrixyl 3000 or copper peptides",
+      "body": "The peptide tier with the most replicated 12-week firmness data. Layer over the C while it is still slightly tacky. Mature skin tolerates the additional layer; combination skin may want a lighter texture.",
+      "products": [
+        {
+          "brand": "Olay",
+          "name": "Regenerist Micro-Sculpting",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Niod",
+          "name": "Multi-Molecular Hyaluronic",
+          "note": "Premium",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "04",
+      "time": "AM",
+      "title": "Eye cream with peptides",
+      "sub": "Periorbital, ring-finger application",
+      "body": "The skin around the eye is genuinely thinner and ages on a faster timeline. A targeted eye cream is one of the few 'specialty' products with reasonable evidence; use a peptide-led formula, not a caffeine-led one (caffeine shifts puffiness for hours, not endpoints).",
+      "products": [
+        {
+          "brand": "Kiehl's",
+          "name": "Avocado Eye Treatment",
+          "note": "Default",
+          "tier": "B"
+        },
+        {
+          "brand": "The Ordinary",
+          "name": "Argireline Solution",
+          "note": "Budget",
+          "tier": "C"
+        }
+      ]
+    },
+    {
+      "n": "05",
+      "time": "AM",
+      "title": "Mineral SPF 50+",
+      "sub": "PA++++, broad-spectrum",
+      "body": "Photo-aging is the dominant variable in visible aging through the 30s and 40s; the morning SPF carries roughly half the effect of the entire stack. Two finger-lengths, every morning, including the rainy season.",
+      "products": [
+        {
+          "brand": "La Roche-Posay",
+          "name": "UVMune 400",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Vichy",
+          "name": "Capital Soleil UV-Age Daily",
+          "note": "Tinted",
+          "tier": "A"
+        }
+      ]
+    }
+  ]
+}

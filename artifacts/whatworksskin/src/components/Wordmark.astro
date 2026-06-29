@@ -1,0 +1,23 @@
+---
+export interface Props {
+  size?: number;
+}
+const { size = 22 } = Astro.props;
+---
+<span class="wordmark" style={`font-size:${size}px`}>
+  <span class="wm-mark">What&nbsp;Works</span>
+  <span class="wm-italic" style={`margin-left:${size * 0.18}px`}>Skin</span>
+</span>
+
+<style>
+  .wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .wm-mark { color: var(--ink); }
+  .wm-italic { color: var(--accent); font-style: italic; }
+</style>

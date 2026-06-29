@@ -1,0 +1,101 @@
+{
+  "slug": "rosacea",
+  "name": "Rosacea",
+  "family": "Sensitive & barrier",
+  "eyebrow": "Concern · Sensitive & Barrier · Rosacea",
+  "dek": "Persistent central-face redness, visible vessels, easy flushing, sometimes papules and pustules. The most-misdiagnosed condition we see — frequently treated with the same anti-acne stack that makes it worse. The fix is trigger management plus the right anti-inflammatory, not a stronger BHA.",
+  "oneliner": "Vascular reactivity, not inflammation alone. Trigger-led.",
+  "reviewer": "Dr. Sundeep",
+  "pageRef": "P. 16",
+  "filed": "22 APR 2026",
+  "triggers": [
+    {
+      "k": "Sun & UVA",
+      "w": "85%",
+      "n": "The single largest trigger. Daily SPF non-negotiable."
+    },
+    {
+      "k": "Heat & spice",
+      "w": "62%",
+      "n": "Hot food, hot showers, hot yoga, summer cooking. The Indian kitchen is rosacea-hostile."
+    },
+    {
+      "k": "Alcohol",
+      "w": "70%",
+      "n": "Particularly red wine and dark spirits. Vasoactive sulphites."
+    },
+    {
+      "k": "Topical irritants",
+      "w": "55%",
+      "n": "Fragrance, alcohol denat., AHAs, retinoids — at the wrong dose."
+    }
+  ],
+  "ingredients": [
+    {
+      "name": "Azelaic acid 15% (Rx)",
+      "tier": "A",
+      "role": "Anti-inflammatory · papulopustular",
+      "evidence": "First-line, multiple RCTs"
+    },
+    {
+      "name": "Metronidazole 0.75%",
+      "tier": "A",
+      "role": "Anti-inflammatory · Rx",
+      "evidence": "Reference Rx for decades"
+    },
+    {
+      "name": "Ivermectin 1% (Rx)",
+      "tier": "A",
+      "role": "Anti-Demodex · Rx",
+      "evidence": "Strong RCT data, faster onset than azelaic"
+    },
+    {
+      "name": "Niacinamide 4–5%",
+      "tier": "A",
+      "role": "Erythema · barrier",
+      "evidence": "Replicated reduction in flushing"
+    },
+    {
+      "name": "Centella / madecassoside",
+      "tier": "B",
+      "role": "Calming",
+      "evidence": "Open-label & small RCTs · symptomatic"
+    },
+    {
+      "name": "Brimonidine 0.33% (Rx)",
+      "tier": "B",
+      "role": "Vasoconstrictor — short-term",
+      "evidence": "Rebound flushing common; reserve for events"
+    }
+  ],
+  "products": [
+    {
+      "brand": "Galderma",
+      "name": "Finacea Foam 15% (Rx)",
+      "tier": "A",
+      "score": 90,
+      "why": "Reference azelaic for papular rosacea. Foam vehicle excels."
+    },
+    {
+      "brand": "La Roche-Posay",
+      "name": "Toleriane Sensitive Riche",
+      "tier": "A",
+      "score": 84,
+      "why": "Fragrance-free, neurosensitive-tested. Minimalist barrier cream."
+    },
+    {
+      "brand": "Avène",
+      "name": "Antirougeurs DAY",
+      "tier": "B",
+      "score": 76,
+      "why": "Ruscus extract + thermal water. Mild redness reduction over 4 weeks."
+    },
+    {
+      "brand": "Skin1004",
+      "name": "Madagascar Centella Ampoule",
+      "tier": "A",
+      "score": 82,
+      "why": "Cleanest centella formula at honest price. Soothes flares."
+    }
+  ]
+}

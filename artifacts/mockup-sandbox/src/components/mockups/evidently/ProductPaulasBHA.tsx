@@ -1,0 +1,61 @@
+import React from "react";
+import { ProductTemplate, ProductData } from "./_ProductTemplate";
+
+const D: ProductData = {
+  brand: "Paula's Choice",
+  productName: "2% BHA Liquid Exfoliant",
+  tagline: "the reference exfoliant.",
+  category: "Actives",
+  pageRef: "P. 25",
+  filed: "22-APR-2026",
+  reviewer: "Dr. Aanya Mehta",
+  eyebrow: "Product · Active · BHA",
+  tier: "A",
+  hero: "The reference 2% salicylic acid leave-on. Correctly buffered to pH 3.2-4.0, lightweight, fragrance-free, with a 25-year reformulation history. Every other BHA is judged against this one.",
+  facts: [
+    ["Format", "Liquid, 30 / 118 / 236 mL"],
+    ["Salicylic acid", "2% (USP)"],
+    ["pH", "3.2 - 4.0"],
+    ["Fragrance", "None"],
+    ["Price", "₹ 3,200 / 118 mL"],
+    ["Pregnancy-safe", "No (caution; use rinse-off SA only)"],
+  ],
+  scoreBreakdown: [
+    { k: "Active concentration / pH", v: 24, max: 25, n: "2% at pH 3.2-4.0 is the sweet spot for activity vs irritation." },
+    { k: "Vehicle elegance", v: 22, max: 25, n: "Light liquid; no greasy film. Layers cleanly." },
+    { k: "Evidence per claim", v: 22, max: 25, n: "Comedone reduction at 8-12 weeks replicated across studies." },
+    { k: "Value", v: 17, max: 25, n: "₹ 3,200 / 118 mL — premium; The Inkey List BHA is half the price." },
+  ],
+  ingredients: [
+    { i: "Salicylic acid 2%", role: "Lipophilic exfoliant", tier: "A", note: "Reaches inside the pore; reduces comedones." },
+    { i: "Methylpropanediol", role: "Solvent / penetration aid", tier: "B", note: "Improves SA solubility and penetration." },
+    { i: "Camellia oleifera", role: "Antioxidant", tier: "B", note: "Calming adjunct; small effect." },
+    { i: "Sodium hydroxide", role: "pH adjuster", tier: "A", note: "Targets the 3.2-4.0 active range." },
+    { i: "Polysorbate 20", role: "Solubiliser", tier: "B", note: "Standard formulation aid." },
+  ],
+  useCases: [
+    { k: "Comedonal acne", b: "Daily PM, alternate with retinoid until tolerated, then layer." },
+    { k: "Keratosis pilaris", b: "Body application: arms, thighs. Most effective ingredient short of Rx." },
+    { k: "Oily / large-pore maintenance", b: "Reduces sebum film; pores read smaller within 4-6 weeks." },
+  ],
+  alts: [
+    { brand: "The Inkey List", name: "Beta Hydroxy Acid 2%", tier: "A", score: 78, note: "Half the price; slightly thicker vehicle." },
+    { brand: "Cosrx", name: "BHA Blackhead Power Liquid", tier: "B", score: 72, note: "Betaine salicylate; slightly weaker than true SA." },
+    { brand: "The Ordinary", name: "Salicylic Acid 2% Solution", tier: "A", score: 75, note: "Aqueous version; good budget alternative." },
+  ],
+  faq: [
+    { q: "Daily or weekly?", a: "Most skin tolerates daily after a 2-week ramp. Start every other night, increase as tolerated. Daily is the goal — sporadic use gives sporadic results." },
+    { q: "BHA after retinoid — too much?", a: "On most adult skin, no — buffer with a moisturiser between. On sensitised skin, alternate nights instead." },
+    { q: "Pregnancy?", a: "Most dermatology guidelines advise stopping leave-on SA in pregnancy. Switch to azelaic acid or glycolic acid as a milder alternate." },
+    { q: "Is it really worth 2× The Inkey List?", a: "Marginally — better vehicle, smoother finish, more research bandwidth behind the brand. The Inkey delivers 90% of the benefit at 50% of the price. Either is a reasonable choice." },
+  ],
+  sources: [
+    { n: "Kornhauser A et al. Salicylic acid in acne. Cosm Toiletries 2011.", w: "REVIEW" },
+    { n: "Webster GF. Topical therapy for acne. JAAD 1995.", w: "REVIEW" },
+    { n: "Paula's Choice 2% BHA clinical dossier. 2020.", w: "MFR DATA" },
+    { n: "Lebwohl M et al. Salicylic acid pH-activity relationship. JID 2007.", w: "MECHANISM" },
+  ],
+};
+
+const ProductPaulasBHA: React.FC = () => <ProductTemplate d={D} />;
+export default ProductPaulasBHA;

@@ -1,0 +1,168 @@
+{
+  "slug": "neutrogena-hydro-boost-water-gel",
+  "brand": "Neutrogena",
+  "name": "Hydro Boost Water Gel",
+  "category": "Moisturisers",
+  "tagline": "the pleasant hydrator.",
+  "reviewer": "Dr. Aanya Mehta",
+  "tier": "B",
+  "pageRef": "P. 24",
+  "filed": "22-APR-2026",
+  "eyebrow": "Product · Moisturiser · Gel",
+  "hero": "A hyaluronic-led gel that wears beautifully on oily and combination skin in summer. Modest claims hold; the marketing claims (\"deeply quenches\") don't. Use it for what it is — a light hydrator, not a barrier-repair cream.",
+  "score": 70,
+  "maxScore": 100,
+  "scoreBreakdown": [
+    {
+      "k": "Texture / wearability",
+      "v": 22,
+      "max": 25,
+      "n": "Best-in-class water-gel feel for humid climates."
+    },
+    {
+      "k": "Barrier support",
+      "v": 14,
+      "max": 25,
+      "n": "Humectant-only; no real lipid component."
+    },
+    {
+      "k": "Active depth",
+      "v": 15,
+      "max": 25,
+      "n": "HA blend is real but the rest is fragrance and filler."
+    },
+    {
+      "k": "Value",
+      "v": 19,
+      "max": 25,
+      "n": "₹ 850 / 50 mL — fair for the texture, weak for the formula."
+    }
+  ],
+  "ingredients": [
+    {
+      "i": "Hyaluronic acid (multi-MW)",
+      "role": "Humectant",
+      "tier": "A",
+      "note": "Surface and slightly deeper hydration."
+    },
+    {
+      "i": "Glycerin",
+      "role": "Humectant",
+      "tier": "A",
+      "note": "Workhorse. Drives most measurable hydration."
+    },
+    {
+      "i": "Dimethicone",
+      "role": "Smoothing emollient",
+      "tier": "B",
+      "note": "Adds slip; doesn't really seal."
+    },
+    {
+      "i": "Trehalose",
+      "role": "Osmolyte humectant",
+      "tier": "B",
+      "note": "Modest but real addition."
+    },
+    {
+      "i": "Fragrance",
+      "role": "—",
+      "tier": "C",
+      "note": "Negative: fragrance is the most common cosmetic allergen."
+    }
+  ],
+  "useCases": [
+    {
+      "k": "Oily-skin daily AM moisturiser in summer",
+      "b": "Pleasant under SPF; doesn't pile or pill."
+    },
+    {
+      "k": "Layering under heavier creams (winter)",
+      "b": "As a humectant base before an occlusive."
+    },
+    {
+      "k": "Travel / gym bag",
+      "b": "Light, absorbs fast, won't stain a t-shirt collar."
+    }
+  ],
+  "alts": [
+    {
+      "brand": "La Roche-Posay",
+      "name": "Hyalu B5 Serum",
+      "tier": "A",
+      "score": 80,
+      "note": "Hyaluronic + B5; better evidence base."
+    },
+    {
+      "brand": "The Ordinary",
+      "name": "Hyaluronic Acid 2% + B5",
+      "tier": "B",
+      "score": 73,
+      "note": "Cheaper humectant equivalent in serum form."
+    },
+    {
+      "brand": "Cetaphil",
+      "name": "Optimal Hydration Daily Gel-Cream",
+      "tier": "B",
+      "score": 71,
+      "note": "Fragrance-free alternate; closer feel."
+    }
+  ],
+  "facts": [
+    [
+      "Format",
+      "Gel, 50 mL"
+    ],
+    [
+      "Texture",
+      "Water-gel; absorbs in seconds"
+    ],
+    [
+      "Hyaluronic acid",
+      "Multi-weight blend"
+    ],
+    [
+      "Fragrance",
+      "Yes (light)"
+    ],
+    [
+      "Price",
+      "₹ 850 / 50 mL"
+    ],
+    [
+      "Pregnancy-safe",
+      "Yes"
+    ]
+  ],
+  "faq": [
+    {
+      "q": "Does the hyaluronic acid 'plump' my skin?",
+      "a": "Surface hydration improves the look of fine lines temporarily. There's no dermal volume change — that requires injection, not topical HA."
+    },
+    {
+      "q": "Enough for dry skin?",
+      "a": "For dry-to-normal in summer, yes. For genuinely dry skin year-round, layer a heavier cream over it. Hydro Boost alone is humectant-only."
+    },
+    {
+      "q": "Fragrance — should I worry?",
+      "a": "If you have a history of contact reactions, yes. Pick La Roche-Posay Hyalu B5 instead. For most users it's tolerated, but the fragrance is decorative, not functional."
+    },
+    {
+      "q": "Hydro Boost Gel vs Gel-Cream?",
+      "a": "Gel-Cream is heavier — has dimethicone-driven occlusion. Better in winter or for drier skin. Gel is the summer / oily default."
+    }
+  ],
+  "sources": [
+    {
+      "n": "Pavicic T et al. Hyaluronic acid in skin hydration. JDD 2011.",
+      "w": "RCT"
+    },
+    {
+      "n": "Bukhari SNA et al. Hyaluronic acid: a key biomolecule. Int J Biol Macromol 2018.",
+      "w": "REVIEW"
+    },
+    {
+      "n": "Neutrogena Hydro Boost dossier — clinical hydration data. 2021.",
+      "w": "MFR DATA"
+    }
+  ]
+}

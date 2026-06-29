@@ -1,0 +1,78 @@
+// IngredientPanthenol — full ingredient brief for panthenol (B5).
+import React from "react";
+import { IngredientBrief, type IngredientBriefData } from "./_IngredientBrief";
+
+export const data: IngredientBriefData = {
+  slug: "panthenol",
+  name: "Panthenol",
+  number: "17 / 28",
+  filed: "15 APR 2026",
+  eyebrowKicker: "Ingredient · Pro-vitamin B5 · Panthenol",
+  tier: "B",
+  headlineSize: 124,
+  tagline: { italic: "The quiet supporting cast", rest: "in nearly every barrier cream." },
+  lead:
+    "The pro-vitamin B5 form: water-soluble, well-tolerated, and converted in the skin to pantothenic acid — a cofactor in the synthesis of coenzyme A and downstream lipid metabolism. Modest, replicable, almost-never-failing. The ingredient that quietly improves the formula it lives in.",
+  atGlance: [
+    ["INCI", "Panthenol / D-Panthenol / Pro-vitamin B5"],
+    ["Family", "Provitamin / amphiphilic alcohol"],
+    ["Useful range", "1 – 5%"],
+    ["Vehicle", "Cream, serum, lotion"],
+    ["Pregnancy-safe", "Yes"],
+    ["Photo-stable", "Yes"],
+    ["Reviewer", "Dr. Paul · 15-Apr-2026"],
+  ],
+  toc: [
+    ["01", "What it is"],
+    ["02", "Mechanism"],
+    ["03", "Evidence overview"],
+    ["04", "Concentration & vehicle"],
+    ["05", "Where it earns its tier"],
+    ["06", "Pairings & conflicts"],
+    ["07", "On our shelf"],
+    ["08", "FAQ"],
+  ],
+  whatItIs: {
+    dropCap: "P",
+    title: { plain: "What panthenol", italic: "actually is." },
+    body:
+      "anthenol is the alcohol pro-form of pantothenic acid (vitamin B5). On contact with skin tissue it is enzymatically converted to pantothenic acid, which is a cofactor in coenzyme A synthesis — a central node in fatty-acid metabolism, ceramide assembly, and inflammatory signalling. The cosmetic effect is dual: humectant on the surface, metabolic support inside the keratinocyte.",
+  },
+  mechanism: [
+    { k: "Surface humectancy", b: "Hygroscopic; binds water at the corneocyte surface and improves skin feel immediately." },
+    { k: "Metabolic support", b: "Pantothenic acid is rate-limiting for CoA synthesis; downstream effects on lipid assembly and barrier repair." },
+    { k: "Anti-inflammatory", b: "Modest effect on erythema and itch; replicated in mild eczema and post-procedure cohorts." },
+  ],
+  evidence: [
+    { c: "TEWL / barrier", n: "Bioengineering", w: "70%", note: "5% panthenol reproducibly reduces TEWL and improves stratum-corneum hydration." },
+    { c: "Wound / post-procedure", n: "RCTs vs petrolatum", w: "68%", note: "Comparable or superior to petrolatum on healing endpoints in superficial wounds." },
+    { c: "Erythema / itch", n: "Cohort and small RCTs", w: "62%", note: "Real reduction; pairs naturally with niacinamide and ceramides." },
+    { c: "Anti-aging (direct)", n: "Insufficient", w: "30%", note: "Not the role. Supporting ingredient, not a wrinkle tool." },
+  ],
+  concentration: [
+    { c: "1 – 2%", v: "Standard", b: "Most cosmetics live here. Adequate humectant role." },
+    { c: "3 – 5%", v: "Therapeutic", b: "Where the post-procedure and barrier data lives." },
+    { c: "Pharmaceutical 5%+", v: "Bepanthen-class", b: "Wound and nappy-rash treatment. Same molecule, intentional dose." },
+  ],
+  pairings: [
+    { with: "Hyaluronic acid", verdict: "Synergistic", note: "Two complementary humectants; the standard 'B5 + HA' duo for a reason.", ok: true },
+    { with: "Ceramides", verdict: "Excellent", note: "Panthenol supports lipid synthesis upstream; ceramides supply lipids directly. Combine.", ok: true },
+    { with: "Retinoids", verdict: "Excellent", note: "Panthenol-led moisturiser blunts retinoid onboarding without compromising efficacy.", ok: true },
+    { with: "Niacinamide", verdict: "Synergistic", note: "Both anti-inflammatory and barrier-restoring. Layer freely.", ok: true },
+  ],
+  products: [
+    { brand: "La Roche-Posay", name: "Cicaplast Baume B5", tier: "A", score: 88, note: "5% panthenol + madecassoside + zinc. The reference post-procedure cream." },
+    { brand: "Bepanthen", name: "Sensiderm Cream", tier: "A", score: 84, note: "Pharmacy-grade, pure-functional formulation. Eczema-prone skin staple." },
+    { brand: "The Ordinary", name: "Hyaluronic Acid 2% + B5", tier: "B", score: 78, note: "B5 supports the HA layer. Honest, cheap, useful." },
+    { brand: "Stratia", name: "Liquid Gold", tier: "A", score: 82, note: "Ceramide + cholesterol + B5 in physiologic ratio. Quietly excellent." },
+  ],
+  faq: [
+    { q: "Is panthenol the same as vitamin B5?", a: "It is the alcohol pro-form. Once on skin it is converted to pantothenic acid (true B5). The two terms are used interchangeably in cosmetic copy." },
+    { q: "Will it heal an active wound?", a: "It supports healing — reproducibly — but for an open wound, talk to a clinician. Bepanthen is the regulated wound product; Bepanthol-class cosmetics are for intact skin." },
+    { q: "Does it actually do anything, or is it filler?", a: "It is functional, not filler. The role is supporting. Panthenol does not transform skin on its own; it makes every formula it sits in measurably more comfortable and recovery-friendly." },
+    { q: "Pregnancy-safe?", a: "Yes. One of the few actives that is uncontroversially safe across pregnancy and lactation." },
+  ],
+};
+
+const IngredientPanthenol: React.FC = () => <IngredientBrief data={data} />;
+export default IngredientPanthenol;

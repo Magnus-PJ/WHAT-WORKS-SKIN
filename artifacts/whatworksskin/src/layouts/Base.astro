@@ -1,0 +1,113 @@
+---
+import "@/styles/tokens.css";
+
+export interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+  schema?: Record<string, any>;
+}
+
+const {
+  title,
+  description = "Independent, ad-free, evidence-first skincare reference. Reviewed by board-certified dermatologists.",
+  ogImage,
+  canonical,
+  schema,
+} = Astro.props;
+
+const fullTitle = title.includes("What Works Skin")
+  ? title
+  : `${title} — What Works Skin`;
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, "") : "https://whatworksskin.com";
+const ogImageUrl = ogImage
+  ? (ogImage.startsWith("http") ? ogImage : `${siteUrl}${ogImage.startsWith("/") ? "" : "/"}${ogImage}`)
+  : `${siteUrl}/opengraph.jpg`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Instrument+Serif:ital@0;1&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    {schema && (
+      <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+    )}
+  </head>
+  <body>
+    <div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
+    <slot />
+
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", () => {
+        const progress = document.getElementById("scroll-progress");
+        if (!progress) return;
+        
+        const updateProgress = () => {
+          const scrollTop = window.scrollY || document.documentElement.scrollTop;
+          const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          
+          // Only show progress bar if there's significant scrollable content (e.g. > 400px of extra height)
+          if (docHeight <= 400) {
+            progress.classList.remove("is-active");
+            return;
+          }
+          
+          const pct = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
+          progress.style.width = `${pct}%`;
+          
+          if (scrollTop > 80) {
+            progress.classList.add("is-active");
+          } else {
+            progress.classList.remove("is-active");
+          }
+        };
+        
+        window.addEventListener("scroll", updateProgress, { passive: true });
+        window.addEventListener("resize", updateProgress, { passive: true });
+        updateProgress();
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--accent);
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.1s ease-out, opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .scroll-progress.is-active {
+    opacity: 1;
+  }
+</style>

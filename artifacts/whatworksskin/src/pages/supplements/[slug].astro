@@ -1,0 +1,24 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import SupplementBrief from "@/components/SupplementBrief.astro";
+
+export async function getStaticPaths() {
+  const supplements = await getCollection("supplements");
+  return supplements.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { id: entry.id },
+  }));
+}
+
+const { id } = Astro.props;
+const entry = await getEntry("supplements", id);
+if (!entry) {
+  throw new Error(`Supplement not found: ${id}`);
+}
+const data = entry.data;
+const description = `${data.name} — ${data.oneliner}`.slice(0, 180);
+---
+<Base title={`${data.name} — Supplement brief`} description={description}>
+  <SupplementBrief data={data} />
+</Base>

@@ -1,0 +1,2000 @@
+---
+import { getCollection } from "astro:content";
+import SiteHeader from "./SiteHeader.astro";
+import SiteFooter from "./SiteFooter.astro";
+import Breadcrumbs from "./Breadcrumbs.astro";
+import PaperEffects from "./PaperEffects.astro";
+import AmbientFlask from "./AmbientFlask.astro";
+import TierBadge from "./TierBadge.astro";
+import MaybeLink from "./MaybeLink.astro";
+import { url, home } from "@/lib/url";
+import {
+  findConcernSlug,
+  findIngredientSlug,
+  findProductSlug,
+  getIngredientBacklinks,
+  getIngredientCards,
+  getIngredientMentionedBy,
+  type IngredientCard,
+} from "@/lib/links";
+import {
+  filterRenderedMentionedBy,
+  splitMentionedByForCap,
+} from "@/lib/mentioned-by";
+import { citationIdForStudy } from "@/lib/citations";
+import CitedSourcesBlock from "./CitedSourcesBlock.astro";
+
+type Tier = "A" | "B" | "C" | "D";
+type Pair = readonly [string, string];
+
+export interface IngredientBriefData {
+  slug: string;
+  name: string;
+  number: string;
+  filed: string;
+  eyebrowKicker: string;
+  tier: Tier;
+  headlineSize?: number;
+  chemistry?: string;
+  tagline?: { italic: string; rest: string };
+  lead: string;
+  atGlance: Pair[];
+  toc: Pair[];
+  whatItIs: { dropCap: string; title: { plain: string; italic: string }; body: string; body2?: string };
+  mechanism?: { k: string; b: string }[];
+  evidence?: { c: string; n: string; w: string; note: string }[];
+  studies?: {
+    authors: string;
+    journal: string;
+    year: number | string;
+    pmid: string;
+    n?: number | string | null;
+    design: string;
+    duration: string;
+    finding: string;
+    grade: Tier;
+  }[];
+  concentration?: { c: string; v: string; b: string }[];
+  byConcern?: { concern: string; range: string; note: string; evidence: string }[];
+  howToUse?: { eyebrow: string; body: string }[];
+  mistakes?: { t: string; b: string }[];
+  myths?: { m: string; t: string }[];
+  pairings?: { with: string; verdict: string; note: string; ok: boolean }[];
+  products: { brand: string; name: string; tier: Tier; score?: number; price?: string; note: string }[];
+  faq: { q: string; a: string }[];
+  related?: { tier: Tier; name: string; sub: string }[];
+  relatedIngredients?: (string | { slug: string; sub: string })[];
+  reviewer?: { name: string; credentials?: string; title: string; quote?: string };
+}
+
+export interface Props { data: IngredientBriefData }
+const { data } = Astro.props;
+const headlineSize = data.headlineSize ?? 124;
+const tierAColor = "var(--tier-a)";
+const tierDColor = "var(--tier-d)";
+
+// Two layout shapes are supported by the same template:
+//   • LEGACY (26 ingredients ported from the original mockup): TOC
+//     04 Concentration → 06 Pairings → 07 On our shelf →
+//     08 FAQ → 09 Sources/Reviewer (note: the legacy template
+//     intentionally skips § 05 because the "Where it earns its
+//     tier" TOC entry is decorative, not a rendered section).
+//   • EXTENDED (e.g. tretinoin): TOC adds Studies, Concentration
+//     by concern, How-to-use, Mistakes, Myths, and Related, and
+//     reorders FAQ before Products. Folios in this shape are
+//     contiguous 02 → 11 to match the source mockup exactly.
+const isExtendedShape = !!(
+  data.studies?.length ||
+  data.byConcern?.length ||
+  data.howToUse?.length ||
+  data.mistakes?.length ||
+  data.myths?.length ||
+  data.related?.length
+);
+// `relatedIngredients` (slug-based) and the legacy `related` block
+// both render the same "Related ingredients" section. The legacy
+// shape carries hand-authored `sub` copy; the slug-based shape is
+// resolved against the linked brief's metadata at build time.
+const relatedSlugCards: IngredientCard[] = data.relatedIngredients
+  ? await getIngredientCards(data.relatedIngredients)
+  : [];
+const hasRelatedSection =
+  (data.related?.length ?? 0) > 0 || relatedSlugCards.length > 0;
+const folio = {
+  whatItIs: "§ 01",
+  mechanism: "§ 02",
+  evidence: "§ 03",
+  studies: "§ 03",
+  concentration: "§ 04",
+  byConcern: "§ 04",
+  howToUse: "§ 05",
+  mistakes: "§ 06",
+  myths: "§ 07",
+  pairings: "§ 06",
+  faq: "§ 08",
+  products: isExtendedShape ? "§ 09" : "§ 07",
+  related: isExtendedShape ? "§ 10" : "§ 09",
+  reviewer: isExtendedShape
+    ? "§ 11"
+    : hasRelatedSection
+      ? "§ 10"
+      : "§ 09",
+} as const;
+// Resolve every cross-reference once per render. The `products`
+// shelf links to product reviews; `byConcern` rows link to the
+// concern brief; pairings + related ingredients link to other
+// ingredient briefs. Backlinks lead readers to concerns and
+// routines that reference this ingredient elsewhere.
+const productLinks: (string | undefined)[] = await Promise.all(
+  data.products.map((p) => findProductSlug(p.brand, p.name)),
+);
+const byConcernLinks: (string | undefined)[] = data.byConcern
+  ? await Promise.all(data.byConcern.map((row) => findConcernSlug(row.concern)))
+  : [];
+const pairingLinks: (string | undefined)[] = data.pairings
+  ? await Promise.all(data.pairings.map((p) => findIngredientSlug(p.with)))
+  : [];
+const relatedLinks: (string | undefined)[] = data.related
+  ? await Promise.all(data.related.map((r) => findIngredientSlug(r.name)))
+  : [];
+const backlinks = await getIngredientBacklinks(data.slug);
+const hasBacklinks =
+  backlinks.concerns.length > 0 || backlinks.routines.length > 0;
+// "Mentioned by" surfaces the inverse `relatedIngredients` graph so
+// readers landing on a hub ingredient can see the long tail of other
+// briefs that name-check it as a daily partner — even when those
+// pairings are intentional one-ways (the curated grid only has 4
+// reserved slots). We drop any entry that's already on the curated
+// grid above so the section reads as additive, not duplicative.
+const renderedRelatedSlugs = new Set<string>(
+  relatedSlugCards.length > 0
+    ? relatedSlugCards.map((c) => c.slug)
+    : relatedLinks.filter((s): s is string => Boolean(s)),
+);
+const mentionedBy = filterRenderedMentionedBy(
+  await getIngredientMentionedBy(data.slug),
+  renderedRelatedSlugs,
+);
+const hasMentionedBy = mentionedBy.length > 0;
+// Cap the rendered Mentioned-by list so hub ingredients (niacinamide,
+// salicylic-acid, …) don't dwarf the curated grid above and crowd
+// out the back-link "Where it appears" panel below as more briefs
+// ship. Briefs at or under the cap render unchanged — no toggle is
+// emitted. Above the cap, the overflow is hidden behind a CSS-only
+// "Show all N" disclosure (no JS needed). The cap + split lives in
+// `splitMentionedByForCap` (in `src/lib/mentioned-by.ts`) so the
+// renderer and `scripts/test-mentioned-by-cap.ts` exercise the same
+// code path — a future tweak to the cap or the overflow shape gets
+// caught by the contract test instead of silently regressing.
+const {
+  visible: mentionedByVisible,
+  overflow: mentionedByOverflow,
+  hasOverflow: hasMentionedByOverflow,
+  total: mentionedByTotal,
+  toggleLabel: mentionedByToggleLabel,
+} = splitMentionedByForCap(mentionedBy);
+const mentionedByToggleId = `mb-toggle-${data.slug}`;
+
+// Recommendation engine for "Read Next"
+const allIngredients = await getCollection("ingredients");
+const otherIngredients = allIngredients.filter(ing => ing.data.slug !== data.slug);
+
+// 1. Pairing partner
+const bestPairing = data.pairings?.find((p) => p.ok);
+const pairingTarget = bestPairing
+  ? otherIngredients.find(ing => ing.data.name.toLowerCase() === bestPairing.with.toLowerCase())
+  : null;
+
+// 2. Featured routine
+const featuredRoutine = backlinks.routines[0];
+
+// 3. Alternative/Related
+const sameTierIngredients = otherIngredients.filter(ing => ing.data.tier === data.tier);
+const altIngredient = sameTierIngredients.length > 0
+  ? sameTierIngredients[Math.abs(data.slug.charCodeAt(0)) % sameTierIngredients.length]
+  : otherIngredients[0];
+---
+<div class="page">
+  <SiteHeader active="Ingredients" />
+  <Breadcrumbs trail={[
+    { label: "Home", href: home },
+    { label: "Ingredients", href: url("ingredients") },
+    { label: data.name },
+  ]} />
+
+  <!-- HERO -->
+  <section class="hero">
+    <PaperEffects vignette columns columnsOpacity={0.32} />
+    <div class="flask"><AmbientFlask size={560} opacity={0.06} /></div>
+
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-rail">
+          <span>INGREDIENT · {data.number}</span>
+          <span class="rail-tick" />
+          <span>FILED · {data.filed}</span>
+        </div>
+
+        <div class="hero-main">
+          <div class="hero-eyebrow-row">
+            <p class="eyebrow eyebrow-accent">{data.eyebrowKicker}</p>
+            <span class="hero-pageref">P. {data.number.split(" ")[0]} · BRIEF</span>
+          </div>
+
+          <h1 class="hero-h1" style={`font-size:${headlineSize}px`}>
+            {data.name}.
+          </h1>
+          {data.tagline && (
+            <div class="hero-tagline">
+              <span class="ital">{data.tagline.italic}</span>
+              {data.tagline.rest && (
+                <span class="hero-tagline-rest"> {data.tagline.rest}</span>
+              )}
+            </div>
+          )}
+          {data.chemistry && (
+            <p class="hero-chemistry" set:html={data.chemistry} />
+          )}
+
+          <p class="hero-lead">{data.lead}</p>
+
+          <div class="hero-cta">
+            <button type="button" class="btn-primary">Read the brief →</button>
+            <button type="button" class="btn-ghost">Save</button>
+            <button type="button" class="btn-ghost">Share</button>
+          </div>
+        </div>
+
+        <aside class="hero-aside">
+          <div class="card">
+            <div class="card-head">
+              <p class="eyebrow eyebrow-accent">At a glance</p>
+              <TierBadge tier={data.tier} size="md" />
+            </div>
+            <dl>
+              {data.atGlance.map(([k, v]) => (
+                <div class="kv">
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
+            <p
+              class="bk-caption"
+              aria-label={`Used in ${backlinks.concerns.length} concerns and ${backlinks.routines.length} routines`}
+            >
+              <span class="bk-caption-label">Used in</span>
+              {backlinks.concerns.length > 0 ? (
+                <a class="bk-caption-link" href="#linked-concerns">
+                  <span class="bk-caption-n on">{backlinks.concerns.length}</span> concerns
+                </a>
+              ) : (
+                <><span class="bk-caption-n">{backlinks.concerns.length}</span> concerns</>
+              )}
+              <span class="bk-caption-dot" aria-hidden="true">·</span>
+              {backlinks.routines.length > 0 ? (
+                <a class="bk-caption-link" href="#linked-routines">
+                  <span class="bk-caption-n on">{backlinks.routines.length}</span> routines
+                </a>
+              ) : (
+                <><span class="bk-caption-n">{backlinks.routines.length}</span> routines</>
+              )}
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <div class="container">
+    <div class="body-grid">
+      <aside class="toc">
+        <div class="toc-sticky">
+          <p class="eyebrow">Inside this brief</p>
+          <ol>
+            {data.toc.map(([n, t]) => (
+              <li>
+                <span class="toc-n">{n}</span>
+                <span class="toc-t">{t}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </aside>
+
+      <div class="body-col">
+        <article>
+          <p class="folio">— {folio.whatItIs}</p>
+          <h2 class="h-display">
+            {data.whatItIs.title.plain} <span class="ital">{data.whatItIs.title.italic}</span>
+          </h2>
+          <p class="body-lead">
+            <span class="dropcap">{data.whatItIs.dropCap}</span>{data.whatItIs.body}
+          </p>
+          {data.whatItIs.body2 && <p class="body-lead">{data.whatItIs.body2}</p>}
+        </article>
+
+        {data.mechanism && data.mechanism.length > 0 && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.mechanism}</p>
+              <h2 class="h-display">Mechanism, <span class="ital">plainly.</span></h2>
+              <div class="cards" style={`--cols:${Math.min(data.mechanism.length, 3)}`}>
+                {data.mechanism.map((x) => (
+                  <div class="card-cell">
+                    <p class="eyebrow eyebrow-accent">{x.k}</p>
+                    <p class="card-body">{x.b}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </>
+        )}
+
+        {data.evidence && data.evidence.length > 0 && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.evidence}</p>
+              <h2 class="h-display">The <span class="ital">evidence.</span></h2>
+              <div class="evidence-list">
+                {data.evidence.map((e) => (
+                  <div class="evidence-row">
+                    <div class="ev-claim">
+                      <div class="ev-c">{e.c}</div>
+                      <div class="ev-n">{e.n}</div>
+                    </div>
+                    <div class="ev-bar-wrap">
+                      <div class="ev-bar"><div class="ev-bar-fill" style={`width:${e.w}`} /></div>
+                      <p class="ev-note">{e.note}</p>
+                    </div>
+                    <div class="ev-pct">{e.w}</div>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </>
+        )}
+
+        {data.studies && data.studies.length > 0 && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.studies}</p>
+              <h2 class="h-display">The <span class="ital">evidence.</span></h2>
+              <p class="body-lead">Selected primary literature. Each citation links to PubMed. We weight RCTs and large meta-analyses heaviest; case reports do not move our grade.</p>
+              <div class="studies">
+                {data.studies.map((s, i) => (
+                  <div class="study-row">
+                    <div class="study-meta">
+                      <div class="study-no">STUDY № {String(i + 1).padStart(2, "0")}</div>
+                      <div class="study-authors">{s.authors}</div>
+                      <div class="study-journal">{s.journal} · {s.year}</div>
+                      <a class="study-pmid" href={`https://pubmed.ncbi.nlm.nih.gov/${s.pmid}/`}>PMID {s.pmid} ↗</a>
+                      <a class="study-srclink" href={url(`sources#${citationIdForStudy(s)}`)}>On /sources →</a>
+                    </div>
+                    <div class="study-body">
+                      <p class="study-finding">{s.finding}</p>
+                      <div class="study-bits">
+                        <span>Design · {s.design}</span>
+                        {s.n != null && s.n !== "" && <span>n = {s.n}</span>}
+                        <span>Duration · {s.duration}</span>
+                      </div>
+                    </div>
+                    <div class="study-grade">
+                      <TierBadge tier={s.grade} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </>
+        )}
+
+        {data.concentration && data.concentration.length > 0 && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.concentration}</p>
+              <h2 class="h-display">Concentration <span class="ital">& vehicle.</span></h2>
+              <div class="cards" style={`--cols:${Math.min(data.concentration.length, 4)}`}>
+                {data.concentration.map((x) => (
+                  <div class="card-cell">
+                    <div class="conc-c">{x.c}</div>
+                    <div class="conc-v">{x.v}</div>
+                    <p class="conc-b">{x.b}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </>
+        )}
+
+        {data.byConcern && data.byConcern.length > 0 && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.byConcern}</p>
+              <h2 class="h-display">Concentration <span class="ital">by concern.</span></h2>
+              <div class="byconcern">
+                <div class="byc-head">
+                  <div>Concern</div>
+                  <div>Evidence-grade range</div>
+                  <div>Note</div>
+                  <div class="byc-grade-h">Grade</div>
+                </div>
+                {data.byConcern.map((row, idx) => {
+                  const slug = byConcernLinks[idx];
+                  return (
+                    <MaybeLink
+                      href={slug ? url(`concerns/${slug}`) : undefined}
+                      class={`byc-row${slug ? " byc-row-link" : ""}`}
+                    >
+                      <div class="byc-concern">{row.concern}{slug && <span class="link-arrow" aria-hidden="true"> →</span>}</div>
+                      <div class="byc-range">{row.range}</div>
+                      <div class="byc-note">{row.note}</div>
+                      <div class="byc-grade"><span>{row.evidence}</span></div>
+                    </MaybeLink>
+                  );
+                })}
+              </div>
+            </article>
+          </>
+        )}
+
+        {data.howToUse && data.howToUse.length > 0 && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.howToUse}</p>
+              <h2 class="h-display">How to <span class="ital">use.</span></h2>
+              <div class="howto">
+                {data.howToUse.map((b) => (
+                  <div class="howto-cell">
+                    <p class="eyebrow eyebrow-accent">{b.eyebrow}</p>
+                    <p class="howto-body">{b.body}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </>
+        )}
+
+        {data.mistakes && data.mistakes.length > 0 && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.mistakes}</p>
+              <h2 class="h-display">Common <span class="ital">mistakes.</span></h2>
+              <div class="mistakes">
+                {data.mistakes.map((m, i) => (
+                  <div class="mistake-row">
+                    <div class="mistake-no">{String(i + 1).padStart(2, "0")}</div>
+                    <div class="mistake-body">
+                      <h3 class="mistake-t">{m.t}</h3>
+                      <p class="mistake-b">{m.b}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </>
+        )}
+
+        {data.myths && data.myths.length > 0 && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.myths}</p>
+              <h2 class="h-display">Myths vs <span class="ital">truth.</span></h2>
+              <div class="myths">
+                {data.myths.map((m) => (
+                  <div class="myth-card">
+                    <div class="myth-head myth-head-myth">MYTH</div>
+                    <p class="myth-quote">"{m.m}"</p>
+                    <div class="myth-head myth-head-truth">TRUTH</div>
+                    <p class="myth-truth">{m.t}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </>
+        )}
+
+        {data.pairings && data.pairings.length > 0 && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.pairings}</p>
+              <h2 class="h-display">Pairings <span class="ital">& conflicts.</span></h2>
+              <div class="pairings">
+                {data.pairings.map((p, i) => {
+                  const slug = pairingLinks[i];
+                  return (
+                    <MaybeLink
+                      href={slug ? url(`ingredients/${slug}`) : undefined}
+                      class={`pair-row${slug ? " pair-row-link" : ""}`}
+                      style={`background:${i % 2 ? "var(--paper2)" : "var(--paper)"}`}
+                    >
+                      <div class="pair-with">{p.with}{slug && <span class="link-arrow" aria-hidden="true"> →</span>}</div>
+                      <div class="pair-verdict" style={`color:${p.ok ? tierAColor : tierDColor}`}>{p.verdict}</div>
+                      <div class="pair-note">{p.note}</div>
+                    </MaybeLink>
+                  );
+                })}
+              </div>
+            </article>
+          </>
+        )}
+
+        {isExtendedShape && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.faq}</p>
+              <h2 class="h-display">Frequently <span class="ital">asked.</span></h2>
+              <div class="faq">
+                {data.faq.map((f, i) => (
+                  <details class="faq-item" open={i === 0}>
+                    <summary>
+                      <span class="faq-q">{f.q}</span>
+                      <span class="faq-chev" aria-hidden="true">⌄</span>
+                    </summary>
+                    <p class="faq-a">{f.a}</p>
+                  </details>
+                ))}
+              </div>
+            </article>
+          </>
+        )}
+
+        <div class="asterism">
+          <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+        </div>
+
+        <article>
+          <p class="folio">— {folio.products}</p>
+          <h2 class="h-display">On <span class="ital">our shelf.</span></h2>
+          <div class="cards" style="--cols:2">
+            {data.products.map((p, idx) => {
+              const slug = productLinks[idx];
+              return (
+                <MaybeLink
+                  href={slug ? url(`products/${slug}`) : undefined}
+                  class={`card-cell shelf-cell${slug ? " shelf-cell-link" : ""}`}
+                >
+                  <div class="shelf-head">
+                    <span class="shelf-brand">{p.brand}</span>
+                    <TierBadge tier={p.tier} />
+                  </div>
+                  <div class="shelf-name">{p.name}{slug && <span class="link-arrow" aria-hidden="true"> →</span>}</div>
+                  <p class="shelf-note">{p.note}</p>
+                  <div class="shelf-foot">
+                    {p.score != null ? (
+                      <span class="shelf-score">{p.score}<span class="shelf-score-max">⁄100</span></span>
+                    ) : p.price ? (
+                      <span class="shelf-score">{p.price}</span>
+                    ) : (
+                      <span class="shelf-score">—</span>
+                    )}
+                    <span class="shelf-cta">{slug ? "Read review →" : "Not yet reviewed"}</span>
+                  </div>
+                </MaybeLink>
+              );
+            })}
+          </div>
+        </article>
+
+        {isExtendedShape && hasRelatedSection && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.related}</p>
+              <h2 class="h-display">Related <span class="ital">ingredients.</span></h2>
+              {relatedSlugCards.length > 0 ? (
+                <div class="related" style={`--cols:${Math.min(relatedSlugCards.length, 4)}`}>
+                  {relatedSlugCards.map((r) => (
+                    <MaybeLink
+                      href={url(`ingredients/${r.slug}`)}
+                      class="related-cell related-cell-link"
+                    >
+                      <TierBadge tier={r.tier} />
+                      <h3 class="related-name">{r.name}<span class="link-arrow" aria-hidden="true"> →</span></h3>
+                      {r.sub && <p class="related-sub">{r.sub}</p>}
+                    </MaybeLink>
+                  ))}
+                </div>
+              ) : (
+                <div class="related" style={`--cols:${Math.min(data.related!.length, 4)}`}>
+                  {data.related!.map((r, idx) => {
+                    const slug = relatedLinks[idx];
+                    return (
+                      <MaybeLink
+                        href={slug ? url(`ingredients/${slug}`) : undefined}
+                        class={`related-cell${slug ? " related-cell-link" : ""}`}
+                      >
+                        <TierBadge tier={r.tier} />
+                        <h3 class="related-name">{r.name}{slug && <span class="link-arrow" aria-hidden="true"> →</span>}</h3>
+                        <p class="related-sub">{r.sub}</p>
+                      </MaybeLink>
+                    );
+                  })}
+                </div>
+              )}
+            </article>
+          </>
+        )}
+
+        {!isExtendedShape && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.faq}</p>
+              <h2 class="h-display">Frequently <span class="ital">asked.</span></h2>
+              <div class="faq">
+                {data.faq.map((f, i) => (
+                  <details class="faq-item" open={i === 0}>
+                    <summary>
+                      <span class="faq-q">{f.q}</span>
+                      <span class="faq-chev" aria-hidden="true">⌄</span>
+                    </summary>
+                    <p class="faq-a">{f.a}</p>
+                  </details>
+                ))}
+              </div>
+            </article>
+          </>
+        )}
+
+        {!isExtendedShape && hasRelatedSection && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— {folio.related}</p>
+              <h2 class="h-display">Related <span class="ital">ingredients.</span></h2>
+              {relatedSlugCards.length > 0 ? (
+                <div class="related" style={`--cols:${Math.min(relatedSlugCards.length, 4)}`}>
+                  {relatedSlugCards.map((r) => (
+                    <MaybeLink
+                      href={url(`ingredients/${r.slug}`)}
+                      class="related-cell related-cell-link"
+                    >
+                      <TierBadge tier={r.tier} />
+                      <h3 class="related-name">{r.name}<span class="link-arrow" aria-hidden="true"> →</span></h3>
+                      {r.sub && <p class="related-sub">{r.sub}</p>}
+                    </MaybeLink>
+                  ))}
+                </div>
+              ) : (
+                <div class="related" style={`--cols:${Math.min(data.related!.length, 4)}`}>
+                  {data.related!.map((r, idx) => {
+                    const slug = relatedLinks[idx];
+                    return (
+                      <MaybeLink
+                        href={slug ? url(`ingredients/${slug}`) : undefined}
+                        class={`related-cell${slug ? " related-cell-link" : ""}`}
+                      >
+                        <TierBadge tier={r.tier} />
+                        <h3 class="related-name">{r.name}{slug && <span class="link-arrow" aria-hidden="true"> →</span>}</h3>
+                        <p class="related-sub">{r.sub}</p>
+                      </MaybeLink>
+                    );
+                  })}
+                </div>
+              )}
+            </article>
+          </>
+        )}
+
+        {hasMentionedBy && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— Mentioned by</p>
+              <h2 class="h-display">Also <span class="ital">paired with.</span></h2>
+              <p class="mb-lede">
+                Other briefs that name-check {data.name} as a daily partner. These pairings sit outside the curated grid above — typically because that hub list is reserved for the closest four picks.
+              </p>
+              {hasMentionedByOverflow && (
+                <input
+                  type="checkbox"
+                  id={mentionedByToggleId}
+                  class="mb-toggle"
+                  aria-label={`Show all ${mentionedByTotal} ingredients that mention ${data.name}`}
+                />
+              )}
+              <ul class="mb-list">
+                {mentionedByVisible.map((m) => (
+                  <li>
+                    <a class="mb-link" href={url(`ingredients/${m.slug}`)}>
+                      <TierBadge tier={m.tier} />
+                      <span class="mb-name">{m.name}</span>
+                      <span class="mb-arrow" aria-hidden="true">→</span>
+                    </a>
+                  </li>
+                ))}
+                {mentionedByOverflow.map((m) => (
+                  <li class="mb-overflow">
+                    <a class="mb-link" href={url(`ingredients/${m.slug}`)}>
+                      <TierBadge tier={m.tier} />
+                      <span class="mb-name">{m.name}</span>
+                      <span class="mb-arrow" aria-hidden="true">→</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              {hasMentionedByOverflow && (
+                <label for={mentionedByToggleId} class="mb-toggle-btn">
+                  <span class="mb-toggle-more">{mentionedByToggleLabel}</span>
+                  <span class="mb-toggle-less">Show fewer</span>
+                </label>
+              )}
+            </article>
+          </>
+        )}
+
+        {hasBacklinks && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article>
+              <p class="folio">— Cross-references</p>
+              <h2 class="h-display">Where it <span class="ital">appears.</span></h2>
+              <div class="backlinks">
+                {backlinks.concerns.length > 0 && (
+                  <div class="bk-col" id="linked-concerns">
+                    <p class="eyebrow eyebrow-accent">Concerns it treats</p>
+                    <ul class="bk-list">
+                      {backlinks.concerns.map((c) => (
+                        <li>
+                          <a class="bk-link" href={url(`concerns/${c.slug}`)}>
+                            <span class="bk-name">{c.name}</span>
+                            <span class="bk-arrow" aria-hidden="true">→</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {backlinks.routines.length > 0 && (
+                  <div class="bk-col" id="linked-routines">
+                    <p class="eyebrow eyebrow-accent">Routines that use it</p>
+                    <ul class="bk-list">
+                      {backlinks.routines.map((r) => (
+                        <li>
+                          <a class="bk-link" href={url(`routines/${r.slug}`)}>
+                            <span class="bk-name">{r.title}</span>
+                            <span class="bk-sub">{r.sub}{r.stepTitle ? ` · ${r.stepTitle}` : ""}</span>
+                            <span class="bk-arrow" aria-hidden="true">→</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </article>
+          </>
+        )}
+
+        {data.reviewer && (
+          <>
+            <div class="asterism">
+              <span class="rule" /><span class="ast">⁂</span><span class="rule" />
+            </div>
+            <article class="reviewer">
+              <p class="folio">— {folio.reviewer}</p>
+              <h2 class="h-display">Reviewed <span class="ital">by.</span></h2>
+              <div class="reviewer-row">
+                <div class="reviewer-card">
+                  {data.reviewer.quote && (
+                    <p class="reviewer-quote">"{data.reviewer.quote}"</p>
+                  )}
+                  <div class="reviewer-title">{data.reviewer.title}</div>
+                  <div class="reviewer-name">
+                    {data.reviewer.name}
+                    {data.reviewer.credentials && (
+                      <span class="reviewer-creds">{data.reviewer.credentials}</span>
+                    )}
+                  </div>
+                  <div class="reviewer-filed">Filed {data.filed}</div>
+                </div>
+              </div>
+            </article>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <div class="container"><CitedSourcesBlock ids={(data as { citations?: string[] }).citations} /></div>
+
+  <!-- READ NEXT SECTION -->
+  <div class="container">
+    <div class="read-next-section">
+      <div class="asterism">
+        <span class="rule"></span><span class="ast">⁂</span><span class="rule"></span>
+      </div>
+      <div class="read-next-header">
+        <p class="eyebrow">Continue Reading</p>
+        <h2 class="h-display">Read <span class="ital">next.</span></h2>
+      </div>
+      <div class="read-next-grid">
+        {pairingTarget && bestPairing && (
+          <a href={url(`ingredients/${pairingTarget.data.slug}`)} class="card read-next-card">
+            <span class="kicker">Compatible Pairing</span>
+            <h3 class="read-next-title">{pairingTarget.data.name}</h3>
+            <p class="read-next-desc">Excellent synergistic pairing with {data.name}. {bestPairing.note}</p>
+            <span class="read-next-link">Read brief →</span>
+          </a>
+        )}
+        {featuredRoutine && (
+          <a href={url(`routines/${featuredRoutine.slug}`)} class="card read-next-card">
+            <span class="kicker">Featured Routine</span>
+            <h3 class="read-next-title">{featuredRoutine.title}</h3>
+            <p class="read-next-desc">See how to integrate {data.name} into a complete daily skin regimen.</p>
+            <span class="read-next-link">View routine →</span>
+          </a>
+        )}
+        {altIngredient && (
+          <a href={url(`ingredients/${altIngredient.data.slug}`)} class="card read-next-card">
+            <span class="kicker">Similar Ingredient</span>
+            <h3 class="read-next-title">{altIngredient.data.name}</h3>
+            <p class="read-next-desc">Graded Tier {altIngredient.data.tier}. {altIngredient.data.lead.slice(0, 80)}...</p>
+            <span class="read-next-link">Read brief →</span>
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <SiteFooter />
+</div>
+
+<style>
+  /* ---------- shared ---------- */
+  .page { position: relative; background: var(--paper); color: var(--ink); font-family: var(--font-sans); }
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .eyebrow-accent { color: var(--accent); }
+  .ital {
+    font-style: italic;
+    color: var(--accent);
+    font-family: var(--font-serif-ed);
+  }
+  .folio {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--muted-soft);
+  }
+  .h-display {
+    margin: 8px 0 0;
+    font-family: var(--font-serif);
+    font-size: 52px;
+    line-height: 1;
+    font-weight: 400;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    color: var(--ink);
+    letter-spacing: -0.025em;
+  }
+  .body-lead {
+    margin: 28px 0 0;
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .dropcap {
+    float: left;
+    font-family: var(--font-serif);
+    font-size: 86px;
+    line-height: 0.85;
+    font-weight: 400;
+    font-variation-settings: "opsz" 144;
+    color: var(--ink);
+    padding-right: 14px;
+    padding-top: 6px;
+    margin-right: 4px;
+  }
+  .asterism {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding-block: 40px;
+  }
+  .asterism .rule {
+    height: 1px;
+    width: 96px;
+    background: var(--rule);
+    display: block;
+  }
+  .asterism .ast {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--muted);
+    letter-spacing: 0.4em;
+    line-height: 1;
+    font-variation-settings: "opsz" 144;
+  }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+    border-bottom: 1px solid var(--rule);
+  }
+  .flask {
+    position: absolute;
+    right: -64px;
+    top: -64px;
+    z-index: 0;
+  }
+  .hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 40px;
+    padding-block: 96px;
+  }
+  .hero-rail {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 96px;
+    bottom: 96px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 24px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.3em;
+    color: var(--muted-soft);
+  }
+  .hero-rail span { writing-mode: vertical-rl; transform: rotate(180deg); }
+  .rail-tick { display: block; height: 1px; width: 12px; background: var(--rule); }
+  @media (min-width: 1024px) {
+    .hero-rail { display: flex; }
+  }
+  .hero-main {
+    grid-column: span 12 / span 12;
+  }
+  @media (min-width: 1024px) {
+    .hero-main { grid-column: span 8 / span 8; padding-left: 48px; }
+  }
+  .hero-eyebrow-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 16px;
+  }
+  .hero-pageref {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+  }
+  .hero-h1 {
+    margin: 40px 0 0;
+    font-family: var(--font-serif);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .hero-tagline {
+    margin: 12px 0 0;
+    font-family: var(--font-serif-ed);
+    font-size: 36px;
+    font-style: italic;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  .hero-tagline-rest {
+    color: var(--ink-soft);
+    font-family: var(--font-serif);
+    font-style: normal;
+  }
+  .hero-lead {
+    margin: 36px 0 0;
+    max-width: 36rem;
+    font-family: var(--font-serif);
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .hero-cta {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    border: 0;
+  }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--rule);
+    padding: 12px 20px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ink);
+    background: transparent;
+  }
+
+  .hero-aside {
+    grid-column: span 12 / span 12;
+  }
+  @media (min-width: 1024px) {
+    .hero-aside { grid-column: span 4 / span 4; display: flex; align-items: flex-end; }
+  }
+  .card {
+    width: 100%;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper2);
+  }
+  dl { margin: 0; padding: 0; }
+  .kv {
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .kv:last-child { border-bottom: 0; }
+  .kv dt {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .kv dd {
+    margin: 4px 0 0;
+    font-family: var(--font-serif);
+    font-size: 14.5px;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+  /* link-coverage caption — same mono treatment as the catalogue index card */
+  .bk-caption {
+    margin: 0;
+    padding: 14px 24px;
+    border-top: 1px solid var(--rule-soft);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+  .bk-caption-label { margin-right: 4px; }
+  .bk-caption-n { font-weight: 600; color: var(--muted-soft); margin-right: 2px; }
+  .bk-caption-n.on { color: var(--accent); }
+  .bk-caption-dot { margin: 0 6px; color: var(--muted-soft); }
+  .bk-caption-link { color: inherit; text-decoration: none; border-bottom: 1px dotted transparent; transition: border-color 0.15s ease, color 0.15s ease; }
+  .bk-caption-link:hover { border-bottom-color: var(--accent); color: var(--accent); }
+  .bk-caption-link:hover .bk-caption-n.on { color: var(--accent); }
+  :target { scroll-margin-top: 24px; }
+
+  /* ---------- body ---------- */
+  .body-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 40px;
+    padding-block: 80px;
+  }
+  .toc {
+    grid-column: span 12 / span 12;
+  }
+  @media (min-width: 1024px) {
+    .toc { grid-column: span 3 / span 3; }
+  }
+  .toc-sticky { position: relative; }
+  @media (min-width: 1024px) {
+    .toc-sticky { position: sticky; top: 32px; }
+  }
+  .toc ol {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .toc li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding-block: 4px;
+  }
+  .toc-n {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-soft);
+    letter-spacing: 0.14em;
+  }
+  .toc-t {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.3;
+  }
+
+  .body-col {
+    grid-column: span 12 / span 12;
+  }
+  @media (min-width: 1024px) {
+    .body-col { grid-column: span 9 / span 9; }
+  }
+
+  /* ---------- card grids (mechanism, concentration, shelf) ---------- */
+  .cards {
+    --cols: 1;
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) {
+    .cards { grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); }
+  }
+  .card-cell {
+    padding: 28px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .card-body {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .conc-c {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 400;
+    font-variation-settings: "opsz" 144;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  .conc-v {
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-soft);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .conc-b {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- evidence rows ---------- */
+  .evidence-list {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .evidence-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .evidence-row { grid-template-columns: 3fr 7fr 2fr; }
+  }
+  .ev-c {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    color: var(--ink);
+    line-height: 1.2;
+    font-variation-settings: "opsz" 144;
+  }
+  .ev-n {
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-soft);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .ev-bar { height: 6px; width: 100%; background: var(--rule-soft); }
+  .ev-bar-fill { height: 100%; background: var(--accent); }
+  .ev-note {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.55;
+    font-style: italic;
+  }
+  .ev-pct {
+    text-align: left;
+    font-family: var(--font-serif);
+    font-size: 30px;
+    font-variation-settings: "opsz" 144;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  @media (min-width: 768px) {
+    .ev-pct { text-align: right; }
+  }
+
+  /* ---------- pairings ---------- */
+  .pairings {
+    margin-top: 36px;
+    border: 1px solid var(--rule);
+  }
+  .pair-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: center;
+  }
+  .pair-row:last-child { border-bottom: 0; }
+  @media (min-width: 768px) {
+    .pair-row { grid-template-columns: 3fr 2fr 7fr; }
+  }
+  .pair-with {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .pair-verdict {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .pair-note {
+    font-family: var(--font-serif);
+    font-size: 14.5px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  /* ---------- shelf ---------- */
+  .shelf-cell {
+    display: flex;
+    flex-direction: column;
+  }
+  .shelf-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .shelf-brand {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .shelf-name {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.25;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .shelf-note {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .shelf-foot {
+    margin-top: auto;
+    padding-top: 20px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .shelf-score {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-variation-settings: "opsz" 144;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .shelf-score-max { color: var(--muted-soft); font-size: 12px; margin-left: 2px; }
+  .shelf-cta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+
+  /* ---------- faq ---------- */
+  .faq {
+    margin-top: 36px;
+    border-top: 1px solid var(--rule);
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .faq-item summary {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 24px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-q {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1.35;
+    font-variation-settings: "opsz" 144;
+  }
+  .faq-chev {
+    color: var(--muted);
+    font-size: 22px;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+  .faq-item[open] .faq-chev { transform: rotate(180deg); }
+  .faq-a {
+    margin: 0 0 24px;
+    max-width: 48rem;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- reviewer ---------- */
+  .reviewer-row { margin-top: 36px; }
+  .reviewer-card {
+    border: 1px solid var(--rule);
+    padding: 24px;
+    background: var(--paper2);
+  }
+  .reviewer-title {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .reviewer-name {
+    margin-top: 8px;
+    font-family: var(--font-serif);
+    font-size: 28px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .reviewer-creds {
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    color: var(--accent);
+    font-size: 22px;
+    margin-left: 12px;
+  }
+  .reviewer-filed {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .reviewer-quote {
+    margin: 0 0 20px;
+    font-family: var(--font-serif-ed);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.45;
+    border-left: 2px solid var(--accent);
+    padding-left: 20px;
+  }
+
+  /* ---------- hero chemistry caption ---------- */
+  .hero-chemistry {
+    margin: 8px 0 0;
+    font-family: var(--font-serif-ed);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--muted);
+    letter-spacing: -0.005em;
+  }
+
+  /* ---------- studies ---------- */
+  .studies {
+    margin-top: 32px;
+    border-top: 1px solid var(--rule);
+  }
+  .study-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-block: 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) {
+    .study-row { grid-template-columns: 3fr 7fr 2fr; }
+  }
+  .study-no {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-soft);
+    letter-spacing: 0.1em;
+  }
+  .study-authors {
+    margin-top: 8px;
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+  .study-journal {
+    margin-top: 4px;
+    font-family: var(--font-serif-ed);
+    font-size: 15px;
+    font-style: italic;
+    color: var(--muted);
+  }
+  .study-pmid {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+  .study-pmid:hover { text-decoration: underline; }
+  .study-srclink { display: inline-block; margin-top: 6px; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; text-decoration: none; }
+  .study-srclink:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .study-finding {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 16.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .study-bits {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .study-grade { display: flex; align-items: flex-start; }
+  @media (min-width: 768px) {
+    .study-grade { justify-content: flex-end; }
+  }
+
+  /* ---------- by-concern table ---------- */
+  .byconcern {
+    margin-top: 36px;
+    border: 1px solid var(--rule);
+  }
+  .byc-head {
+    display: none;
+    grid-template-columns: 3fr 3fr 5fr 1fr;
+    gap: 16px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper2);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-soft);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .byc-grade-h { text-align: right; }
+  @media (min-width: 768px) {
+    .byc-head { display: grid; }
+  }
+  .byc-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .byc-row:last-child { border-bottom: 0; }
+  @media (min-width: 768px) {
+    .byc-row { grid-template-columns: 3fr 3fr 5fr 1fr; gap: 16px; }
+  }
+  .byc-concern {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .byc-range {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+  .byc-note {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .byc-grade {
+    text-align: left;
+  }
+  @media (min-width: 768px) {
+    .byc-grade { text-align: right; }
+  }
+  .byc-grade span {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    padding: 2px 7px;
+    border-radius: 2px;
+  }
+
+  /* ---------- how to use ---------- */
+  .howto {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) {
+    .howto { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  .howto-cell {
+    padding: 28px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .howto-body {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- mistakes ---------- */
+  .mistakes {
+    margin-top: 36px;
+    border-top: 1px solid var(--rule);
+  }
+  .mistake-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    padding-block: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .mistake-no {
+    font-family: var(--font-serif);
+    font-size: 56px;
+    font-weight: 400;
+    color: var(--tier-d);
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .mistake-t {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+  .mistake-b {
+    margin: 8px 0 0;
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  /* ---------- myths ---------- */
+  .myths {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  @media (min-width: 768px) {
+    .myths { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  .myth-card {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .myth-head {
+    padding: 10px 20px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--rule);
+  }
+  .myth-head-myth {
+    background: var(--danger-soft, #fde8e8);
+    color: var(--danger, #b42318);
+  }
+  .myth-head-truth {
+    background: var(--ok-soft, #e6f4ea);
+    color: var(--ok, #1f7a4d);
+    border-top: 1px solid var(--rule);
+  }
+  .myth-quote {
+    margin: 0;
+    padding: 16px 20px;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    font-style: italic;
+  }
+  .myth-truth {
+    margin: 0;
+    padding: 16px 20px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- related ---------- */
+  .related {
+    --cols: 4;
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) {
+    .related { grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); }
+  }
+  .related-cell {
+    padding: 20px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .related-name {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .related-sub {
+    margin: 4px 0 0;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  /* ---------- cross-reference links ---------- */
+  .link-arrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    margin-left: 4px;
+  }
+  .byc-row-link,
+  .pair-row-link,
+  .shelf-cell-link,
+  .related-cell-link {
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .byc-row-link:hover { background: var(--paper2); }
+  .byc-row-link .byc-concern { color: var(--accent); }
+  .pair-row-link:hover { filter: brightness(0.98); }
+  .pair-row-link .pair-with { color: var(--accent); }
+  .shelf-cell-link:hover { background: var(--paper2); }
+  .shelf-cell-link .shelf-name { color: var(--accent); }
+  .shelf-cell-link .shelf-cta { color: var(--accent); }
+  .related-cell-link:hover { background: var(--paper2); }
+  .related-cell-link .related-name { color: var(--accent); }
+
+  /* ---------- mentioned by (inverse relatedIngredients graph) ---------- */
+  .mb-lede {
+    margin: 20px 0 0;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 64ch;
+  }
+  .mb-list {
+    list-style: none;
+    margin: 28px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  @media (min-width: 640px) {
+    .mb-list { grid-template-columns: 1fr 1fr; column-gap: 32px; }
+  }
+  @media (min-width: 1024px) {
+    .mb-list { grid-template-columns: 1fr 1fr 1fr; column-gap: 32px; }
+  }
+  .mb-list li { border-bottom: 1px solid var(--rule-soft); }
+  .mb-link {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 4px;
+    color: inherit;
+    text-decoration: none;
+    transition: padding 0.15s ease, background 0.15s ease;
+  }
+  .mb-link:hover {
+    padding-left: 10px;
+    padding-right: 10px;
+    background: var(--paper2);
+  }
+  .mb-link .mb-name {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .mb-link:hover .mb-name { color: var(--accent); }
+  .mb-link .mb-arrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+  }
+  /* CSS-only "Show all N" disclosure for the Mentioned-by overflow.
+     The hidden checkbox sits *before* the list and label so the
+     `:checked ~` sibling selector can reach both. No JS needed. */
+  .mb-toggle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .mb-list .mb-overflow { display: none; }
+  .mb-toggle:checked ~ .mb-list .mb-overflow { display: block; }
+  .mb-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px 0 0;
+    padding: 10px 14px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    user-select: none;
+  }
+  .mb-toggle-btn:hover { background: var(--paper2); color: var(--accent); border-color: var(--accent); }
+  .mb-toggle:focus-visible ~ .mb-toggle-btn {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .mb-toggle-less { display: none; }
+  .mb-toggle:checked ~ .mb-toggle-btn .mb-toggle-more { display: none; }
+  .mb-toggle:checked ~ .mb-toggle-btn .mb-toggle-less { display: inline; }
+
+  /* ---------- backlinks ---------- */
+  .backlinks {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  @media (min-width: 768px) {
+    .backlinks { grid-template-columns: 1fr 1fr; gap: 48px; }
+  }
+  .bk-col .eyebrow { margin: 0 0 14px; }
+  .bk-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .bk-list li { border-bottom: 1px solid var(--rule-soft); }
+  .bk-list li:last-child { border-bottom: 1px solid var(--rule); }
+  .bk-link {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 12px;
+    padding: 14px 4px;
+    color: inherit;
+    text-decoration: none;
+    font-family: var(--font-serif);
+    transition: padding 0.15s ease, background 0.15s ease;
+  }
+  .bk-link:hover {
+    padding-left: 10px;
+    padding-right: 10px;
+    background: var(--paper2);
+  }
+  .bk-link .bk-name { font-size: 17px; color: var(--ink); }
+  .bk-link:hover .bk-name { color: var(--accent); }
+  .bk-link .bk-sub {
+    display: block;
+    grid-column: 1 / -1;
+    margin-top: 2px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .bk-link .bk-arrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  /* ---------- read next ---------- */
+  .read-next-section {
+    margin-top: 64px;
+    margin-bottom: 48px;
+  }
+  .read-next-header {
+    margin-bottom: 28px;
+  }
+  .read-next-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  @media (min-width: 768px) {
+    .read-next-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .read-next-card {
+    display: flex;
+    flex-direction: column;
+    padding: 24px !important;
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px;
+    background: var(--paper);
+    text-decoration: none;
+    color: inherit;
+    min-height: 200px;
+  }
+  .read-next-card .kicker {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .read-next-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    line-height: 1.2;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+  .read-next-desc {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin: 0 0 20px;
+    flex-grow: 1;
+  }
+  .read-next-link {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+</style>

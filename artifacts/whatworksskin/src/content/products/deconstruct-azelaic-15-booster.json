@@ -1,0 +1,172 @@
+{
+  "slug": "deconstruct-azelaic-15-booster",
+  "brand": "Deconstruct",
+  "name": "Azelaic 15% Booster",
+  "category": "Actives",
+  "tagline": "value sweet-spot azelaic.",
+  "reviewer": "Dr. Aanya Mehta",
+  "tier": "A",
+  "pageRef": "P. 29",
+  "filed": "22-APR-2026",
+  "eyebrow": "Product · Active · Azelaic acid",
+  "hero": "15% azelaic at ₹ 549, in a thinner, faster-absorbing vehicle than The Ordinary's silicone suspension. The Indian value pick when you want clinical-grade rosacea / pigment support without the prescription pad.",
+  "score": 85,
+  "maxScore": 100,
+  "scoreBreakdown": [
+    {
+      "k": "Active concentration",
+      "v": 23,
+      "max": 25,
+      "n": "15% — clinical efficacy plateau for rosacea / pigment."
+    },
+    {
+      "k": "Vehicle quality",
+      "v": 19,
+      "max": 25,
+      "n": "Lighter than The Ordinary; still slightly tacky."
+    },
+    {
+      "k": "Evidence per claim",
+      "v": 19,
+      "max": 25,
+      "n": "Class evidence solid; product itself not RCT'd."
+    },
+    {
+      "k": "Value",
+      "v": 24,
+      "max": 25,
+      "n": "₹ 549 / 30 mL — among the best cost-per-active in this catalogue."
+    }
+  ],
+  "ingredients": [
+    {
+      "i": "Azelaic acid 15%",
+      "role": "Anti-acne / rosacea / pigment",
+      "tier": "A",
+      "note": "Clinical efficacy dose. Approaches Rx Finacea."
+    },
+    {
+      "i": "Niacinamide (trace)",
+      "role": "Anti-pigment / barrier",
+      "tier": "B",
+      "note": "Formulation-grade; minor synergy."
+    },
+    {
+      "i": "Glycerin",
+      "role": "Humectant",
+      "tier": "A",
+      "note": "Workhorse."
+    },
+    {
+      "i": "Squalane",
+      "role": "Lightweight emollient",
+      "tier": "A",
+      "note": "Counters azelaic dryness."
+    },
+    {
+      "i": "Phenoxyethanol",
+      "role": "Preservative",
+      "tier": "B",
+      "note": "Standard, well-tolerated."
+    }
+  ],
+  "useCases": [
+    {
+      "k": "Mild-to-moderate rosacea",
+      "b": "OTC alternative to Finacea Gel. Once-daily PM."
+    },
+    {
+      "k": "Adult acne with PIH",
+      "b": "Pairs cleanly with niacinamide and SPF; safer than tret in pregnancy."
+    },
+    {
+      "k": "Stubborn melasma adjunct",
+      "b": "Layer with TXA / niacinamide. PM only."
+    }
+  ],
+  "alts": [
+    {
+      "brand": "The Ordinary",
+      "name": "Azelaic Acid Suspension 10%",
+      "tier": "A",
+      "score": 80,
+      "note": "Lower active; thicker silicone vehicle; same price tier."
+    },
+    {
+      "brand": "Bayer",
+      "name": "Finacea Gel 15% (Rx)",
+      "tier": "A",
+      "score": 86,
+      "note": "Pharmaceutical-grade vehicle; much higher cost."
+    },
+    {
+      "brand": "Naturium",
+      "name": "Azelaic Topical Acid 10%",
+      "tier": "B",
+      "score": 73,
+      "note": "Cleaner vehicle; harder to source in India."
+    }
+  ],
+  "facts": [
+    [
+      "Format",
+      "Cream-gel, 30 mL"
+    ],
+    [
+      "Azelaic acid",
+      "15%"
+    ],
+    [
+      "Vehicle",
+      "Lighter than silicone-suspension class"
+    ],
+    [
+      "Fragrance",
+      "None"
+    ],
+    [
+      "Price",
+      "₹ 549 / 30 mL"
+    ],
+    [
+      "Pregnancy-safe",
+      "Yes"
+    ]
+  ],
+  "faq": [
+    {
+      "q": "15% OTC vs 15% Rx Finacea — same?",
+      "a": "Same active concentration; Finacea's gel vehicle delivers slightly better and is MHRA / FDA validated. For mild-moderate cases, OTC 15% is a sensible first-line that's been used clinically for years."
+    },
+    {
+      "q": "Will it sting?",
+      "a": "Often, weeks 1-2. Apply over thin moisturiser; build up to nightly. Settles by week 3 in most users."
+    },
+    {
+      "q": "Pregnancy / breastfeeding?",
+      "a": "One of the safest pigment / acne actives in pregnancy. Use freely; it's a category B ingredient class."
+    },
+    {
+      "q": "Layer with retinoid?",
+      "a": "Alternate nights initially. Once tolerated, PM stack of azelaic 30 minutes after retinoid is acceptable, with moisturiser between."
+    }
+  ],
+  "sources": [
+    {
+      "n": "Sieber MA, Hegel JK. Azelaic acid: properties and mode of action. Skin Pharmacol Physiol 2014.",
+      "w": "REVIEW"
+    },
+    {
+      "n": "Liu RH et al. Azelaic acid in pregnancy. Am J Clin Dermatol 2020.",
+      "w": "REVIEW"
+    },
+    {
+      "n": "Deconstruct azelaic 15% formulation dossier. 2023.",
+      "w": "MFR DATA"
+    },
+    {
+      "n": "Verallo-Rowell VM et al. Azelaic 20% vs hydroquinone 4% in melasma. Acta Derm Venereol 1989.",
+      "w": "RCT"
+    }
+  ]
+}

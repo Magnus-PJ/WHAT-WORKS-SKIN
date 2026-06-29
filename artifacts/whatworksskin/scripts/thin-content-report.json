@@ -1,0 +1,30 @@
+{
+  "concerns": {
+    "thin": [],
+    "partiallyThin": [],
+    "expectedSkinny": []
+  },
+  "routines": {
+    "thin": [],
+    "partiallyThin": [],
+    "expectedSkinny": []
+  },
+  "supplements": {
+    "thin": [],
+    "partiallyThin": [],
+    "expectedSkinny": []
+  },
+  "products": {
+    "thin": [],
+    "partiallyThin": [],
+    "expectedSkinny": []
+  },
+  "trend-watch": {
+    "thin": [],
+    "partiallyThin": [],
+    "expectedSkinny": [
+      "issue-007",
+      "issue-014"
+    ]
+  }
+}

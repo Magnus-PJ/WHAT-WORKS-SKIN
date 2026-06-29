@@ -1,0 +1,80 @@
+// IngredientPeptidesSignal — full ingredient brief for signal peptides.
+import React from "react";
+import { IngredientBrief, type IngredientBriefData } from "./_IngredientBrief";
+
+export const data: IngredientBriefData = {
+  slug: "peptides-signal",
+  name: "Signal peptides",
+  number: "18 / 28",
+  filed: "16 APR 2026",
+  eyebrowKicker: "Ingredient · Peptides · Signal class",
+  tier: "B",
+  headlineSize: 100,
+  tagline: { italic: "Slow, modest, plausible.", rest: "Three honest words." },
+  lead:
+    "Short amino-acid chains designed to mimic fragments of native skin proteins and prompt fibroblasts to produce more collagen and elastin. The biology is real, the cosmetic delivery is incomplete, and the speed is glacial — but for users who can't tolerate retinoids, peptides are the most credible runner-up.",
+  atGlance: [
+    ["INCI", "Palmitoyl pentapeptide-4 / Palmitoyl tripeptide-1 / Acetyl hexapeptide-8"],
+    ["Family", "Synthetic short-chain peptides"],
+    ["Useful range", "100 – 1000 ppm"],
+    ["Vehicle", "Aqueous serum or cream"],
+    ["Pregnancy-safe", "Generally yes (most signal peptides)"],
+    ["Photo-stable", "Yes"],
+    ["Reviewer", "Dr. Paul · 16-Apr-2026"],
+  ],
+  toc: [
+    ["01", "What they are"],
+    ["02", "The classes that matter"],
+    ["03", "Evidence overview"],
+    ["04", "Concentration & vehicle"],
+    ["05", "Where they earn their tier"],
+    ["06", "Pairings & conflicts"],
+    ["07", "On our shelf"],
+    ["08", "FAQ"],
+  ],
+  whatItIs: {
+    dropCap: "S",
+    title: { plain: "What signal peptides", italic: "actually are." },
+    body:
+      "ignal peptides are short sequences (usually 3–6 amino acids) modelled on fragments released during native collagen breakdown. The premise: fibroblasts interpret these fragments as a signal that collagen is being damaged and respond by upregulating new collagen synthesis. Matrixyl (palmitoyl pentapeptide-4) is the most-studied; the rest of the field is a long tail of variations on that biology with weaker independent data.",
+    body2:
+      "The honest framing: the biology is reproducible in vitro, the in-vivo cosmetic effect is real but slow, and the gap between marketing claims and clinical results is wider here than for almost any other active. Manage expectations and you will not be disappointed.",
+  },
+  mechanism: [
+    { k: "On fibroblasts", b: "Mimics collagen-breakdown signal; prompts type I/III collagen synthesis." },
+    { k: "On the matrix", b: "Modulates MMP activity. Slower, gentler effect than retinoid-driven remodelling." },
+    { k: "On the barrier", b: "No direct barrier role; well-tolerated even on sensitive skin." },
+  ],
+  evidence: [
+    { c: "Wrinkles / fine lines", n: "RCTs vs vehicle", w: "55%", note: "Replicable, modest improvement at 12+ weeks. Consistently slower than retinoids." },
+    { c: "Skin firmness / elasticity", n: "Bioengineering", w: "58%", note: "Cutometer measurable changes at sustained use." },
+    { c: "Pigment / tone", n: "Limited", w: "30%", note: "Not the role. Pair with niacinamide for tone work." },
+    { c: "Tolerability", n: "VAS", w: "92%", note: "Among the best-tolerated actives in the category. Real differentiator vs retinoids." },
+  ],
+  concentration: [
+    { c: "100 – 500 ppm", v: "Standard", b: "Most products live here. Dose published research uses." },
+    { c: "1000 ppm+", v: "Premium", b: "Diminishing returns; vehicle and stability matter more." },
+    { c: "Multi-peptide blends", v: "Marketing-led", b: "Most blends underdose each peptide. Read the INCI carefully." },
+  ],
+  pairings: [
+    { with: "Retinoids", verdict: "Excellent", note: "PM retinoid, AM peptides. Complementary mechanisms, no conflict.", ok: true },
+    { with: "Niacinamide", verdict: "Synergistic", note: "Combo amplifies both barrier and remodelling endpoints. Layer freely.", ok: true },
+    { with: "Vitamin C (LAA)", verdict: "Wait", note: "Low pH can hydrolyse some peptides. Stagger AM C, PM peptide.", ok: false },
+    { with: "AHAs / BHAs", verdict: "Wait", note: "Acidic environment degrades many peptides. Apply acid first, normalise pH, then peptide.", ok: false },
+  ],
+  products: [
+    { brand: "The Ordinary", name: "Buffet (multi-peptide)", tier: "B", score: 74, note: "Affordable entry. Multi-peptide blend with honest dose disclosure." },
+    { brand: "Olay", name: "Regenerist Micro-Sculpting Cream", tier: "B", score: 78, note: "Mass-market but well-formulated; the original Matrixyl mass adopter." },
+    { brand: "Medik8", name: "Liquid Peptides", tier: "A", score: 82, note: "Premium multi-peptide serum. Vehicle work above the category average." },
+    { brand: "The Inkey List", name: "Peptide Moisturizer", tier: "B", score: 72, note: "Cream format, fair price. Modest dose, solid base." },
+  ],
+  faq: [
+    { q: "Peptides vs retinol?", a: "Different speeds, different mechanisms. Retinol is faster and better-evidenced for visible wrinkle change. Peptides are slower and more tolerable. Use both if you can; pick peptides if your skin won't tolerate retinoids." },
+    { q: "Will peptides really build collagen?", a: "Modestly, slowly, in most users. They are not a substitute for tretinoin. They are a credible adjunct or a fallback for retinoid-intolerant skin." },
+    { q: "How long until I see results?", a: "Twelve weeks at minimum, sixteen for confidence. Anyone selling 'visible results in 7 days' is selling skin feel, not collagen." },
+    { q: "Are all peptides equal?", a: "No, by a wide margin. Matrixyl-class signal peptides have the most data; copper peptides have a distinct mechanism (separate page); 'Argireline-class' neuromodulator peptides are weaker still. Specifics matter." },
+  ],
+};
+
+const IngredientPeptidesSignal: React.FC = () => <IngredientBrief data={data} />;
+export default IngredientPeptidesSignal;

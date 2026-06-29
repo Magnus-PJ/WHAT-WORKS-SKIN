@@ -1,0 +1,79 @@
+{
+  "slug": "exosome-oral",
+  "name": "Oral 'exosome' beverages",
+  "family": "Trend Watch",
+  "target": "Anti-aging",
+  "tier": "D",
+  "dose": "Marketing-defined",
+  "rxOnly": false,
+  "oneliner": "Drinking peptide soup. Save your money for SPF.",
+  "pageRef": "P. 22",
+  "filed": "17 APR 2026",
+  "eyebrow": "Supplement · Trend Watch · Oral exosomes",
+  "headline": "Oral exosomes",
+  "dek": "The category is built on conflating two genuinely different things: clinical exosome therapeutics under investigation in stem-cell research, and the bottled 'exosome beverages' on luxury wellness shelves. The borrowed credibility is the entire product. We do not recommend it.",
+  "subheadA": "Drinking peptide soup.",
+  "subheadB": "Skip.",
+  "bottom": "A category we cannot justify. The marketing borrows the credibility of legitimate research that does not generalise to the product on the shelf. Save the money.",
+  "evidence": [
+    {
+      "c": "Skin endpoints in oral form",
+      "n": "—",
+      "w": "10%",
+      "note": "No defensible peer-reviewed RCTs on oral exosomes for skin in humans. The clinical exosome literature is overwhelmingly injectable / topical, not oral."
+    },
+    {
+      "c": "Bioavailability of oral exosomes",
+      "n": "Mechanistic concerns",
+      "w": "5%",
+      "note": "Exosomes are vesicular structures unlikely to survive gastric digestion intact. The mechanism by which they would deliver a skin endpoint orally is not established."
+    },
+    {
+      "c": "Topical / clinic exosome therapeutics",
+      "n": "Promising small trials",
+      "w": "55%",
+      "note": "An entirely different category — and not what you are buying when you buy a beverage."
+    },
+    {
+      "c": "Marketing 'cellular renewal' claims",
+      "n": "—",
+      "w": "5%",
+      "note": "Aspirational language with no defensible mechanism in the oral form."
+    }
+  ],
+  "forms": [
+    {
+      "f": "Plant-derived 'exosome' beverage",
+      "abs": "Unestablished",
+      "note": "The dominant retail format. Premium pricing per bottle. Marketing-led category."
+    },
+    {
+      "f": "Stem-cell-derived 'exosome' liquid",
+      "abs": "Unestablished",
+      "note": "Sometimes confused with the legitimate clinical exosome therapeutics under research."
+    },
+    {
+      "f": "Topical exosome serum (clinic)",
+      "abs": "Different category",
+      "note": "An entirely separate product class — promising in some peri-procedure protocols. Not the same thing."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Aren't exosomes a real thing in research?",
+      "a": "Yes — exosomes are a genuine, important area of biomedical research, primarily in stem-cell therapeutics, regenerative medicine, and as drug-delivery vehicles. None of that research has validated drinking them from a bottle for a skin outcome. The marketing is borrowing the credibility of the research without inheriting the data."
+    },
+    {
+      "q": "What about the topical exosome serums I see at clinics?",
+      "a": "Different category, with more interesting (if still early) data — particularly as adjuncts in post-procedure recovery and microneedling protocols. The topical and the oral story should not be conflated; they are not the same product."
+    },
+    {
+      "q": "Is it harmful?",
+      "a": "Almost certainly not, in the doses sold. The product is largely water, plant extract, and marketing. The harm is to the wallet rather than the body."
+    },
+    {
+      "q": "What should I spend that money on instead?",
+      "a": "A high-quality SPF, a tube of tretinoin, and either oral tranexamic if appropriate or an iron / vitamin D blood test. Any of these will produce more skin endpoint per rupee than any oral exosome product on shelf."
+    }
+  ]
+}

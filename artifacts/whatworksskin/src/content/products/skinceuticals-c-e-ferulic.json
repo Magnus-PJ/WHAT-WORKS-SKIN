@@ -1,0 +1,106 @@
+{
+  "slug": "skinceuticals-c-e-ferulic",
+  "brand": "SkinCeuticals",
+  "name": "C E Ferulic",
+  "tier": "A",
+  "pageRef": "P. 16",
+  "filed": "22 APR 2026",
+  "eyebrow": "Product · Antioxidant serum · Reference",
+  "hero": "The Pinnell trio — 15% L-ascorbic acid, 1% α-tocopherol, 0.5% ferulic acid at pH 3.2. The formulation that defined the modern vitamin C serum twenty years ago and remains the benchmark every generic is judged against.",
+  "score": 78,
+  "maxScore": 100,
+  "scoreBreakdown": [
+    {
+      "k": "Formulation integrity",
+      "v": 25,
+      "max": 25,
+      "n": "The Pinnell trio reference: 15% LAA + 1% E + 0.5% ferulic at pH 3.2. Patent-defining."
+    },
+    {
+      "k": "Evidence per claim",
+      "v": 24,
+      "max": 25,
+      "n": "Multiple in-vivo, replicated. The most-cited cosmetic antioxidant."
+    },
+    {
+      "k": "Tolerability",
+      "v": 18,
+      "max": 25,
+      "n": "First-week sting universal; persistent stinging means a barrier-rebuild detour."
+    },
+    {
+      "k": "Value",
+      "v": 11,
+      "max": 25,
+      "n": "₹ 12,000 / 30 mL is the price of the patent. Maelove Glow Maker reaches 80% of the formula at one-fifth."
+    }
+  ],
+  "ingredients": [
+    {
+      "i": "L-ascorbic acid 15%",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Tocopherol (Vit E) 1%",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Ferulic acid 0.5%",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Triethanolamine",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Phenoxyethanol",
+      "role": "",
+      "note": ""
+    }
+  ],
+  "alts": [
+    {
+      "brand": "Maelove",
+      "name": "Glow Maker",
+      "tier": "A",
+      "score": 84,
+      "note": "Same trinity. The honest dupe."
+    },
+    {
+      "brand": "Timeless",
+      "name": "20% C + E + Ferulic",
+      "tier": "B",
+      "score": 78,
+      "note": "Higher LAA, less stable. Refrigerate."
+    },
+    {
+      "brand": "Klairs",
+      "name": "Freshly Juiced 5% Vit C",
+      "tier": "B",
+      "score": 72,
+      "note": "Gentler ramp — 5% LAA at pH 4.5."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Is it really worth ₹12,000?",
+      "a": "The patent-pure formulation is real and slightly outperforms generic equivalents in stability over 6 months. But a Maelove Glow Maker at ₹2,200 reaches roughly 85% of the same in-vivo endpoints. If you can spend it without flinching, the original is excellent. If not, the Maelove is not a compromise — it is a sensible choice."
+    },
+    {
+      "q": "Does it expire?",
+      "a": "Yes. Three months once opened, six unopened. The colour is your guide: pale straw → orange → bin."
+    },
+    {
+      "q": "Why does it tingle?",
+      "a": "L-ascorbic acid at pH 3.2 is irritating to the stratum corneum on application. The tingle should fade within 5 minutes. Persistent stinging means your barrier is the bottleneck — back off, build with niacinamide for two weeks, return at every-other-day."
+    },
+    {
+      "q": "Can I use it under sunscreen?",
+      "a": "Yes — that is its primary job. Apply on dry skin, wait 5 minutes, then layer SPF. C E Ferulic compounds the biological photoprotection of SPF, it does not replace it."
+    }
+  ]
+}

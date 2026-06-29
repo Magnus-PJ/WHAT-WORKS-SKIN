@@ -1,0 +1,50 @@
+---
+const dev = import.meta.env.DEV;
+---
+{dev && (
+  <p class="thin-legend" role="note" aria-label="Dot legend: solid amber means thin page, hollow amber means partially thin page">
+    <span class="thin-legend-item">
+      <span class="thin-legend-dot" aria-hidden="true" />
+      <span>Thin</span>
+    </span>
+    <span class="thin-legend-item">
+      <span class="thin-legend-dot thin-legend-dot--partial" aria-hidden="true" />
+      <span>Partially thin</span>
+    </span>
+  </p>
+)}
+
+<style>
+  .thin-legend {
+    margin: 12px 0 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+    line-height: 1.4;
+  }
+  .thin-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .thin-legend-dot {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #d99a00;
+    box-shadow: 0 0 0 2px #fff8e1;
+  }
+  .thin-legend-dot--partial {
+    background: transparent;
+    border: 1.5px solid #d99a00;
+    box-shadow: 0 0 0 2px #fff8e1;
+  }
+</style>

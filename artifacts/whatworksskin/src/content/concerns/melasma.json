@@ -1,0 +1,178 @@
+{
+  "slug": "melasma",
+  "featured": true,
+  "name": "Melasma",
+  "family": "Pigmentation",
+  "eyebrow": "Concern · Pigmentation Disorders · Melasma",
+  "dek": "The most-misunderstood pigment disorder we see. Hormone-sensitive, UV-driven, recurrence-prone. This is the protocol — molecules, products, routine, supplements, and what to avoid — for keeping it dormant.",
+  "oneliner": "Symmetric, hormone-driven pigment. Controllable, not curable.",
+  "reviewer": "Dr. Sundeep",
+  "pageRef": "P. 15",
+  "filed": "22 APR 2026",
+  "triggers": [
+    {
+      "k": "Long-UVA exposure",
+      "w": "92%",
+      "n": "The single biggest driver. Visible-light contribution is real but secondary."
+    },
+    {
+      "k": "Hormonal change",
+      "w": "70%",
+      "n": "Pregnancy, OCPs, HRT. Suppress the trigger, the pigment fades slowly."
+    },
+    {
+      "k": "Heat / IR",
+      "w": "55%",
+      "n": "Cooking, hot yoga, steam. Underestimated in Indian kitchens."
+    },
+    {
+      "k": "Inflammation",
+      "w": "44%",
+      "n": "Acne, eczema, post-procedure. PIH layered on melasma confounds diagnosis."
+    }
+  ],
+  "ingredients": [
+    {
+      "slug": "tranexamic-acid",
+      "name": "Tranexamic acid",
+      "tier": "A",
+      "evidence": "Multiple RCTs · oral & topical · gold-standard adjunct",
+      "role": "Pigment-blocker"
+    },
+    {
+      "slug": "azelaic-acid",
+      "name": "Azelaic acid 15–20%",
+      "tier": "A",
+      "evidence": "RCTs comparable to hydroquinone 4% in some trials",
+      "role": "Tyrosinase inhibitor"
+    },
+    {
+      "slug": "tretinoin",
+      "name": "Tretinoin 0.025–0.05%",
+      "tier": "A",
+      "evidence": "Combination therapy backbone (Kligman & beyond)",
+      "role": "Cell turnover, dispersal"
+    },
+    {
+      "slug": "l-ascorbic",
+      "name": "L-ascorbic acid 10–15%",
+      "tier": "A",
+      "evidence": "Photoprotective, mild lightening · adjunct only",
+      "role": "Antioxidant"
+    },
+    {
+      "slug": "alpha-arbutin",
+      "name": "Alpha arbutin 2%",
+      "tier": "B",
+      "evidence": "Smaller RCTs · gentler · pregnancy-friendly",
+      "role": "Tyrosinase inhibitor"
+    },
+    {
+      "slug": "hydroquinone",
+      "name": "Hydroquinone 2–4% (Rx)",
+      "tier": "A",
+      "evidence": "The reference. Cycle 12 weeks on, off. Rx in India.",
+      "role": "Tyrosinase inhibitor"
+    },
+    {
+      "slug": "kojic-acid",
+      "name": "Kojic acid 1–2%",
+      "tier": "C",
+      "evidence": "Modest data · sensitisation risk in Indian skin",
+      "role": "Tyrosinase inhibitor"
+    },
+    {
+      "slug": "glutathione-topical",
+      "name": "Glutathione (topical)",
+      "tier": "D",
+      "evidence": "Largely marketing. Oral / IV is a different conversation.",
+      "role": "—"
+    }
+  ],
+  "products": [
+    {
+      "slug": "lrp-uvmune",
+      "brand": "La Roche-Posay",
+      "name": "Anthelios UVMune 400 Invisible Fluid SPF 50+",
+      "tier": "A",
+      "score": 89,
+      "why": "Highest documented UVA-PF — the floor of any melasma plan."
+    },
+    {
+      "slug": "minimalist-tx",
+      "brand": "Minimalist",
+      "name": "Tranexamic 03%",
+      "tier": "A",
+      "score": 78,
+      "why": "Real concentration at evidence-aligned dose. Indian-brand standout."
+    },
+    {
+      "slug": "the-ordinary-aza",
+      "brand": "The Ordinary",
+      "name": "Azelaic Acid Suspension 10%",
+      "tier": "A",
+      "score": 80,
+      "why": "Cheapest serious azelaic in India. Twice-daily for 12 weeks."
+    },
+    {
+      "slug": "obagi-tret",
+      "brand": "Obagi",
+      "name": "Tretinoin 0.05% Cream (Rx)",
+      "tier": "A",
+      "score": 80,
+      "why": "Cleaner vehicle for night use; warrants the price for severe cases."
+    }
+  ],
+  "avoid": [
+    {
+      "t": "DIY lightening compounds",
+      "b": "TikTok recipes featuring lemon, mercury creams, or steroid-laced 'fairness' creams. They damage faster than they fade."
+    },
+    {
+      "t": "Aggressive lasers as first-line",
+      "b": "Q-switched lasers can rebound melasma. Always trial a topical protocol for 12+ weeks first."
+    },
+    {
+      "t": "Daily AHAs / scrubs",
+      "b": "Inflammation re-triggers melanocytes. Less is more."
+    },
+    {
+      "t": "Spotty SPF habit",
+      "b": "The single biggest reason melasma plans fail. Two finger-lengths, every single day, indoors and out."
+    }
+  ],
+  "supplements": [
+    {
+      "slug": "polypodium",
+      "name": "Polypodium leucotomos 240–480 mg/d",
+      "tier": "B",
+      "body": "Oral photoprotection. Adjunct, not replacement for SPF."
+    },
+    {
+      "slug": "tranexamic-oral",
+      "name": "Tranexamic acid (oral, Rx)",
+      "tier": "A",
+      "body": "250 mg twice-daily, 8–12 weeks. Screened for VTE risk by your derm."
+    },
+    {
+      "slug": "vit-c-oral",
+      "name": "Vitamin C (oral)",
+      "tier": "C",
+      "body": "Modest contribution. Diet-first."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Is melasma curable?",
+      "a": "It's controlled, not cured. The melanocytes that produce it remain hyperresponsive to UV — meaning long-term it's a maintenance condition. The good news: a strict protocol can keep it dormant for years."
+    },
+    {
+      "q": "Will SPF alone fix it?",
+      "a": "It will stabilise it. To actively fade existing pigment you need an active layer (azelaic, tranexamic, or — under derm care — a Kligman-style trio). SPF determines whether your improvement holds."
+    },
+    {
+      "q": "Can I do this without prescription tretinoin?",
+      "a": "Yes. Azelaic 10–20% twice daily, with daily SPF and tranexamic 3%, gets most patients meaningful improvement within 16 weeks."
+    }
+  ]
+}

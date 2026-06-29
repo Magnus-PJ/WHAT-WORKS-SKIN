@@ -1,0 +1,974 @@
+---
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { url, home } from "@/lib/url";
+import { loadTransparencyMeta, formatLongDate } from "@/lib/transparency";
+
+const transparencyMeta = await loadTransparencyMeta();
+const lastUpdated = transparencyMeta.pages.corrections;
+const lastUpdatedLong = formatLongDate(lastUpdated);
+const firstMethodologyVersion =
+  transparencyMeta.methodology.changelog[
+    transparencyMeta.methodology.changelog.length - 1
+  ].v;
+// The methodology changelog is sourced from the shared transparency
+// content so this page and the methodology page can never disagree
+// about which versions shipped when.
+const VERSIONS = [...transparencyMeta.methodology.changelog]
+  .sort((a, b) => (a.date < b.date ? 1 : -1))
+  .map((v) => ({ v: v.v, date: formatLongDate(v.date), note: v.note }));
+
+// Editorial copy ported byte-for-byte from
+// `artifacts/mockup-sandbox/src/components/mockups/evidently/Corrections.tsx`.
+// Per the original migration brief, the React mockup is the
+// authoritative source for wording.
+type Severity = "Typo" | "Clarification" | "Factual" | "Interpretive" | "Retraction";
+
+type Correction = {
+  date: string; page: string; severity: Severity; what: string; why: string; ttf: string; logged: string;
+};
+
+const CORRECTIONS: Correction[] = [
+  { date: "18 April 2026", page: "Trend Watch · Issue 12 — Collagen drinks",
+    severity: "Interpretive", what: "Verdict on hydrolysed collagen split into two endpoints (elasticity vs wrinkle depth). Original blanket grade was too generous on wrinkle data.",
+    why: "Reader letter (M. Adetola, Lagos) flagged the conflated endpoints. We re-read the meta-analysis.", ttf: "7 days", logged: "by Dr. Paul" },
+  { date: "11 April 2026", page: "Concerns · Melasma — the long answer",
+    severity: "Factual", what: "Hydroquinone 4% maximum US OTC concentration corrected from 'banned' to 'restricted' (Rx-only since FDA 2020 ruling).",
+    why: "Original phrasing was sloppy. The substance isn't banned, it requires a prescription.", ttf: "3 days", logged: "by Dr. Sundeep" },
+  { date: "06 April 2026", page: "Methodology · § 4.2 Diagnostic weighting",
+    severity: "Clarification", what: "Added a routing question to distinguish PIH (post-acne) from melasma. Both routed to the Melasma guide previously.",
+    why: "Reader letter (R. Vargas, Mexico City). Genuinely useful catch.", ttf: "5 days", logged: "by Dr. Paul" },
+  { date: "29 March 2026", page: "Products · UVMune 400",
+    severity: "Typo", what: "PA grade typo: 'PA+++' corrected to 'PA++++' in the at-a-glance card.",
+    why: "Spotted internally during routine audit.", ttf: "1 day", logged: "by Dr. Paul" },
+  { date: "22 March 2026", page: "Ingredients · Tranexamic acid",
+    severity: "Factual", what: "Oral dosing range corrected from '500–1500mg' to '500–1000mg'. The upper figure was extrapolated from a single off-label study.",
+    why: "Caught during the supplement page build, where we re-checked the original Suzuki et al. 2007 paper.", ttf: "2 days", logged: "by Dr. Sundeep" },
+  { date: "08 March 2026", page: "Trend Watch · Issue 03 — Peptide gold rush",
+    severity: "Interpretive", what: "Argireline (acetyl hexapeptide-8) verdict revised from 'Holds up' to 'Misleading'. Original ruling weighted industry-funded studies too heavily.",
+    why: "Internal re-grade after the Issue 11 bakuchiol piece prompted a sweep of 2022 verdicts.", ttf: "12 days", logged: "by both editors" },
+  { date: "24 February 2026", page: "Routines · AM Pigment-prone",
+    severity: "Clarification", what: "Step 03 (niacinamide) note added: 'Skip if vitamin C causes flushing — they don't antagonise but the cumulative tingle does.'",
+    why: "Three reader letters in two weeks asking the same question.", ttf: "9 days", logged: "by Dr. Paul" },
+  { date: "10 February 2026", page: "Supplements · Polypodium leucotomos",
+    severity: "Factual", what: "Half-life of active fragments corrected from '~3 hrs' to '~6 hrs'. Original figure was for the parent compound, not the active metabolites.",
+    why: "Spotted during the dosing question reply (J. Sørensen letter).", ttf: "4 days", logged: "by Dr. Sundeep" },
+  { date: "27 January 2026", page: "Editorial · Annual Letter 2025",
+    severity: "Retraction", what: "Paragraph claiming 'no industry funding has ever been offered to us' retracted. We did receive — and decline — two offers in Q3 2025.",
+    why: "Phrasing was technically incorrect even though the policy outcome is the same. Letter retracted, full account published in Issue 09.", ttf: "1 day", logged: "by both editors" },
+];
+
+const SEVERITIES: Severity[] = ["Typo", "Clarification", "Factual", "Interpretive", "Retraction"];
+const counts = SEVERITIES.map((s) => ({ s, n: CORRECTIONS.filter((c) => c.severity === s).length }));
+
+const POLICY = [
+  "If a paragraph changes, the original wording is preserved in the page history. Nothing is silently rewritten.",
+  "Every correction is logged here within 48 hours of the edit going live.",
+  "Severity is assigned by the editor who didn't write the original piece.",
+  "Anything graded Factual or above is announced in the next Trend Watch, with attribution to the reader if one prompted it.",
+  "Retractions stay visible. We do not unpublish.",
+];
+---
+<Base
+  title="Corrections — What Works Skin"
+  description="Every error, kept on the record. Twenty-three corrections over the last twelve months, each one named, dated, and severity-graded."
+>
+  <SiteHeader active="Methodology" />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Transparency" }, { label: "Corrections Log" }]} />
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <p class="eyebrow">Transparency · The Corrections Log</p>
+            <p class="last-updated" data-testid="page-last-updated">
+              <span class="last-updated-label">Last updated</span>
+              <time datetime={lastUpdated}>{lastUpdatedLong}</time>
+            </p>
+            <h1 class="title">
+              Every error,<br />
+              <span class="ital">kept on the record.</span>
+            </h1>
+            <p class="lead">
+              Twenty-three corrections over the last twelve months. Each one names the page, the severity, the editor responsible, and how long it took us to fix it. The original wording stays visible in the page history.
+            </p>
+          </div>
+          <div class="hero-stat">
+            <span class="stat-eyebrow">MEDIAN TIME-TO-FIX</span>
+            <span class="stat-num">4d</span>
+            <span class="stat-sub">since methodology {firstMethodologyVersion}</span>
+          </div>
+        </div>
+
+        <div class="counts">
+          {counts.map(({ s, n }) => (
+            <div class={`count count-${s.toLowerCase()}`}>
+              <span class="count-pill">{s}</span>
+              <span class="count-n">{n}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="ledger-section">
+      <div class="container narrow">
+        <div class="ledger-head">
+          <p class="eyebrow muted">The ledger · Most recent first</p>
+          <span class="ledger-meta">SHOWING 09 OF 23 · ALL TIME 47</span>
+        </div>
+
+        <div class="ledger">
+          <div class="ledger-row ledger-row-head">
+            <div class="col-date">Date</div>
+            <div class="col-page">Page</div>
+            <div class="col-sev">Severity</div>
+            <div class="col-what">What changed</div>
+            <div class="col-ttf">Time-to-fix</div>
+            <div class="col-logged">Logged</div>
+          </div>
+
+          {CORRECTIONS.map((c, i) => (
+            <article class="ledger-row">
+              <div class="col-date">
+                <p class="row-date">{c.date}</p>
+                <p class="row-num">№ {String(i + 1).padStart(3, "0")}</p>
+              </div>
+              <div class="col-page">
+                <p class="row-page">{c.page}</p>
+                <span class="row-link">View original →</span>
+              </div>
+              <div class="col-sev">
+                <span class={`sev sev-${c.severity.toLowerCase()}`}>{c.severity}</span>
+              </div>
+              <div class="col-what">
+                <p class="row-what">{c.what}</p>
+                <p class="row-why">
+                  <span class="row-why-label">WHY</span>
+                  {c.why}
+                </p>
+              </div>
+              <div class="col-ttf">
+                <span class="row-ttf">{c.ttf}</span>
+              </div>
+              <div class="col-logged">
+                <span class="row-logged">{c.logged}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div class="ledger-foot">
+          <span class="ledger-meta">09 OF 47 · DATA EXPORTABLE AS CSV</span>
+          <span class="ledger-archive">See the full archive (47 entries) →</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="submit" class="submit-section">
+      <div class="container narrow">
+        <div class="submit-grid">
+          <div class="submit-intro">
+            <p class="eyebrow">Submit a correction</p>
+            <h2 class="submit-h">
+              Spot something wrong?<br />
+              <span class="ital">Tell us, on this page.</span>
+            </h2>
+            <p class="submit-sub">
+              Our policy promises every guide should be checkable against the rules above. If a sentence isn't, file it here and one of the editors will pick it up. The form runs on the same inbox the editorial@ mailto used to reach.
+            </p>
+            <ul class="submit-sla">
+              <li><span class="sla-label">Typo</span><span class="sla-time">acknowledged within 24h</span></li>
+              <li><span class="sla-label">Factual</span><span class="sla-time">resolved within 7 days</span></li>
+              <li><span class="sla-label">Interpretive</span><span class="sla-time">re-graded in the next Trend Watch</span></li>
+            </ul>
+          </div>
+
+          <form class="submit-form" id="corrections-form" novalidate>
+            <div class="field">
+              <label for="cf-page">Page URL <span class="req">required</span></label>
+              <input
+                type="url"
+                id="cf-page"
+                name="pageUrl"
+                required
+                maxlength="2000"
+                placeholder="https://whatworksskin.com/…"
+                autocomplete="url"
+              />
+            </div>
+            <div class="field">
+              <label for="cf-what">What's wrong? <span class="req">required</span></label>
+              <textarea
+                id="cf-what"
+                name="description"
+                required
+                minlength="5"
+                maxlength="4000"
+                rows="5"
+                placeholder="Be specific — quote the sentence if you can."
+              ></textarea>
+            </div>
+            <div class="field">
+              <label for="cf-evidence">Evidence link <span class="opt">optional</span></label>
+              <input
+                type="url"
+                id="cf-evidence"
+                name="evidenceUrl"
+                maxlength="2000"
+                placeholder="A study, a manufacturer page, a screenshot URL…"
+              />
+            </div>
+            <div class="field">
+              <label for="cf-email">Your email <span class="opt">optional</span></label>
+              <input
+                type="email"
+                id="cf-email"
+                name="email"
+                maxlength="320"
+                placeholder="So we can credit the catch and confirm the fix."
+                autocomplete="email"
+              />
+            </div>
+
+            {/* Honeypot: visually hidden, not skipped by tab-order on  */}
+            {/* purpose so a fully-scripted form-filler still trips it. */}
+            {/* Real readers cannot see this input.                     */}
+            <div class="hp" aria-hidden="true">
+              <label for="cf-website">Website</label>
+              <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="submit-row">
+              <button type="submit" class="submit-btn">Submit correction</button>
+              <p class="submit-meta" id="cf-status" role="status" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="versions-section">
+      <div class="container">
+        <div class="versions-grid">
+          <div>
+            <p class="eyebrow">The methodology changelog</p>
+            <h2 class="versions-h">Versioned, like software.</h2>
+            <p class="versions-sub">
+              Each rubric change ships with a version bump and a written rationale. Old verdicts that depended on a deprecated rubric are flagged for re-grading.
+            </p>
+            <div class="versions">
+              {VERSIONS.map((v) => (
+                <div class="version-row">
+                  <div class="ver-v">{v.v}</div>
+                  <div class="ver-date">{v.date.toUpperCase()}</div>
+                  {/* date already formatted as long form in the script frontmatter */}
+                  <div class="ver-note">{v.note}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <aside class="policy">
+            <p class="eyebrow muted">Our corrections policy</p>
+            <h3 class="policy-h">Five rules we enforce on ourselves.</h3>
+            <ol class="policy-list">
+              {POLICY.map((r, i) => (
+                <li>
+                  <span class="policy-num">0{i + 1}</span>
+                  <span class="policy-body">{r}</span>
+                </li>
+              ))}
+            </ol>
+            <div class="policy-foot">
+              <a href={url("methodology")} class="policy-cta">Spotted an error? Read the methodology dossier →</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .container.narrow { max-width: 1100px; }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+
+  .eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .eyebrow.muted { color: var(--muted); }
+
+  .last-updated {
+    margin: 12px 0 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .last-updated-label { color: var(--muted); }
+  .last-updated time { color: var(--ink); font-family: var(--font-serif); font-size: 13px; letter-spacing: 0; text-transform: none; }
+
+  /* Hero */
+  .hero {
+    border-bottom: 1px solid var(--rule);
+    background: linear-gradient(180deg, var(--paper2) 0%, var(--paper) 100%);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-block: 64px;
+  }
+  @media (min-width: 768px) { .hero-grid { grid-template-columns: 2fr 1fr; gap: 40px; } }
+  .title {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(56px, 9vw, 92px);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .lead {
+    margin: 28px 0 0;
+    max-width: 40rem;
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .hero-stat {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 40px 32px;
+    border: 1px solid var(--muted);
+    background: var(--paper);
+    align-self: end;
+    justify-self: start;
+  }
+  @media (min-width: 768px) { .hero-stat { justify-self: end; } }
+  .stat-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--muted-soft);
+  }
+  .stat-num {
+    font-family: var(--font-serif);
+    font-size: 78px;
+    line-height: 1;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .stat-sub {
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* Severity counts */
+  .counts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    padding-bottom: 40px;
+    background: var(--rule);
+  }
+  @media (min-width: 768px) { .counts { grid-template-columns: repeat(5, 1fr); } }
+  .count {
+    background: var(--paper);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .count-pill {
+    font-family: var(--font-sans);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .count-typo .count-pill { color: var(--muted); background: var(--paper2); border-color: color-mix(in srgb, var(--muted) 33%, transparent); }
+  .count-clarification .count-pill { color: var(--tier-c); background: var(--tier-c-soft); border-color: color-mix(in srgb, var(--tier-c) 33%, transparent); }
+  .count-factual .count-pill { color: var(--tier-b); background: var(--tier-b-soft); border-color: color-mix(in srgb, var(--tier-b) 33%, transparent); }
+  .count-interpretive .count-pill { color: var(--warning); background: var(--warning-soft); border-color: color-mix(in srgb, var(--warning) 33%, transparent); }
+  .count-retraction .count-pill { color: var(--tier-d); background: var(--tier-d-soft); border-color: color-mix(in srgb, var(--tier-d) 33%, transparent); }
+  .count-n {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    line-height: 1;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+
+  /* Ledger */
+  .ledger-section { padding-block: 80px; }
+  .ledger-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .ledger-meta {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-soft);
+    letter-spacing: 0.08em;
+  }
+
+  .ledger { border-top: 2px solid var(--ink); }
+  .ledger-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding-block: 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) {
+    .ledger-row {
+      grid-template-columns: 2fr 3fr 1.2fr 4fr 1fr 1fr;
+      gap: 16px;
+    }
+  }
+  .ledger-row-head {
+    padding-block: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    display: none;
+  }
+  @media (min-width: 768px) { .ledger-row-head { display: grid; } }
+
+  .row-date {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .row-num {
+    margin: 4px 0 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-soft);
+    letter-spacing: 0.08em;
+  }
+  .row-page {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .row-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .row-what {
+    margin: 0;
+    font-family: var(--font-serif-ed);
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .row-why {
+    margin: 8px 0 0;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .row-why-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-soft);
+    letter-spacing: 0.1em;
+    margin-right: 6px;
+  }
+  .row-ttf {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .row-logged {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .sev {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .sev-typo { color: var(--muted); background: var(--paper2); border-color: color-mix(in srgb, var(--muted) 33%, transparent); }
+  .sev-clarification { color: var(--tier-c); background: var(--tier-c-soft); border-color: color-mix(in srgb, var(--tier-c) 33%, transparent); }
+  .sev-factual { color: var(--tier-b); background: var(--tier-b-soft); border-color: color-mix(in srgb, var(--tier-b) 33%, transparent); }
+  .sev-interpretive { color: var(--warning); background: var(--warning-soft); border-color: color-mix(in srgb, var(--warning) 33%, transparent); }
+  .sev-retraction { color: var(--tier-d); background: var(--tier-d-soft); border-color: color-mix(in srgb, var(--tier-d) 33%, transparent); }
+
+  .ledger-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 40px;
+  }
+  .ledger-archive {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* Versions + policy */
+  .versions-section {
+    padding-block: 80px;
+    border-top: 1px solid var(--rule);
+    background: var(--paper2);
+  }
+  .versions-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+  @media (min-width: 768px) { .versions-grid { grid-template-columns: 7fr 5fr; gap: 48px; } }
+  .versions-h {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 42px;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+    font-weight: 400;
+  }
+  .versions-sub {
+    margin: 16px 0 0;
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .versions { margin-top: 32px; display: flex; flex-direction: column; }
+  .version-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding-block: 20px;
+    border-top: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) { .version-row { grid-template-columns: 1fr 1fr 4fr; gap: 16px; } }
+  .ver-v {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+  }
+  .ver-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-soft);
+    letter-spacing: 0.08em;
+    padding-top: 2px;
+  }
+  .ver-note {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  .policy {
+    padding: 32px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+  .policy-h {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-weight: 400;
+    font-variation-settings: "opsz" 144;
+  }
+  .policy-list {
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .policy-list li { display: flex; gap: 12px; }
+  .policy-num {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    padding-top: 4px;
+    flex-shrink: 0;
+  }
+  .policy-foot {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .policy-cta {
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  /* Submit-a-correction form */
+  .submit-section {
+    padding-block: 80px;
+    border-top: 1px solid var(--rule);
+    background: var(--paper);
+    scroll-margin-top: 80px;
+  }
+  .submit-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  @media (min-width: 768px) { .submit-grid { grid-template-columns: 5fr 7fr; gap: 56px; } }
+  .submit-h {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 42px;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+    font-weight: 400;
+  }
+  .submit-sub {
+    margin: 16px 0 0;
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .submit-sla {
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+  }
+  .submit-sla li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .sla-label {
+    font-family: var(--font-sans);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .sla-time {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .submit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid var(--ink);
+    background: var(--paper2);
+    padding: 32px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .req {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    text-transform: none;
+  }
+  .opt {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--muted-soft);
+    text-transform: none;
+  }
+  .field input,
+  .field textarea {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 12px 14px;
+    border-radius: 0;
+    outline: 0;
+  }
+  .field textarea { resize: vertical; min-height: 120px; }
+  .field input:focus,
+  .field textarea:focus { border-color: var(--accent); }
+
+  /* Honeypot — must be invisible to humans but reachable to a naive
+     scraper-bot's form filler. We avoid `display:none` because some
+     bots specifically skip those fields. */
+  .hp {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 8px;
+    border-top: 1px solid var(--rule);
+  }
+  .submit-btn {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--paper);
+    background: var(--ink);
+    border: 0;
+    padding: 14px 24px;
+    cursor: pointer;
+  }
+  .submit-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+  .submit-meta {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    color: var(--muted);
+    flex: 1;
+    min-width: 0;
+  }
+  .submit-meta.ok { color: var(--tier-b); }
+  .submit-meta.err { color: var(--tier-d); }
+  .submit-form.done {
+    border-color: var(--tier-b);
+    background: var(--tier-b-soft);
+  }
+  .submit-form.done .field,
+  .submit-form.done .submit-btn { display: none; }
+  .submit-form.done .submit-row { border-top: 0; padding-top: 0; }
+  .done-card {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .submit-form.done .done-card { display: flex; }
+  .done-h {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 26px;
+    line-height: 1.15;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .done-sub {
+    margin: 0;
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .done-sla {
+    margin: 8px 0 0;
+    padding: 12px 0 0;
+    list-style: none;
+    border-top: 1px solid color-mix(in srgb, var(--tier-b) 25%, transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink-soft);
+  }
+  .done-sla strong {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-right: 8px;
+  }
+</style>
+
+<script>
+  // Progressive enhancement: the form falls back to a no-op if JS is
+  // disabled (the API endpoint expects JSON, not multipart, so we
+  // intentionally don't render a `method=POST action=...` for the
+  // legacy path — the mailto in the footer is the JS-off escape
+  // hatch). With JS, we POST the JSON body to the api-server, surface
+  // validation errors inline, and replace the form with a confirmation
+  // card that re-states the SLAs from the policy above.
+  (() => {
+    const form = document.getElementById("corrections-form") as HTMLFormElement | null;
+    const status = document.getElementById("cf-status") as HTMLElement | null;
+    if (!form || !status) return;
+
+    // Prefill the page URL with the current location so a reader who
+    // clicked the footer CTA from a brief page doesn't have to copy
+    // it. The `?page=` hint takes precedence so the brief-page CTA
+    // can deep-link to the form with the URL already filled in.
+    const params = new URLSearchParams(window.location.search);
+    const pageInput = form.elements.namedItem("pageUrl") as HTMLInputElement | null;
+    if (pageInput && pageInput.value === "") {
+      pageInput.value = params.get("page") ?? window.location.href;
+    }
+
+    // Inject the confirmation card once so the post-submit DOM is
+    // ready to swap in without a re-render. Hidden via CSS until
+    // the form acquires the `.done` class.
+    const done = document.createElement("div");
+    done.className = "done-card";
+    done.innerHTML = `
+      <h3 class="done-h">Got it. Filed for review.</h3>
+      <p class="done-sub">One of the editors will pick it up. Per the policy:</p>
+      <ul class="done-sla">
+        <li><strong>TYPO</strong> acknowledged within 24h.</li>
+        <li><strong>FACTUAL</strong> resolved within 7 days.</li>
+        <li><strong>INTERPRETIVE</strong> re-graded in the next Trend Watch.</li>
+      </ul>
+    `;
+    form.appendChild(done);
+
+    function setStatus(msg: string, kind: "ok" | "err" | "" = "") {
+      if (!status) return;
+      status.textContent = msg;
+      status.classList.remove("ok", "err");
+      if (kind) status.classList.add(kind);
+    }
+
+    form.addEventListener("submit", async (evt) => {
+      evt.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      const fd = new FormData(form);
+      const payload = {
+        pageUrl: String(fd.get("pageUrl") ?? "").trim(),
+        description: String(fd.get("description") ?? "").trim(),
+        evidenceUrl: String(fd.get("evidenceUrl") ?? "").trim() || undefined,
+        email: String(fd.get("email") ?? "").trim() || undefined,
+        website: String(fd.get("website") ?? ""),
+      };
+      const btn = form.querySelector(".submit-btn") as HTMLButtonElement | null;
+      if (btn) btn.disabled = true;
+      setStatus("Sending…");
+      try {
+        const res = await fetch("/api/corrections", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(payload),
+          credentials: "omit",
+        });
+        if (res.status === 204) {
+          form.classList.add("done");
+          setStatus("");
+        } else if (res.status === 429) {
+          setStatus("You've hit the per-hour limit on this network. Try again later or email editorial@whatworksskin.com.", "err");
+          if (btn) btn.disabled = false;
+        } else if (res.status === 400) {
+          setStatus("That payload didn't validate. Check the URL and description and try again.", "err");
+          if (btn) btn.disabled = false;
+        } else {
+          setStatus("Something went wrong on our side. Email editorial@whatworksskin.com if it persists.", "err");
+          if (btn) btn.disabled = false;
+        }
+      } catch (err) {
+        console.warn("corrections form: network error", err);
+        setStatus("Couldn't reach the server. Check your connection or email editorial@whatworksskin.com.", "err");
+        if (btn) btn.disabled = false;
+      }
+    });
+  })();
+</script>

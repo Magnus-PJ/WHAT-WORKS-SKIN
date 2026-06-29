@@ -1,0 +1,46 @@
+---
+import { isThin, isPartiallyThin, type ThinKind } from "@/lib/thin-content";
+
+export interface Props {
+  kind: ThinKind;
+  slug: string;
+}
+const { kind, slug } = Astro.props;
+const dev = import.meta.env.DEV;
+const showThin = dev && isThin(kind, slug);
+const showPartial = dev && !showThin && isPartiallyThin(kind, slug);
+---
+{showThin && (
+  <span
+    class="thin-dot"
+    role="img"
+    aria-label="Thin page — needs enrichment"
+    title={`Thin page — needs enrichment (${kind}/${slug})`}
+  />
+)}
+{showPartial && (
+  <span
+    class="thin-dot thin-dot--partial"
+    role="img"
+    aria-label="Partially thin page — some sections missing"
+    title={`Partially thin page — some sections missing (${kind}/${slug})`}
+  />
+)}
+
+<style>
+  .thin-dot {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #d99a00;
+    box-shadow: 0 0 0 2px #fff8e1;
+    vertical-align: middle;
+  }
+  .thin-dot--partial {
+    background: transparent;
+    border: 1.5px solid #d99a00;
+    box-shadow: 0 0 0 2px #fff8e1;
+  }
+</style>

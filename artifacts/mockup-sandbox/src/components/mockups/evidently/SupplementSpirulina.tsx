@@ -1,0 +1,37 @@
+// SupplementSpirulina — Spirulina algae powder.
+
+import React from "react";
+import { SupplementPage } from "./_supplementTemplate";
+
+const SupplementSpirulina: React.FC = () => (
+  <SupplementPage
+    family="Trend Watch"
+    name="Spirulina"
+    page="P. 19"
+    eyebrow="Supplement · Trend Watch · Spirulina"
+    hero="Spirulina."
+    subheadA="Real micronutrient profile."
+    subheadB="No skin-specific RCTs."
+    dek="A blue-green algae with a genuinely respectable protein and micronutrient profile — and almost nothing in the published literature on direct skin endpoints. The food version of the supplement is defensible; the skin-claim version is not."
+    evidence={[
+      { c: "Skin endpoints (direct)", n: "—", w: "15%", note: "No defensible RCTs on spirulina for skin in humans. Allergic / atopic claims are mechanistic rather than trial-supported." },
+      { c: "Allergic rhinitis", n: "Small RCTs", w: "55%", note: "Modest, replicated effect on allergic rhinitis symptoms. Indirect skin connection only via atopic comorbidity." },
+      { c: "General antioxidant capacity (biomarkers)", n: "Mixed", w: "50%", note: "Real biomarker shifts; whether these translate to skin endpoints is unestablished." },
+      { c: "Heavy metal / microcystin contamination", n: "Surveillance", w: "Caution", note: "Unregulated spirulina from open-water farms can contain microcystins (hepatotoxins) and heavy metals. Source and certification matter." },
+    ]}
+    forms={[
+      { f: "Spirulina powder 2–5 g", abs: "Good", note: "Mix into water or smoothies; strong taste. Cheapest format per gram." },
+      { f: "Spirulina tablet 500 mg", abs: "Good", note: "Convenience format; multiple tablets needed to reach published doses." },
+      { f: "'Blue-green algae' blends", abs: "Variable", note: "Often combined with chlorella, AFA, or other algae. Microcystin risk varies; demand third-party testing." },
+    ]}
+    faq={[
+      { q: "Is it really nutritious?", a: "Yes — spirulina is one of the more nutritionally dense plant sources, with substantial protein content, B vitamins, iron, and antioxidant pigments. As a food, it is defensible. As a supplement marketed for specific outcomes (skin, immunity, energy), the human RCT evidence does not match the marketing." },
+      { q: "What is microcystin contamination?", a: "Microcystins are hepatotoxic compounds produced by cyanobacteria that can co-contaminate spirulina farmed in open water shared with toxic algal blooms. Reputable producers test each batch and provide certificates of analysis; bargain-bin spirulina from unverified sources frequently shows microcystin contamination above advisory limits." },
+      { q: "Can it help acne?", a: "There is no defensible direct evidence. The closest indirect signal is in inflammatory presentations more broadly, where the antioxidant and anti-inflammatory mechanism is plausible. We do not recommend spirulina as an acne treatment." },
+      { q: "Will it interact with anything?", a: "Spirulina can have mild anticoagulant and immunostimulant effects at high doses. Patients on warfarin, with autoimmune disease, or with phenylketonuria should discuss with a clinician. Pregnant women should choose certified-tested sources only." },
+    ]}
+    bottom="A defensible food; a poorly-supported skin supplement. Buy certified-tested if you want the protein and micronutrient profile; do not buy it for the skin marketing."
+  />
+);
+
+export default SupplementSpirulina;

@@ -1,0 +1,41 @@
+{
+  "slug": "issue-015",
+  "n": 15,
+  "date": "27 June 2026",
+  "year": 2026,
+  "headline": "Hypochlorous acid spray, at-home exosomes, and the emergence of ectoin",
+  "dek": "Three emerging trends that dominated our feed in June. One holds up; two need a reality check.",
+  "signed": "Dr. Paul + Dr. Sundeep",
+  "pageRef": "P. 15",
+  "eyebrow": "Trend Watch · Issue 015 · 27 June 2026",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "Hypochlorous acid sprays",
+      "tier": "B",
+      "verdict": "Holds Up",
+      "body": "Hypochlorous acid (HOCl) is a weak acid produced naturally by human white blood cells with powerful, broad-spectrum antimicrobial properties. While it is a staple in clinical wound care, consumer sprays (e.g., Tower 28 SOS Spray) have spiked for workout recovery and maskne. The clinical signal is real: it rapidly neutralizes acne-causing bacteria on sweaty skin. However, it is not a leave-on replacement for salicylic acid or benzoyl peroxide, and over-spraying can disrupt the skin's acid mantle.",
+      "bottom": "Genuinely useful for gymgoers and maskne. Spray after workouts, but don't replace your active serums."
+    },
+    {
+      "n": "02",
+      "name": "At-home topical exosomes",
+      "tier": "D",
+      "verdict": "Skip",
+      "body": "Professional microneedling with clinical-grade exosomes has a solid regenerative signal. But the consumer expansion into at-home topical exosome serums is a marketing stretch. Exosomes are lipid-bound vesicles that are highly fragile, requiring sub-zero storage or advanced stabilization to remain viable. Most consumer serums contain plant-derived 'exosome-like' particles or dead, lysed human cell supernatants with zero active cargo. You are paying a premium for inert proteins.",
+      "bottom": "Skip at-home serums. The active vesicles do not survive the shelf."
+    },
+    {
+      "n": "03",
+      "name": "Ectoin as a barrier protector",
+      "tier": "B",
+      "verdict": "Promising",
+      "body": [
+        "Ectoin is an extremolyte amino acid derivative that binds water to form a protective hydration shell around cell membranes. Emerging trials show it reduces TEWL and calms redness, performing on par with or slightly better than panthenol and centella—see our ",
+        { "text": "panthenol brief", "kind": "ingredient", "slug": "panthenol" },
+        " for comparison. It is a competent, low-irritation addition to barrier creams, though it does not yet have the decades of clinical trials backing niacinamide."
+      ],
+      "bottom": "A solid, calming hydrating active. Excellent for compromised barriers, but not a miracle molecule."
+    }
+  ]
+}

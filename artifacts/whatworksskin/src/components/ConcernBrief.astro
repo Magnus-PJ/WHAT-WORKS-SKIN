@@ -1,0 +1,472 @@
+---
+import SiteHeader from "./SiteHeader.astro";
+import SiteFooter from "./SiteFooter.astro";
+import Breadcrumbs from "./Breadcrumbs.astro";
+import PaperEffects from "./PaperEffects.astro";
+import AmbientFlask from "./AmbientFlask.astro";
+import TierBadge from "./TierBadge.astro";
+import MaybeLink from "./MaybeLink.astro";
+import ThinContentBanner from "./ThinContentBanner.astro";
+import { url, home } from "@/lib/url";
+import { findIngredientSlug, findProductSlug } from "@/lib/links";
+import CitedSourcesBlock from "./CitedSourcesBlock.astro";
+
+type Tier = "A" | "B" | "C" | "D";
+
+export interface Props {
+  data: {
+    slug: string;
+    name: string;
+    family: string;
+    eyebrow: string;
+    dek: string;
+    oneliner: string;
+    reviewer?: string;
+    pageRef?: string;
+    filed?: string;
+    hero1?: string;
+    hero2?: string;
+    bottom?: string;
+    triggers?: { k: string; w: string; n: string }[];
+    ingredients?: { name: string; tier?: Tier; role?: string; evidence?: string }[];
+    products?: { brand: string; name: string; tier?: Tier; score?: number; why?: string }[];
+    // `phases` comes from the loose-shape JSX-prop extractor (passthrough zod
+    // schema → unknown[]). The frontmatter normaliser below casts each entry
+    // to a record so the template body can stay free of TS generics.
+    phases?: unknown[];
+    protocolAm?: unknown[];
+    protocolPm?: unknown[];
+    faq?: { q: string; a: string }[];
+    citations?: string[];
+  };
+}
+const { data } = Astro.props;
+// Two-line poster H1 from JSX-prop concern pages; fall back to the
+// catalogue `name`. Italic accent on the second line mirrors the
+// source mockup (`<span style="font-style: italic; color: accent">`).
+const heroPrimary = data.hero1 ?? data.name;
+const heroAccent = data.hero2;
+// Normalise the loose `phases` shape (extracted from JSX props as
+// arbitrary records) into the t/w/b keys the renderer expects, so
+// the template can stay free of TS generics that confuse Astro's
+// JSX parser.
+type Phase = { t?: string; w?: string; b?: string; n?: string };
+const phases: Phase[] = Array.isArray(data.phases)
+  ? (data.phases as Record<string, unknown>[]).map((p) => ({
+      t: typeof p.t === "string" ? p.t : typeof p.title === "string" ? p.title : undefined,
+      w: typeof p.w === "string" ? p.w : typeof p.window === "string" ? p.window : undefined,
+      b: typeof p.b === "string" ? p.b : typeof p.body === "string" ? p.body : undefined,
+      n: typeof p.n === "string" ? p.n : undefined,
+    }))
+  : [];
+// Source mockups for some concerns expose protocol as `protocolAm` /
+// `protocolPm` step lists rather than the four-phase grid. Normalise
+// both into a `string[]` so the AM/PM section below can render them
+// without forcing the renderer to know the shape.
+const toStepList = (xs: unknown): string[] => {
+  if (!Array.isArray(xs)) return [];
+  return xs
+    .map((x) => {
+      if (typeof x === "string") return x;
+      if (x && typeof x === "object") {
+        const o = x as Record<string, unknown>;
+        if (typeof o.label === "string") return o.label;
+        if (typeof o.title === "string") return o.title;
+        if (typeof o.name === "string") return o.name;
+        if (typeof o.t === "string") return o.t;
+      }
+      return "";
+    })
+    .filter((s) => s.length > 0);
+};
+const protocolAm = toStepList(data.protocolAm);
+const protocolPm = toStepList(data.protocolPm);
+const hasAmPm = protocolAm.length > 0 || protocolPm.length > 0;
+// Resolve ingredient and product references to existing brief slugs
+// so the table rows / shelf cards can become hrefs when a brief
+// exists. Unresolved references render as plain text.
+const ingredientLinks: (string | undefined)[] = data.ingredients
+  ? await Promise.all(
+      data.ingredients.map((i) => findIngredientSlug(i.name)),
+    )
+  : [];
+const productLinks: (string | undefined)[] = data.products
+  ? await Promise.all(
+      data.products.map((p) => findProductSlug(p.brand, p.name)),
+    )
+  : [];
+// Outbound link-coverage caption — mirrors the catalogue index card's
+// "Linked to N ingredients · N products" line so the same signal is
+// visible on the brief itself. Uses the resolved-link arrays above so
+// the counts stay consistent with the body's actual hrefs.
+const linkedIngredientCount = ingredientLinks.filter(Boolean).length;
+const linkedProductCount = productLinks.filter(Boolean).length;
+---
+<div class="page">
+  <ThinContentBanner kind="concerns" slug={data.slug} />
+  <SiteHeader active="Concerns" />
+  <Breadcrumbs trail={[
+    { label: "Home", href: home },
+    { label: "Concerns", href: url("concerns") },
+    { label: data.name },
+  ]} />
+
+  <section class="hero">
+    <PaperEffects vignette columns columnsOpacity={0.32} />
+    <div class="flask"><AmbientFlask size={560} opacity={0.06} /></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-main">
+          <div class="hero-eyebrow-row">
+            <p class="eyebrow eyebrow-accent">{data.eyebrow}</p>
+            {data.pageRef && <span class="hero-pageref">{data.pageRef} · GUIDE</span>}
+          </div>
+          <h1 class="hero-h1">
+            {heroAccent ? (
+              <>
+                {heroPrimary} <br /><span class="hero-h1-accent">{heroAccent}</span>
+              </>
+            ) : (
+              <>{heroPrimary}.</>
+            )}
+          </h1>
+          <p class="hero-tagline-line"><span class="ital">{data.oneliner}</span></p>
+          <p class="hero-lead">{data.dek}</p>
+        </div>
+        <aside class="hero-aside">
+          <div class="card">
+            <div class="card-head">
+              <p class="eyebrow eyebrow-accent">The condition at a glance</p>
+            </div>
+            <dl>
+              <div class="kv"><dt>Family</dt><dd>{data.family}</dd></div>
+              {data.reviewer && <div class="kv"><dt>Reviewer</dt><dd>{data.reviewer}</dd></div>}
+              {data.filed && <div class="kv"><dt>Filed</dt><dd>{data.filed}</dd></div>}
+            </dl>
+            <p
+              class="bk-caption"
+              aria-label={`Linked to ${linkedIngredientCount} ingredients and ${linkedProductCount} products`}
+            >
+              <span class="bk-caption-label">Linked to</span>
+              {linkedIngredientCount > 0 ? (
+                <a class="bk-caption-link" href="#linked-ingredients">
+                  <span class="bk-caption-n on">{linkedIngredientCount}</span> ingredients
+                </a>
+              ) : (
+                <><span class="bk-caption-n">{linkedIngredientCount}</span> ingredients</>
+              )}
+              <span class="bk-caption-dot" aria-hidden="true">·</span>
+              {linkedProductCount > 0 ? (
+                <a class="bk-caption-link" href="#linked-products">
+                  <span class="bk-caption-n on">{linkedProductCount}</span> products
+                </a>
+              ) : (
+                <><span class="bk-caption-n">{linkedProductCount}</span> products</>
+              )}
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="body-col">
+      {data.triggers && data.triggers.length > 0 && (
+        <article>
+          <p class="folio">— § 01</p>
+          <h2 class="h-display">The triggers <span class="ital">worth tracking.</span></h2>
+          <div class="trigger-list">
+            {data.triggers.map((t) => (
+              <div class="trigger-row">
+                <div class="t-key">{t.k}</div>
+                <div class="t-bar-wrap">
+                  <div class="ev-bar"><div class="ev-bar-fill" style={`width:${t.w}`} /></div>
+                  <p class="t-note">{t.n}</p>
+                </div>
+                <div class="t-pct">{t.w}</div>
+              </div>
+            ))}
+          </div>
+        </article>
+      )}
+
+      {data.ingredients && data.ingredients.length > 0 && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article id="linked-ingredients">
+            <p class="folio">— § 02</p>
+            <h2 class="h-display">Ingredients that <span class="ital">actually work.</span></h2>
+            <div class="ing-table">
+              <div class="ing-head">
+                <div>Tier</div><div>Molecule</div><div>Role</div><div>Evidence</div>
+              </div>
+              {data.ingredients.map((i, idx) => {
+                const slug = ingredientLinks[idx];
+                return (
+                  <MaybeLink
+                    href={slug ? url(`ingredients/${slug}`) : undefined}
+                    class={`ing-row${slug ? " ing-row-link" : ""}`}
+                  >
+                    <div>{i.tier && <TierBadge tier={i.tier} />}</div>
+                    <div class="ing-name">{i.name}{slug && <span class="link-arrow" aria-hidden="true"> →</span>}</div>
+                    <div class="ing-role">{i.role}</div>
+                    <div class="ing-evidence">{i.evidence}</div>
+                  </MaybeLink>
+                );
+              })}
+            </div>
+          </article>
+        </>
+      )}
+
+      {phases.length > 0 && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article>
+            <p class="folio">— § 03</p>
+            <h2 class="h-display">The <span class="ital">protocol.</span></h2>
+            <ol class="phase-grid">
+              {phases.map((p, i) => (
+                <li class="phase-card">
+                  <div class="phase-eyebrow">Phase {String(i + 1).padStart(2, "0")}{p.w ? ` · ${p.w}` : ""}</div>
+                  {p.t && <h3 class="phase-title">{p.t}</h3>}
+                  {p.b && <p class="phase-body">{p.b}</p>}
+                </li>
+              ))}
+            </ol>
+            {data.bottom && (
+              <div class="bottom-line">
+                <p class="eyebrow eyebrow-accent">Bottom line</p>
+                <p class="bottom-line-body">{data.bottom}</p>
+              </div>
+            )}
+          </article>
+        </>
+      )}
+
+      {phases.length === 0 && hasAmPm && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article>
+            <p class="folio">— § 03</p>
+            <h2 class="h-display">The <span class="ital">protocol.</span></h2>
+            <div class="ampm-grid">
+              {protocolAm.length > 0 && (
+                <div class="ampm-col">
+                  <div class="ampm-eyebrow">Morning</div>
+                  <ol class="ampm-list">
+                    {protocolAm.map((s) => <li>{s}</li>)}
+                  </ol>
+                </div>
+              )}
+              {protocolPm.length > 0 && (
+                <div class="ampm-col">
+                  <div class="ampm-eyebrow">Evening</div>
+                  <ol class="ampm-list">
+                    {protocolPm.map((s) => <li>{s}</li>)}
+                  </ol>
+                </div>
+              )}
+            </div>
+            {data.bottom && (
+              <div class="bottom-line">
+                <p class="eyebrow eyebrow-accent">Bottom line</p>
+                <p class="bottom-line-body">{data.bottom}</p>
+              </div>
+            )}
+          </article>
+        </>
+      )}
+
+      {data.bottom && phases.length === 0 && !hasAmPm && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <div class="bottom-line">
+            <p class="eyebrow eyebrow-accent">Bottom line</p>
+            <p class="bottom-line-body">{data.bottom}</p>
+          </div>
+        </>
+      )}
+
+      {data.products && data.products.length > 0 && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article id="linked-products">
+            <p class="folio">— § 04</p>
+            <h2 class="h-display">On <span class="ital">our shelf.</span></h2>
+            <div class="cards">
+              {data.products.map((p, idx) => {
+                const slug = productLinks[idx];
+                return (
+                  <MaybeLink
+                    href={slug ? url(`products/${slug}`) : undefined}
+                    class={`card-cell shelf-cell${slug ? " shelf-cell-link" : ""}`}
+                  >
+                    <div class="shelf-head">
+                      <span class="shelf-brand">{p.brand}</span>
+                      {p.tier && <TierBadge tier={p.tier} />}
+                    </div>
+                    <div class="shelf-name">{p.name}</div>
+                    {p.why && <p class="shelf-note">{p.why}</p>}
+                    <div class="shelf-foot">
+                      {typeof p.score === "number" && (
+                        <span class="shelf-score">{p.score}<span class="shelf-score-max">⁄100</span></span>
+                      )}
+                      <span class="shelf-cta">{slug ? "Read review →" : "Not yet reviewed"}</span>
+                    </div>
+                  </MaybeLink>
+                );
+              })}
+            </div>
+          </article>
+        </>
+      )}
+
+      {data.faq && data.faq.length > 0 && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article>
+            <p class="folio">— § 05</p>
+            <h2 class="h-display">Frequently <span class="ital">asked.</span></h2>
+            <div class="faq">
+              {data.faq.map((f, i) => (
+                <details class="faq-item" open={i === 0}>
+                  <summary><span class="faq-q">{f.q}</span><span class="faq-chev" aria-hidden="true">⌄</span></summary>
+                  <p class="faq-a">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </article>
+        </>
+      )}
+    </div>
+  </div>
+  <div class="container"><CitedSourcesBlock ids={data.citations} /></div>
+  <SiteFooter />
+</div>
+
+<style>
+  .page { position: relative; background: var(--paper); color: var(--ink); font-family: var(--font-sans); }
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .eyebrow { margin: 0; font-family: var(--font-sans); font-size: 10.5px; letter-spacing: 0.18em; font-weight: 600; text-transform: uppercase; color: var(--muted); }
+  .eyebrow-accent { color: var(--accent); }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+  .folio { margin: 0; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--muted-soft); }
+  .h-display { margin: 8px 0 0; font-family: var(--font-serif); font-size: 52px; line-height: 1; font-weight: 400; font-variation-settings: "opsz" 144, "SOFT" 30; color: var(--ink); letter-spacing: -0.025em; }
+  .asterism { display: flex; align-items: center; justify-content: center; gap: 24px; padding-block: 40px; }
+  .asterism .rule { height: 1px; width: 96px; background: var(--rule); display: block; }
+  .asterism .ast { font-family: var(--font-serif); font-size: 22px; color: var(--muted); letter-spacing: 0.4em; font-variation-settings: "opsz" 144; }
+
+  .hero { position: relative; z-index: 10; overflow: hidden; border-bottom: 1px solid var(--rule); }
+  .flask { position: absolute; right: -64px; top: -64px; z-index: 0; }
+  .hero-grid { position: relative; display: grid; grid-template-columns: repeat(12, 1fr); gap: 40px; padding-block: 96px; }
+  .hero-main { grid-column: span 12 / span 12; }
+  @media (min-width: 1024px) { .hero-main { grid-column: span 8 / span 8; padding-left: 48px; } }
+  .hero-eyebrow-row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--rule); padding-bottom: 16px; }
+  .hero-pageref { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); }
+  .hero-h1 { margin: 40px 0 0; font-family: var(--font-serif); font-size: clamp(64px, 11vw, 124px); line-height: 0.9; letter-spacing: -0.05em; font-weight: 400; color: var(--ink); font-variation-settings: "opsz" 144, "SOFT" 30; }
+  .hero-h1-accent { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+  .hero-tagline-line { margin: 12px 0 0; font-family: var(--font-serif-ed); font-size: 28px; font-style: italic; color: var(--accent); letter-spacing: -0.02em; }
+  .hero-lead { margin: 36px 0 0; max-width: 36rem; font-family: var(--font-serif); font-size: 21px; line-height: 1.55; color: var(--ink-soft); }
+
+  .hero-aside { grid-column: span 12 / span 12; }
+  @media (min-width: 1024px) { .hero-aside { grid-column: span 4 / span 4; display: flex; align-items: flex-end; } }
+  .card { width: 100%; border: 1px solid var(--rule); background: var(--paper); }
+  .card-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--rule); background: var(--paper2); }
+  dl { margin: 0; padding: 0; }
+  .kv { padding: 14px 24px; border-bottom: 1px solid var(--rule-soft); }
+  .kv:last-child { border-bottom: 0; }
+  .kv dt { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; color: var(--muted-soft); text-transform: uppercase; }
+  .kv dd { margin: 4px 0 0; font-family: var(--font-serif); font-size: 14.5px; color: var(--ink); line-height: 1.45; }
+  /* link-coverage caption — same mono treatment as the catalogue index card */
+  .bk-caption { margin: 0; padding: 14px 24px; border-top: 1px solid var(--rule-soft); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); text-transform: uppercase; line-height: 1.4; }
+  .bk-caption-label { margin-right: 4px; }
+  .bk-caption-n { font-weight: 600; color: var(--muted-soft); margin-right: 2px; }
+  .bk-caption-n.on { color: var(--accent); }
+  .bk-caption-dot { margin: 0 6px; color: var(--muted-soft); }
+  .bk-caption-link { color: inherit; text-decoration: none; border-bottom: 1px dotted transparent; transition: border-color 0.15s ease, color 0.15s ease; }
+  .bk-caption-link:hover { border-bottom-color: var(--accent); color: var(--accent); }
+  .bk-caption-link:hover .bk-caption-n.on { color: var(--accent); }
+  :target { scroll-margin-top: 24px; }
+
+  .body-col { padding-block: 80px; }
+  article { margin-block: 32px; }
+
+  /* triggers */
+  .trigger-list { margin-top: 36px; display: flex; flex-direction: column; gap: 20px; }
+  .trigger-row { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; }
+  @media (min-width: 768px) { .trigger-row { grid-template-columns: 3fr 7fr 2fr; } }
+  .t-key { font-family: var(--font-serif); font-size: 22px; color: var(--ink); line-height: 1.2; font-variation-settings: "opsz" 144; }
+  .ev-bar { height: 6px; width: 100%; background: var(--rule-soft); }
+  .ev-bar-fill { height: 100%; background: var(--accent); }
+  .t-note { margin: 12px 0 0; font-family: var(--font-serif); font-size: 15px; color: var(--muted); line-height: 1.55; font-style: italic; }
+  .t-pct { font-family: var(--font-serif); font-size: 30px; font-variation-settings: "opsz" 144; color: var(--ink); letter-spacing: -0.02em; text-align: left; }
+  @media (min-width: 768px) { .t-pct { text-align: right; } }
+
+  /* ingredient table */
+  .ing-table { margin-top: 36px; border: 1px solid var(--rule); background: var(--paper); }
+  .ing-head { display: none; }
+  .ing-row { display: flex; flex-direction: column; gap: 8px; padding: 20px; border-bottom: 1px solid var(--rule-soft); }
+  @media (min-width: 768px) {
+    .ing-head { display: grid; grid-template-columns: 80px 2fr 2fr 4fr; gap: 16px; padding: 16px 20px; align-items: center; border-bottom: 1px solid var(--rule-soft); background: var(--paper2); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted-soft); text-transform: uppercase; }
+    .ing-row { display: grid; grid-template-columns: 80px 2fr 2fr 4fr; gap: 16px; padding: 16px 20px; align-items: center; }
+  }
+  .ing-row-link { color: inherit; text-decoration: none; transition: background 0.15s ease; }
+  .ing-row-link:hover { background: var(--paper2); }
+  .ing-row-link .ing-name { color: var(--accent); }
+  .link-arrow { font-family: var(--font-mono); font-size: 12px; color: var(--accent); margin-left: 4px; }
+  .ing-name { font-family: var(--font-serif); font-size: 17px; color: var(--ink); }
+  .ing-role { font-family: var(--font-sans); font-size: 13px; color: var(--muted); }
+  .ing-evidence { font-family: var(--font-serif); font-size: 14.5px; color: var(--ink-soft); font-style: italic; line-height: 1.5; }
+  .ing-row-wrap { position: relative; }
+  .ing-srclink { display: block; padding: 4px 20px 10px; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; text-decoration: none; font-style: normal; border-bottom: 1px solid var(--rule-soft); }
+  .ing-srclink:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* phases */
+  .phase-grid { list-style: none; margin: 36px 0 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 768px) { .phase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .phase-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .phase-card { padding: 24px; background: var(--paper); border: 1px solid var(--rule); }
+  .phase-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--muted-soft); text-transform: uppercase; }
+  .phase-title { margin: 12px 0 0; font-family: var(--font-serif); font-size: 24px; line-height: 1.1; font-weight: 400; color: var(--ink); font-variation-settings: "opsz" 144, "SOFT" 30; letter-spacing: -0.015em; }
+  .phase-body { margin: 16px 0 0; font-family: var(--font-serif); font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
+
+  /* AM/PM protocol fallback (string[] step lists) */
+  .ampm-grid { margin-top: 36px; display: grid; grid-template-columns: 1fr; gap: 24px; }
+  @media (min-width: 768px) { .ampm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; } }
+  .ampm-col { padding: 24px; background: var(--paper); border: 1px solid var(--rule); }
+  .ampm-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; }
+  .ampm-list { margin: 16px 0 0; padding-left: 18px; font-family: var(--font-serif); font-size: 16px; line-height: 1.7; color: var(--ink-soft); }
+  .ampm-list li { margin-top: 6px; }
+  .ampm-list li::marker { font-family: var(--font-mono); font-size: 11px; color: var(--muted-soft); }
+
+  /* bottom-line callout */
+  .bottom-line { margin-top: 36px; max-width: 48rem; padding: 20px 28px; background: var(--paper); border-left: 4px solid var(--accent); }
+  .bottom-line-body { margin: 8px 0 0; font-family: var(--font-serif); font-size: 19px; font-style: italic; color: var(--ink); line-height: 1.55; }
+
+  /* shelf cards */
+  .cards { margin-top: 36px; display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+  @media (min-width: 768px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .card-cell { padding: 28px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--paper); display: flex; flex-direction: column; }
+  .shelf-cell-link { color: inherit; text-decoration: none; transition: background 0.15s ease; }
+  .shelf-cell-link:hover { background: var(--paper2); }
+  .shelf-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+  .shelf-brand { font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+  .shelf-name { font-family: var(--font-serif); font-size: 20px; line-height: 1.25; color: var(--ink); }
+  .shelf-note { margin: 16px 0 0; font-family: var(--font-serif); font-size: 15px; line-height: 1.55; color: var(--muted); font-style: italic; }
+  .shelf-foot { margin-top: auto; padding-top: 20px; display: flex; align-items: baseline; justify-content: space-between; border-top: 1px solid var(--rule-soft); }
+  .shelf-score { font-family: var(--font-serif); font-size: 28px; color: var(--ink); letter-spacing: -0.02em; }
+  .shelf-score-max { font-size: 12px; color: var(--muted-soft); }
+  .shelf-cta { font-family: var(--font-sans); font-size: 12px; color: var(--accent); }
+
+  /* faq */
+  .faq { margin-top: 24px; border: 1px solid var(--rule); }
+  .faq-item { border-bottom: 1px solid var(--rule-soft); }
+  .faq-item:last-child { border-bottom: 0; }
+  .faq-item summary { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; cursor: pointer; list-style: none; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-q { font-family: var(--font-serif); font-size: 17px; color: var(--ink); }
+  .faq-chev { color: var(--muted-soft); }
+  .faq-a { padding: 0 24px 24px; margin: 0; font-family: var(--font-serif); font-size: 15.5px; color: var(--ink-soft); line-height: 1.6; }
+</style>

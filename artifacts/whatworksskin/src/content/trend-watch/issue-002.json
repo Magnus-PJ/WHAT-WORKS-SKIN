@@ -1,0 +1,40 @@
+{
+  "slug": "issue-002",
+  "n": 2,
+  "date": "03 November 2025",
+  "year": 2025,
+  "headline": "Slugging, vaseline, and the petrolatum question",
+  "dek": "TikTok rediscovered occlusion. We re-read the dermatology literature so you don't have to.",
+  "signed": "Dr. Sundeep",
+  "pageRef": "P. 02",
+  "eyebrow": "Trend Watch · Issue 002 · 03 November 2025",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "Overnight slugging (full-face)",
+      "tier": "B",
+      "verdict": "Partly True",
+      "color": "",
+      "body": "Petrolatum's TEWL-reduction credentials are essentially uncontested — it cuts transepidermal water loss by ~99% and has 60+ years of dermatology use behind it. Whether you should slug your whole face every night depends on skin type. For very dry, low-sebum, mature skin in winter, the practice is reasonable and well-tolerated. For oily, acne-prone, or combination skin, occluding the face overnight is a recipe for follicular irritation and breakouts within two to three weeks. Map it to your skin, not to the trend.",
+      "bottom": "Defensible for dry skin in winter. A bad idea for oily or acne-prone surfaces."
+    },
+    {
+      "n": "02",
+      "name": "Petrolatum on barrier flares",
+      "tier": "A",
+      "verdict": "Holds Up",
+      "color": "",
+      "body": "Targeted, short-term petrolatum application on cracked corners, peri-procedure, eczema flare patches, and post-laser areas is one of the most evidence-supported moves in dermatology. It is the reference occlusive against which every barrier cream is measured, and we use it routinely in clinic. Branded balms (Aquaphor, Vaseline Healing Jelly) are often appropriate; the generic plain white petroleum jelly is, for most cases, indistinguishable.",
+      "bottom": "The reference occlusive. Use as targeted spot-treatment, not as identity."
+    },
+    {
+      "n": "03",
+      "name": "Slugging over actives (BHA, retinoid, AHA)",
+      "tier": "D",
+      "verdict": "Misleading",
+      "color": "",
+      "body": "The most consequential slugging mistake we see is occlusion over freshly-applied actives. Petrolatum dramatically increases the residence time and effective dose of whatever sits underneath it, which is exactly what you do not want with a retinoid, BHA, or AHA. The result is a category of barrier injury that did not exist five years ago. If you are slugging, do it over a moisturiser layer — never directly over an active.",
+      "bottom": "Slug over moisturiser. Never over a retinoid or acid."
+    }
+  ]
+}

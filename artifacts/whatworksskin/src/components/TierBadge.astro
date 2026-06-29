@@ -1,0 +1,35 @@
+---
+// Tier label pill — A/B/C/D, three sizes. Mirrors mockup TierBadge exactly.
+export interface Props {
+  tier: "A" | "B" | "C" | "D" | string;
+  size?: "sm" | "md" | "lg";
+}
+const { tier, size = "sm" } = Astro.props;
+const t = String(tier).toUpperCase();
+const colorMap: Record<string, string> = { A: "var(--tier-a)", B: "var(--tier-b)", C: "var(--tier-c)", D: "var(--tier-d)" };
+const bgMap: Record<string, string> = { A: "var(--tier-a-soft)", B: "var(--tier-b-soft)", C: "var(--tier-c-soft)", D: "var(--tier-d-soft)" };
+const c = colorMap[t] ?? colorMap.C;
+const bg = bgMap[t] ?? bgMap.C;
+const fs = size === "lg" ? 12 : size === "md" ? 11 : 10;
+const pad = size === "lg" ? "5px 12px" : size === "md" ? "4px 10px" : "3px 8px";
+---
+<span
+  class="tier-badge"
+  style={`color:${c}; background:${bg}; border:1px solid ${c}55; padding:${pad}; font-size:${fs}px;`}
+>
+  Tier&nbsp;{t}
+</span>
+
+<style>
+  .tier-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    line-height: 1;
+  }
+</style>

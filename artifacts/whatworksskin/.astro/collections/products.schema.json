@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "minLength": 1
+    },
+    "brand": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "featured": {
+      "type": "boolean"
+    },
+    "category": {
+      "type": "string"
+    },
+    "tagline": {
+      "type": "string"
+    },
+    "reviewer": {
+      "type": "string"
+    },
+    "pageRef": {
+      "type": "string"
+    },
+    "filed": {
+      "type": "string"
+    },
+    "eyebrow": {
+      "type": "string"
+    },
+    "hero": {
+      "type": "string"
+    },
+    "bottom": {
+      "type": "string"
+    },
+    "score": {
+      "type": "number"
+    },
+    "maxScore": {
+      "type": "number"
+    },
+    "scoreBreakdown": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "k": {
+            "type": "string"
+          },
+          "v": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          },
+          "n": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "k"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "ingredients": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "i": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": {}
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "useCases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "k": {
+            "type": "string"
+          },
+          "b": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "k",
+          "b"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "alts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ]
+          },
+          "score": {
+            "type": "number"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": {}
+      }
+    },
+    "faq": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "q": {
+            "type": "string"
+          },
+          "a": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "q",
+          "a"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "n": {
+            "type": "string"
+          },
+          "w": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "n"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "slug",
+    "brand",
+    "name",
+    "tier"
+  ]
+}

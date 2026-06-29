@@ -1,0 +1,58 @@
+---
+import { isThin, type ThinKind } from "@/lib/thin-content";
+
+export interface Props {
+  kind: ThinKind;
+  slug: string;
+}
+const { kind, slug } = Astro.props;
+const show = import.meta.env.DEV && isThin(kind, slug);
+---
+{show && (
+  <div class="thin-banner" role="status" aria-label="Thin page — needs enrichment">
+    <span class="thin-dot" aria-hidden="true" />
+    <span class="thin-text">
+      <strong>Thin page · needs enrichment</strong>
+      <span class="thin-meta">— only hero/glance metadata extracted for <code>{kind}/{slug}</code>. Add body sections in the source mockup.</span>
+    </span>
+  </div>
+)}
+
+<style>
+  .thin-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 16px;
+    background: #fff8e1;
+    border-bottom: 1px solid #f0d27a;
+    color: #6b4d00;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+  .thin-dot {
+    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    margin-top: 6px;
+    border-radius: 50%;
+    background: #d99a00;
+  }
+  .thin-text strong {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .thin-meta {
+    margin-left: 6px;
+    color: #8a6a14;
+  }
+  .thin-banner code {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+</style>

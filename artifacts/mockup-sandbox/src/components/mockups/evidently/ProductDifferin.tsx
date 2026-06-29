@@ -1,0 +1,61 @@
+import React from "react";
+import { ProductTemplate, ProductData } from "./_ProductTemplate";
+
+const D: ProductData = {
+  brand: "Galderma",
+  productName: "Adapalene 0.1% Gel (Differin)",
+  tagline: "the OTC retinoid first-line.",
+  category: "Retinoids",
+  pageRef: "P. 30",
+  filed: "22-APR-2026",
+  reviewer: "Dr. Aanya Mehta",
+  eyebrow: "Product · Retinoid · OTC",
+  tier: "A",
+  hero: "The first FDA-approved OTC retinoid. Adapalene is a third-generation receptor-selective retinoid with comparable acne efficacy to tretinoin and meaningfully better tolerability — at one-tenth the cost of branded Rx alternatives.",
+  facts: [
+    ["Format", "Aqueous gel, 15 g"],
+    ["Adapalene", "0.1% (USP)"],
+    ["pH", "5.0 - 6.0"],
+    ["Photostability", "Stable in daylight"],
+    ["Price", "₹ 320 / 15 g"],
+    ["Pregnancy-safe", "No (retinoid class)"],
+  ],
+  scoreBreakdown: [
+    { k: "Active integrity", v: 24, max: 25, n: "0.1% adapalene — clinical-grade, RCT-validated for acne." },
+    { k: "Tolerability", v: 21, max: 25, n: "Better than tret on dry / peeling endpoints in 12-week trials." },
+    { k: "Evidence per claim", v: 23, max: 25, n: "30+ years of acne and PIH literature; meta-analysis grade." },
+    { k: "Value", v: 19, max: 25, n: "₹ 320 / 15 g — pharmacy-grade cost, retail availability." },
+  ],
+  ingredients: [
+    { i: "Adapalene 0.1%", role: "Retinoid (RAR-β/γ selective)", tier: "A", note: "Comparable acne efficacy to tret 0.05%; better tolerability." },
+    { i: "Carbomer", role: "Gelling agent", tier: "B", note: "Standard aqueous-gel base." },
+    { i: "Propylene glycol", role: "Solvent", tier: "B", note: "Helps adapalene solubility." },
+    { i: "Disodium edetate", role: "Chelator", tier: "B", note: "Standard formulation aid." },
+    { i: "Methylparaben", role: "Preservative", tier: "B", note: "Established safety profile." },
+  ],
+  useCases: [
+    { k: "Mild-moderate inflammatory acne", b: "Daily PM, pea-size for full face. Add BPO 2.5% AM if inflammatory." },
+    { k: "Comedonal acne", b: "First-line. Outperforms BHA on closed comedones at 12-week endpoint." },
+    { k: "Anti-ageing on retinoid-naive skin", b: "Best 'starter retinoid' before tret. Same fine-line benefits, less peeling." },
+  ],
+  alts: [
+    { brand: "Galderma", name: "A-Ret 0.05% Gel (tretinoin)", tier: "A", score: 83, note: "Tretinoin starter; comparable efficacy, more peeling." },
+    { brand: "Obagi", name: "Tretinoin 0.05% Cream", tier: "A", score: 80, note: "Cleaner vehicle, much higher cost." },
+    { brand: "Galderma", name: "Epiduo Gel (Adapalene 0.1% + BPO 2.5%)", tier: "A", score: 87, note: "Adds BPO; superior on inflammatory acne, more peeling." },
+  ],
+  faq: [
+    { q: "Differin vs tretinoin — which?", a: "Adapalene matches tret 0.025% for acne, outperforms it on tolerability. For pure anti-ageing, tret has a slightly thicker fine-line evidence base. For acne — adapalene is first-line." },
+    { q: "When will I see a result?", a: "Acne improvement starts at week 4-6, plateaus at month 3-4. Stick with it. The 'purge' is real and lasts 6-8 weeks." },
+    { q: "Apply how?", a: "Pea-size for full face, on dry skin, at night. Wait 5 minutes after washing. Moisturise after. AM SPF non-negotiable." },
+    { q: "Pregnancy?", a: "All retinoids — adapalene included — are contraindicated in pregnancy. Switch to azelaic acid as the safest pregnancy alternate." },
+  ],
+  sources: [
+    { n: "Tan J et al. Adapalene 0.1% vs tretinoin in acne. JAAD 2018.", w: "META" },
+    { n: "Cunliffe WJ et al. Adapalene gel: clinical and laboratory studies. JAAD 1997.", w: "RCT" },
+    { n: "Kang S et al. Adapalene long-term tolerability. Cutis 2005.", w: "RCT" },
+    { n: "Galderma adapalene clinical dossier. 2020.", w: "MFR DATA" },
+  ],
+};
+
+const ProductDifferin: React.FC = () => <ProductTemplate d={D} />;
+export default ProductDifferin;

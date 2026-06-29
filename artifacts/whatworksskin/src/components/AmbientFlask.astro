@@ -1,0 +1,26 @@
+---
+// Faint chemistry illustration used as ambient backdrop on hero sections.
+export interface Props {
+  size?: number;
+  opacity?: number;
+  class?: string;
+}
+const { size = 380, opacity = 0.05, class: className = "" } = Astro.props;
+---
+<svg
+  aria-hidden="true"
+  width={size}
+  height={size}
+  viewBox="0 0 200 200"
+  style={`opacity:${opacity}`}
+  class={className}
+>
+  <g fill="none" stroke="var(--ink)" stroke-width="1.2">
+    <path d="M80 30 L80 80 L50 150 Q50 180 100 180 Q150 180 150 150 L120 80 L120 30 Z" />
+    <line x1="70" y1="30" x2="130" y2="30" stroke-width="2" />
+    <line x1="65" y1="115" x2="135" y2="115" stroke-dasharray="2 4" />
+    <circle cx="85" cy="145" r="3" />
+    <circle cx="105" cy="155" r="2" />
+    <circle cx="120" cy="140" r="4" />
+  </g>
+</svg>

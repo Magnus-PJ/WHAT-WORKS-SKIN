@@ -1,0 +1,145 @@
+---
+import SiteHeader from "./SiteHeader.astro";
+import ThinContentBanner from "./ThinContentBanner.astro";
+import SiteFooter from "./SiteFooter.astro";
+import Breadcrumbs from "./Breadcrumbs.astro";
+import PaperEffects from "./PaperEffects.astro";
+import AmbientFlask from "./AmbientFlask.astro";
+import TierBadge from "./TierBadge.astro";
+import { url, home } from "@/lib/url";
+import CitedSourcesBlock from "./CitedSourcesBlock.astro";
+import {
+  KIND_TO_ROUTE,
+  isLinkSegment,
+  normaliseBody,
+  type TrendWatchBodySegment,
+} from "@/lib/trend-watch-body";
+
+type Tier = "A" | "B" | "C" | "D";
+type Verdict = string;
+
+export interface Props {
+  data: {
+    slug: string;
+    n: number;
+    date: string;
+    year: number;
+    headline: string;
+    dek: string;
+    signed?: string;
+    pageRef?: string;
+    eyebrow?: string;
+    verdicts?: {
+      n?: string | number;
+      name: string;
+      verdict: Verdict;
+      tier?: Tier;
+      body?: string | TrendWatchBodySegment[];
+      bottom?: string;
+    }[];
+    citations?: string[];
+  };
+}
+const { data } = Astro.props;
+const issueLabel = `Issue ${String(data.n).padStart(3, "0")}`;
+---
+<div class="page">
+  <ThinContentBanner kind="trend-watch" slug={data.slug} />
+  <SiteHeader active="Trend Watch" />
+  <Breadcrumbs trail={[
+    { label: "Home", href: home },
+    { label: "Trend Watch", href: url("trend-watch") },
+    { label: `${issueLabel} · Archive` },
+  ]} />
+
+  <section class="hero">
+    <PaperEffects vignette columns columnsOpacity={0.32} />
+    <div class="flask"><AmbientFlask size={520} opacity={0.06} /></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-main">
+          <div class="hero-eyebrow-row">
+            <p class="eyebrow eyebrow-accent">{data.eyebrow ?? `Trend Watch · ${issueLabel} · ${data.date}`}</p>
+            <span class="hero-pageref">ARCHIVE</span>
+          </div>
+          <div class="issue-pill">{issueLabel}</div>
+          <h1 class="hero-h1">{data.headline}</h1>
+          <p class="hero-lead">{data.dek}</p>
+          {data.signed && <p class="signed">Signed — {data.signed}</p>}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="verdicts">
+      {data.verdicts && data.verdicts.map((v) => (
+        <article class="verdict">
+          <div class="v-rail">
+            <div class="v-n-label">Verdict № {v.n ?? ""}</div>
+            <div class="v-n">{v.n ?? ""}</div>
+            {v.tier && <div class="v-tier"><TierBadge tier={v.tier} size="md" /></div>}
+          </div>
+          <div class="v-main">
+            <h2 class="v-name">{v.name}</h2>
+            <div class="v-verdict">{v.verdict}</div>
+            {v.body && (
+              <p class="v-body">
+                {normaliseBody(v.body).map((seg) => (
+                  isLinkSegment(seg)
+                    ? <a class="v-body-link" href={url(`${KIND_TO_ROUTE[seg.kind]}/${seg.slug}`)}>{seg.text}</a>
+                    : seg
+                ))}
+              </p>
+            )}
+            {v.bottom && (
+              <div class="v-bottom">
+                <p class="eyebrow eyebrow-accent">Bottom line</p>
+                <p class="v-bottom-line">{v.bottom}</p>
+              </div>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="container"><CitedSourcesBlock ids={data.citations} /></div>
+  </div>
+  <SiteFooter />
+</div>
+
+<style>
+  .page { position: relative; background: var(--paper); color: var(--ink); font-family: var(--font-sans); }
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .eyebrow { margin: 0; font-family: var(--font-sans); font-size: 10.5px; letter-spacing: 0.18em; font-weight: 600; text-transform: uppercase; color: var(--muted); }
+  .eyebrow-accent { color: var(--accent); }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+
+  .hero { position: relative; z-index: 10; overflow: hidden; border-bottom: 1px solid var(--rule); }
+  .flask { position: absolute; right: -64px; top: -64px; z-index: 0; }
+  .hero-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 40px; padding-block: 96px; position: relative; }
+  .hero-main { grid-column: span 12 / span 12; }
+  @media (min-width: 1024px) { .hero-main { grid-column: span 9 / span 9; padding-left: 48px; } }
+  .hero-eyebrow-row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--rule); padding-bottom: 16px; }
+  .hero-pageref { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); }
+  .issue-pill { margin-top: 32px; display: inline-block; padding: 8px 16px; border: 1px solid var(--rule); background: var(--paper2); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; }
+  .hero-h1 { margin: 28px 0 0; font-family: var(--font-serif); font-size: clamp(56px, 9vw, 110px); line-height: 0.95; letter-spacing: -0.045em; font-weight: 400; color: var(--ink); font-variation-settings: "opsz" 144, "SOFT" 30; }
+  .hero-lead { margin: 36px 0 0; max-width: 36rem; font-family: var(--font-serif); font-size: 21px; line-height: 1.55; color: var(--ink-soft); }
+  .signed { margin: 24px 0 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; }
+
+  .verdicts { padding-block: 80px; display: flex; flex-direction: column; gap: 80px; }
+  .verdict { display: grid; grid-template-columns: 1fr; gap: 24px; padding-bottom: 60px; border-bottom: 1px solid var(--rule); }
+  .verdict:last-child { border-bottom: 0; }
+  @media (min-width: 1024px) { .verdict { grid-template-columns: 200px 1fr; gap: 48px; } }
+  .v-rail { display: flex; flex-direction: column; gap: 12px; }
+  .v-n-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--muted-soft); text-transform: uppercase; }
+  .v-n { font-family: var(--font-serif); font-size: 80px; color: var(--accent); line-height: 0.85; letter-spacing: -0.05em; font-variation-settings: "opsz" 144, "SOFT" 30; }
+  .v-tier { margin-top: 8px; }
+  .v-main { min-width: 0; }
+  .v-name { margin: 0; font-family: var(--font-serif); font-size: 40px; line-height: 1.05; color: var(--ink); font-variation-settings: "opsz" 144, "SOFT" 30; font-weight: 400; letter-spacing: -0.025em; }
+  .v-verdict { margin-top: 12px; font-family: var(--font-serif-ed); font-size: 24px; font-style: italic; color: var(--accent); letter-spacing: -0.015em; }
+  .v-body { margin: 24px 0 0; max-width: 60rem; font-family: var(--font-serif); font-size: 19px; line-height: 1.65; color: var(--ink-soft); }
+  .v-body-link { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .v-body-link:hover { text-decoration-thickness: 2px; }
+  .v-bottom { margin: 24px 0 0; max-width: 60rem; padding: 16px 24px; border-left: 4px solid var(--accent); background: var(--paper2); }
+  .v-bottom-line { margin: 8px 0 0; font-family: var(--font-serif); font-size: 17px; font-style: italic; color: var(--ink); line-height: 1.5; }
+</style>

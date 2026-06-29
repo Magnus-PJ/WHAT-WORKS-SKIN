@@ -1,0 +1,908 @@
+---
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import PaperEffects from "@/components/PaperEffects.astro";
+import AmbientFlask from "@/components/AmbientFlask.astro";
+import { url, home } from "@/lib/url";
+import { loadTransparencyMeta, formatLongDate } from "@/lib/transparency";
+
+const transparencyMeta = await loadTransparencyMeta();
+const lastUpdated = transparencyMeta.pages.editors;
+const lastUpdatedLong = formatLongDate(lastUpdated);
+
+type Editor = {
+  id: string;
+  name: string;
+  signature: string;
+  role: string;
+  hue: string;
+  pull: string;
+  bio: string[];
+  credentials: { k: string; v: string }[];
+  publications: { yr: string; t: string; venue: string }[];
+  remit: string[];
+  conflicts: string[];
+  recent: { date: string; title: string; kind: string }[];
+};
+
+const PAUL: Editor = {
+  id: "paul",
+  name: "Dr. Paul",
+  signature: "Paul",
+  role: "Research Lead",
+  hue: "var(--accent)",
+  pull: "An ingredient is innocent until a trial proves it works. The boring molecule that holds up across replications is what we publish.",
+  bio: [
+    "Paul leads research for What Works Skin. He spends his weeks reading dermatology literature, talking to formulators, and arguing with the second editor about whether a new molecule deserves a Tier B or a Tier C.",
+    "He trained in clinical pharmacology before moving into dermatologic research and has spent fifteen years building structured-evidence reviews for skincare ingredients. He runs a private clinic two days a week — that practice is fully disclosed in the methodology dossier.",
+  ],
+  credentials: [
+    { k: "MBBS",      v: "Christian Medical College, Vellore · 2008" },
+    { k: "MD Pharm.", v: "AIIMS Delhi · 2012" },
+    { k: "Diplomate", v: "Indian Society of Dermatologic Research · 2017" },
+    { k: "Member",    v: "International Cosmetic Chemists Society" },
+  ],
+  publications: [
+    { yr: "2024", t: "Niacinamide tolerability ceiling: a 600-patient observational review.", venue: "JCAD" },
+    { yr: "2022", t: "Adapalene in adult comedonal acne: meta-review of 22 trials.",          venue: "Indian J Derm" },
+    { yr: "2021", t: "Vitamin C topical concentration: where the curve flattens.",             venue: "Cosmet Sci" },
+  ],
+  remit: [
+    "Ingredient research, dose-response review, formulation analysis",
+    "Tier rubric authorship and quarterly audit",
+    "First-pass review of every guide before medical sign-off",
+    "Trend Watch lead author for ingredient and product claims",
+  ],
+  conflicts: [
+    "Operates clinical practice (whatworksclinic.com)",
+    "Honoraria: AIIMS Delhi guest lectures (2023, 2024)",
+    "Author royalties: 'Skincare, Honestly' (Pan Macmillan India, 2025)",
+    "No equity in any cosmeceutical or supplement company.",
+  ],
+  recent: [
+    { date: "20 APR 2026", title: "Beef tallow vs ceramide creams — the receipts", kind: "Trend Watch" },
+    { date: "13 APR 2026", title: "Adapalene microsphere — formulation deep dive",  kind: "Ingredient" },
+    { date: "06 APR 2026", title: "Polypodium leucotomos — supplement monograph",   kind: "Supplement" },
+    { date: "30 MAR 2026", title: "AM/Pigment-prone routine — 4-step rebuild",      kind: "Routine" },
+  ],
+};
+
+const SUNDEEP: Editor = {
+  id: "sundeep",
+  name: "Dr. Sundeep",
+  signature: "Sundeep",
+  role: "Medical Review Lead",
+  hue: "#0b3b5e",
+  pull: "Every guide gets read by the editor who didn't write it. That second pair of eyes is the only thing standing between a guide and our readers.",
+  bio: [
+    "Sundeep is medical review lead. Every page on this site is signed by both editors; his name appears second only because he reads what Paul writes after Paul writes it.",
+    "He is a board-certified dermatologist with a particular interest in pigmentary disorders, melasma in skin of colour, and post-inflammatory hyperpigmentation. He maintains a hospital clinic three mornings a week, which informs the practical 'what we'd actually prescribe' framing in every detail page.",
+  ],
+  credentials: [
+    { k: "MBBS",            v: "Madras Medical College · 2006" },
+    { k: "MD Dermatology",  v: "PGIMER Chandigarh · 2011" },
+    { k: "Fellowship",      v: "Pigmentary disorders, NSC Singapore · 2014" },
+    { k: "Board-certified", v: "Indian Association of Dermatologists · 2015" },
+  ],
+  publications: [
+    { yr: "2025", t: "Tranexamic acid in melasma: oral vs topical, a head-to-head RCT.",           venue: "JAAD" },
+    { yr: "2023", t: "Melasma in Indian skin: a pragmatic protocol for primary-care practice.",    venue: "IJDVL" },
+    { yr: "2020", t: "Post-inflammatory hyperpigmentation after acne: 12-week protocol outcomes.", venue: "Indian J Derm" },
+  ],
+  remit: [
+    "Final medical review and sign-off on every guide",
+    "Safety and drug-interaction review for all supplements",
+    "Lead author on pigmentation, rosacea, and skin-of-colour content",
+    "Reader correspondence with a clinical question",
+  ],
+  conflicts: [
+    "Hospital clinic at Apollo, Chennai (3 mornings/week)",
+    "Honoraria: Indian Association of Dermatologists CME (2024, 2025)",
+    "Reviewer for IJDVL (unpaid)",
+    "No industry consultancy in the last five years.",
+  ],
+  recent: [
+    { date: "20 APR 2026", title: "Melasma — the controllable, not curable protocol", kind: "Concern" },
+    { date: "13 APR 2026", title: "UVMune 400 in pigmentary skin — verdict",          kind: "Product" },
+    { date: "06 APR 2026", title: "Polypodium — medical sign-off",                    kind: "Supplement" },
+    { date: "23 MAR 2026", title: "Topical tranexamic acid — what 'cures' means",     kind: "Trend Watch" },
+  ],
+};
+
+const EDITORS = [PAUL, SUNDEEP];
+
+const HEADLINE: [string, string][] = [
+  ["Combined years in dermatology", "33"],
+  ["Combined peer-reviewed papers", "47"],
+  ["Both editors sign every page", "100%"],
+  ["Industry consultancy income",  "₹ 0"],
+];
+
+const WORKFLOW: [string, string, string][] = [
+  ["01", "Lit search",        "Paul builds the source list. Last 5 years prioritised."],
+  ["02", "First draft",       "Author drafts against the rubric. Tier provisional."],
+  ["03", "Editor cross-read", "Second editor red-pencils. Disagreements are logged."],
+  ["04", "Tier sign-off",     "Final tier set jointly. Both names attached."],
+  ["05", "Publish + diary",   "Diary date set for next review (≤ 12 months)."],
+];
+---
+<Base
+  title="Editors — What Works Skin"
+  description="Two names, two signatures. Dr. Paul leads research; Dr. Sundeep leads medical review. Every guide on the site is signed by both editors."
+>
+  <SiteHeader active="Editors" />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Editors" }]} />
+  <main>
+    <section class="masthead">
+      <PaperEffects vignette columns columnsOpacity={0.32} />
+      <div class="flask"><AmbientFlask size={520} opacity={0.06} /></div>
+      <div class="container">
+        <div class="masthead-grid">
+          <aside class="rail" aria-hidden="true">
+            <span class="rail-text">SECTION 09 / EDITORS</span>
+            <div class="rail-rule"></div>
+            <span class="rail-text">MASTHEAD · 02 BYLINES</span>
+          </aside>
+          <div class="masthead-body">
+            <div class="masthead-head">
+              <p class="eyebrow">The Masthead</p>
+              <p class="folio-mini">P. 15 · DOSSIER</p>
+            </div>
+            <p class="last-updated" data-testid="page-last-updated">
+              <span class="last-updated-label">Last updated</span>
+              <time datetime={lastUpdated}>{lastUpdatedLong}</time>
+            </p>
+            <h1 class="h1">
+              Two names,<br />
+              <span class="ital">two signatures.</span>
+            </h1>
+            <p class="lead">
+              Every page on this site is written and reviewed by the same two people. Dr. Paul leads research; Dr. Sundeep leads medical review. Neither name appears alone. If a guide is published here, both editors have signed off on it — and either of them can be written to about it.
+            </p>
+          </div>
+          <aside class="numbers">
+            <div class="numbers-card">
+              <p class="eyebrow">The bylines, in numbers</p>
+              <dl>
+                {HEADLINE.map(([k, v]) => (
+                  <div class="num-row">
+                    <dt>{k}</dt>
+                    <dd>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <div class="container body">
+      {EDITORS.map((e, idx) => (
+        <article id={e.id} class="editor-panel" style={`--editor-hue:${e.hue}`}>
+          <header class="editor-head">
+            <div class="editor-head-meta">
+              <p class="folio">Editor · {String(idx + 1).padStart(2, "0")} of 02 · {e.role}</p>
+              <h2 class="editor-name">
+                {e.name.split(" ")[0]} <span class="ital editor-ital">{e.name.split(" ")[1]}.</span>
+              </h2>
+            </div>
+            <aside class="portrait" aria-label={`Engraved portrait of ${e.name}`}>
+              <div class="portrait-frame">
+                <span class="portrait-letter">{e.name.split(" ")[1].charAt(0)}.</span>
+                <span class="portrait-hatch" aria-hidden="true"></span>
+              </div>
+              <div class="portrait-meta">
+                <span>PORTRAIT · ENGRAVED</span>
+                <span>NO. {String(idx + 1).padStart(3, "0")}</span>
+              </div>
+            </aside>
+          </header>
+
+          <blockquote class="pull">
+            <span class="pull-mark" aria-hidden="true">&ldquo;</span>{e.pull}<span class="pull-mark" aria-hidden="true">&rdquo;</span>
+          </blockquote>
+
+          <div class="editor-body">
+            <div class="bio">
+              <p class="eyebrow editor-eyebrow">Biography</p>
+              <div class="bio-text">
+                {e.bio.map((p, i) => (
+                  <p class:list={["bio-p", i === 0 && "bio-p-first"]}>{p}</p>
+                ))}
+              </div>
+
+              <div class="remit">
+                <p class="eyebrow muted">What this editor reviews</p>
+                <ul>
+                  {e.remit.map((r) => (
+                    <li><span class="remit-dot" aria-hidden="true"></span>{r}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="pubs">
+                <p class="eyebrow muted">Selected publications</p>
+                <ul>
+                  {e.publications.map((p) => (
+                    <li>
+                      <span class="pub-yr">{p.yr}</span>
+                      <span class="pub-t">{p.t}</span>
+                      <span class="pub-venue">{p.venue}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <aside class="sidebar">
+              <section class="card">
+                <header><p class="eyebrow editor-eyebrow">Credentials</p></header>
+                <dl>
+                  {e.credentials.map((c) => (
+                    <div class="cred-row">
+                      <dt>{c.k}</dt>
+                      <dd>{c.v}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+
+              <section class="card card-alt">
+                <header><p class="eyebrow muted">Declared conflicts</p></header>
+                <ul class="conflicts">
+                  {e.conflicts.map((c) => (
+                    <li><span class="conflict-mark" aria-hidden="true">—</span>{c}</li>
+                  ))}
+                </ul>
+              </section>
+
+              <section class="card">
+                <header class="card-head-row">
+                  <p class="eyebrow muted">Recent bylines</p>
+                  <span class="card-meta">LAST 30 D</span>
+                </header>
+                <ul class="recent">
+                  {e.recent.map((b) => (
+                    <li>
+                      <span class="recent-meta">
+                        <span class="recent-kind">{b.kind}</span>
+                        <span class="recent-date">{b.date}</span>
+                      </span>
+                      <span class="recent-title">{b.title}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            </aside>
+          </div>
+
+          <footer class="signoff">
+            <div>
+              <div class="sig">{e.signature}</div>
+              <div class="sig-name">{e.name} · {e.role}</div>
+            </div>
+            <div class="signoff-meta">
+              editorial@whatworksskin.com · Reader letters answered within ≈ 14 days
+            </div>
+          </footer>
+        </article>
+      ))}
+
+      <hr class="asterism" />
+
+      <section class="workflow">
+        <p class="eyebrow">How a guide gets to you</p>
+        <h2 class="section-h">Five-stage <span class="ital">review.</span></h2>
+        <ol class="workflow-grid">
+          {WORKFLOW.map(([n, t, b]) => (
+            <li class="workflow-cell">
+              <span class="workflow-stage">STAGE {n}</span>
+              <h3 class="workflow-h">{t}</h3>
+              <p class="workflow-b">{b}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </div>
+
+    <section class="contact-band">
+      <div class="container contact-grid">
+        <div>
+          <p class="eyebrow contact-eyebrow">Reader correspondence · open</p>
+          <h2 class="contact-h">
+            Spotted an <span class="ital contact-ital">error?</span>
+          </h2>
+          <p class="contact-lead">
+            Substantive corrections are made within seven days, with a public note at the foot of the page. We answer reader letters within two weeks. We do not offer individual medical consultations by email.
+          </p>
+        </div>
+        <div class="contact-cta">
+          <a href={url("letters")} class="contact-btn">Read the letters archive →</a>
+          <p class="contact-meta">editors@whatworksskin.com · ≈ 14 day response</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+
+  .eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .eyebrow.muted { color: var(--muted); }
+
+  .last-updated {
+    margin: 16px 0 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .last-updated-label { color: var(--muted); }
+  .last-updated time { color: var(--ink); font-family: var(--font-serif); font-size: 13px; letter-spacing: 0; text-transform: none; }
+
+  /* Masthead */
+  .masthead { position: relative; overflow: hidden; border-bottom: 1px solid var(--rule); }
+  .flask { position: absolute; right: -64px; top: -48px; z-index: 0; }
+  .masthead-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-block: 96px;
+  }
+  @media (min-width: 1024px) {
+    .masthead-grid { grid-template-columns: 28px 1fr 320px; gap: 48px; }
+  }
+  .rail { display: none; flex-direction: column; align-items: center; justify-content: space-between; }
+  @media (min-width: 1024px) { .rail { display: flex; } }
+  .rail-text {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.3em;
+    color: var(--muted-soft);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-transform: uppercase;
+  }
+  .rail-rule { height: 1px; width: 12px; background: var(--rule); }
+
+  .masthead-body { min-width: 0; }
+  .masthead-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 16px;
+  }
+  .folio-mini {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+  }
+  .h1 {
+    margin: 36px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(60px, 11vw, 110px);
+    line-height: 0.93;
+    letter-spacing: -0.045em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .lead {
+    margin: 36px 0 0;
+    max-width: 40rem;
+    font-family: var(--font-serif);
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .numbers { align-self: end; }
+  .numbers-card { border: 1px solid var(--rule); background: var(--paper2); padding: 28px; }
+  .numbers-card dl { margin: 20px 0 0; padding: 0; }
+  .num-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 12px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .num-row:first-child { border-top: 0; }
+  .num-row dt {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .num-row dd {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+
+  /* Body */
+  .body { padding-block: 64px; }
+
+  /* Editor panel */
+  .editor-panel {
+    border-top: 1px solid var(--rule);
+    padding-top: 64px;
+    margin-top: 48px;
+  }
+  .editor-panel:first-of-type { border-top: 0; padding-top: 16px; margin-top: 0; }
+  .editor-ital { color: var(--editor-hue); }
+
+  .editor-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: end;
+  }
+  @media (min-width: 1024px) {
+    .editor-head { grid-template-columns: 8fr 4fr; gap: 40px; }
+  }
+  .folio {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .editor-name {
+    margin: 20px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(76px, 12vw, 132px);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+
+  .portrait { display: flex; flex-direction: column; gap: 12px; max-width: 280px; justify-self: end; }
+  .portrait-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border: 14px solid var(--paper2);
+    background:
+      radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--editor-hue) 20%, transparent), transparent 60%),
+      linear-gradient(160deg, var(--paper2), #e6e2d3);
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+  .portrait-letter {
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: clamp(120px, 20vw, 220px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--editor-hue);
+    opacity: 0.42;
+  }
+  .portrait-hatch {
+    position: absolute;
+    inset: 0;
+    opacity: 0.18;
+    mix-blend-mode: multiply;
+    background-image: repeating-linear-gradient(43deg, var(--ink) 0 0.4px, transparent 0.4px 4px);
+    pointer-events: none;
+  }
+  .portrait-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--muted-soft);
+  }
+
+  .pull {
+    margin: 56px 0 0;
+    padding: 4px 0 4px 28px;
+    border-left: 4px solid var(--editor-hue);
+    max-width: 56rem;
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 3vw, 30px);
+    line-height: 1.3;
+    color: var(--ink);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    font-variation-settings: "opsz" 144;
+  }
+  .pull-mark {
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    color: var(--editor-hue);
+  }
+
+  .editor-body {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  @media (min-width: 1024px) {
+    .editor-body { grid-template-columns: 7fr 5fr; gap: 48px; }
+  }
+  .editor-eyebrow { color: var(--editor-hue); }
+
+  .bio-text { margin-top: 20px; display: flex; flex-direction: column; gap: 20px; }
+  .bio-p {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .bio-p-first::first-letter {
+    float: left;
+    font-family: var(--font-serif);
+    font-size: 80px;
+    line-height: 0.85;
+    font-weight: 400;
+    font-variation-settings: "opsz" 144;
+    color: var(--ink);
+    padding-right: 12px;
+    padding-top: 6px;
+  }
+
+  .remit, .pubs { margin-top: 56px; }
+  .remit ul {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .remit li {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    padding-block: 12px;
+    border-bottom: 1px solid var(--rule-soft);
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .remit-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--editor-hue);
+    flex-shrink: 0;
+    transform: translateY(2px);
+  }
+
+  .pubs ul {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--rule);
+  }
+  .pubs li {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding-block: 20px;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: baseline;
+  }
+  @media (min-width: 768px) {
+    .pubs li { grid-template-columns: 80px 1fr 140px; gap: 16px; }
+  }
+  .pub-yr {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    color: var(--editor-hue);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+  }
+  .pub-t {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.45;
+    font-style: italic;
+  }
+  .pub-venue {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  @media (min-width: 768px) {
+    .pub-venue { text-align: right; }
+  }
+
+  /* Sidebar cards */
+  .sidebar { display: flex; flex-direction: column; gap: 32px; }
+  .card { border: 1px solid var(--rule); background: var(--paper); }
+  .card-alt { background: var(--paper2); }
+  .card > header { padding: 16px 24px; border-bottom: 1px solid var(--rule); background: var(--paper2); }
+  .card-alt > header { background: transparent; }
+  .card-head-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+  .card-meta {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--muted-soft);
+    letter-spacing: 0.14em;
+  }
+
+  .card dl { margin: 0; padding: 0; }
+  .cred-row {
+    padding: 16px 24px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .cred-row:first-child { border-top: 0; }
+  .cred-row dt {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .cred-row dd {
+    margin: 6px 0 0;
+    font-family: var(--font-serif);
+    font-size: 15.5px;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+
+  .conflicts {
+    margin: 0;
+    padding: 16px 24px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .conflicts li { display: flex; gap: 8px; align-items: baseline; }
+  .conflict-mark {
+    color: var(--editor-hue);
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .recent { margin: 0; padding: 0; list-style: none; }
+  .recent li {
+    padding: 16px 24px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .recent li:first-child { border-top: 0; }
+  .recent-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--muted-soft);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .recent-kind { color: var(--muted); }
+  .recent-title {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+    line-height: 1.35;
+  }
+
+  /* Sign-off */
+  .signoff {
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .sig {
+    font-family: var(--font-serif-ed);
+    font-style: italic;
+    font-size: 56px;
+    color: var(--editor-hue);
+    line-height: 1;
+    letter-spacing: -0.015em;
+  }
+  .sig-name {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-soft);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .signoff-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Asterism + workflow */
+  .asterism {
+    border: 0;
+    height: 1px;
+    background: var(--rule);
+    margin: 80px 0;
+    position: relative;
+  }
+  .asterism::after {
+    content: "⁂";
+    position: absolute;
+    inset: 0;
+    margin: -14px auto 0;
+    width: 60px;
+    text-align: center;
+    background: var(--paper);
+    color: var(--muted);
+    font-family: var(--font-serif);
+    font-size: 22px;
+    letter-spacing: 0.4em;
+  }
+  .workflow { padding-top: 16px; }
+  .section-h {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(40px, 6vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .workflow-grid {
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    border-left: 1px solid var(--rule);
+    border-top: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) {
+    .workflow-grid { grid-template-columns: repeat(5, 1fr); }
+  }
+  .workflow-cell {
+    padding: 28px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .workflow-cell:nth-child(even) { background: var(--paper2); }
+  .workflow-stage {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    font-weight: 600;
+  }
+  .workflow-h {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+  .workflow-b {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Contact band */
+  .contact-band {
+    margin-top: 96px;
+    padding-block: 96px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: end;
+  }
+  @media (min-width: 1024px) {
+    .contact-grid { grid-template-columns: 7fr 5fr; gap: 48px; }
+  }
+  .contact-eyebrow { color: var(--invert-accent); }
+  .contact-h {
+    margin: 20px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(40px, 6vw, 60px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    color: var(--paper);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .contact-ital { color: var(--invert-accent); }
+  .contact-lead {
+    margin: 24px 0 0;
+    max-width: 40rem;
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--invert-muted);
+  }
+  .contact-cta { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+  @media (min-width: 1024px) { .contact-cta { align-items: flex-end; } }
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 16px 24px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .contact-meta {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--invert-muted);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+</style>
+

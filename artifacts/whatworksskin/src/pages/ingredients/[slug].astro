@@ -1,0 +1,47 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import IngredientBrief from "@/components/IngredientBrief.astro";
+
+export async function getStaticPaths() {
+  const ingredients = await getCollection("ingredients");
+  return ingredients.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { id: entry.id },
+  }));
+}
+
+const { id } = Astro.props;
+const entry = await getEntry("ingredients", id);
+if (!entry) {
+  throw new Error(`Ingredient not found: ${id}`);
+}
+const data = entry.data;
+
+const taglineText = data.tagline
+  ? `${data.tagline.italic} ${data.tagline.rest}`.trim()
+  : data.chemistry ?? "";
+const description = `${data.name} — ${taglineText} ${data.lead}`.replace(/\s+/g, " ").trim().slice(0, 180);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "name": `${data.name} — Skincare Ingredient Brief`,
+  "description": description,
+  "url": new URL(Astro.url.pathname, Astro.site || "https://whatworksskin.com").toString(),
+  "aspect": ["mechanism", "evidence", "safety", "concentration"],
+  "mainEntity": {
+    "@type": "Substance",
+    "name": data.name,
+    "description": data.lead
+  },
+  "reviewedBy": data.reviewer ? {
+    "@type": "Person",
+    "name": data.reviewer.name,
+    "jobTitle": data.reviewer.title
+  } : undefined
+};
+---
+<Base title={`${data.name} — Ingredient brief`} description={description} schema={schema}>
+  <IngredientBrief data={data} />
+</Base>

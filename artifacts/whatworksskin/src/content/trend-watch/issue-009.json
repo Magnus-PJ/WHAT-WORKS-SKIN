@@ -1,0 +1,40 @@
+{
+  "slug": "issue-009",
+  "n": 9,
+  "date": "09 February 2026",
+  "year": 2026,
+  "headline": "Methylene blue, NMN, and the longevity-skincare overlap",
+  "dek": "Three supplements crossed over from the longevity world into our inbox. One of them is interesting.",
+  "signed": "Dr. Paul + Dr. Sundeep",
+  "pageRef": "P. 09",
+  "eyebrow": "Trend Watch · Issue 009 · 09 February 2026",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "Topical methylene blue",
+      "tier": "B",
+      "verdict": "Real, Modest",
+      "color": "",
+      "body": "Methylene blue is a redox dye with bona fide mitochondrial activity in vitro and on cultured skin fibroblasts. Two small human studies suggest improvements in elasticity and wound healing endpoints over 12 weeks. The molecule is real; the formulations available to consumers are inconsistent in concentration and stability. Worth following — not yet worth recommending as part of a routine.",
+      "bottom": "Genuine science. Premature consumer category. Hold."
+    },
+    {
+      "n": "02",
+      "name": "Oral NMN for skin",
+      "tier": "D",
+      "verdict": "Skip",
+      "color": "",
+      "body": "Nicotinamide mononucleotide is a precursor to NAD+, with interesting longevity literature in mice. The human skin-specific data is essentially absent. The supplement market has nonetheless built a multi-hundred-dollar-per-month category around skin claims that the literature does not support. If you want the niacinamide pathway worked on, use topical 4–5% niacinamide — which has 20+ years of replicated dermatology evidence behind it.",
+      "bottom": "Save the money. Use topical niacinamide instead."
+    },
+    {
+      "n": "03",
+      "name": "Glycine + NAC stack",
+      "tier": "B",
+      "verdict": "Partly True",
+      "color": "",
+      "body": "The glycine + N-acetylcysteine combination (often sold as 'GlyNAC') has small but interesting RCT data on glutathione restoration in older adults. The skin-specific implications — antioxidant capacity, possibly inflammatory acne benefit via NAC — are extrapolations rather than direct findings. Reasonable for adults over 50 with multiple inflammatory drivers; overpromised for everyone else.",
+      "bottom": "Defensible for older adults. Not a youth elixir."
+    }
+  ]
+}

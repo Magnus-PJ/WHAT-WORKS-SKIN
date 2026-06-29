@@ -1,0 +1,359 @@
+modules = ["nodejs-24", "python-3.11", "postgresql-16"]
+
+[deployment]
+router = "application"
+deploymentTarget = "autoscale"
+
+[deployment.postBuild]
+args = ["pnpm", "store", "prune"]
+env = { "CI" = "true" }
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "matchers"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:matchers"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:related-ingredients-symmetry"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:ingredient-shorthand"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "api-server:test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:concern-shorthand"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:test-backlinks"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:test-mentioned-by"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:test-related-ingredients"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:test-product-resolver"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:typecheck"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:test-cross-link-coverage"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:link-coverage-parity"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:test-catalogue-paired-badge"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:test-cross-link-coverage-report"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:test-search-index"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:validate-thin-content"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:validate-transparency-meta"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:test-mentioned-by-cap"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "whatworksskin:test-search-url-sync"
+
+[[workflows.workflow]]
+name = "matchers"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/mockup-sandbox run validate:matchers"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:matchers"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run report:cross-links"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "whatworksskin:related-ingredients-symmetry"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run validate:related-ingredients-symmetry"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:ingredient-shorthand"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run validate:ingredient-shorthand"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "api-server:test"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/api-server run test"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:concern-shorthand"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run validate:concern-shorthand"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:test-backlinks"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run test:backlinks"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:test-mentioned-by"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run test:mentioned-by"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:test-related-ingredients"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run test:related-ingredients"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:test-product-resolver"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run test:product-resolver"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:typecheck"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run typecheck"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:test-cross-link-coverage"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run test:cross-link-coverage"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:link-coverage-parity"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run validate:link-coverage-parity"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:test-catalogue-paired-badge"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run test:catalogue-paired-badge"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "whatworksskin:test-cross-link-coverage-report"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run test:cross-link-coverage-report"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:test-search-index"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run test:search-index"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "whatworksskin:validate-thin-content"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run validate:thin-content"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "whatworksskin:validate-transparency-meta"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run validate:transparency-meta"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "whatworksskin:test-mentioned-by-cap"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run test:mentioned-by-cap"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "whatworksskin:test-search-url-sync"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/whatworksskin run test:search-url-sync"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[agent]
+stack = "PNPM_WORKSPACE"
+expertMode = true
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 20000
+
+[[ports]]
+localPort = 8080
+externalPort = 8080
+
+[[ports]]
+localPort = 8081
+externalPort = 80
+
+[[ports]]
+localPort = 8082
+externalPort = 3000
+
+[[ports]]
+localPort = 8083
+externalPort = 3001
+
+[[ports]]
+localPort = 8084
+externalPort = 3002
+
+[[ports]]
+localPort = 26011
+externalPort = 3003
+
+[nix]
+channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+
+[userenv.development]
+EDITOR_TOKEN = "smoke-test-token"

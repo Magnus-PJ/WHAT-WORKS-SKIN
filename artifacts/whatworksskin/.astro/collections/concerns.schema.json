@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "family": {
+      "type": "string",
+      "minLength": 1
+    },
+    "eyebrow": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dek": {
+      "type": "string",
+      "minLength": 1
+    },
+    "oneliner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewer": {
+      "type": "string"
+    },
+    "pageRef": {
+      "type": "string"
+    },
+    "filed": {
+      "type": "string"
+    },
+    "featured": {
+      "type": "boolean"
+    },
+    "hero1": {
+      "type": "string"
+    },
+    "hero2": {
+      "type": "string"
+    },
+    "bottom": {
+      "type": "string"
+    },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "k": {
+            "type": "string"
+          },
+          "w": {
+            "type": "string"
+          },
+          "n": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "k",
+          "w",
+          "n"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "ingredients": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ]
+          },
+          "role": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ]
+          },
+          "score": {
+            "type": "number"
+          },
+          "why": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "brand",
+          "name"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "phases": {
+      "type": "array",
+      "items": {}
+    },
+    "protocolAm": {
+      "type": "array",
+      "items": {}
+    },
+    "protocolPm": {
+      "type": "array",
+      "items": {}
+    },
+    "avoid": {
+      "type": "array",
+      "items": {}
+    },
+    "supplements": {
+      "type": "array",
+      "items": {}
+    },
+    "faq": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "q": {
+            "type": "string"
+          },
+          "a": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "q",
+          "a"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "slug",
+    "name",
+    "family",
+    "eyebrow",
+    "dek",
+    "oneliner"
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "slug": "benzoyl-peroxide",
+  "name": "Benzoyl peroxide",
+  "number": "25 / 28",
+  "filed": "11 APR 2026",
+  "eyebrowKicker": "Ingredient · Antimicrobial · BPO",
+  "tier": "A",
+  "headlineSize": 92,
+  "tagline": {
+    "italic": "Kills the bacterium without breeding resistance.",
+    "rest": "Bleaches your towels regardless."
+  },
+  "lead": "The single most effective topical antibacterial for inflammatory acne. Six decades of evidence, no clinically meaningful resistance pathway, and a tolerability ceiling that respects nobody. Used correctly it is the backbone of moderate acne care; used recklessly it strips and burns.",
+  "atGlance": [
+    [
+      "INCI",
+      "Benzoyl Peroxide"
+    ],
+    [
+      "Family",
+      "Organic peroxide / antimicrobial"
+    ],
+    [
+      "Useful range",
+      "2.5 – 10%"
+    ],
+    [
+      "Vehicle",
+      "Cleanser, gel, cream, leave-on"
+    ],
+    [
+      "Pregnancy-safe",
+      "Limited topical use generally OK; ask OB"
+    ],
+    [
+      "Photo-stable",
+      "Yes — but PM use preferred for tolerability"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul · 11-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "What it is"
+    ],
+    [
+      "02",
+      "Mechanism"
+    ],
+    [
+      "03",
+      "Evidence overview"
+    ],
+    [
+      "04",
+      "Concentration & vehicle"
+    ],
+    [
+      "05",
+      "Onboarding without burning"
+    ],
+    [
+      "06",
+      "Pairings & conflicts"
+    ],
+    [
+      "07",
+      "On our shelf"
+    ],
+    [
+      "08",
+      "FAQ"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "B",
+    "title": {
+      "plain": "What benzoyl peroxide",
+      "italic": "actually is."
+    },
+    "body": "enzoyl peroxide is an organic peroxide that, on contact with skin tissue, decomposes to benzoic acid and reactive oxygen species. Those reactive species kill Cutibacterium acnes inside and outside the follicle within minutes. The mechanism is non-specific oxidation, which is why C. acnes does not develop resistance to BPO the way it has to topical and oral antibiotics — and why prolonged BPO contact also strips lipids from skin that doesn't need stripping."
+  },
+  "mechanism": [
+    {
+      "k": "On C. acnes",
+      "b": "Direct oxidative kill. No resistance pathway. Reduces follicular bacterial load measurably within a week."
+    },
+    {
+      "k": "On comedones",
+      "b": "Mild keratolysis; supportive comedolytic effect."
+    },
+    {
+      "k": "On inflammation",
+      "b": "Indirectly via bacterial-load reduction; pairs naturally with retinoid-driven comedolysis."
+    }
+  ],
+  "evidence": [
+    {
+      "c": "Inflammatory acne",
+      "n": "Multiple RCTs",
+      "w": "88%",
+      "note": "Reproducible reduction in inflammatory lesion counts at 8–12 weeks. First-line."
+    },
+    {
+      "c": "Comedonal acne",
+      "n": "RCTs vs vehicle",
+      "w": "70%",
+      "note": "Modest comedolytic effect; better paired with adapalene than alone."
+    },
+    {
+      "c": "Antibiotic resistance prevention",
+      "n": "Stewardship guidelines",
+      "w": "92%",
+      "note": "Adding BPO to topical or oral antibiotic regimens prevents emergence of resistant strains."
+    },
+    {
+      "c": "Tolerability",
+      "n": "VAS",
+      "w": "48%",
+      "note": "The weakness. Initial 4–6 wk dryness and irritation is universal; titration is the entire game."
+    }
+  ],
+  "concentration": [
+    {
+      "c": "2.5%",
+      "v": "Beginner",
+      "b": "Same efficacy as 5–10%, much less irritation. Where everyone should start."
+    },
+    {
+      "c": "5%",
+      "v": "Intermediate",
+      "b": "Useful only if 2.5% has plateaued with full tolerance."
+    },
+    {
+      "c": "10%",
+      "v": "Maximum OTC",
+      "b": "No additional efficacy in most studies; significantly more irritation."
+    },
+    {
+      "c": "Brief-contact wash",
+      "v": "Onboarding",
+      "b": "Lather, count to 60, rinse. The gentlest way in."
+    }
+  ],
+  "pairings": [
+    {
+      "with": "Adapalene",
+      "verdict": "Synergistic",
+      "note": "Adapalene is the one retinoid BPO doesn't oxidise. The reference combination (Epiduo).",
+      "ok": true
+    },
+    {
+      "with": "Tretinoin / retinol",
+      "verdict": "Avoid same step",
+      "note": "BPO oxidises both retinoids on contact. AM/PM split required.",
+      "ok": false
+    },
+    {
+      "with": "Niacinamide",
+      "verdict": "Excellent",
+      "note": "Calms the inflammation BPO can't. AM niacinamide, PM BPO is the maintenance pattern.",
+      "ok": true
+    },
+    {
+      "with": "Vitamin C (LAA)",
+      "verdict": "Avoid same step",
+      "note": "BPO oxidises ascorbic acid. AM/PM split or skip the C.",
+      "ok": false
+    },
+    {
+      "with": "White towels and pillowcases",
+      "verdict": "Avoid",
+      "note": "BPO bleaches fabric permanently. Use white only or designate dark BPO-night towels.",
+      "ok": false
+    }
+  ],
+  "products": [
+    {
+      "brand": "PanOxyl",
+      "name": "Acne Foaming Wash 4%",
+      "tier": "A",
+      "score": 88,
+      "note": "The pharmacy reference. Brief-contact wash; tolerable for most."
+    },
+    {
+      "brand": "La Roche-Posay",
+      "name": "Effaclar Duo (BPO 5.5%)",
+      "tier": "A",
+      "score": 86,
+      "note": "Leave-on combination with niacinamide and salicylic. Premium European reference."
+    },
+    {
+      "brand": "Galderma",
+      "name": "Epiduo Forte 0.3% / 2.5%",
+      "tier": "A",
+      "score": 90,
+      "note": "Adapalene + BPO Rx combination. The strongest legal home acne treatment."
+    },
+    {
+      "brand": "Differin",
+      "name": "Daily Deep Cleanser BPO 5%",
+      "tier": "B",
+      "score": 80,
+      "note": "Brief-contact, accessible. Solid maintenance tool."
+    }
+  ],
+  "faq": [
+    {
+      "q": "BPO or salicylic acid?",
+      "a": "BPO for inflammatory papules and pustules. Salicylic for non-inflammatory comedones and oily skin. Many routines need both — BPO PM, SA AM, with adequate moisturiser between."
+    },
+    {
+      "q": "Why does it bleach my towels?",
+      "a": "BPO degrades fabric dyes via the same oxidative reaction that kills C. acnes. Stains are permanent. White towels and pillowcases on BPO nights, every time."
+    },
+    {
+      "q": "Will my skin get used to it?",
+      "a": "Yes, in 4–6 weeks if you titrate. Brief-contact wash for two weeks, then leave-on at 2.5% three nights a week, building to nightly. Skipping the titration is why 'BPO didn't work' is so common."
+    },
+    {
+      "q": "Is it safe in pregnancy?",
+      "a": "Topical BPO at standard concentrations is generally considered acceptable. Talk to your OB; azelaic acid is the more conservative pregnancy-safe acne option."
+    }
+  ],
+  "relatedIngredients": [
+    "adapalene",
+    "salicylic-acid",
+    "sulphur",
+    "niacinamide"
+  ]
+}

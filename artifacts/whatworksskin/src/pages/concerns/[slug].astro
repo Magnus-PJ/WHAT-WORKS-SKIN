@@ -1,0 +1,38 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import ConcernBrief from "@/components/ConcernBrief.astro";
+
+export async function getStaticPaths() {
+  const concerns = await getCollection("concerns");
+  return concerns.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { id: entry.id },
+  }));
+}
+
+const { id } = Astro.props;
+const entry = await getEntry("concerns", id);
+if (!entry) {
+  throw new Error(`Concern not found: ${id}`);
+}
+const data = entry.data;
+const description = `${data.name} — ${data.oneliner} ${data.dek}`.slice(0, 180);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalCondition",
+  "name": data.name,
+  "description": description,
+  "url": new URL(Astro.url.pathname, Astro.site || "https://whatworksskin.com").toString(),
+  "possibleTreatment": [
+    {
+      "@type": "MedicalTherapy",
+      "name": "Skincare Ingredients"
+    }
+  ]
+};
+---
+<Base title={`${data.name} — Concern guide`} description={description} schema={schema}>
+  <ConcernBrief data={data} />
+</Base>

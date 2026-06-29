@@ -1,0 +1,91 @@
+{
+  "slug": "post-isotretinoin",
+  "name": "Post-isotretinoin transition",
+  "family": "Recovery",
+  "eyebrow": "Concern · Recovery · Post-isotretinoin",
+  "dek": "The skin coming off oral isotretinoin is differently dry, differently reactive, and differently sebum-suppressed than the skin that started the course. The reset routine matters as much as the course itself — and is almost never discussed at the prescribing visit.",
+  "oneliner": "How to rebuild a routine after a course finishes.",
+  "reviewer": "Dr. Paul",
+  "pageRef": "P. 36",
+  "filed": "22 APR 2026",
+  "hero1": "The 6-month",
+  "hero2": "reset window.",
+  "bottom": "The course is the headline event; the recovery routine is the part that determines whether you maintain or relapse. Six months of patience will preserve the result; two months of impatience will compromise it.",
+  "triggers": [
+    {
+      "k": "Persistent dryness 4–8 weeks after course end",
+      "w": "88%",
+      "n": "Sebum production takes months to normalise. Cream-based, ceramide-rich routine continues post-course."
+    },
+    {
+      "k": "Reactive episodes from previously-tolerated products",
+      "w": "62%",
+      "n": "The barrier is still rebuilding. Reintroduce one product at a time over 4–6 weeks."
+    },
+    {
+      "k": "Lingering lip and perioral dryness",
+      "w": "78%",
+      "n": "Months, not weeks, to fully resolve. Continue petrolatum lip protection through month 6."
+    },
+    {
+      "k": "Hypersensitivity to retinoids and acids",
+      "w": "68%",
+      "n": "Even a modest tretinoin can sting in this window. Wait at least 6 months before resuming."
+    }
+  ],
+  "ingredients": [
+    {
+      "name": "Ceramide-rich cream cleanser",
+      "tier": "A",
+      "role": "Foundation",
+      "evidence": "Lifetime of post-iso patients tolerate cream cleansers indefinitely. Not a temporary swap."
+    },
+    {
+      "name": "Ceramide + cholesterol cream",
+      "tier": "A",
+      "role": "Barrier rebuild",
+      "evidence": "Twice-daily for at least 6 months post-course. The most consequential step."
+    },
+    {
+      "name": "Petrolatum-based lip ointment",
+      "tier": "A",
+      "role": "Lip recovery",
+      "evidence": "Continue 6 months post-course. The lips heal slowest."
+    },
+    {
+      "name": "Mineral SPF 50+ daily",
+      "tier": "A",
+      "role": "Photoprotection",
+      "evidence": "Skin remains UV-sensitive; PIH risk is elevated through month 6."
+    },
+    {
+      "name": "Azelaic 10% (after month 3)",
+      "tier": "B",
+      "role": "Maintenance",
+      "evidence": "Gentle re-introduction of pigment / anti-inflammatory work. Avoid harsher actives until month 6."
+    },
+    {
+      "name": "AVOID retinoids × 6 months",
+      "tier": "A",
+      "role": "Trigger removal",
+      "evidence": "Universal. Starting tretinoin at month 2 is a common, painful mistake."
+    }
+  ],
+  "phases": [
+    {
+      "w": "Month 0–2",
+      "t": "Heal",
+      "b": "Cream cleanser, ceramide cream twice daily, petrolatum lip ointment, mineral SPF. Nothing else."
+    },
+    {
+      "w": "Month 3–4",
+      "t": "First active",
+      "b": "Niacinamide moisturiser. Optional azelaic 10% PM if comedones return. No retinoids yet."
+    },
+    {
+      "w": "Month 6+",
+      "t": "Slow expansion",
+      "b": "Reintroduce retinoid at low concentration, twice weekly. Patience pays the dividend the course earned."
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "slug": "pm-pigment",
+  "title": "The retinoid + azelaic night.",
+  "sub": "PM · Pigment-prone",
+  "goal": "Pigmentation",
+  "time": "Evening",
+  "skinType": "All Fitzpatricks",
+  "stepCount": 5,
+  "minutes": 18,
+  "cost": "₹ 3–6k",
+  "difficulty": "Intermediate",
+  "body": "Tretinoin + azelaic + barrier seal. The slow-work counterpart to the AM stack.",
+  "reviewer": "Dr. Sundeep",
+  "pageRef": "P. 05",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · PM · Pigment-prone",
+  "steps": [
+    {
+      "n": "01",
+      "time": "On returning home",
+      "title": "Cleanse — oil first, then gel",
+      "sub": "Two-step removal",
+      "body": "Sunscreen, sebum, particulate pollution. A cleansing oil emulsifies the lipid-soluble half; a low-pH gel removes the rest. Compromised skin should not skip the second step — but the first must be gentle.",
+      "products": [
+        {
+          "brand": "Bioderma",
+          "name": "Sensibio H2O Micellar",
+          "note": "Gentle removal",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "02",
+      "time": "After patting dry",
+      "title": "Centella / panthenol serum",
+      "sub": "Anti-inflammatory layer",
+      "body": "Madecassoside or panthenol-5% as the calming primer. This is the layer that distinguishes a barrier-repair routine from a hydration routine.",
+      "products": [
+        {
+          "brand": "Skin1004",
+          "name": "Madagascar Centella Asiatica Ampoule",
+          "note": "Reference centella",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "03",
+      "time": "0:05",
+      "title": "Ceramide-rich moisturiser",
+      "sub": "Lipid replacement",
+      "body": "Ceramides 3 + 1 + 6-II in a multi-vesicular emulsion. The biomimetic lipid stack the stratum corneum is missing.",
+      "products": [
+        {
+          "brand": "CeraVe",
+          "name": "Moisturising Cream",
+          "note": "Reference ceramide cream",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "04",
+      "time": "0:08 · final layer",
+      "title": "Occlusive — Cicaplast or petrolatum",
+      "sub": "Seal the repair",
+      "body": "Slugging the perimeter (jawline, around the nose, anywhere visibly compromised). Petrolatum or Cicaplast Baume B5+. Skip if oily-prone.",
+      "products": [
+        {
+          "brand": "La Roche-Posay",
+          "name": "Cicaplast Baume B5+",
+          "note": "Default occlusive",
+          "tier": "A"
+        }
+      ]
+    }
+  ]
+}

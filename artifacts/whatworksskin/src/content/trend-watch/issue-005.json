@@ -1,0 +1,31 @@
+{
+  "slug": "issue-005",
+  "n": 5,
+  "date": "15 December 2025",
+  "year": 2025,
+  "headline": "Microneedling at home: a careful no",
+  "dek": "Two new derma-roller brands sent us samples. We sent them back.",
+  "signed": "Dr. Sundeep",
+  "pageRef": "P. 05",
+  "eyebrow": "Trend Watch · Issue 005 · 15 December 2025",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "0.5 mm at-home dermarollers",
+      "tier": "D",
+      "verdict": "Skip",
+      "color": "",
+      "body": "Two new dermaroller brands sent us samples. The 0.5 mm needle length crosses into wound territory: real bleeding, real disruption of the stratum corneum, real infection risk in non-clinical hands. The cosmetic-grade rollers tested showed measurable burr defects under microscopy after one use, which compounds the trauma rather than the benefit. The procedure-grade alternative (clinic SkinPen, Dermapen) operates at controlled depth, with sterile single-use cartridges, and produces the published outcomes. Roller use at home produces injuries; clinic use produces results.",
+      "bottom": "Send the rollers back. Book a clinic session if you want the endpoint."
+    },
+    {
+      "n": "02",
+      "name": "0.25 mm dermastamps",
+      "tier": "B",
+      "verdict": "Partly True",
+      "color": "",
+      "body": "Below 0.3 mm needle length, the procedure shifts from wounding to topical-penetration enhancement, and the safety profile narrows substantially. The literature on 0.2–0.25 mm dermastamps as adjuncts for topical actives is small but generally positive — particularly for vitamin C, peptide, and growth-factor delivery. Sterile single-use stamps, clean skin, and a sensible product to deliver afterwards. Not a replacement for clinical microneedling; a defensible at-home enhancer when used with discipline.",
+      "bottom": "Defensible at 0.2–0.25 mm. Above that, see a clinic."
+    }
+  ]
+}

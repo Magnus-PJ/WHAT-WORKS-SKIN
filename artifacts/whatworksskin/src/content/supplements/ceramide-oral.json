@@ -1,0 +1,79 @@
+{
+  "slug": "ceramide-oral",
+  "name": "Ceramide capsules",
+  "family": "Trend Watch",
+  "target": "Hydration",
+  "tier": "C",
+  "dose": "30 mg/d",
+  "rxOnly": false,
+  "oneliner": "Modest hydration data. Topical ceramides outperform per rupee.",
+  "pageRef": "P. 21",
+  "filed": "17 APR 2026",
+  "eyebrow": "Supplement · Trend Watch · Oral ceramides",
+  "headline": "Ceramide capsules",
+  "dek": "Wheat- or rice-derived ceramide capsules with small but reproducible TEWL-reduction endpoints. The mechanism is plausible, the trial data is honest, and the cost-effectiveness comparison against a CeraVe tub is unforgiving. A defensible adjunct; never a primary.",
+  "subheadA": "Modest hydration data.",
+  "subheadB": "Topicals outperform per rupee.",
+  "bottom": "A defensible adjunct, never a foundation. Spend the money on a topical ceramide cream first; consider this only if topical optimisation has plateaued.",
+  "evidence": [
+    {
+      "c": "Skin hydration (corneometry)",
+      "n": "Multiple RCTs, 30 mg/d × 12 wk",
+      "w": "60%",
+      "note": "Modest, replicated improvement in stratum corneum hydration. The trial data is honest."
+    },
+    {
+      "c": "TEWL reduction",
+      "n": "Small trials",
+      "w": "55%",
+      "note": "Small but consistent shift. Topical ceramide moisturisers produce larger endpoints at a fraction of the cost."
+    },
+    {
+      "c": "Atopic dermatitis severity",
+      "n": "Pilot trials",
+      "w": "40%",
+      "note": "Promising signal; trials are too small for confident recommendation. Reasonable trial in mild atopy."
+    },
+    {
+      "c": "'Anti-aging' / wrinkle work",
+      "n": "—",
+      "w": "10%",
+      "note": "Not the indication. Marketing extrapolation that the literature does not support."
+    }
+  ],
+  "forms": [
+    {
+      "f": "Wheat-derived ceramide 30 mg",
+      "abs": "Good",
+      "note": "Most-studied form (Ceramosides). Standard 12-week protocol."
+    },
+    {
+      "f": "Rice-derived ceramide 30 mg",
+      "abs": "Good",
+      "note": "Gluten-free alternative. Equivalent endpoints in head-to-head trials."
+    },
+    {
+      "f": "Phytoceramide blend 50 mg",
+      "abs": "Good",
+      "note": "Higher-dose marketing fork. Diminishing returns above 30 mg/d."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Why not just use a topical?",
+      "a": "You almost certainly should. A tub of CeraVe Moisturising Cream applied twice daily delivers the ceramides where they actually matter — at the stratum corneum — at a fraction of the supplement's price. Oral ceramides may have a marginal additive role in stubborn eczema or generalised dryness, but the topical foundation should always come first."
+    },
+    {
+      "q": "How long until effect?",
+      "a": "12 weeks at 30 mg/d. Hydration shifts can be measured by week 6; the visible textural endpoints lag behind. Photograph at week 0 and week 12 for honest comparison."
+    },
+    {
+      "q": "Is this safer than topicals?",
+      "a": "There is no safety advantage — both are safe. The supplement category does avoid the formulation politics (ingredient irritation, fragrance) that some sensitive-skin patients face with topicals, which is a real if narrow use-case."
+    },
+    {
+      "q": "Can I combine with topical ceramides?",
+      "a": "Yes, with no interaction concern. The two work via different mechanisms: oral ceramides increase the substrate pool available for skin synthesis; topical ceramides directly fill the stratum corneum. Stack if you want; the marginal benefit is modest."
+    }
+  ]
+}

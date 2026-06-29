@@ -1,0 +1,24 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import TrendWatchIssue from "@/components/TrendWatchIssue.astro";
+
+export async function getStaticPaths() {
+  const issues = await getCollection("trendWatch");
+  return issues.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { id: entry.id },
+  }));
+}
+
+const { id } = Astro.props;
+const entry = await getEntry("trendWatch", id);
+if (!entry) {
+  throw new Error(`Trend Watch issue not found: ${id}`);
+}
+const data = entry.data;
+const description = `${data.headline} — ${data.dek}`.slice(0, 180);
+---
+<Base title={`${data.headline} — Trend Watch № ${String(data.n).padStart(3, "0")}`} description={description}>
+  <TrendWatchIssue data={data} />
+</Base>

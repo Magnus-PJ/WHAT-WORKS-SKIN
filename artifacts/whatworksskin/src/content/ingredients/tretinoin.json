@@ -1,0 +1,311 @@
+{
+  "slug": "tretinoin",
+  "name": "Tretinoin",
+  "number": "001 / 30",
+  "filed": "18 APR 2026",
+  "eyebrowKicker": "Ingredient \u00b7 Anti-aging & fine lines",
+  "tier": "A",
+  "featured": true,
+  "headlineSize": 132,
+  "chemistry": "all-trans retinoic acid \u00b7 C<sub>20</sub>H<sub>28</sub>O<sub>2</sub> \u00b7 MW 300.4 Da",
+  "lead": "Prescription all-trans retinoic acid. The most-studied topical retinoid in dermatology \u2014 and the standard against which every other anti-aging molecule is measured.",
+  "atGlance": [
+    [
+      "Pregnancy",
+      "Avoid"
+    ],
+    [
+      "Breastfeeding",
+      "Avoid"
+    ],
+    [
+      "Paediatric",
+      "Derm supervision"
+    ],
+    [
+      "Photosensitivity",
+      "Yes \u2014 wear SPF"
+    ],
+    [
+      "Sensitive skin",
+      "Buffer required"
+    ],
+    [
+      "Evidence-grade dose",
+      "0.025\u20130.1%"
+    ],
+    [
+      "Rx status",
+      "Prescription"
+    ],
+    [
+      "Reviewer",
+      "Dr. Sundeep \u00b7 last reviewed 18-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "At a glance"
+    ],
+    [
+      "02",
+      "How it works"
+    ],
+    [
+      "03",
+      "The evidence"
+    ],
+    [
+      "04",
+      "Concentration by concern"
+    ],
+    [
+      "05",
+      "How to use"
+    ],
+    [
+      "06",
+      "Common mistakes"
+    ],
+    [
+      "07",
+      "Myths vs truth"
+    ],
+    [
+      "08",
+      "FAQ"
+    ],
+    [
+      "09",
+      "Products that use it"
+    ],
+    [
+      "10",
+      "Related ingredients"
+    ],
+    [
+      "11",
+      "Reviewer note"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "R",
+    "title": {
+      "plain": "How it",
+      "italic": "works."
+    },
+    "body": "eady-to-bind retinoic acid (MW ~300 Da) \u2014 it skips the two oxidation steps that retinol must complete inside skin cells. It preferentially binds RAR-\u03b3 and RAR-\u03b2 nuclear receptors in fibroblasts and keratinocytes, shifting transcription toward new collagen synthesis, faster corneocyte turnover, and melanocyte suppression.",
+    "body2": "It is the most comprehensively documented topical for photoageing reversal \u2014 the molecule that established the entire category. When studies say \"retinoid,\" they almost always mean tretinoin or its derivatives."
+  },
+  "mechanism": [
+    {
+      "k": "Binds nuclear receptor",
+      "b": "Tretinoin \u2192 RAR-\u03b3 / RAR-\u03b2 in keratinocytes & fibroblasts."
+    },
+    {
+      "k": "Shifts transcription",
+      "b": "Up-regulates pro-collagen I & III, down-regulates MMP-1."
+    },
+    {
+      "k": "Remodels skin",
+      "b": "Thickened dermis, faster turnover, tone evened over months."
+    }
+  ],
+  "studies": [
+    {
+      "authors": "Weiss et al.",
+      "journal": "JAMA",
+      "year": 1988,
+      "pmid": "2909796",
+      "n": 40,
+      "design": "Double-blind RCT",
+      "duration": "16 wk",
+      "finding": "0.05% tretinoin cream improved photoaging signs (fine wrinkling, mottled hyperpigmentation, sallowness, tactile roughness) significantly over vehicle in a double-blind randomised controlled trial.",
+      "grade": "A"
+    },
+    {
+      "authors": "Kang et al.",
+      "journal": "Arch Dermatol",
+      "year": 2005,
+      "pmid": "16230554",
+      "n": 204,
+      "design": "Multicentre RCT",
+      "duration": "24 wk",
+      "finding": "0.02% tretinoin significantly improved fine wrinkles, mottling, roughness, and laxity over 24 weeks at the lowest commercially available concentration.",
+      "grade": "A"
+    },
+    {
+      "authors": "Thielitz et al.",
+      "journal": "Am J Clin Dermatol",
+      "year": 2008,
+      "pmid": "18793029",
+      "n": null,
+      "design": "Systematic review",
+      "duration": "\u2014",
+      "finding": "Topical retinoids remain first-line for comedonal and mild inflammatory acne, with tretinoin and adapalene having the strongest evidence base.",
+      "grade": "A"
+    },
+    {
+      "authors": "Mukherjee et al.",
+      "journal": "Clin Interv Aging",
+      "year": 2006,
+      "pmid": "18046911",
+      "n": null,
+      "design": "Narrative review",
+      "duration": "\u2014",
+      "finding": "Tretinoin remains the gold-standard topical retinoid for photoaging reversal, with histologic and clinical evidence accumulated over four decades.",
+      "grade": "A"
+    }
+  ],
+  "byConcern": [
+    {
+      "concern": "Photoaging",
+      "range": "0.025 \u2013 0.05%",
+      "note": "0.025% is the sweet spot for tolerability and results \u2014 most patients should never need higher.",
+      "evidence": "A"
+    },
+    {
+      "concern": "Acne (comedonal)",
+      "range": "0.025%",
+      "note": "Pair with BP short-contact to reduce resistance risk.",
+      "evidence": "A"
+    },
+    {
+      "concern": "Acne (inflammatory)",
+      "range": "0.05 \u2013 0.1%",
+      "note": "Often combined with oral therapy for moderate-severe acne.",
+      "evidence": "A"
+    },
+    {
+      "concern": "PIH (post-inflammatory)",
+      "range": "0.025%",
+      "note": "Slow but durable; combine with sunscreen and azelaic acid.",
+      "evidence": "B"
+    },
+    {
+      "concern": "Stretch marks (early)",
+      "range": "0.05 \u2013 0.1%",
+      "note": "Only the red phase responds. Older silver striae do not.",
+      "evidence": "B"
+    }
+  ],
+  "howToUse": [
+    {
+      "eyebrow": "Schedule",
+      "body": "Begin every third night for two weeks, then every other night for two weeks, then nightly. If irritation: drop one rung."
+    },
+    {
+      "eyebrow": "Dose",
+      "body": "Pea-sized for the entire face. Less is not safer; less is just under-dosed and slower to results."
+    },
+    {
+      "eyebrow": "Application",
+      "body": "Apply to dry skin (10 min after washing). Buffer with moisturiser sandwich if sensitive \u2014 moisturiser \u2192 tretinoin \u2192 moisturiser."
+    },
+    {
+      "eyebrow": "AM ritual",
+      "body": "SPF 30+ broad-spectrum every morning. This is non-negotiable on tretinoin."
+    }
+  ],
+  "mistakes": [
+    {
+      "t": "Applying to damp skin",
+      "b": "Damp skin amplifies penetration and irritation. Wait 10 minutes after washing."
+    },
+    {
+      "t": "Layering with strong AHAs the same night",
+      "b": "Acid-on-retinoid stacks the irritation. Alternate nights."
+    },
+    {
+      "t": "Going from nothing to 0.1%",
+      "b": "Start at 0.025% every third night. Escalate over weeks."
+    },
+    {
+      "t": "Stopping after a week of peeling",
+      "b": "Peeling is the expected acclimation phase, not failure."
+    },
+    {
+      "t": "Using a tiny dot for the whole face",
+      "b": "Pea-sized. Less is not safer; less is just under-dosed."
+    }
+  ],
+  "myths": [
+    {
+      "m": "Tretinoin is too harsh for dry skin.",
+      "t": "Dry skin needs more buffering \u2014 moisturiser sandwich, alternate nights \u2014 but benefits equally from long-term use."
+    },
+    {
+      "m": "Natural retinol alternatives work as well.",
+      "t": "Bakuchiol shows promising retinoid-like gene modulation but does not match tretinoin's RCT evidence base."
+    },
+    {
+      "m": "You can't use tretinoin in summer.",
+      "t": "You can. Don't stop. Just be meticulous with broad-spectrum SPF \u2014 that's true year-round anyway."
+    },
+    {
+      "m": "Tretinoin thins the skin.",
+      "t": "It thins the stratum corneum (good \u2014 that's how it works) and thickens the dermis (also good \u2014 that's the anti-aging effect)."
+    }
+  ],
+  "products": [
+    {
+      "brand": "Generic",
+      "name": "Tretinoin 0.025% Cream",
+      "tier": "B",
+      "price": "\u20b9 180",
+      "note": "Multiple Indian generics; Galderma & Sun Pharma most reliable."
+    },
+    {
+      "brand": "Galderma",
+      "name": "A-Ret 0.05% Gel",
+      "tier": "A",
+      "price": "\u20b9 320",
+      "note": "Common starter strength for acne."
+    },
+    {
+      "brand": "Obagi",
+      "name": "Tretinoin 0.05% Cream (Rx)",
+      "tier": "A",
+      "price": "\u20b9 4,400",
+      "note": "Cleaner vehicle, much higher cost."
+    }
+  ],
+  "faq": [
+    {
+      "q": "How long to see results?",
+      "a": "Acne improvements at 8\u201312 weeks. Photoaging improvements at 24\u201348 weeks of consistent use. Anything you notice in week one is mostly the acclimation phase."
+    },
+    {
+      "q": "Can I use tretinoin forever?",
+      "a": "Yes \u2014 long-term studies show maintained benefit without tolerance loss. Use the lowest effective frequency after the acclimation phase."
+    },
+    {
+      "q": "Tretinoin and benzoyl peroxide?",
+      "a": "Older formulations were inactivated by BP. Modern tretinoin microsphere and lotion formulations are BP-compatible, or simply alternate nights."
+    },
+    {
+      "q": "Tretinoin in summer?",
+      "a": "Fine \u2014 do not stop. Just be meticulous with broad-spectrum SPF."
+    },
+    {
+      "q": "Do I need a prescription?",
+      "a": "In most markets, yes. Some markets sell it OTC (e.g., parts of South-East Asia). A dermatologist consult is strongly preferred."
+    },
+    {
+      "q": "Does benzoyl peroxide destroy tretinoin?",
+      "a": "Classic tretinoin degrades in the presence of BP. Modern microsphere or polymeric emulsions of tretinoin are stable with BP, but alternating nights remains the safest approach."
+    }
+  ],
+  "relatedIngredients": [
+    "retinol",
+    "adapalene",
+    "bakuchiol",
+    "azelaic-acid"
+  ],
+  "reviewer": {
+    "name": "Dr. Sundeep",
+    "title": "Medical Review Lead",
+    "quote": "Tretinoin remains the highest-evidence anti-aging molecule we recommend. Pregnancy is the only absolute contraindication. Everything else is a tolerability question \u2014 and tolerability is solved by dose and frequency, not by abandoning the molecule."
+  }
+}

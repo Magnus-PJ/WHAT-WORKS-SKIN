@@ -1,0 +1,228 @@
+{
+  "slug": "lactic-acid",
+  "name": "Lactic acid",
+  "number": "10 / 28",
+  "filed": "13 APR 2026",
+  "eyebrowKicker": "Ingredient · Alpha-hydroxy Acid · Lactic",
+  "tier": "A",
+  "headlineSize": 124,
+  "tagline": {
+    "italic": "Glycolic's gentler cousin —",
+    "rest": "with a hydration bonus."
+  },
+  "lead": "The forgiving AHA. Larger molecule, slower penetration, lower irritation curve. It is also a natural humectant, which is why it leaves skin feeling more hydrated than glycolic. The right exfoliant for sensitive skin and the right starting point for AHA-curious users.",
+  "atGlance": [
+    [
+      "INCI",
+      "Lactic acid"
+    ],
+    [
+      "Family",
+      "Alpha-hydroxy acid (AHA)"
+    ],
+    [
+      "Useful range",
+      "5 – 12% (leave-on)"
+    ],
+    [
+      "pH window",
+      "3.5 – 4.0"
+    ],
+    [
+      "Pregnancy-safe",
+      "Yes (topical)"
+    ],
+    [
+      "Photo-stable",
+      "Yes — but increases UV sensitivity"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul · 13-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "What it is"
+    ],
+    [
+      "02",
+      "Mechanism"
+    ],
+    [
+      "03",
+      "Evidence overview"
+    ],
+    [
+      "04",
+      "Concentration & vehicle"
+    ],
+    [
+      "05",
+      "Where it earns its tier"
+    ],
+    [
+      "06",
+      "Pairings & conflicts"
+    ],
+    [
+      "07",
+      "On our shelf"
+    ],
+    [
+      "08",
+      "FAQ"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "L",
+    "title": {
+      "plain": "What lactic acid",
+      "italic": "actually is."
+    },
+    "body": "actic acid is an alpha-hydroxy acid produced by lactobacilli during sugar fermentation. It is also one of the components your own skin makes as part of natural moisturising factor (NMF), which is why a leave-on lactic serum simultaneously exfoliates and hydrates — a combination glycolic acid cannot match. The molecule is roughly twice the size of glycolic, so it penetrates more slowly and irritates less."
+  },
+  "mechanism": [
+    {
+      "k": "On exfoliation",
+      "b": "Loosens corneocyte adhesion at the upper stratum corneum. Slower depth than glycolic."
+    },
+    {
+      "k": "On hydration",
+      "b": "Acts as a humectant; component of native NMF. Net moisture gain after use."
+    },
+    {
+      "k": "On pigment",
+      "b": "Mild tyrosinase inhibition at higher concentrations. Adjunctive for PIH and dullness."
+    }
+  ],
+  "evidence": [
+    {
+      "c": "Texture / dullness",
+      "n": "RCTs vs vehicle",
+      "w": "72%",
+      "note": "5–12% leave-on improves smoothness and clarity within 8 weeks."
+    },
+    {
+      "c": "Hydration",
+      "n": "Bioengineering",
+      "w": "78%",
+      "note": "Measurable TEWL reduction. Unique among AHAs."
+    },
+    {
+      "c": "Mild photoaging",
+      "n": "Smaller RCTs",
+      "w": "60%",
+      "note": "Slower than glycolic on lines; cleaner tolerance profile."
+    },
+    {
+      "c": "Tolerability",
+      "n": "Self-reported VAS",
+      "w": "82%",
+      "note": "The headline. Comfortably the most tolerable AHA at equivalent dose."
+    }
+  ],
+  "concentration": [
+    {
+      "c": "5%",
+      "v": "Beginner leave-on",
+      "b": "Nightly is fine. The default for sensitive skin."
+    },
+    {
+      "c": "10%",
+      "v": "Standard serum",
+      "b": "Hydration plus exfoliation. The sweet spot for most."
+    },
+    {
+      "c": "12%",
+      "v": "Targeted serum",
+      "b": "More turnover, still tolerable. Cap here for home use."
+    },
+    {
+      "c": "> 15%",
+      "v": "Clinical only",
+      "b": "In-clinic peels. Not a home product."
+    }
+  ],
+  "pairings": [
+    {
+      "with": "Hyaluronic acid",
+      "verdict": "Synergistic",
+      "note": "Layered humectants. Apply HA first to a damp face, lactic over.",
+      "ok": true
+    },
+    {
+      "with": "Niacinamide",
+      "verdict": "Excellent",
+      "note": "Wait 15–20 min after lactic, then layer for barrier support.",
+      "ok": true
+    },
+    {
+      "with": "Retinoids",
+      "verdict": "Wait",
+      "note": "Alternate nights early on. Many tolerate same-night pairing once both are established.",
+      "ok": false
+    },
+    {
+      "with": "Vitamin C (LAA)",
+      "verdict": "Avoid same step",
+      "note": "Both acidic; pH stacking is wasteful. AM C, PM lactic.",
+      "ok": false
+    }
+  ],
+  "products": [
+    {
+      "brand": "Sunday Riley",
+      "name": "Good Genes Lactic Acid",
+      "tier": "A",
+      "score": 86,
+      "note": "Premium reference. 5% in a polished vehicle, comfortable nightly."
+    },
+    {
+      "brand": "The Ordinary",
+      "name": "Lactic Acid 10% + HA",
+      "tier": "B",
+      "score": 78,
+      "note": "Honest dose, basic vehicle. Still the best value entry."
+    },
+    {
+      "brand": "Minimalist",
+      "name": "Lactic Acid 10% Cream",
+      "tier": "B",
+      "score": 76,
+      "note": "Indian-market, ceramide base. Good for combination skin."
+    },
+    {
+      "brand": "Naturium",
+      "name": "Lactic Acid 12% Serum",
+      "tier": "A",
+      "score": 80,
+      "note": "Higher dose without losing comfort. Good vehicle work."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Lactic or glycolic for first AHA?",
+      "a": "Lactic. Same exfoliation mechanism, gentler curve, hydration bonus. Move to glycolic only if lactic plateaus and your barrier is comfortable."
+    },
+    {
+      "q": "Why does my skin feel softer, not drier?",
+      "a": "Lactic is a humectant as well as an exfoliant — one of the few acids that net adds moisture. That's the molecule's signature."
+    },
+    {
+      "q": "Can I use it every night?",
+      "a": "Most people can. Start three nights a week, build over four weeks. If your retinoid is also nightly, alternate them."
+    },
+    {
+      "q": "Is it safe in pregnancy?",
+      "a": "Yes, at standard cosmetic concentrations. One of the few well-studied actives that remains usable through pregnancy."
+    }
+  ],
+  "relatedIngredients": [
+    "glycolic-acid",
+    "mandelic-acid",
+    "hyaluronic-acid",
+    "niacinamide"
+  ]
+}

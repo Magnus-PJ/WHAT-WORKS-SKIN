@@ -1,0 +1,37 @@
+// SupplementNAC — N-acetylcysteine.
+
+import React from "react";
+import { SupplementPage } from "./_supplementTemplate";
+
+const SupplementNAC: React.FC = () => (
+  <SupplementPage
+    family="Pigmentation"
+    name="N-acetylcysteine"
+    page="P. 06"
+    eyebrow="Supplement · Pigmentation · NAC"
+    hero="NAC."
+    subheadA="Glutathione precursor."
+    subheadB="Better evidence than the parent molecule."
+    dek="N-acetylcysteine is the most efficient route to raising endogenous glutathione, and a well-studied molecule in its own right. Modest acne and inflammation data; mood and trichotillomania endpoints; safer profile than IV glutathione at a fraction of the price."
+    evidence={[
+      { c: "Inflammatory acne adjunct", n: "Small RCTs, 600 mg × 2/d", w: "55%", note: "Modest reduction in lesion count over 12 weeks. Useful adjunct alongside topicals." },
+      { c: "Trichotillomania", n: "Established trials", w: "75%", note: "Off-label but well-supported indication. Reduces hair-pulling urges over 12 weeks." },
+      { c: "Glutathione biomarkers", n: "Replicated", w: "85%", note: "The most efficient route to raising endogenous glutathione status. The science here is solid." },
+      { c: "PCOS-related skin presentations", n: "Small trials", w: "60%", note: "Useful in PCOS-driven acne and hirsutism, often in combination with myo-inositol." },
+    ]}
+    forms={[
+      { f: "NAC 600 mg capsule", abs: "Good", note: "Standard form. Twice daily on an empty stomach for skin endpoints." },
+      { f: "NAC 1200 mg sustained-release", abs: "Good", note: "Once-daily convenience. Equivalent endpoints in extended-release trials." },
+      { f: "Effervescent NAC", abs: "Good", note: "Used in respiratory indications. Sulfur taste is the limiter; capsules are easier." },
+    ]}
+    faq={[
+      { q: "Is it safer than IV glutathione?", a: "Substantially. NAC has been used clinically for decades (paracetamol overdose, mucolytic in respiratory disease) at doses higher than the skin protocol. The safety profile is well-mapped, the cost is low, and the gut-bypass concerns of oral glutathione are sidestepped via the precursor route." },
+      { q: "How long for skin effects?", a: "8–12 weeks for inflammatory acne adjunct work. The glutathione biomarker shift is faster (4–6 weeks), but skin endpoints lag the biochemistry." },
+      { q: "Will it interact with anything?", a: "NAC reduces nitroglycerin tolerance and may interact with anticoagulants at high doses. Most other interactions are minor. Discuss with your clinician if you take cardiovascular medication." },
+      { q: "What about mental health claims?", a: "There is genuine, replicated literature on NAC in OCD-spectrum conditions, trichotillomania, and depression as adjunct. The skin-mood connection is real for inflammatory acne; whether NAC drives benefit through skin or mood pathways is unclear." },
+    ]}
+    bottom="A useful, defensible, inexpensive supplement with a respectable evidence base. The smart pivot from oral glutathione for anyone interested in the antioxidant pathway."
+  />
+);
+
+export default SupplementNAC;

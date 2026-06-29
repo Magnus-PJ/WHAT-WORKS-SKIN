@@ -1,0 +1,81 @@
+// IngredientBemotrizinol — full ingredient brief for bemotrizinol (Tinosorb S).
+import React from "react";
+import { IngredientBrief, type IngredientBriefData } from "./_IngredientBrief";
+
+export const data: IngredientBriefData = {
+  slug: "bemotrizinol",
+  name: "Bemotrizinol",
+  number: "22 / 28",
+  filed: "10 APR 2026",
+  eyebrowKicker: "Ingredient · Modern long-UVA filter · Tinosorb S",
+  tier: "A",
+  headlineSize: 92,
+  tagline: { italic: "The best chemical filter on Earth.", rest: "Just not in America." },
+  lead:
+    "A photo-stable, broad-spectrum filter with the strongest long-UVA absorption of any organic sunscreen molecule in cosmetic use. Standard in the EU, Japan, Korea, Australia, and India for two decades. Still not approved in the United States.",
+  atGlance: [
+    ["INCI", "Bis-Ethylhexyloxyphenol Methoxyphenyl Triazine"],
+    ["Trade name", "Tinosorb S / Escalol S"],
+    ["Family", "Triazine organic UV filter"],
+    ["Useful range", "1 – 10%"],
+    ["Coverage", "UVA1, UVA2, UVB"],
+    ["Pregnancy-safe", "Yes (EU SCCS opinion)"],
+    ["Reviewer", "Dr. Paul · 10-Apr-2026"],
+  ],
+  toc: [
+    ["01", "What it is"],
+    ["02", "Why it's better than what we have"],
+    ["03", "Evidence overview"],
+    ["04", "Concentration & vehicle"],
+    ["05", "The American gap"],
+    ["06", "Pairings & conflicts"],
+    ["07", "On our shelf"],
+    ["08", "FAQ"],
+  ],
+  whatItIs: {
+    dropCap: "B",
+    title: { plain: "What bemotrizinol", italic: "actually is." },
+    body:
+      "emotrizinol — sold as Tinosorb S — is a triazine-class organic sunscreen filter introduced by BASF in the early 2000s. It absorbs across UVB and the entire UVA range with a long-wavelength tail past 380 nm, an area where almost every older organic filter loses coverage. It is also photo-stable: it does not degrade meaningfully under sunlight, and it stabilises companion filters that do (most importantly, avobenzone).",
+    body2:
+      "In short, it solves the three failure modes of the 1990s sunscreen palette: incomplete UVA coverage, photo-degradation, and the white cast of mineral alternatives. It is the closest thing to a perfect single chemical filter the market has produced.",
+  },
+  mechanism: [
+    { k: "On UVA1", b: "Strong absorption across 340–400 nm — the wavelength range most associated with photoaging and melasma." },
+    { k: "On UVB", b: "Effective UVB absorber. Often used as primary UVB filter in modern formulations." },
+    { k: "On photo-stability", b: "Stabilises avobenzone in formulation, extending its working life from minutes to a full day." },
+  ],
+  evidence: [
+    { c: "Broad-spectrum coverage", n: "In-vitro spectroscopy", w: "94%", note: "Widest single-molecule organic coverage available." },
+    { c: "Photo-stability", n: "In-vitro and in-use", w: "92%", note: "Negligible degradation under solar exposure across multiple studies." },
+    { c: "Photoaging prevention", n: "Long-term cohort", w: "88%", note: "Modern UVA-protective formulations significantly outperform older formulations on photoaging endpoints." },
+    { c: "Safety profile (EU SCCS)", n: "Regulatory review", w: "90%", note: "Endorsed for use up to 10% by EU SCCS, repeatedly upheld." },
+  ],
+  concentration: [
+    { c: "1 – 3%", v: "Photostabiliser", b: "Used in lower percentages purely to stabilise avobenzone in older formulas." },
+    { c: "4 – 7%", v: "Standard filter", b: "Where most modern European sunscreens use it as primary UVA tool." },
+    { c: "10%", v: "Maximum (EU)", b: "Upper allowed dose in the EU and Japan; sufficient for SPF 50+ alone." },
+  ],
+  pairings: [
+    { with: "Avobenzone", verdict: "Synergistic", note: "Bemotrizinol stabilises avobenzone — the single most important pairing in modern formulation.", ok: true },
+    { with: "Tinosorb M", verdict: "Excellent", note: "The Tinosorb pair: S + M cover the UVA range comprehensively.", ok: true },
+    { with: "Octisalate / Octocrylene", verdict: "Compatible", note: "Common UVB co-actives in EU and Asian formulations.", ok: true },
+    { with: "Mineral filters", verdict: "Compatible", note: "Hybrid mineral-organic SPFs are increasingly common; no incompatibility.", ok: true },
+    { with: "FDA-only formulations", verdict: "Avoid", note: "Bemotrizinol is not FDA-approved; you cannot find it in US-domestic sunscreens.", ok: false },
+  ],
+  products: [
+    { brand: "La Roche-Posay", name: "Anthelios UVMune 400", tier: "A", score: 94, note: "EU reference. Mexoryl 400 + bemotrizinol. The current global high-water mark." },
+    { brand: "Bioderma", name: "Photoderm Spot-Age SPF50+", tier: "A", score: 88, note: "Bemotrizinol-anchored, antioxidant-loaded. Built for melasma prevention." },
+    { brand: "Beauty of Joseon", name: "Relief Sun Rice + Probiotics", tier: "A", score: 90, note: "Korean unicorn. Bemotrizinol + uvinul A+T at fair price." },
+    { brand: "Ultrasun", name: "Face Anti-Pigmentation SPF 50+", tier: "A", score: 86, note: "Swiss formulation, premium markup, consistently strong UVA performance." },
+  ],
+  faq: [
+    { q: "Why isn't bemotrizinol available in US sunscreens?", a: "The FDA classifies sunscreen actives as drugs. The new-active approval pathway has been functionally frozen since 1999, despite multiple congressional and industry attempts to break the deadlock. The molecule is in routine use in every other major cosmetic market." },
+    { q: "Can I import European sunscreens?", a: "Personal-use importation is generally permitted but unregulated. The bigger barrier is freshness, storage, and counterfeits. Several Asian retailers ship Beauty of Joseon-class products with reasonable supply-chain integrity." },
+    { q: "Is it really better than zinc oxide?", a: "On UVA coverage, comparable to slightly better. On cosmetic finish, dramatically better, especially on darker skin tones. On safety in pregnancy and infants, mineral wins. Different tools for different uses." },
+    { q: "Is it safe long-term?", a: "EU SCCS has reviewed bemotrizinol multiple times and consistently endorsed it up to 10%. No clinically meaningful systemic absorption signals across decades of population-level use." },
+  ],
+};
+
+const IngredientBemotrizinol: React.FC = () => <IngredientBrief data={data} />;
+export default IngredientBemotrizinol;

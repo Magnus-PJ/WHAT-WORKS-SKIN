@@ -1,0 +1,40 @@
+{
+  "slug": "issue-006",
+  "n": 6,
+  "date": "29 December 2025",
+  "year": 2025,
+  "headline": "Year-end: the five things that earned a Tier-A grade in 2025",
+  "dek": "And the three things that lost theirs.",
+  "signed": "Dr. Paul + Dr. Sundeep",
+  "pageRef": "P. 06",
+  "eyebrow": "Trend Watch · Issue 006 · 29 December 2025",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "Tranexamic acid (oral)",
+      "tier": "A",
+      "verdict": "Holds Up",
+      "color": "",
+      "body": "The most consequential pigmentation-supplement story of 2025. Three new RCTs confirmed the meta-analysis signal: 250 mg twice daily for 8–12 weeks produces measurable, replicated reduction in melasma severity, with adjunct topicals stacking favourably. Screen for VTE risk, work with a dermatologist, and treat as a course rather than a habit. Earned its Tier-A grade and held it through the year.",
+      "bottom": "The supplement that genuinely changed our prescribing in 2025."
+    },
+    {
+      "n": "02",
+      "name": "Heliocare (Polypodium leucotomos)",
+      "tier": "A",
+      "verdict": "Holds Up",
+      "color": "",
+      "body": "Re-graded up from Tier B at the start of the year. The accumulated evidence on UV-induced erythema, MED extension, and PLE prophylaxis is now substantial enough that we recommend it routinely as an adjunct for melasma and photodermatosis patients. It does not replace SPF; it complements one. The peri-laser protocol literature, in particular, became hard to argue with.",
+      "bottom": "Adjunct, not replacement. The clearest 2025 upgrade in our supplement section."
+    },
+    {
+      "n": "03",
+      "name": "Centella asiatica triterpenes (TECA)",
+      "tier": "A",
+      "verdict": "Holds Up",
+      "color": "",
+      "body": "The standardised triterpene fraction (asiaticoside, madecassoside, asiatic acid) — distinct from generic 'centella' marketing — earned the upgrade after a strong 2025 wound-healing literature year. The peri-procedure data is now unambiguous; the rosacea and barrier-flare data is encouraging if more modest. The labelling issue remains: not every centella product contains the standardised fraction.",
+      "bottom": "Buy on standardised triterpene content. Marketing 'centella' is not the same molecule."
+    }
+  ]
+}

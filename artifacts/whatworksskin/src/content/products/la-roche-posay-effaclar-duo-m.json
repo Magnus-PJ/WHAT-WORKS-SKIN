@@ -1,0 +1,114 @@
+{
+  "slug": "la-roche-posay-effaclar-duo-m",
+  "brand": "La Roche-Posay",
+  "name": "Effaclar Duo+ M",
+  "tier": "B",
+  "pageRef": "P. 18",
+  "filed": "22 APR 2026",
+  "eyebrow": "Product · Acne maintenance · Niacinamide-led",
+  "hero": "The whole-face mild-acne lotion the pharmacy reaches for first. Niacinamide, LHA, zinc, mannose. Genuinely good adjunct for ongoing maintenance and PIH cleanup — but no substitute for a retinoid when acne is active.",
+  "score": 76,
+  "maxScore": 100,
+  "scoreBreakdown": [
+    {
+      "k": "Formulation integrity",
+      "v": 19,
+      "max": 25,
+      "n": "Niacinamide + LHA + zinc PCA in lightweight base. Smart but mild."
+    },
+    {
+      "k": "Evidence per claim",
+      "v": 17,
+      "max": 25,
+      "n": "Replicated reduction in lesion count, but vs placebo not vs adapalene."
+    },
+    {
+      "k": "Tolerability",
+      "v": 23,
+      "max": 25,
+      "n": "One of the gentlest 'spot' treatments — usable on whole face daily."
+    },
+    {
+      "k": "Value",
+      "v": 17,
+      "max": 25,
+      "n": "₹ 1,950 / 40 mL is mid-range. Cheaper niacinamide+BHA combos exist."
+    }
+  ],
+  "ingredients": [
+    {
+      "i": "Niacinamide",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "LHA (capryloyl salicylic acid)",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Salicylic acid",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Zinc PCA",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Mannose",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Procerad ceramide",
+      "role": "",
+      "note": ""
+    }
+  ],
+  "alts": [
+    {
+      "x": "Effaclar Duo+",
+      "a": "Niacinamide + LHA + zinc",
+      "b": "Whole-face daily, mild acne maintenance",
+      "tier": "A"
+    },
+    {
+      "x": "Adapalene 0.1% gel",
+      "a": "Retinoid",
+      "b": "Reference for moderate comedonal acne",
+      "tier": "A"
+    },
+    {
+      "x": "BPO 2.5% gel",
+      "a": "Benzoyl peroxide",
+      "b": "Reference for inflammatory acne",
+      "tier": "A"
+    },
+    {
+      "x": "The Ordinary Niacinamide 10% + Zinc",
+      "a": "Niacinamide + zinc",
+      "b": "Cheapest niacinamide-led entry",
+      "tier": "B"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Is it actually a 'duo'?",
+      "a": "The +' refers to the addition of zinc PCA and mannose to the original Effaclar Duo formula. The marketing positions it as 'two-in-one' (treatment + moisturiser) — in practice it's a niacinamide-led lotion with a mild BHA assist. Useful, but not a substitute for adapalene if you have moderate-to-severe acne."
+    },
+    {
+      "q": "Will it 'fade' acne marks?",
+      "a": "Slowly. The niacinamide and LHA combination produces real but modest PIH reduction over 12 weeks. For faster fade, layer azelaic acid 10% twice-daily."
+    },
+    {
+      "q": "Use AM or PM?",
+      "a": "AM is fine — there is no photo-sensitisation issue at the LHA concentration used. Many users prefer PM after a low-pH cleanser."
+    },
+    {
+      "q": "Is it enough on its own?",
+      "a": "For mild, occasional breakouts and PIH cleanup — yes. For active moderate acne — no. Pair with a retinoid PM and a BPO spot treatment."
+    }
+  ]
+}

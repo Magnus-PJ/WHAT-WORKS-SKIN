@@ -1,0 +1,283 @@
+---
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import TierBadge from "@/components/TierBadge.astro";
+import { url, home } from "@/lib/url";
+import { loadTransparencyMeta, formatLongDate } from "@/lib/transparency";
+
+const meta = await loadTransparencyMeta();
+const lastUpdated = meta.pages.howWeRate;
+const lastUpdatedLong = formatLongDate(lastUpdated);
+const methodologyVersion = meta.methodology.version;
+
+// "How we rate" lifts the four-tier rubric (§02) and the two
+// adjustment sections (§03 products, §04 supplements) out of the
+// React `Methodology.tsx` source so readers who arrive on this URL
+// directly get the grading rules at a glance, then a clear path back
+// to the full methodology dossier for the wider context (principles,
+// conflicts, cadence, corrections, funding).
+const RUBRIC: { tier: "A" | "B" | "C" | "D"; evidence: string; consensus: string; recommended: string }[] = [
+  { tier: "A", evidence: "≥ 2 RCTs, n > 50, vehicle-controlled, replicated end-points", consensus: "International guideline body lists as standard of care", recommended: "Recommended without qualification" },
+  { tier: "B", evidence: "1 RCT or strong observational data; mechanism well-established", consensus: "Mainstream practitioner adoption", recommended: "Recommended for the right person, with caveats" },
+  { tier: "C", evidence: "Mixed or modest data; small studies; preliminary signals", consensus: "Some practitioner support, no consensus", recommended: "Optional; try if low-cost and low-risk" },
+  { tier: "D", evidence: "No human evidence, contradicted by trials, or marketing-only claims", consensus: "Marketing exceeds science", recommended: "Skip" },
+];
+
+const PRODUCT_CRITERIA = [
+  "Active concentration verified",
+  "Vehicle pH where relevant",
+  "Compatibility with claimed routine",
+  "No known issue ingredients without reason",
+];
+
+const SUPPLEMENT_CRITERIA = [
+  "Human RCTs, not in-vitro",
+  "Standardised extract documented",
+  "Realistic real-world dose",
+  "Drug-interaction and pregnancy review",
+];
+---
+<Base
+  title="How we rate — What Works Skin"
+  description="The four-tier rubric we apply to every ingredient, product, and supplement on the site."
+>
+  <SiteHeader active="Methodology" />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Transparency" }, { label: "How we rate" }]} />
+  <main class="wrap">
+    <div class="container">
+      <p class="eyebrow">Transparency · Grading rubric</p>
+      <p class="last-updated" data-testid="page-last-updated">
+        <span class="last-updated-label">Last updated</span>
+        <time datetime={lastUpdated}>{lastUpdatedLong}</time>
+        <span class="last-updated-sep" aria-hidden="true">·</span>
+        <span class="last-updated-version">Rubric {methodologyVersion}</span>
+      </p>
+      <h1 class="title">How we <span class="ital">rate.</span></h1>
+      <p class="lead">
+        The same four-tier rubric — A through D — applies to ingredients, products, and supplements alike. The criteria differ slightly by category, but the badge stays the same so you can read it at a glance across the site. The full dossier (principles, conflicts of interest, review cadence, corrections, funding) lives on the <a href={url("methodology")} class="inline-link">methodology page</a>.
+      </p>
+
+      <section class="rubric-block">
+        <h2 class="block-h">The four-tier <span class="ital">rubric.</span></h2>
+        <div class="rubric">
+          <div class="rubric-head">
+            <div>Tier</div>
+            <div>Evidence threshold</div>
+            <div>Consensus</div>
+            <div>What we say</div>
+          </div>
+          {RUBRIC.map((r) => (
+            <div class="rubric-row">
+              <div class="rubric-cell"><TierBadge tier={r.tier} /></div>
+              <div class="rubric-cell evidence">{r.evidence}</div>
+              <div class="rubric-cell consensus">{r.consensus}</div>
+              <div class="rubric-cell recommended">{r.recommended}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="adj-grid">
+        <div>
+          <h2 class="block-h-sm">Adjustments for <span class="ital">products.</span></h2>
+          <p class="adj-body">
+            A product Tier reflects the formulation as a whole — not just the active. We assess: in-spec dose of the active, vehicle quality (penetration / stability), realistic price-per-use, and complete ingredient list (we down-grade for known sensitisers in unnecessary positions).
+          </p>
+          <ul class="checks">
+            {PRODUCT_CRITERIA.map((s) => (
+              <li><span class="check" aria-hidden="true">✓</span>{s}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h2 class="block-h-sm">Adjustments for <span class="ital">supplements.</span></h2>
+          <p class="adj-body">
+            Supplement tiers weight bioavailability, third-party testing, and human (not in-vitro) outcomes more heavily. Anything Rx-only carries a parallel safety review by Dr. Sundeep before publication.
+          </p>
+          <ul class="checks">
+            {SUPPLEMENT_CRITERIA.map((s) => (
+              <li><span class="check" aria-hidden="true">✓</span>{s}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section class="more">
+        <p class="more-eyebrow">Read the full dossier</p>
+        <p class="more-body">
+          The principles that predate the rubric, our conflicts-of-interest declaration, the weekly/monthly/quarterly/annual review cadence, the corrections policy, and the source of every rupee that funds the publication — all live in the methodology dossier.
+        </p>
+        <a href={url("methodology")} class="more-cta">Read the methodology dossier →</a>
+      </section>
+    </div>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .wrap { padding-block: 80px; }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+
+  .eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .title {
+    margin: 24px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(56px, 9vw, 92px);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .lead {
+    margin: 32px 0 0;
+    max-width: 44rem;
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .inline-link { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+
+  .last-updated {
+    margin: 16px 0 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .last-updated-label { color: var(--muted); }
+  .last-updated time { color: var(--ink); font-family: var(--font-serif); font-size: 13px; letter-spacing: 0; text-transform: none; }
+  .last-updated-sep { color: var(--rule); }
+  .last-updated-version { color: var(--accent); }
+
+  .rubric-block { margin-top: 64px; }
+  .block-h {
+    margin: 0 0 24px;
+    font-family: var(--font-serif);
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .block-h-sm {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 32px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+
+  .rubric { border: 1px solid var(--rule); }
+  .rubric-head, .rubric-row {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 16px;
+    padding: 14px 20px;
+  }
+  @media (min-width: 768px) {
+    .rubric-head, .rubric-row {
+      grid-template-columns: 56px 5fr 3fr 3fr;
+    }
+  }
+  .rubric-head {
+    background: var(--paper2);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .rubric-row {
+    padding-block: 24px;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: baseline;
+  }
+  .rubric-row:last-child { border-bottom: 0; }
+  .rubric-cell.evidence { font-family: var(--font-serif); font-size: 16px; color: var(--ink-soft); line-height: 1.5; }
+  .rubric-cell.consensus { font-family: var(--font-serif); font-size: 15px; color: var(--muted); line-height: 1.5; font-style: italic; }
+  .rubric-cell.recommended { font-family: var(--font-serif); font-size: 16px; color: var(--ink); line-height: 1.4; }
+
+  .adj-grid {
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  @media (min-width: 768px) { .adj-grid { grid-template-columns: 1fr 1fr; gap: 48px; } }
+  .adj-body {
+    margin: 20px 0 0;
+    font-family: var(--font-serif);
+    font-size: 16.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .checks {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .checks li { display: flex; gap: 8px; align-items: baseline; }
+  .check { color: var(--accent); font-size: 12px; }
+
+  .more {
+    margin-top: 80px;
+    border-top: 1px solid var(--rule);
+    padding-top: 40px;
+  }
+  .more-eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .more-body {
+    margin: 16px 0 0;
+    max-width: 44rem;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .more-cta {
+    display: inline-block;
+    margin-top: 20px;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+</style>

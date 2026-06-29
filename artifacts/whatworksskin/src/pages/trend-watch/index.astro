@@ -1,0 +1,69 @@
+---
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { url, home } from "@/lib/url";
+import ThinDot from "@/components/ThinDot.astro";
+import ThinSummary from "@/components/ThinSummary.astro";
+import ThinLegend from "@/components/ThinLegend.astro";
+
+const issues = await getCollection("trendWatch");
+issues.sort((a, b) => b.data.n - a.data.n);
+---
+<Base title="Trend Watch — What Works Skin" description="Every fortnight, three trends graded honestly.">
+  <SiteHeader active="Trend Watch" />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Trend Watch" }]} />
+  <main class="wrap">
+    <div class="container">
+      <p class="eyebrow">Archive · Trend Watch</p>
+      <h1 class="title">Every fortnight, <span class="ital">three trends.</span></h1>
+      <p class="lead">
+        Independent verdicts on the trends, claims, and product launches our inboxes filled
+        up with. Holds up, partly true, misleading, skip — graded against the literature, not
+        the brand deck.
+      </p>
+
+      <ThinSummary kind="trend-watch" slugs={issues.map((e) => e.data.slug)} />
+      <ThinLegend />
+
+      <ul class="issues">
+        {issues.map((entry) => (
+          <li>
+            <a href={url(`trend-watch/${entry.data.slug}`)} class="card">
+              <div class="card-head">
+                <span class="num">№ {String(entry.data.n).padStart(3, "0")}</span>
+                <span class="date">{entry.data.date}</span>
+                <ThinDot kind="trend-watch" slug={entry.data.slug} />
+              </div>
+              <h2 class="headline">{entry.data.headline}</h2>
+              <p class="dek">{entry.data.dek}</p>
+              {entry.data.signed && <p class="signed">Signed — {entry.data.signed}</p>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .wrap { padding-block: 96px; }
+  .eyebrow { margin: 0; font-family: var(--font-sans); font-size: 10.5px; letter-spacing: 0.18em; font-weight: 600; color: var(--accent); text-transform: uppercase; }
+  .title { margin: 24px 0 0; font-family: var(--font-serif); font-size: clamp(48px, 8vw, 88px); line-height: 0.95; letter-spacing: -0.045em; font-weight: 400; color: var(--ink); font-variation-settings: "opsz" 144, "SOFT" 30; }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+  .lead { margin: 32px 0 0; max-width: 40rem; font-family: var(--font-serif); font-size: 19px; line-height: 1.6; color: var(--ink-soft); }
+  .issues { list-style: none; margin: 64px 0 0; padding: 0; border-top: 1px solid var(--rule); }
+  .issues li { border-bottom: 1px solid var(--rule); }
+  .card { display: block; text-decoration: none; padding: 32px 0; color: var(--ink); transition: padding-left 0.15s ease; }
+  .card:hover { padding-left: 12px; background: var(--paper2); }
+  .card-head { display: flex; align-items: baseline; gap: 24px; }
+  .num { font-family: var(--font-serif); font-size: 28px; color: var(--accent); letter-spacing: -0.02em; font-variation-settings: "opsz" 144; }
+  .date { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; color: var(--muted-soft); text-transform: uppercase; }
+  .headline { margin: 12px 0 0; font-family: var(--font-serif); font-size: 32px; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); font-weight: 400; font-variation-settings: "opsz" 144, "SOFT" 30; max-width: 56rem; }
+  .dek { margin: 12px 0 0; font-family: var(--font-serif); font-size: 17px; line-height: 1.55; color: var(--muted); font-style: italic; max-width: 56rem; }
+  .signed { margin: 12px 0 0; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted-soft); text-transform: uppercase; }
+</style>

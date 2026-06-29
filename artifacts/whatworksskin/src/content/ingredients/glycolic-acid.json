@@ -1,0 +1,228 @@
+{
+  "slug": "glycolic-acid",
+  "name": "Glycolic acid",
+  "number": "09 / 28",
+  "filed": "12 APR 2026",
+  "eyebrowKicker": "Ingredient · Alpha-hydroxy Acid · Glycolic",
+  "tier": "A",
+  "headlineSize": 116,
+  "tagline": {
+    "italic": "The smallest AHA,",
+    "rest": "with the longest data tail."
+  },
+  "lead": "The most-studied alpha-hydroxy acid in dermatology. Smallest molecule, deepest penetration, strongest evidence on tone and texture — and the steepest irritation curve to match. The default home AHA when used at a sensible dose, the workhorse of in-clinic peels at higher ones.",
+  "atGlance": [
+    [
+      "INCI",
+      "Glycolic acid"
+    ],
+    [
+      "Family",
+      "Alpha-hydroxy acid (AHA)"
+    ],
+    [
+      "Useful range",
+      "5 – 10% (leave-on)"
+    ],
+    [
+      "pH window",
+      "3.5 – 4.0"
+    ],
+    [
+      "Pregnancy-safe",
+      "Yes (topical)"
+    ],
+    [
+      "Photo-stable",
+      "Yes — but increases UV sensitivity"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul · 12-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "What it is"
+    ],
+    [
+      "02",
+      "Mechanism"
+    ],
+    [
+      "03",
+      "Evidence overview"
+    ],
+    [
+      "04",
+      "Concentration & vehicle"
+    ],
+    [
+      "05",
+      "Where it earns its tier"
+    ],
+    [
+      "06",
+      "Pairings & conflicts"
+    ],
+    [
+      "07",
+      "On our shelf"
+    ],
+    [
+      "08",
+      "FAQ"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "G",
+    "title": {
+      "plain": "What glycolic acid",
+      "italic": "actually is."
+    },
+    "body": "lycolic acid is the smallest alpha-hydroxy acid by molecular weight, derived originally from sugarcane. Its size lets it move past the corneocyte surface and reach the lower stratum corneum and viable epidermis — which is why it produces the most visible AHA result and the most predictable AHA irritation. There is no separating those two facts."
+  },
+  "mechanism": [
+    {
+      "k": "On exfoliation",
+      "b": "Cleaves corneodesmosomes between stratum-corneum cells. Visible smoother texture within 2 weeks."
+    },
+    {
+      "k": "On the dermis",
+      "b": "Stimulates fibroblast proliferation and dermal glycosaminoglycan synthesis at sustained use."
+    },
+    {
+      "k": "On pigment",
+      "b": "Accelerates turnover of pigmented keratinocytes; useful adjunct for PIH but not first-line for melasma."
+    }
+  ],
+  "evidence": [
+    {
+      "c": "Texture / fine lines",
+      "n": "Multiple RCTs",
+      "w": "78%",
+      "note": "5–10% leave-on improves roughness and crepeyness reproducibly over 12 weeks."
+    },
+    {
+      "c": "Photoaging",
+      "n": "Long-term cohort",
+      "w": "66%",
+      "note": "Slower than retinoids on collagen endpoints; cleaner side-effect profile."
+    },
+    {
+      "c": "Post-inflammatory pigment",
+      "n": "Smaller RCTs",
+      "w": "60%",
+      "note": "Useful adjunct. Stack with niacinamide or tranexamic for results that hold."
+    },
+    {
+      "c": "In-clinic peels",
+      "n": "Procedural",
+      "w": "82%",
+      "note": "20–70% peels reproducibly improve photoaging endpoints. Operator-dependent."
+    }
+  ],
+  "concentration": [
+    {
+      "c": "5 – 8%",
+      "v": "Beginner leave-on",
+      "b": "Twice weekly to start. Most home users live here."
+    },
+    {
+      "c": "8 – 10%",
+      "v": "Established user",
+      "b": "Nightly or alternate nights. Plateau dose for home use."
+    },
+    {
+      "c": "10 – 15%",
+      "v": "Advanced serum",
+      "b": "For experienced skin only. Rising irritation, marginal benefit."
+    },
+    {
+      "c": "20 – 70%",
+      "v": "Clinical peel",
+      "b": "In-clinic only. Procedural risk profile."
+    }
+  ],
+  "pairings": [
+    {
+      "with": "Niacinamide",
+      "verdict": "Compatible",
+      "note": "Wait 20–30 min after AHA for pH to normalise, then layer.",
+      "ok": true
+    },
+    {
+      "with": "Vitamin C (LAA)",
+      "verdict": "Wait",
+      "note": "Both pH-dependent and acidic. Stagger AM C, PM AHA.",
+      "ok": false
+    },
+    {
+      "with": "Retinoids",
+      "verdict": "Avoid same night",
+      "note": "Compounded irritation. Alternate nights or pick a single tool.",
+      "ok": false
+    },
+    {
+      "with": "Sunscreen",
+      "verdict": "Mandatory",
+      "note": "AHAs increase UV sensitivity for up to a week post-use.",
+      "ok": true
+    }
+  ],
+  "products": [
+    {
+      "brand": "Pixi",
+      "name": "Glow Tonic 5%",
+      "tier": "A",
+      "score": 84,
+      "note": "The reference beginner AHA. Honest pH, gentle vehicle."
+    },
+    {
+      "brand": "The Ordinary",
+      "name": "Glycolic Acid 7% Toning Solution",
+      "tier": "B",
+      "score": 76,
+      "note": "Cheap, effective, drying for some. Skip the package warning at your peril."
+    },
+    {
+      "brand": "Drunk Elephant",
+      "name": "T.L.C. Framboos 12%",
+      "tier": "B",
+      "score": 72,
+      "note": "Mixed-acid premium product. Good vehicle, premium markup."
+    },
+    {
+      "brand": "Alpha-H",
+      "name": "Liquid Gold 5%",
+      "tier": "A",
+      "score": 86,
+      "note": "The cult classic. 12 weeks in, the texture difference is undeniable."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Glycolic or lactic acid?",
+      "a": "Glycolic for established users wanting maximum exfoliation. Lactic for sensitive skin or anyone who also wants hydration. Different tools for adjacent jobs."
+    },
+    {
+      "q": "How often can I use it?",
+      "a": "Twice weekly to start; build to nightly only if your barrier tolerates it. The 'every night' pitch on the bottle is aspirational, not prescriptive."
+    },
+    {
+      "q": "Do I need sunscreen the next day?",
+      "a": "Yes, more than usual. AHAs measurably increase UV-induced damage for up to a week. Skip sunscreen and you have actively made things worse."
+    },
+    {
+      "q": "Glycolic for melasma?",
+      "a": "Adjunct only. Tranexamic acid, hydroquinone, and azelaic are first-line. Use glycolic to support turnover, not to drive the result."
+    }
+  ],
+  "relatedIngredients": [
+    "lactic-acid",
+    "mandelic-acid",
+    "salicylic-acid",
+    "niacinamide"
+  ]
+}

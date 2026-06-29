@@ -1,0 +1,115 @@
+{
+  "slug": "zinc",
+  "name": "Zinc",
+  "family": "Hair & nails",
+  "target": "Acne · hair shedding",
+  "tier": "B",
+  "dose": "15–30 mg/d, with food",
+  "rxOnly": false,
+  "oneliner": "Mild acne benefit. Cap at 40 mg/d to avoid copper depletion.",
+  "pageRef": "P. 09",
+  "filed": "17 APR 2026",
+  "eyebrow": "Supplement · Hair & nails · Zinc",
+  "headline": "Zinc",
+  "glance": [
+    [
+      "Class",
+      "Trace mineral"
+    ],
+    [
+      "Form",
+      "Picolinate · gluconate · citrate"
+    ],
+    [
+      "Dose",
+      "15 – 30 mg/d with food"
+    ],
+    [
+      "Timeline",
+      "8 – 12 weeks for acne"
+    ],
+    [
+      "Cap",
+      "≤ 40 mg/d total dietary + supplement"
+    ],
+    [
+      "Pregnancy",
+      "Safe at RDA (11 mg/d)"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul · 18-Apr-2026"
+    ]
+  ],
+  "evidence": [
+    {
+      "c": "Inflammatory acne",
+      "n": "RCTs vs placebo, 30 mg/d",
+      "w": "65%",
+      "note": "Modest reduction in lesion count over 12 weeks. Adjunct, not monotherapy."
+    },
+    {
+      "c": "Acne vs minocycline",
+      "n": "Comparator trials",
+      "w": "55%",
+      "note": "Less effective than oral antibiotics, with cleaner side-effect profile."
+    },
+    {
+      "c": "Hair shedding (with deficiency)",
+      "n": "Observational + small RCTs",
+      "w": "70%",
+      "note": "Real benefit when zinc is genuinely low. Test before supplementing."
+    },
+    {
+      "c": "General 'glow' / immunity",
+      "n": "—",
+      "w": "20%",
+      "note": "Marketing only. Treats deficiency, not vague complaints."
+    }
+  ],
+  "forms": [
+    {
+      "f": "Zinc picolinate",
+      "abs": "High",
+      "note": "Best-tolerated form. The default for skin endpoints."
+    },
+    {
+      "f": "Zinc gluconate",
+      "abs": "Good",
+      "note": "Cheaper, well-studied for acne. Often used in older trials."
+    },
+    {
+      "f": "Zinc citrate",
+      "abs": "Good",
+      "note": "Pleasant taste; good for lozenges. Adequate for skin."
+    },
+    {
+      "f": "Zinc sulfate",
+      "abs": "Moderate",
+      "note": "Highest GI upset risk. Older formulations only."
+    },
+    {
+      "f": "Zinc oxide (oral)",
+      "abs": "Poor",
+      "note": "Absorption barely meaningful. Skip."
+    }
+  ],
+  "faq": [
+    {
+      "q": "How much should I take?",
+      "a": "15–30 mg/d with food, ideally not on an empty stomach. Cap at 40 mg/d total dietary + supplement to avoid copper depletion. For acne, the published RCTs use 30 mg/d for 12 weeks."
+    },
+    {
+      "q": "Why does it upset my stomach?",
+      "a": "Zinc is gastric-irritant on its own. Always take with a meal that contains some fat. If still problematic, switch from sulfate to picolinate or citrate, and split the dose AM/PM."
+    },
+    {
+      "q": "Will it interact with antibiotics?",
+      "a": "Yes. Zinc reduces absorption of tetracyclines (including minocycline and doxycycline used for acne) and quinolones. Separate by at least two hours."
+    },
+    {
+      "q": "When can I expect to see acne improvement?",
+      "a": "Eight to twelve weeks at minimum. Zinc is a slow, modest player — useful as part of a stack alongside topical retinoids and BPO, rarely effective on its own for moderate-severe presentations."
+    }
+  ]
+}

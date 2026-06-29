@@ -1,0 +1,665 @@
+---
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import PaperEffects from "@/components/PaperEffects.astro";
+import { url } from "@/lib/url";
+import { buildSearchEntries, rankSearchEntries } from "@/lib/search-index";
+// Vite's `?raw` suffix loads any file as a string at build time. We
+// embed the search controller inline (see the long comment in
+// `src/scripts/search-ui.inline.js` for why the dev preview proxy
+// rules out a `<script src="...">` approach).
+import searchUiSource from "@/scripts/search-ui.inline.js?raw";
+
+// Pull every published row across the six content collections. Each
+// collection's data is mapped down to the minimal subset the search
+// builder needs — keeps the JSON blob shipped to the browser small
+// (no scorecards, no FAQ trees, no 3,000-word body copy).
+const [
+  ingredients,
+  products,
+  routines,
+  concerns,
+  supplements,
+  trendIssues,
+] = await Promise.all([
+  getCollection("ingredients"),
+  getCollection("products"),
+  getCollection("routines"),
+  getCollection("concerns"),
+  getCollection("supplements"),
+  getCollection("trendWatch"),
+]);
+
+ingredients.sort((a, b) => a.data.name.localeCompare(b.data.name));
+products.sort((a, b) =>
+  `${a.data.brand} ${a.data.name}`.localeCompare(`${b.data.brand} ${b.data.name}`),
+);
+routines.sort((a, b) => a.data.title.localeCompare(b.data.title));
+concerns.sort((a, b) => a.data.name.localeCompare(b.data.name));
+supplements.sort((a, b) => a.data.name.localeCompare(b.data.name));
+// Newest issue first so search results favour the most recent verdicts
+// when scores tie.
+trendIssues.sort((a, b) => b.data.n - a.data.n);
+
+const entries = buildSearchEntries(
+  {
+    ingredients: ingredients.map((e) => ({
+      slug: e.data.slug,
+      name: e.data.name,
+      eyebrowKicker: e.data.eyebrowKicker,
+      tier: e.data.tier,
+      lead: e.data.lead,
+      tagline: e.data.tagline,
+      chemistry: e.data.chemistry,
+    })),
+    products: products.map((e) => ({
+      slug: e.data.slug,
+      brand: e.data.brand,
+      name: e.data.name,
+      tier: e.data.tier,
+      hero: e.data.hero,
+      category: e.data.category,
+    })),
+    routines: routines.map((e) => ({
+      slug: e.data.slug,
+      title: e.data.title,
+      sub: e.data.sub,
+      goal: e.data.goal,
+      body: e.data.body,
+      time: e.data.time,
+    })),
+    concerns: concerns.map((e) => ({
+      slug: e.data.slug,
+      name: e.data.name,
+      family: e.data.family,
+      oneliner: e.data.oneliner,
+    })),
+    supplements: supplements.map((e) => ({
+      slug: e.data.slug,
+      name: e.data.name,
+      family: e.data.family,
+      target: e.data.target,
+      oneliner: e.data.oneliner,
+      tier: e.data.tier,
+    })),
+    trendWatch: trendIssues.map((e) => ({
+      slug: e.data.slug,
+      n: e.data.n,
+      date: e.data.date,
+      headline: e.data.headline,
+      dek: e.data.dek,
+    })),
+  },
+  url,
+);
+
+const total = entries.length;
+const briefWord = total === 1 ? "brief" : "briefs";
+
+// Seed the search input from `?q=…` so a shared link like
+// `/whatworksskin/search?q=tretinoin` lands on the filtered view at
+// SSR time (no client round-trip needed). Trim and clamp to a sane
+// length so a hostile or accidentally enormous query string can't
+// poison the rendered HTML.
+const rawQuery = Astro.url.searchParams.get("q") ?? "";
+const initialQuery = rawQuery.trim().slice(0, 200);
+
+// Pre-rank the initial query at SSR time so a shared `?q=…` link
+// arrives with the result list already painted into the HTML — no
+// hydration flash from "empty state" to "real results". The browser
+// controller re-runs the same ranker on hydration; because both
+// implementations are kept in lock-step by the inline-bundle parity
+// test, the swap is a no-op visually.
+const SEARCH_LIMIT = 16;
+const initialResults = initialQuery
+  ? rankSearchEntries(initialQuery, entries, SEARCH_LIMIT)
+  : [];
+
+// Mirrors `KIND_TINT` in `src/scripts/search-ui.inline.js`. Kept in
+// sync because the SSR markup and the JS-rendered markup share one
+// stylesheet and must paint each kind label with the same colour.
+const KIND_TINT: Record<string, string> = {
+  Ingredient: "var(--accent)",
+  Product: "var(--ink)",
+  Routine: "var(--ink-soft)",
+  Concern: "var(--ink-soft)",
+  Supplement: "var(--ink-soft)",
+  "Trend Watch": "var(--warning, #b45309)",
+};
+
+const briefWordTotal = total === 1 ? "brief" : "briefs";
+const initialResultWord = initialResults.length === 1 ? "result" : "results";
+const initialMetaText = initialQuery
+  ? `${initialResults.length} ${initialResultWord} for "${initialQuery}" across ${total} indexed ${briefWordTotal}.`
+  : `${total} ${briefWordTotal} indexed across ingredients, products, routines, concerns, supplements, and Trend Watch.`;
+const showInitialEmpty = !initialQuery;
+const showInitialZero = Boolean(initialQuery) && initialResults.length === 0;
+const showInitialResults = Boolean(initialQuery) && initialResults.length > 0;
+
+// Eight stock prompts shown in the empty state — surfaces the
+// catalogues a first-time visitor is least likely to know exists.
+const EXAMPLE_QUERIES: ReadonlyArray<string> = [
+  "tretinoin",
+  "niacinamide",
+  "melasma",
+  "salicylic",
+  "azelaic",
+  "barrier",
+  "spf",
+  "trend watch",
+];
+
+// Catalogue index links surfaced in both the no-JS fallback AND the
+// in-app zero-state ("No matches.") panel.
+const sections: ReadonlyArray<{ label: string; href: string; n: number }> = [
+  { label: "Ingredients", href: url("ingredients"), n: ingredients.length },
+  { label: "Products", href: url("products"), n: products.length },
+  { label: "Routines", href: url("routines"), n: routines.length },
+  { label: "Concerns", href: url("concerns"), n: concerns.length },
+  { label: "Supplements", href: url("supplements"), n: supplements.length },
+  { label: "Trend Watch", href: url("trend-watch"), n: trendIssues.length },
+];
+---
+<Base
+  title="Search — What Works Skin"
+  description={`Search the publication. ${total} ingredient, product, routine, concern, supplement, and Trend Watch briefs indexed.`}
+>
+  <SiteHeader active="Search" />
+  <main>
+    <section class="search-hero">
+      <PaperEffects vignette columns={false} />
+      <div class="container">
+        <p class="eyebrow">Search · The full reference</p>
+        <h1 class="h1">
+          Find what <span class="ital">we've filed.</span>
+        </h1>
+        <p class="lead">
+          {total} {briefWord} indexed across ingredients, products, routines,
+          concerns, supplements, and Trend Watch. Substring match across
+          titles, brands, INCI names, and one-liners.
+        </p>
+
+        <script
+          is:inline
+          set:html={`window.__WWS_SEARCH_ENTRIES__ = ${JSON.stringify(entries).replace(/</g, "\\u003c")};`}
+        ></script>
+
+        <div id="wws-search-root" class="search-ui">
+          <div class="search-input-row">
+            <svg
+              class="search-icon"
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              id="wws-search-input"
+              type="search"
+              class="search-input"
+              placeholder="Ingredient, product, concern, issue…"
+              autocomplete="off"
+              autocapitalize="none"
+              spellcheck="false"
+              aria-label="Search the publication"
+              aria-controls="wws-search-results wws-search-meta"
+              value={initialQuery}
+            />
+            <button
+              id="wws-search-clear"
+              type="button"
+              class="search-clear"
+              aria-label="Clear search"
+              hidden={!initialQuery}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            <kbd class="search-kbd" aria-hidden="true">esc</kbd>
+          </div>
+
+          <p
+            id="wws-search-meta"
+            class="search-meta"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {initialQuery ? (
+              <Fragment>
+                {initialResults.length} {initialResultWord} for{" "}
+                <span class="search-meta-q">"{initialQuery}"</span> across{" "}
+                {total} indexed {briefWordTotal}.
+              </Fragment>
+            ) : (
+              initialMetaText
+            )}
+          </p>
+
+          <div
+            id="wws-search-empty"
+            class="search-empty"
+            role="region"
+            aria-label="Example searches"
+            hidden={!showInitialEmpty}
+          >
+            <p class="search-empty-h">Try a query.</p>
+            <ul class="search-examples">
+              {EXAMPLE_QUERIES.map((q) => (
+                <li>
+                  <button type="button" class="search-example" data-query={q}>
+                    {q}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div
+            id="wws-search-zero"
+            class="search-zero"
+            role="region"
+            aria-label="No matches"
+            hidden={!showInitialZero}
+          >
+            <p class="search-zero-h">No matches.</p>
+            <p class="search-zero-body">
+              Try a single word, or browse the catalogues directly:
+            </p>
+            <ul class="search-zero-links">
+              {sections.map((s) => (
+                <li><a href={s.href}>{s.label}</a></li>
+              ))}
+            </ul>
+          </div>
+
+          <ul
+            id="wws-search-results"
+            class="search-results"
+            role="list"
+            aria-label="Search results"
+            hidden={!showInitialResults}
+          >
+            {initialResults.map((r, i) => {
+              const num = String(i + 1).padStart(2, "0");
+              const tint = KIND_TINT[r.kind] ?? "var(--ink)";
+              return (
+                <li>
+                  <a class="search-result" href={r.href}>
+                    <div class="search-result-meta">
+                      <span class="search-result-num">{num} ·</span>
+                      <span class="search-result-kind" style={`color: ${tint}`}>
+                        {r.kind}
+                      </span>
+                      {r.tier && (
+                        <span class="search-result-tier" data-tier={r.tier}>
+                          {r.tier}
+                        </span>
+                      )}
+                    </div>
+                    <div class="search-result-body">
+                      <h3 class="search-result-title">{r.title}</h3>
+                      {r.eyebrow && (
+                        <p class="search-result-eyebrow">{r.eyebrow}</p>
+                      )}
+                      {r.oneliner && (
+                        <p class="search-result-oneliner">{r.oneliner}</p>
+                      )}
+                      <p class="search-result-href">{r.href}</p>
+                    </div>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <noscript>
+          <p class="search-noscript">
+            JavaScript is off, so the typeahead is disabled. Browse the
+            catalogues directly:
+          </p>
+          <ul class="search-noscript-links">
+            {sections.map((s) => (
+              <li><a href={s.href}>{s.label} ({s.n})</a></li>
+            ))}
+          </ul>
+        </noscript>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</Base>
+
+<script is:inline set:html={searchUiSource}></script>
+
+<style>
+  .container {
+    margin-inline: auto;
+    padding-inline: 32px;
+    max-width: 1100px;
+  }
+  .eyebrow {
+    margin: 0 0 24px;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .search-hero {
+    position: relative;
+    padding-block: 96px 120px;
+    background: var(--paper);
+    overflow: hidden;
+  }
+  .h1 {
+    margin: 0 0 24px;
+    font-family: var(--font-serif);
+    font-size: clamp(56px, 9vw, 112px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .h1 .ital {
+    font-family: var(--font-serif-ed, var(--font-serif));
+    font-style: italic;
+    color: var(--accent);
+  }
+  .lead {
+    margin: 0 0 48px;
+    max-width: 720px;
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .search-noscript {
+    margin: 32px 0 12px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .search-noscript-links {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .search-noscript-links a {
+    display: inline-block;
+    padding: 8px 14px;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    text-decoration: none;
+  }
+  .search-noscript-links a:hover {
+    border-color: var(--accent);
+  }
+
+  /* Search UI styles. The vanilla script swaps innerHTML inside the
+     results list, so we declare these globally (un-scoped) so the
+     dynamic nodes pick up the same chrome. */
+  :global(.search-ui) {
+    margin-block-start: 8px;
+  }
+  :global(.search-input-row) {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-block: 18px;
+    border-bottom: 2px solid var(--ink);
+  }
+  :global(.search-icon) {
+    flex-shrink: 0;
+    color: var(--ink);
+  }
+  :global(.search-input) {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 6px 0;
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 5vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    -webkit-appearance: none;
+  }
+  :global(.search-input::placeholder) {
+    color: var(--muted-soft, var(--muted));
+    opacity: 0.6;
+  }
+  :global(.search-input::-webkit-search-cancel-button) {
+    display: none;
+  }
+  :global(.search-clear) {
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    padding: 6px;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  :global(.search-clear:hover) {
+    color: var(--ink);
+  }
+  :global(.search-kbd) {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  :global(.search-meta) {
+    margin: 16px 0 32px;
+    font-family: var(--font-serif-ed, var(--font-serif));
+    font-style: italic;
+    font-size: 16px;
+    color: var(--muted);
+  }
+  :global(.search-meta-q) {
+    color: var(--ink);
+    font-style: normal;
+  }
+  :global(.search-empty) {
+    padding-block: 32px 24px;
+  }
+  :global(.search-empty-h) {
+    margin: 0 0 18px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  :global(.search-examples) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  :global(.search-example) {
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: 8px 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  :global(.search-example:hover) {
+    border-color: var(--accent);
+    color: var(--ink);
+  }
+  :global(.search-zero) {
+    padding-block: 32px;
+    border-top: 1px solid var(--rule);
+  }
+  :global(.search-zero-h) {
+    margin: 0 0 8px;
+    font-family: var(--font-serif);
+    font-size: 28px;
+    color: var(--ink);
+  }
+  :global(.search-zero-body) {
+    margin: 0 0 16px;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    color: var(--muted);
+  }
+  :global(.search-zero-links) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  :global(.search-zero-links a) {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    border-bottom: 1px solid currentColor;
+  }
+  :global(.search-results) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--rule);
+  }
+  :global(.search-result) {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    padding: 24px 16px;
+    margin-inline: -16px;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+    color: inherit;
+    border-radius: 6px;
+    transition: transform 0.25s cubic-bezier(0.21, 0.6, 0.35, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  :global(.search-result:hover) {
+    transform: translateY(-2px);
+    background-color: var(--paper2);
+    box-shadow: 0 6px 20px -4px rgba(17, 18, 20, 0.04);
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(.search-result:hover) {
+      box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.3);
+    }
+  }
+  :global(.search-result:hover .search-result-title) {
+    color: var(--accent);
+  }
+  :global(.search-result-meta) {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  :global(.search-result-num) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-soft, var(--muted));
+    letter-spacing: 0.08em;
+  }
+  :global(.search-result-kind) {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  :global(.search-result-tier) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 1px 6px;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    border-radius: 2px;
+  }
+  :global(.search-result-title) {
+    margin: 0 0 6px;
+    font-family: var(--font-serif);
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    color: var(--ink);
+    transition: color 0.12s ease;
+  }
+  :global(.search-result-eyebrow) {
+    margin: 0 0 8px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  :global(.search-result-oneliner) {
+    margin: 0 0 10px;
+    font-family: var(--font-serif-ed, var(--font-serif));
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  :global(.search-result-href) {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-soft, var(--muted));
+    letter-spacing: 0.04em;
+  }
+  @media (max-width: 640px) {
+    :global(.search-result) {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    :global(.search-result-meta) {
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+  }
+</style>

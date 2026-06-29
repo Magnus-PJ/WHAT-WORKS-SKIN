@@ -1,0 +1,158 @@
+---
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import TierBadge from "@/components/TierBadge.astro";
+import ThinDot from "@/components/ThinDot.astro";
+import ThinSummary from "@/components/ThinSummary.astro";
+import ThinLegend from "@/components/ThinLegend.astro";
+import { url, home } from "@/lib/url";
+import SortToggle from "@/components/SortToggle.astro";
+import { resolveSortMode, sortCatalogueItems } from "@/lib/catalogue-sort";
+
+// Active sort comes from `?sort=…` so a shared link arrives with
+// the catalogue already in the requested order at SSR time. The
+// reorder is applied within each family group, mirroring how the
+// runtime SortToggle script reorders each `[data-sortable-grid]`
+// independently.
+const SORT_MODES = ["default", "links"] as const;
+const activeSort = resolveSortMode(Astro.url, SORT_MODES, "default");
+
+const supplements = await getCollection("supplements");
+
+// Backlink-coverage badges. Supplements are referenced from a
+// concern's `supplements[]` shelf by an explicit slug, so a direct
+// equality match is the right resolver here — there's no fuzzy
+// helper because there's no fuzzy text to resolve. We surface a
+// single "Linked from N concerns" count in the same mono caption
+// treatment used by the other catalogue indices.
+const concernsForSupplements = await getCollection("concerns");
+const supplementCounts = new Map<string, number>();
+for (const s of supplements) {
+  let n = 0;
+  for (const c of concernsForSupplements) {
+    const sups = (c.data.supplements ?? []) as Array<{ slug?: string }>;
+    if (sups.some((x) => x?.slug === s.data.slug)) n++;
+  }
+  supplementCounts.set(s.data.slug, n);
+}
+
+const families = new Map<string, typeof supplements>();
+for (const entry of supplements) {
+  const fam = entry.data.family;
+  if (!families.has(fam)) families.set(fam, []);
+  families.get(fam)!.push(entry);
+}
+for (const list of families.values()) {
+  list.sort((a, b) => a.data.name.localeCompare(b.data.name));
+}
+const familyOrder = ["Photoprotection", "Pigmentation", "Hair & nails", "Barrier & inflammation", "Trend Watch"];
+const sortedFamilies = [...families.keys()].sort(
+  (a, b) => (familyOrder.indexOf(a) === -1 ? 99 : familyOrder.indexOf(a))
+        - (familyOrder.indexOf(b) === -1 ? 99 : familyOrder.indexOf(b))
+);
+---
+<Base title="Supplements — What Works Skin" description="Every supplement, graded by trial evidence.">
+  <SiteHeader active="Supplements" />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Supplements" }]} />
+  <main class="wrap">
+    <div class="container">
+      <p class="eyebrow">Index · Supplements</p>
+      <h1 class="title">Every supplement, <span class="ital">graded honestly.</span></h1>
+      <p class="lead">
+        Tier A through D, sorted by what the trial evidence actually says. Photoprotection,
+        pigment, barrier, hair and nails — and the trending pseudo-science we wouldn't take.
+      </p>
+
+      <ThinSummary kind="supplements" slugs={supplements.map((e) => e.data.slug)} />
+      <ThinLegend />
+
+      <SortToggle active={activeSort} buttons={[{ mode: "default", label: "Default" }, { mode: "links", label: "Most linked" }]} />
+
+      {sortedFamilies.map((fam) => (
+        <section class="family">
+          <h2 class="family-title">{fam}</h2>
+          <ul class="grid" data-sortable-grid>
+            {sortCatalogueItems(
+              families.get(fam)!.map((entry, i) => ({
+                entry,
+                defaultIndex: i,
+                linkCount: supplementCounts.get(entry.data.slug) ?? 0,
+              })),
+              activeSort,
+            ).map(({ entry, defaultIndex, linkCount }) => {
+              const n = linkCount;
+              return (
+                <li data-default-index={defaultIndex} data-link-count={n}>
+                  <a href={url(`supplements/${entry.data.slug}`)} class="card">
+                    <div class="card-head">
+                      <span class="kicker-wrap">
+                        <span class="kicker">{entry.data.target}</span>
+                        <ThinDot kind="supplements" slug={entry.data.slug} />
+                      </span>
+                      <TierBadge tier={entry.data.tier} />
+                    </div>
+                    <div class="name">{entry.data.name}</div>
+                    {entry.data.bottom ? (
+                      <div class="bottom-line">
+                        <p class="bottom-line-eyebrow">Bottom line</p>
+                        <p class="bottom-line-body">{entry.data.bottom}</p>
+                      </div>
+                    ) : (
+                      <p class="tagline">{entry.data.oneliner}</p>
+                    )}
+                    <p class="links" aria-label={`Linked from ${n} concerns`}>
+                      <span class="links-label">Linked from</span>
+                      <span class={`links-n${n > 0 ? " on" : ""}`}>{n}</span> {n === 1 ? "concern" : "concerns"}
+                    </p>
+                    <div class="meta">
+                      {entry.data.dose && <span>{entry.data.dose}</span>}
+                      {entry.data.rxOnly && <span class="rx">Rx</span>}
+                    </div>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .wrap { padding-block: 96px; }
+  .eyebrow { margin: 0; font-family: var(--font-sans); font-size: 10.5px; letter-spacing: 0.18em; font-weight: 600; color: var(--accent); text-transform: uppercase; }
+  .title { margin: 24px 0 0; font-family: var(--font-serif); font-size: clamp(48px, 8vw, 88px); line-height: 0.95; letter-spacing: -0.045em; font-weight: 400; color: var(--ink); font-variation-settings: "opsz" 144, "SOFT" 30; }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+  .lead { margin: 32px 0 0; max-width: 40rem; font-family: var(--font-serif); font-size: 19px; line-height: 1.6; color: var(--ink-soft); }
+  .family { margin-top: 64px; }
+  .family-title { margin: 0 0 20px; font-family: var(--font-serif); font-size: 28px; color: var(--ink); font-variation-settings: "opsz" 144; letter-spacing: -0.02em; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  .card { display: flex; flex-direction: column; text-decoration: none; padding: 28px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--paper); color: var(--ink); height: 100%; transition: background 0.15s ease; }
+  .card:hover { background: var(--paper2); }
+  .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+  .kicker-wrap { display: inline-flex; align-items: center; gap: 8px; }
+  .kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); text-transform: uppercase; }
+  .name { font-family: var(--font-serif); font-size: 24px; font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); font-variation-settings: "opsz" 144; }
+  .tagline { margin: 12px 0 0; font-family: var(--font-serif); font-size: 15px; line-height: 1.5; color: var(--muted); }
+  /* Bottom-line callout — scaled-down sibling of the home page in-focus
+     card's `.focus-bottom`. Lives in place of the one-liner when the
+     brief has an editorial verdict; otherwise the tagline above renders. */
+  .bottom-line { margin: 12px 0 0; padding: 12px 14px; background: var(--paper2); border-left: 3px solid var(--accent); }
+  .card:hover .bottom-line { background: var(--paper); }
+  .bottom-line-eyebrow { margin: 0; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; color: var(--muted-soft); text-transform: uppercase; line-height: 1.3; }
+  .bottom-line-body { margin: 6px 0 0; font-family: var(--font-serif); font-size: 14.5px; font-style: italic; color: var(--ink); line-height: 1.5; }
+  .links { margin: 16px 0 0; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); text-transform: uppercase; line-height: 1.4; }
+  .links-label { margin-right: 4px; }
+  .links-n { font-weight: 600; color: var(--muted-soft); margin-right: 2px; }
+  .links-n.on { color: var(--accent); }
+  .meta { margin-top: auto; padding-top: 20px; display: flex; flex-wrap: wrap; gap: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); text-transform: uppercase; border-top: 1px solid var(--rule-soft); margin-top: 24px; }
+  .rx { color: var(--accent); }
+</style>

@@ -1,0 +1,229 @@
+{
+  "slug": "peptides-copper",
+  "name": "Copper peptides",
+  "number": "19 / 28",
+  "filed": "16 APR 2026",
+  "eyebrowKicker": "Ingredient · Peptide-metal complex · GHK-Cu",
+  "tier": "B",
+  "headlineSize": 100,
+  "tagline": {
+    "italic": "Promising biology,",
+    "rest": "narrow application window."
+  },
+  "lead": "GHK-Cu is a tripeptide-copper complex with genuine wound-healing and remodelling biology. The cosmetic case is more interesting than most and the formulation pitfalls are worse — copper interacts unpredictably with most other actives, which is why it lives mostly on its own.",
+  "atGlance": [
+    [
+      "INCI",
+      "Copper tripeptide-1 / GHK-Cu"
+    ],
+    [
+      "Family",
+      "Peptide-metal complex"
+    ],
+    [
+      "Useful range",
+      "1 – 5%"
+    ],
+    [
+      "Vehicle",
+      "Aqueous serum, dedicated"
+    ],
+    [
+      "Pregnancy-safe",
+      "Limited data; cautious-OK topically"
+    ],
+    [
+      "Photo-stable",
+      "Stable in sealed packaging"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul · 16-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "What it is"
+    ],
+    [
+      "02",
+      "The wound-healing legacy"
+    ],
+    [
+      "03",
+      "Evidence overview"
+    ],
+    [
+      "04",
+      "Concentration & vehicle"
+    ],
+    [
+      "05",
+      "Why it lives alone"
+    ],
+    [
+      "06",
+      "Pairings & conflicts"
+    ],
+    [
+      "07",
+      "On our shelf"
+    ],
+    [
+      "08",
+      "FAQ"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "G",
+    "title": {
+      "plain": "What GHK-Cu",
+      "italic": "actually is."
+    },
+    "body": "HK-Cu is a copper-binding tripeptide (glycyl-histidyl-lysine) that occurs naturally in plasma and declines with age. Discovered in the 1970s, it has a respectable wound-healing pedigree: it modulates fibroblast and stem-cell behaviour, supports angiogenesis at injured sites, and influences a long list of skin-relevant genes. The cosmetic translation is real but narrower than the molecular literature suggests — most of the in-vitro effects do not survive the journey to a topical serum."
+  },
+  "mechanism": [
+    {
+      "k": "On wound healing",
+      "b": "Modulates collagen and elastin synthesis at injured tissue. Strongest evidence for surgical and post-procedure recovery."
+    },
+    {
+      "k": "On remodelling",
+      "b": "Supports MMP balance and dermal matrix turnover at sustained use."
+    },
+    {
+      "k": "On the barrier",
+      "b": "Indirect support via fibroblast signalling. Not a direct moisturiser."
+    }
+  ],
+  "evidence": [
+    {
+      "c": "Wound healing",
+      "n": "Clinical trials",
+      "w": "78%",
+      "note": "The strongest claim. Reproduced across decades of post-surgical and chronic-wound studies."
+    },
+    {
+      "c": "Wrinkles / firmness",
+      "n": "RCTs vs vehicle",
+      "w": "58%",
+      "note": "Modest cosmetic effect at 12+ weeks. Slower than retinoid; pairs with retinoid only via AM/PM split."
+    },
+    {
+      "c": "Hair follicle stimulation",
+      "n": "Smaller RCTs",
+      "w": "60%",
+      "note": "Off-label scalp applications show real but modest signal. Not minoxidil."
+    },
+    {
+      "c": "Tolerability",
+      "n": "VAS",
+      "w": "82%",
+      "note": "Well-tolerated when not stacked with conflicting actives."
+    }
+  ],
+  "concentration": [
+    {
+      "c": "1 – 3%",
+      "v": "Standard serum",
+      "b": "Where most clinical data lives. Single-active product, dedicated step."
+    },
+    {
+      "c": "5%",
+      "v": "Therapeutic",
+      "b": "Post-procedure or wound-care formulations."
+    },
+    {
+      "c": "Premium ampoules",
+      "v": "Marketing",
+      "b": "Above 5% rarely improves outcome; vehicle stability matters more."
+    }
+  ],
+  "pairings": [
+    {
+      "with": "Niacinamide",
+      "verdict": "Avoid layering",
+      "note": "Direct chelation; both reduced. Use opposite ends of routine if at all.",
+      "ok": false
+    },
+    {
+      "with": "Vitamin C (LAA)",
+      "verdict": "Avoid same step",
+      "note": "Redox conflict with copper ion; degrades both. AM C, PM copper peptide minimum.",
+      "ok": false
+    },
+    {
+      "with": "Retinoids",
+      "verdict": "Wait",
+      "note": "AM copper peptide, PM retinoid. Same-step layering is wasteful.",
+      "ok": false
+    },
+    {
+      "with": "AHAs / BHAs",
+      "verdict": "Avoid same step",
+      "note": "Low pH disrupts the copper-peptide complex. Always separate.",
+      "ok": false
+    },
+    {
+      "with": "Standalone use",
+      "verdict": "Best practice",
+      "note": "On its own, in a dedicated step, in a clean vehicle. The serum it deserves.",
+      "ok": true
+    }
+  ],
+  "products": [
+    {
+      "brand": "NIOD",
+      "name": "Copper Amino Isolate Serum 3:1:1",
+      "tier": "A",
+      "score": 84,
+      "note": "Reference. Two-bottle activation system; the only formulation that takes stability seriously."
+    },
+    {
+      "brand": "The Ordinary",
+      "name": "'Buffet' + Copper Peptides 1%",
+      "tier": "B",
+      "score": 70,
+      "note": "Affordable but the multi-peptide vehicle dilutes the copper case."
+    },
+    {
+      "brand": "Skin Biology",
+      "name": "Copper Peptide Serum",
+      "tier": "B",
+      "score": 76,
+      "note": "The original. Functional, dated formulation, but the dose is honest."
+    },
+    {
+      "brand": "Mad Hippie",
+      "name": "Hydra-Glow Copper Serum",
+      "tier": "C",
+      "score": 64,
+      "note": "Mixed-active product. Copper case gets buried."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Why can't I layer it with everything?",
+      "a": "Copper is a redox-active metal. It chelates niacinamide, oxidises vitamin C, and the peptide complex falls apart at low pH. The molecule is biologically interesting and chemically antisocial."
+    },
+    {
+      "q": "Will it actually firm my skin?",
+      "a": "Modestly, slowly, with consistent use over 16+ weeks. It is not a substitute for retinoids. It is a credible adjunct for users who want a wound-healing-pedigree active."
+    },
+    {
+      "q": "Is the wound-healing data real?",
+      "a": "Yes. Decades of evidence in surgical and chronic-wound contexts. Whether that translates fully to a cosmetic serum on intact skin is a different question."
+    },
+    {
+      "q": "Pregnancy?",
+      "a": "Limited topical-specific data. Generally considered cautious-OK at standard cosmetic concentrations; ask your OB if you want a definitive answer."
+    }
+  ],
+  "relatedIngredients": [
+    { "slug": "peptides-signal", "sub": "Peptides" },
+    "niacinamide",
+    { "slug": "exosomes", "sub": "Cell-derived vesicles" },
+    "ceramides"
+  ]
+}

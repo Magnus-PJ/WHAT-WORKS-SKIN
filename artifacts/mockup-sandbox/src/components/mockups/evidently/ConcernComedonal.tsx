@@ -1,0 +1,37 @@
+// ConcernComedonal — Comedonal acne guide.
+
+import React from "react";
+import { ConcernPage } from "./_concernTemplate";
+
+const ConcernComedonal: React.FC = () => (
+  <ConcernPage
+    pageSlug="ConcernComedonal"
+    slug="comedonal-acne"
+    title="Comedonal acne"
+    page="P. 06"
+    hero1="Blackheads, whiteheads,"
+    hero2="and the boring fix."
+    signs={[
+      { k: "Open comedones (blackheads) on nose, chin", w: "92%", n: "The brown / black colour is oxidised sebum, not dirt. Scrubbing makes the inflammation worse." },
+      { k: "Closed comedones (whiteheads) under chin / forehead", w: "78%", n: "Small, flesh-coloured, slightly raised. Often felt before they are seen — the gritty texture under fingertip." },
+      { k: "No redness, no tenderness", w: "85%", n: "If lesions are red or sore, you have moved into the inflammatory acne category — different protocol." },
+      { k: "Worsens with comedogenic moisturisers / makeup", w: "68%", n: "Particularly heavy oils, isopropyl myristate, and certain silicones. Non-comedogenic labelling is imperfect but useful." },
+    ]}
+    ingredients={[
+      { name: "Adapalene 0.1%", tier: "A", role: "Retinoid", evidence: "The OTC retinoid of choice for comedonal acne. 12-week ramp; pea-sized." },
+      { name: "Tretinoin 0.025%", tier: "A", role: "Retinoid", evidence: "Faster comedolytic action than adapalene; less tolerable in the first 6 weeks." },
+      { name: "Salicylic acid 2%", tier: "A", role: "Lipophilic exfoliant", evidence: "Best as a leave-on or 60-second cleanser; not as a daily toner." },
+      { name: "Azelaic 10%", tier: "B", role: "Comedolytic + anti-inflammatory", evidence: "Pregnancy-safe; gentler ramp than retinoids; slower endpoints." },
+      { name: "Niacinamide 4–10%", tier: "A", role: "Sebum modulation", evidence: "The supporting active. Useful daily; not a primary treatment." },
+    ]}
+    phases={[
+      { w: "Week 1–2", t: "Strip the routine", b: "Cleanser, lightweight gel moisturiser, fluid SPF. Stop scrubs, stop physical exfoliators, stop pore strips." },
+      { w: "Week 2–4", t: "Introduce retinoid", b: "Adapalene 0.1% pea-sized, 3 nights a week, on dry skin. Buffer with moisturiser." },
+      { w: "Week 4–12", t: "Build to nightly", b: "Alternate nights for 4 weeks, then nightly. Add salicylic 2% as a 60-second AM cleanser if needed." },
+      { w: "Month 4+", t: "Maintenance", b: "Most comedonal cases will plateau by month 4 on adapalene. Continue indefinitely; reduce to 4 nights / week if needed." },
+    ]}
+    bottom="A boring, retinoid-led protocol with a 12-week ramp will out-perform any toner-rich, scrubbing-heavy routine you can build. The only thing the trend is doing is selling you bottles."
+  />
+);
+
+export default ConcernComedonal;

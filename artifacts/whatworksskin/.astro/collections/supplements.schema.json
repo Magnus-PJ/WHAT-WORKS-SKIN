@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "family": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "dose": {
+      "type": "string"
+    },
+    "rxOnly": {
+      "type": "boolean"
+    },
+    "oneliner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "featured": {
+      "type": "boolean"
+    },
+    "pageRef": {
+      "type": "string"
+    },
+    "filed": {
+      "type": "string"
+    },
+    "eyebrow": {
+      "type": "string"
+    },
+    "headline": {
+      "type": "string"
+    },
+    "dek": {
+      "type": "string"
+    },
+    "subheadA": {
+      "type": "string"
+    },
+    "subheadB": {
+      "type": "string"
+    },
+    "bottom": {
+      "type": "string"
+    },
+    "glance": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "yr": {
+            "type": "string"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "design": {
+            "type": "string"
+          },
+          "dose": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "grade": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": {}
+      }
+    },
+    "forms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "dose": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ]
+          },
+          "f": {
+            "type": "string"
+          },
+          "abs": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": {}
+      }
+    },
+    "faq": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "q": {
+            "type": "string"
+          },
+          "a": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "q",
+          "a"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "slug",
+    "name",
+    "family",
+    "target",
+    "tier",
+    "oneliner"
+  ]
+}

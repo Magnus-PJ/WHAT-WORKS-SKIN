@@ -1,0 +1,387 @@
+---
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { url, home } from "@/lib/url";
+import { buildCitationIndex } from "@/lib/citations";
+import { loadTransparencyMeta, formatLongDate } from "@/lib/transparency";
+
+const transparencyMeta = await loadTransparencyMeta();
+const lastUpdated = transparencyMeta.pages.sources;
+const lastUpdatedLong = formatLongDate(lastUpdated);
+
+// "Sources" is the third transparency surface that the site's footer
+// links to. The editorial preamble below is preserved as the page
+// intro; underneath it we render the actual catalogue of citations
+// pulled from every published ingredient and product brief, deduped
+// and grouped by source family.
+const ingredients = await getCollection("ingredients");
+const products = await getCollection("products");
+const supplements = await getCollection("supplements");
+const concerns = await getCollection("concerns");
+const routines = await getCollection("routines");
+const trendWatch = await getCollection("trendWatch");
+const index = buildCitationIndex(
+  ingredients,
+  products,
+  supplements,
+  concerns,
+  routines,
+  trendWatch,
+  url,
+);
+const cc = index.contributingCounts;
+---
+<Base
+  title="Sources — What Works Skin"
+  description="Browseable index of every citation behind our published ingredient and product briefs, grouped by source family."
+>
+  <SiteHeader active="Methodology" />
+  <Breadcrumbs trail={[{ label: "Home", href: home }, { label: "Transparency" }, { label: "Sources" }]} />
+  <main class="wrap">
+    <div class="container">
+      <p class="eyebrow">Transparency · Sources</p>
+      <p class="last-updated" data-testid="page-last-updated">
+        <span class="last-updated-label">Last updated</span>
+        <time datetime={lastUpdated}>{lastUpdatedLong}</time>
+      </p>
+      <h1 class="title">Where the evidence <span class="ital">comes from.</span></h1>
+      <p class="lead">
+        This page is the catalogue of every actual citation behind our published briefs — {index.total} entries, deduped and grouped by source family. Each entry lists which briefs cite it. Contributing briefs: {cc.ingredient} ingredient, {cc.product} product, {cc.supplement} supplement, {cc.concern} concern, {cc.routine} routine, {cc.trendwatch} trend-watch. Ingredient briefs supply primary literature (PubMed-indexed studies); product briefs supply formulation and review references; the other surfaces add cross-references via an explicit <code class="inline-code">citations</code> field on the brief. Per-claim context still lives on the brief itself. The grading rubric is on the <a href={url("how-we-rate")} class="inline-link">how we rate</a> page, and the broader trust spine — principles, conflicts, cadence — on the <a href={url("methodology")} class="inline-link">methodology dossier</a>.
+      </p>
+
+      <nav class="toc" aria-label="Source families">
+        {index.byFamily.map((g) => (
+          <a class="toc-link" href={`#family-${g.family}`}>
+            <span class="toc-name">{g.label}</span>
+            <span class="toc-count">{g.items.length}</span>
+          </a>
+        ))}
+      </nav>
+
+      {index.byFamily.length === 0 && (
+        <p class="empty">No citations have been published yet.</p>
+      )}
+
+      {index.byFamily.map((g) => (
+        <section class="family" id={`family-${g.family}`}>
+          <header class="family-head">
+            <h2 class="family-h">{g.label}</h2>
+            <p class="family-b">{g.description}</p>
+          </header>
+          <ol class="cite-list">
+            {g.items.map((c, i) => (
+              <li class="cite" id={c.id}>
+                <div class="cite-no">№ {String(i + 1).padStart(2, "0")}</div>
+                <div class="cite-body">
+                  <p class="cite-label">{c.label}</p>
+                  <div class="cite-meta">
+                    {c.tag && <span class="cite-tag">{c.tag}</span>}
+                    {c.pmid && (
+                      <a class="cite-pmid" href={`https://pubmed.ncbi.nlm.nih.gov/${c.pmid}/`} rel="noopener">
+                        PMID {c.pmid} ↗
+                      </a>
+                    )}
+                  </div>
+                  <ul class="cited-by">
+                    {c.citedBy.map((b) => (
+                      <li>
+                        <a href={b.href} class="cited-link">
+                          <span class="cited-kind">{b.kind === "trendwatch" ? "Trend Watch" : b.kind.charAt(0).toUpperCase() + b.kind.slice(1)}</span>
+                          <span class="cited-title">{b.title}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))}
+
+      <section class="cascade">
+        <h2 class="cascade-h">When sources <span class="ital">disagree.</span></h2>
+        <p class="cascade-body">
+          The cascade is short and public. A vehicle-controlled, replicated RCT outranks a single open-label trial. A guideline body's recommendation outranks a brand technical sheet. A 2024 meta-analysis outranks a 2014 narrative review. Where the literature is genuinely mixed, the brief says so in the bottom-line verdict — not in the small print.
+        </p>
+        <p class="cascade-body">
+          When new evidence shifts the balance, the affected guide is re-graded under the published <a href={url("methodology")} class="inline-link">review cadence</a> and any tier change is logged in the <a href={url("corrections")} class="inline-link">corrections record</a>.
+        </p>
+      </section>
+
+      <section class="more">
+        <p class="more-eyebrow">Spotted a citation we missed?</p>
+        <p class="more-body">
+          We treat reader-flagged sources the same as internally-found ones. If a recent trial would change a tier, write to the editors at editorial@whatworksskin.com — we will read it, and if it changes anything, the correction goes in the public log.
+        </p>
+        <a href={url("corrections")} class="more-cta">Read the corrections log →</a>
+      </section>
+    </div>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .wrap { padding-block: 80px; }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+
+  .eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .title {
+    margin: 24px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(48px, 8vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .lead {
+    margin: 32px 0 0;
+    max-width: 44rem;
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .lead em { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+  .inline-link { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+
+  .last-updated {
+    margin: 16px 0 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .last-updated-label { color: var(--muted); }
+  .last-updated time { color: var(--ink); font-family: var(--font-serif); font-size: 13px; letter-spacing: 0; text-transform: none; }
+  .last-updated-sep { color: var(--rule); }
+  .inline-code { font-family: var(--font-mono); font-size: 0.92em; background: var(--paper2); padding: 1px 6px; border: 1px solid var(--rule); border-radius: 2px; }
+
+  .toc {
+    margin: 48px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .toc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border: 1px solid var(--rule);
+    background: var(--paper2);
+    border-radius: 2px;
+    text-decoration: none;
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .toc-name { text-transform: uppercase; font-weight: 600; }
+  .toc-count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    padding: 2px 6px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+  }
+
+  .empty {
+    margin-top: 48px;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .family {
+    margin-top: 64px;
+    border-top: 1px solid var(--rule);
+    padding-top: 40px;
+    scroll-margin-top: 40px;
+  }
+  .family-head { margin-bottom: 32px; }
+  .family-h {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 4vw, 36px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .family-b {
+    margin: 12px 0 0;
+    max-width: 44rem;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .cite-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .cite {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    border-bottom: 1px solid var(--rule);
+    padding-block: 24px;
+    scroll-margin-top: 80px;
+  }
+  @media (min-width: 768px) {
+    .cite { grid-template-columns: 100px 1fr; gap: 32px; }
+  }
+  .cite:target { background: var(--paper2); padding-inline: 16px; margin-inline: -16px; }
+  .cite-no {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .cite-label {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .cite-meta {
+    margin: 8px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .cite-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: var(--paper2);
+  }
+  .cite-pmid {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .cited-by {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .cited-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 4px 10px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: var(--paper);
+    text-decoration: none;
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 12px;
+  }
+  .cited-link:hover { background: var(--paper2); }
+  .cited-kind {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .cited-title { color: var(--ink); }
+
+  .cascade {
+    margin-top: 64px;
+    border-top: 1px solid var(--rule);
+    padding-top: 40px;
+  }
+  .cascade-h {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(32px, 5vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .cascade-body {
+    margin: 24px 0 0;
+    max-width: 44rem;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  .more {
+    margin-top: 80px;
+    border-top: 1px solid var(--rule);
+    padding-top: 40px;
+  }
+  .more-eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .more-body {
+    margin: 16px 0 0;
+    max-width: 44rem;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .more-cta {
+    display: inline-block;
+    margin-top: 20px;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+</style>

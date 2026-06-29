@@ -1,0 +1,44 @@
+{
+  "slug": "issue-012",
+  "n": 12,
+  "date": "23 March 2026",
+  "year": 2026,
+  "headline": "The collagen drink question, finally settled",
+  "dek": "A meta-analysis dropped. We read all 19 trials. Here is what they actually say.",
+  "signed": "Dr. Sundeep",
+  "pageRef": "P. 12",
+  "eyebrow": "Trend Watch · Issue 012 · 23 March 2026",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "Liquid Collagen Drinks",
+      "tier": "C",
+      "verdict": "Marketing Premium",
+      "color": "",
+      "body": [
+        "Most beauty 'collagen drinks' (Hum, Vital, Crushed Tonic) deliver 5–10 g of collagen peptides identical to powder format, plus added sugar, flavours, and ₹ 200 per dose of bottling cost. The active ingredient works (see our ",
+        { "text": "Collagen Peptides brief", "kind": "supplement", "slug": "collagen-peptides" },
+        ") — the delivery format is a tax. Powder, mixed into coffee, gives the same endpoint at one-third the cost."
+      ],
+      "bottom": "Same molecule. 3× the price. Buy the powder."
+    },
+    {
+      "n": "02",
+      "name": "Topical Exosomes (post-procedure)",
+      "tier": "C",
+      "verdict": "Premature",
+      "color": "",
+      "body": "Exosomes are nano-vesicles released by cells; in vitro and animal data on wound healing are genuinely interesting. Human topical-cosmetic data is, at this point, very thin — no large RCTs, regulatory frameworks unclear, and the 'plant-derived exosomes' marketed by most clinics may not be exosomes at all by accepted molecular biology criteria. Charging ₹ 25,000 per facial for a poorly characterised ingredient is, kindly, premature.",
+      "bottom": "Wait for the human RCTs. Save the money for sunscreen."
+    },
+    {
+      "n": "03",
+      "name": "Skin-Gut Axis Probiotics (oral)",
+      "tier": "C",
+      "verdict": "Promising, Unclear",
+      "color": "",
+      "body": "The skin-gut-microbiome axis is real and an active research area. The available human RCTs of oral probiotics (Lactobacillus rhamnosus, Bifidobacterium) for atopic dermatitis show modest improvement in children; adult skin-condition data is much thinner. The marketing has galloped well ahead of the literature. If you have eczema-prone children, worth a conversation with your derm. For adult 'glow' — the evidence does not yet support the spend.",
+      "bottom": "Real research direction. Premature consumer market. Wait three years."
+    }
+  ]
+}

@@ -1,0 +1,1110 @@
+---
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import PaperEffects from "@/components/PaperEffects.astro";
+import AmbientFlask from "@/components/AmbientFlask.astro";
+import TierBadge from "@/components/TierBadge.astro";
+import { url } from "@/lib/url";
+
+const ingredients = await getCollection("ingredients");
+ingredients.sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+// Latest Trend Watch issue: highest issue number wins.
+const trendIssues = await getCollection("trendWatch");
+trendIssues.sort((a, b) => b.data.n - a.data.n);
+const latestIssue = trendIssues[0];
+const heroEyebrow = latestIssue
+  ? `Issue ${String(latestIssue.data.n).padStart(3, "0")} · ${latestIssue.data.date}`
+  : "Independent · Evidence-first";
+
+// Editor-curated picks come from the `featured: true` flag on each
+// catalogue entry's JSON file. The fallback below keeps the grid
+// fully populated when fewer than three entries are flagged, so an
+// editor demoting a brief never leaves a hole on the home page.
+const FEATURED_PER_BAND = 3;
+const pickFeatured = <T extends { data: { featured?: boolean } }>(
+  all: T[],
+  fallbackSort: (a: T, b: T) => number,
+  cap: number = FEATURED_PER_BAND,
+): T[] => {
+  const flagged = all.filter((e) => e.data.featured === true);
+  flagged.sort(fallbackSort);
+  const picks = flagged.slice(0, cap);
+  if (picks.length < cap) {
+    const fallback = [...all].sort(fallbackSort);
+    for (const e of fallback) {
+      if (picks.length >= cap) break;
+      if (!picks.includes(e)) picks.push(e);
+    }
+  }
+  return picks;
+};
+
+// Featured concerns: editor flag first, alphabetical by name to fill.
+const concernsAll = await getCollection("concerns");
+const concernsBySlug = new Map(concernsAll.map((e) => [e.data.slug, e]));
+const featuredConcerns = pickFeatured(concernsAll, (a, b) =>
+  a.data.name.localeCompare(b.data.name),
+);
+
+// Featured routines: editor flag first, alphabetical by sub-line to fill.
+const routinesAll = await getCollection("routines");
+const featuredRoutines = pickFeatured(routinesAll, (a, b) =>
+  a.data.sub.localeCompare(b.data.sub),
+);
+
+const tierRank: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
+
+// Featured ingredient briefs: editor flag first, then tier A →
+// alphabetical to fill, capped at six so the grid stays two rows.
+const featuredIngredients = pickFeatured(
+  ingredients,
+  (a, b) => {
+    const t = (tierRank[a.data.tier] ?? 9) - (tierRank[b.data.tier] ?? 9);
+    if (t !== 0) return t;
+    return a.data.name.localeCompare(b.data.name);
+  },
+  6,
+);
+
+// Featured products: editor flag first, then tier A → score desc to fill.
+const productsAll = await getCollection("products");
+const featuredProducts = pickFeatured(productsAll, (a, b) => {
+  const t = (tierRank[a.data.tier] ?? 9) - (tierRank[b.data.tier] ?? 9);
+  if (t !== 0) return t;
+  const sa = a.data.score ?? -Infinity;
+  const sb = b.data.score ?? -Infinity;
+  return sb - sa;
+});
+
+// Featured supplements: editor flag first, then tier A → alphabetical.
+const supplementsAll = await getCollection("supplements");
+const featuredSupplements = pickFeatured(supplementsAll, (a, b) => {
+  const t = (tierRank[a.data.tier] ?? 9) - (tierRank[b.data.tier] ?? 9);
+  if (t !== 0) return t;
+  return a.data.name.localeCompare(b.data.name);
+});
+
+// In-focus picks: each band gets a depth-anchored card alongside its
+// grid. Picks rotate per issue so consecutive fortnightly issues
+// surface different briefs to returning readers. The rotation is
+// deterministic — derived from the latest issue number — so the same
+// issue always lands on the same picks across rebuilds. Editors can
+// pin a specific brief for an issue via the trendWatch entry's
+// `focus: { concern, product, supplement }` field; pinned slugs must
+// still pass the band's rich-data check, otherwise we fall through
+// to the auto-rotation so the page doesn't render half-empty.
+const featuredConcernSlugs = new Set(featuredConcerns.map((e) => e.data.slug));
+const featuredProductSlugs = new Set(featuredProducts.map((e) => e.data.slug));
+const featuredSupplementSlugs = new Set(featuredSupplements.map((e) => e.data.slug));
+
+// Issue 0 keeps the rotation deterministic (always picks the first
+// pool entry) when no Trend Watch issue is published yet.
+const issueIndex = latestIssue?.data.n ?? 0;
+const issueOverride = latestIssue?.data.focus ?? {};
+
+// Build the per-band rotation pool: editor-curated preferred slugs
+// first (in the order they were listed), then any other focus-ready
+// entries appended in a deterministic fallback order. Entries already
+// pinned into the band's featured grid below are excluded so the same
+// brief never appears twice on the page.
+const buildRotationPool = <T extends { data: { slug: string } }>(
+  preferredSlugs: readonly string[],
+  bySlug: Map<string, T>,
+  all: readonly T[],
+  isFocusReady: (e: T) => boolean,
+  gridSlugs: Set<string>,
+  fallbackSort: (a: T, b: T) => number,
+): T[] => {
+  const pool: T[] = [];
+  const seen = new Set<string>();
+  for (const s of preferredSlugs) {
+    const e = bySlug.get(s);
+    if (!e || seen.has(s)) continue;
+    if (!isFocusReady(e) || gridSlugs.has(s)) continue;
+    pool.push(e);
+    seen.add(s);
+  }
+  for (const e of [...all].sort(fallbackSort)) {
+    if (seen.has(e.data.slug)) continue;
+    if (!isFocusReady(e) || gridSlugs.has(e.data.slug)) continue;
+    pool.push(e);
+    seen.add(e.data.slug);
+  }
+  return pool;
+};
+
+// Editor override wins when the pinned slug renders cleanly; otherwise
+// we drop back to `pool[issueIndex % pool.length]` so the card always
+// has rich data to display.
+const pickFocus = <T extends { data: { slug: string } }>(
+  pool: T[],
+  bySlug: Map<string, T>,
+  override: string | undefined,
+  isFocusReady: (e: T) => boolean,
+): T | undefined => {
+  if (override) {
+    const e = bySlug.get(override);
+    if (e && isFocusReady(e)) return e;
+  }
+  if (pool.length === 0) return undefined;
+  return pool[issueIndex % pool.length];
+};
+
+const concernFocusPreferred = ["eczema", "pih", "sun-spots", "post-procedure", "comedonal-acne"];
+const concernIsFocusReady = (e: (typeof concernsAll)[number]): boolean =>
+  Array.isArray(e.data.triggers) &&
+  e.data.triggers.length > 0 &&
+  typeof e.data.bottom === "string" &&
+  e.data.bottom.length > 0;
+const concernRotation = buildRotationPool(
+  concernFocusPreferred,
+  concernsBySlug,
+  concernsAll,
+  concernIsFocusReady,
+  featuredConcernSlugs,
+  (a, b) => a.data.name.localeCompare(b.data.name),
+);
+const focusConcern = pickFocus(
+  concernRotation,
+  concernsBySlug,
+  issueOverride.concern,
+  concernIsFocusReady,
+);
+const focusConcernTriggers = focusConcern?.data.triggers?.slice(0, 3) ?? [];
+
+const productFocusPreferred = [
+  "paulas-choice-2-bha-liquid-exfoliant",
+  "skinceuticals-c-e-ferulic",
+  "deconstruct-azelaic-15-booster",
+  "the-ordinary-azelaic-acid-suspension-10",
+  "minimalist-tranexamic-03",
+];
+const productsBySlug = new Map(productsAll.map((e) => [e.data.slug, e]));
+const productIsFocusReady = (e: (typeof productsAll)[number]): boolean =>
+  e.data.tier === "A" &&
+  typeof e.data.score === "number" &&
+  Array.isArray(e.data.scoreBreakdown) &&
+  e.data.scoreBreakdown.length > 0;
+const productRotation = buildRotationPool(
+  productFocusPreferred,
+  productsBySlug,
+  productsAll,
+  productIsFocusReady,
+  featuredProductSlugs,
+  (a, b) => (b.data.score ?? 0) - (a.data.score ?? 0),
+);
+const focusProduct = pickFocus(
+  productRotation,
+  productsBySlug,
+  issueOverride.product,
+  productIsFocusReady,
+);
+const focusProductRows = focusProduct?.data.scoreBreakdown ?? [];
+
+// Reality check: prefer a tier-D so the home page grades shiny marketing,
+// not just molecules that work. Needs bar-shape evidence + bottom line.
+const supplementFocusPreferred = [
+  "glutathione-iv",
+  "sea-moss",
+  "exosome-oral",
+  "biotin",
+  "marine-collagen-mega",
+];
+const supplementsBySlug = new Map(supplementsAll.map((e) => [e.data.slug, e]));
+const supplementIsFocusReady = (e: (typeof supplementsAll)[number]): boolean =>
+  Array.isArray(e.data.evidence) &&
+  e.data.evidence.length > 0 &&
+  e.data.evidence.every((x) => typeof x.c === "string" && typeof x.w === "string") &&
+  typeof e.data.bottom === "string" &&
+  e.data.bottom.length > 0;
+const supplementRotation = buildRotationPool(
+  supplementFocusPreferred,
+  supplementsBySlug,
+  supplementsAll,
+  supplementIsFocusReady,
+  featuredSupplementSlugs,
+  (a, b) => a.data.name.localeCompare(b.data.name),
+);
+const focusSupplement = pickFocus(
+  supplementRotation,
+  supplementsBySlug,
+  issueOverride.supplement,
+  supplementIsFocusReady,
+);
+const focusSupplementRows = focusSupplement?.data.evidence?.slice(0, 3) ?? [];
+const isPercent = (s: string | undefined): boolean =>
+  typeof s === "string" && /^\d{1,3}(\.\d+)?%$/.test(s.trim());
+---
+<Base title="What Works Skin — Independent, evidence-first skincare reference">
+  <SiteHeader active="Home" />
+  <main>
+    <section class="hero">
+      <PaperEffects vignette columns columnsOpacity={0.32} />
+      <div class="flask"><AmbientFlask size={520} opacity={0.05} /></div>
+      <div class="container">
+        <p class="eyebrow">{heroEyebrow}</p>
+        <h1 class="h1">
+          Skincare, graded by <span class="ital">the evidence.</span>
+        </h1>
+        <p class="lead">
+          An independent, ad-free reference led by Dr. Paul (Research) and Dr. Sundeep (Medical Review). Ingredients, products, routines, supplements, and the trends in your inbox — every one rated by the strength of the trials behind it, not the brand behind it.
+        </p>
+        <div class="cta">
+          <a href={url("ingredients")} class="btn-primary">Browse ingredients →</a>
+          <a href={url("trend-watch")} class="btn-ghost">Latest Trend Watch</a>
+        </div>
+      </div>
+    </section>
+
+    {latestIssue && (
+      <section class="band trend-band">
+        <div class="container">
+          <div class="band-head">
+            <p class="band-eyebrow">In this issue · Trend Watch</p>
+            <a href={url("trend-watch")} class="band-link">All issues →</a>
+          </div>
+          <a href={url(`trend-watch/${latestIssue.data.slug}`)} class="trend-card">
+            <div class="trend-meta">
+              <span class="trend-num">№ {String(latestIssue.data.n).padStart(3, "0")}</span>
+              <span class="trend-date">{latestIssue.data.date}</span>
+            </div>
+            <h2 class="trend-headline">{latestIssue.data.headline}</h2>
+            <p class="trend-dek">{latestIssue.data.dek}</p>
+            {latestIssue.data.verdicts && latestIssue.data.verdicts.length > 0 && (
+              <ul class="verdicts">
+                {latestIssue.data.verdicts.slice(0, 3).map((v) => (
+                  <li>
+                    <span class="verdict-name">{v.name}</span>
+                    <span class="verdict-call">{v.verdict}</span>
+                    {v.bottom && (
+                      <span class="verdict-bottom">{v.bottom}</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {latestIssue.data.signed && (
+              <p class="trend-signed">Signed — {latestIssue.data.signed}</p>
+            )}
+          </a>
+        </div>
+      </section>
+    )}
+
+    <section class="band band-alt">
+      <div class="container">
+        <div class="band-head">
+          <p class="band-eyebrow">Browse · Ingredients</p>
+          <a href={url("ingredients")} class="band-link">All {ingredients.length} briefs →</a>
+        </div>
+        <h2 class="band-title">Actives, <span class="ital">graded by the evidence</span></h2>
+        <ul class="grid">
+          {featuredIngredients.map((entry) => (
+            <li>
+              <a href={url(`ingredients/${entry.data.slug}`)} class="card">
+                <div class="card-head">
+                  <span class="kicker">{entry.data.eyebrowKicker}</span>
+                  <TierBadge tier={entry.data.tier} />
+                </div>
+                <div class="card-name">{entry.data.name}</div>
+                {entry.data.tagline ? (
+                  <p class="card-tagline"><span class="ital">{entry.data.tagline.italic}</span> {entry.data.tagline.rest}</p>
+                ) : entry.data.chemistry ? (
+                  <p class="card-tagline"><span class="ital" set:html={entry.data.chemistry} /></p>
+                ) : (
+                  <p class="card-tagline clamp">{entry.data.lead}</p>
+                )}
+                <div class="card-foot">
+                  <span class="num">{entry.data.number}</span>
+                  <span>Filed {entry.data.filed}</span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="container">
+        <div class="band-head">
+          <p class="band-eyebrow">Browse · Concerns</p>
+          <a href={url("concerns")} class="band-link">All concerns →</a>
+        </div>
+        <h2 class="band-title">Protocols by <span class="ital">concern</span></h2>
+
+        {focusConcern && (
+          <a href={url(`concerns/${focusConcern.data.slug}`)} class="focus-card focus-concern">
+            <div class="focus-head">
+              <p class="focus-eyebrow">Brief in focus · {focusConcern.data.family}</p>
+              <div class="focus-meta">
+                {focusConcern.data.reviewer && <span>{focusConcern.data.reviewer}</span>}
+                {focusConcern.data.filed && <span>Filed {focusConcern.data.filed}</span>}
+              </div>
+            </div>
+            <h3 class="focus-h">{focusConcern.data.name}.</h3>
+            <p class="focus-tag"><span class="ital">{focusConcern.data.oneliner}</span></p>
+            <p class="focus-dek">{focusConcern.data.dek}</p>
+            {focusConcernTriggers.length > 0 && (
+              <div class="focus-bars">
+                <p class="focus-section-eyebrow">Triggers worth tracking</p>
+                {focusConcernTriggers.map((t) => (
+                  <div class="bar-row">
+                    <div class="bar-key">{t.k}</div>
+                    <div class="bar-track"><div class="bar-fill" style={`width:${t.w}`} /></div>
+                    <div class="bar-pct">{t.w}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {focusConcern.data.bottom && (
+              <div class="focus-bottom">
+                <p class="focus-section-eyebrow">Bottom line</p>
+                <p class="focus-bottom-body">{focusConcern.data.bottom}</p>
+              </div>
+            )}
+            <p class="focus-cta">Read the full brief →</p>
+          </a>
+        )}
+
+        <ul class="grid">
+          {featuredConcerns.map((entry) => (
+            <li>
+              <a href={url(`concerns/${entry.data.slug}`)} class="card">
+                <span class="kicker">{entry.data.family}</span>
+                <div class="card-name">{entry.data.name}</div>
+                <p class="card-tagline">{entry.data.oneliner}</p>
+                <div class="card-foot">
+                  {entry.data.reviewer && <span>{entry.data.reviewer}</span>}
+                  {entry.data.filed && <span>Filed {entry.data.filed}</span>}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="band band-alt">
+      <div class="container">
+        <div class="band-head">
+          <p class="band-eyebrow">Browse · Routines</p>
+          <a href={url("routines")} class="band-link">All routines →</a>
+        </div>
+        <h2 class="band-title">Step-by-step, <span class="ital">not influencer-led</span></h2>
+        <ul class="grid">
+          {featuredRoutines.map((entry) => (
+            <li>
+              <a href={url(`routines/${entry.data.slug}`)} class="card">
+                <span class="kicker accent">{entry.data.sub}</span>
+                <div class="card-name">{entry.data.title}</div>
+                {entry.data.body && <p class="card-tagline">{entry.data.body}</p>}
+                <div class="card-foot meta-row">
+                  {typeof entry.data.stepCount === "number" && <span>{entry.data.stepCount} steps</span>}
+                  {typeof entry.data.minutes === "number" && <span>{entry.data.minutes} min</span>}
+                  {entry.data.difficulty && <span>{entry.data.difficulty}</span>}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="container">
+        <div class="band-head">
+          <p class="band-eyebrow">Browse · Products</p>
+          <a href={url("products")} class="band-link">All products →</a>
+        </div>
+        <h2 class="band-title">Highest-tier <span class="ital">products</span></h2>
+
+        {focusProduct && (
+          <a href={url(`products/${focusProduct.data.slug}`)} class="focus-card focus-product">
+            <div class="focus-head">
+              <p class="focus-eyebrow">On review · Tier-A product</p>
+              <div class="focus-meta">
+                {focusProduct.data.pageRef && <span>{focusProduct.data.pageRef} · REVIEW</span>}
+                {focusProduct.data.filed && <span>Filed {focusProduct.data.filed}</span>}
+              </div>
+            </div>
+            <div class="focus-product-row">
+              <div class="focus-product-name">
+                <p class="focus-brand">{focusProduct.data.brand}</p>
+                <h3 class="focus-h">{focusProduct.data.name}.</h3>
+                {focusProduct.data.hero && <p class="focus-dek clamp">{focusProduct.data.hero}</p>}
+              </div>
+              {typeof focusProduct.data.score === "number" && (
+                <div class="focus-score">
+                  <TierBadge tier={focusProduct.data.tier} size="md" />
+                  <span class="focus-score-num">{focusProduct.data.score}<span class="focus-score-max">⁄{focusProduct.data.maxScore ?? 100}</span></span>
+                </div>
+              )}
+            </div>
+            {focusProductRows.length > 0 && (
+              <div class="focus-bars">
+                <p class="focus-section-eyebrow">The scorecard</p>
+                {focusProductRows.map((row) => {
+                  const pct = row.v && row.max ? Math.round((row.v / row.max) * 100) : 0;
+                  return (
+                    <div class="bar-row">
+                      <div class="bar-key">{row.k}</div>
+                      <div class="bar-track"><div class="bar-fill" style={`width:${pct}%`} /></div>
+                      <div class="bar-pct">{row.v ?? 0}<span class="bar-pct-max">⁄{row.max ?? 0}</span></div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            <p class="focus-cta">Read the full review →</p>
+          </a>
+        )}
+
+        <ul class="grid">
+          {featuredProducts.map((entry) => (
+            <li>
+              <a href={url(`products/${entry.data.slug}`)} class="card">
+                <div class="card-head">
+                  <span class="kicker">{entry.data.brand}</span>
+                  <TierBadge tier={entry.data.tier} />
+                </div>
+                <div class="card-name">{entry.data.name}</div>
+                {entry.data.hero && <p class="card-tagline clamp">{entry.data.hero}</p>}
+                <div class="card-foot">
+                  {typeof entry.data.score === "number" && (
+                    <span class="score">{entry.data.score}<span class="score-max">⁄{entry.data.maxScore ?? 100}</span></span>
+                  )}
+                  {entry.data.filed && <span>Filed {entry.data.filed}</span>}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="band band-alt">
+      <div class="container">
+        <div class="band-head">
+          <p class="band-eyebrow">Browse · Supplements</p>
+          <a href={url("supplements")} class="band-link">All supplements →</a>
+        </div>
+        <h2 class="band-title">Oral, <span class="ital">graded honestly</span></h2>
+
+        {focusSupplement && (
+          <a href={url(`supplements/${focusSupplement.data.slug}`)} class="focus-card focus-supplement">
+            <div class="focus-head">
+              <p class="focus-eyebrow">Reality check · {focusSupplement.data.family}</p>
+              <div class="focus-meta">
+                <TierBadge tier={focusSupplement.data.tier} />
+                {focusSupplement.data.filed && <span>Filed {focusSupplement.data.filed}</span>}
+              </div>
+            </div>
+            <h3 class="focus-h">{focusSupplement.data.name}.</h3>
+            <p class="focus-tag"><span class="ital">{focusSupplement.data.oneliner}</span></p>
+            {focusSupplement.data.dek && <p class="focus-dek clamp">{focusSupplement.data.dek}</p>}
+            {focusSupplementRows.length > 0 && (
+              <div class="focus-bars">
+                <p class="focus-section-eyebrow">What the literature shows</p>
+                {focusSupplementRows.map((t) => {
+                  const w = typeof t.w === "string" ? t.w.trim() : "";
+                  const pct = isPercent(w);
+                  return (
+                    <div class="bar-row">
+                      <div class="bar-key">
+                        <div>{t.c}</div>
+                        {t.n && <div class="bar-key-sub">{t.n}</div>}
+                      </div>
+                      <div class={`bar-track${pct ? "" : " bar-track-caution"}`}>
+                        {pct && <div class="bar-fill" style={`width:${w}`} />}
+                      </div>
+                      <div class={`bar-pct${pct ? "" : " bar-pct-caution"}`}>{w}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {focusSupplement.data.bottom && (
+              <div class="focus-bottom">
+                <p class="focus-section-eyebrow">Bottom line</p>
+                <p class="focus-bottom-body">{focusSupplement.data.bottom}</p>
+              </div>
+            )}
+            <p class="focus-cta">Read the full brief →</p>
+          </a>
+        )}
+
+        <ul class="grid">
+          {featuredSupplements.map((entry) => (
+            <li>
+              <a href={url(`supplements/${entry.data.slug}`)} class="card">
+                <div class="card-head">
+                  <span class="kicker">{entry.data.target}</span>
+                  <TierBadge tier={entry.data.tier} />
+                </div>
+                <div class="card-name">{entry.data.name}</div>
+                <p class="card-tagline">{entry.data.oneliner}</p>
+                <div class="card-foot meta-row">
+                  {entry.data.dose && <span>{entry.data.dose}</span>}
+                  {entry.data.rxOnly && <span class="rx">Rx</span>}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="strip">
+      <div class="container">
+        <div class="strip-row">
+          <p class="strip-eyebrow">Live now</p>
+          <h2 class="strip-h">
+            <a href={url("ingredients")}>{ingredients.length} ingredient {ingredients.length === 1 ? "brief" : "briefs"} — graded</a>
+          </h2>
+          <p class="strip-sub">Each one with mechanism, trials, concentration ranges, pairings, and shelf picks.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: 96px 64px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .flask { position: absolute; right: -64px; top: -64px; z-index: 0; }
+  .eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+  .h1 {
+    margin: 24px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(56px, 10vw, 116px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    position: relative;
+    z-index: 1;
+    max-width: 60rem;
+  }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+  .lead {
+    margin: 36px 0 0;
+    max-width: 40rem;
+    font-family: var(--font-serif);
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    position: relative;
+    z-index: 1;
+  }
+  .cta {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .btn-primary, .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--ink); color: var(--paper); border: 1px solid var(--ink); }
+  .btn-ghost { border: 1px solid var(--rule); color: var(--ink); background: transparent; }
+
+  /* Department bands (Concerns / Routines / Products / Supplements) */
+  .band { padding-block: 72px; border-bottom: 1px solid var(--rule); }
+  .band-alt { background: var(--paper2); }
+  .band-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .band-eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .band-link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 2px;
+  }
+  .band-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .band-title {
+    margin: 16px 0 32px;
+    font-family: var(--font-serif);
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+
+  /* Card grid — patterned on the catalogue index pages so the visual
+     language stays continuous from home → section → detail. */
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  .card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    padding: 28px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink);
+    height: 100%;
+    transition: background 0.15s ease;
+  }
+  .band-alt .card { background: var(--paper); }
+  .card:hover { background: var(--paper2); }
+  .band-alt .card:hover { background: var(--paper); }
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+  .kicker.accent { color: var(--accent); }
+  .card-name {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+    margin-top: 12px;
+  }
+  .card-head + .card-name { margin-top: 0; }
+  .card-tagline {
+    margin: 12px 0 0;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .card-tagline.clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-foot {
+    margin-top: auto;
+    padding-top: 20px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px solid var(--rule-soft);
+    margin-top: 24px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .card-foot.meta-row { flex-wrap: wrap; justify-content: flex-start; }
+  .score {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144;
+    text-transform: none;
+  }
+  .score-max { font-size: 11px; color: var(--muted-soft); margin-left: 2px; }
+  .rx { color: var(--accent); }
+
+  /* Trend Watch feature card */
+  .trend-band { padding-block: 72px; }
+  .trend-card {
+    display: block;
+    margin-top: 28px;
+    padding: 40px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    text-decoration: none;
+    color: var(--ink);
+    transition: background 0.15s ease;
+  }
+  .trend-card:hover { background: var(--paper2); }
+  .trend-meta { display: flex; align-items: baseline; gap: 24px; }
+  .trend-num {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144;
+  }
+  .trend-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .trend-headline {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-weight: 400;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    max-width: 56rem;
+  }
+  .trend-dek {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 56rem;
+  }
+  .verdicts {
+    list-style: none;
+    margin: 28px 0 0;
+    padding: 24px 0 0;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 768px) { .verdicts { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+  .verdicts li { display: flex; flex-direction: column; gap: 4px; }
+  .verdict-name {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .verdict-call {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .verdict-bottom {
+    margin-top: 2px;
+    font-family: var(--font-serif);
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+  .trend-signed {
+    margin: 24px 0 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+  }
+
+  /* In-focus feature cards (Concern · Product · Supplement) */
+  .focus-card {
+    display: block;
+    margin: 0 0 32px;
+    padding: 36px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    text-decoration: none;
+    color: var(--ink);
+    transition: background 0.15s ease;
+  }
+  .band-alt .focus-card { background: var(--paper); }
+  .focus-card:hover { background: var(--paper2); }
+  .band-alt .focus-card:hover { background: var(--paper); }
+  .focus-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .focus-eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .focus-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .focus-h {
+    margin: 24px 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 5.5vw, 56px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    font-weight: 400;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    max-width: 48rem;
+  }
+  .focus-tag {
+    margin: 16px 0 0;
+    font-family: var(--font-serif-ed);
+    font-size: 22px;
+    letter-spacing: -0.015em;
+    color: var(--accent);
+  }
+  .focus-tag .ital { font-style: italic; }
+  .focus-dek {
+    margin: 16px 0 0;
+    max-width: 48rem;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .focus-dek.clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Product variant — name + score sit side-by-side at the top */
+  .focus-product-row {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .focus-product-row { grid-template-columns: 1fr auto; }
+  }
+  .focus-product-name .focus-h { margin-top: 0; }
+  .focus-brand {
+    margin: 0 0 8px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .focus-score {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  @media (min-width: 768px) { .focus-score { align-items: flex-end; } }
+  .focus-score-num {
+    font-family: var(--font-serif);
+    font-size: 56px;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    font-variation-settings: "opsz" 144;
+    line-height: 1;
+  }
+  .focus-score-max {
+    font-size: 16px;
+    color: var(--muted-soft);
+    margin-left: 2px;
+    letter-spacing: 0;
+  }
+
+  /* Bar previews shared by all three focus cards */
+  .focus-bars {
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .focus-section-eyebrow {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .bar-row { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) minmax(0, 1.5fr); gap: 24px; }
+  }
+  .bar-key {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .bar-key-sub {
+    margin-top: 2px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .bar-track {
+    height: 6px;
+    width: 100%;
+    background: var(--rule-soft);
+  }
+  .bar-track-caution { background: transparent; border-bottom: 1px dashed var(--rule); }
+  .bar-fill { height: 100%; background: var(--accent); }
+  .bar-pct {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144;
+    text-align: left;
+  }
+  @media (min-width: 768px) { .bar-pct { text-align: right; } }
+  .bar-pct-max {
+    font-size: 11px;
+    color: var(--muted-soft);
+    margin-left: 2px;
+  }
+  .bar-pct-caution { color: var(--muted-soft); font-style: italic; font-size: 14px; }
+
+  /* Bottom-line callout (shared) */
+  .focus-bottom {
+    margin-top: 28px;
+    padding: 18px 24px;
+    background: var(--paper2);
+    border-left: 4px solid var(--accent);
+  }
+  .band-alt .focus-bottom { background: var(--paper); }
+  .focus-bottom-body {
+    margin: 8px 0 0;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.55;
+    max-width: 48rem;
+  }
+
+  .focus-cta {
+    margin: 32px 0 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* Existing ingredients live-now strip */
+  .strip {
+    padding-block: 32px;
+    background: var(--paper2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .strip-row { display: flex; flex-direction: column; gap: 8px; }
+  .strip-eyebrow {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .strip-h {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    font-variation-settings: "opsz" 144;
+  }
+  .strip-h a { text-decoration: none; color: inherit; }
+  .strip-h a:hover { color: var(--accent); }
+  .strip-sub {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--muted);
+  }
+</style>

@@ -1,0 +1,31 @@
+{
+  "slug": "issue-011",
+  "n": 11,
+  "date": "09 March 2026",
+  "year": 2026,
+  "headline": "Bakuchiol vs retinol, take three. New data from Seoul.",
+  "dek": "Twelve-week split-face trial, 84 participants. The result is more interesting than the headline.",
+  "signed": "Dr. Paul",
+  "pageRef": "P. 11",
+  "eyebrow": "Trend Watch · Issue 011 · 09 March 2026",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "Bakuchiol 0.5% nightly",
+      "tier": "B",
+      "verdict": "Holds Up",
+      "color": "",
+      "body": "The new 12-week split-face trial out of Seoul (n=84) found bakuchiol 0.5% produced a measurable, if modest, improvement in fine lines and pigmentation when applied nightly. It does not match a 0.025% tretinoin in head-to-head endpoints, but it does so with a fraction of the irritation. For people who genuinely cannot tolerate retinoids, it is the most defensible alternative on the shelf.",
+      "bottom": "Real molecule, modest endpoints. Use as a tolerance bridge — not as a like-for-like retinoid."
+    },
+    {
+      "n": "02",
+      "name": "Bakuchiol as 'pregnancy-safe retinol'",
+      "tier": "D",
+      "verdict": "Misleading",
+      "color": "",
+      "body": "We have re-graded this one. The framing — that bakuchiol matches a retinoid in efficacy and is therefore the pregnancy-safe choice — survives only if you ignore the comparator dose used in the original trial. The Seoul data sharpens the disagreement: at the doses studied, bakuchiol underperforms even low-strength retinoids on most endpoints. Pregnancy-safe? Yes. Retinol-equivalent? No.",
+      "bottom": "Safe in pregnancy. Not equivalent to a retinoid. Stop conflating the two."
+    }
+  ]
+}

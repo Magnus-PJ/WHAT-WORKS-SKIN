@@ -1,0 +1,246 @@
+{
+  "slug": "niacinamide",
+  "name": "Niacinamide",
+  "number": "02 / 28",
+  "filed": "14 APR 2026",
+  "eyebrowKicker": "Ingredient \u00b7 Vitamin B family \u00b7 Niacinamide",
+  "tier": "A",
+  "featured": true,
+  "headlineSize": 124,
+  "tagline": {
+    "italic": "The boring multi-tasker",
+    "rest": "that earns its place."
+  },
+  "lead": "The closest thing skincare has to a default. Reduces sebum, calms erythema, supports barrier, modestly fades pigment, plays well with almost every other active. The reason it isn't celebrated is the same reason it works: nothing dramatic, every time.",
+  "atGlance": [
+    [
+      "INCI",
+      "Niacinamide"
+    ],
+    [
+      "Family",
+      "Vitamin B3 amide"
+    ],
+    [
+      "Useful range",
+      "2 \u2013 10%"
+    ],
+    [
+      "Vehicle",
+      "Water-based serum or lotion"
+    ],
+    [
+      "Pregnancy-safe",
+      "Yes (topical)"
+    ],
+    [
+      "Photo-stable",
+      "Yes \u2014 AM and PM"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul \u00b7 last reviewed 14-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "What it is"
+    ],
+    [
+      "02",
+      "Mechanism"
+    ],
+    [
+      "03",
+      "Evidence overview"
+    ],
+    [
+      "04",
+      "Concentration & vehicle"
+    ],
+    [
+      "05",
+      "Where it earns its tier"
+    ],
+    [
+      "06",
+      "Pairings & conflicts"
+    ],
+    [
+      "07",
+      "On our shelf"
+    ],
+    [
+      "08",
+      "FAQ"
+    ],
+    [
+      "09",
+      "Sources"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "N",
+    "title": {
+      "plain": "What niacinamide",
+      "italic": "actually is."
+    },
+    "body": "iacinamide is the amide form of vitamin B3 \u2014 water-soluble, photo-stable, and in topical use for over four decades. Inside the cell it serves as a precursor to NAD+ and NADP+, the redox cofactors that drive sebum synthesis, ceramide assembly, and a number of inflammation pathways. That dependency is why niacinamide influences so many endpoints from a single molecule: you are tuning a metabolic input that several skin processes are downstream of.",
+    "body2": "It is not a scrub, a peel, or a \"treatment\" in the dramatic sense. It is a quiet metabolic adjustment that, used consistently for eight to twelve weeks, produces small, replicated improvements across oil, redness, pigment, and barrier function \u2014 without the irritation curve of a retinoid or the pH demands of an acid."
+  },
+  "mechanism": [
+    {
+      "k": "On sebum",
+      "b": "Reduces fatty-acid synthesis and triglyceride output from sebocytes. Visible as less midday shine within four weeks."
+    },
+    {
+      "k": "On pigment",
+      "b": "Inhibits melanosome transfer from melanocyte to keratinocyte \u2014 without inhibiting melanin synthesis itself. Result: slower fade than HQ, but cleaner."
+    },
+    {
+      "k": "On barrier",
+      "b": "Upregulates ceramide and free-fatty-acid synthesis; reduces TEWL. The bedrock effect for compromised, over-exfoliated skin."
+    }
+  ],
+  "evidence": [
+    {
+      "c": "Sebum reduction (oily skin)",
+      "n": "RCTs, 2-arm vs vehicle",
+      "w": "82%",
+      "note": "5% niacinamide reduced sebum excretion in multiple Asian-population trials at 4 wk."
+    },
+    {
+      "c": "Pigment / PIH",
+      "n": "RCTs vs hydroquinone 4%",
+      "w": "62%",
+      "note": "Slower than HQ but with cleaner side-effect profile. 4\u20138% range."
+    },
+    {
+      "c": "Erythema (rosacea-like)",
+      "n": "Open-label + small RCTs",
+      "w": "55%",
+      "note": "Reduces TEWL-driven flushing; pairs with azelaic."
+    },
+    {
+      "c": "Barrier / TEWL",
+      "n": "Bioengineering studies",
+      "w": "78%",
+      "note": "Upregulates ceramide synthesis. Replicated across vehicles."
+    },
+    {
+      "c": "Fine lines & texture",
+      "n": "Older RCTs (Bissett et al.)",
+      "w": "44%",
+      "note": "Modest, slow effect at 5%. Don't oversell it."
+    }
+  ],
+  "concentration": [
+    {
+      "c": "2 \u2013 4%",
+      "v": "In moisturisers",
+      "b": "Barrier support. Twice-daily, indefinite."
+    },
+    {
+      "c": "5%",
+      "v": "Serums",
+      "b": "Sebum + redness. The reasonable default."
+    },
+    {
+      "c": "10%",
+      "v": "Targeted serums",
+      "b": "Pigment + oil control. Cap here."
+    },
+    {
+      "c": "> 10%",
+      "v": "Marketing claims",
+      "b": "Diminishing returns; rising irritation."
+    }
+  ],
+  "pairings": [
+    {
+      "with": "L-ascorbic acid",
+      "verdict": "Compatible",
+      "note": "Old 'flush myth' debunked. Apply C first, niacinamide second.",
+      "ok": true
+    },
+    {
+      "with": "Retinoids",
+      "verdict": "Excellent",
+      "note": "Niacinamide buffers retinoid irritation and rebuilds barrier overnight.",
+      "ok": true
+    },
+    {
+      "with": "Tranexamic acid",
+      "verdict": "Synergistic",
+      "note": "The pigment-blocker stack we recommend for melasma.",
+      "ok": true
+    },
+    {
+      "with": "AHAs at low pH",
+      "verdict": "Wait",
+      "note": "Apply AHA, give 20\u201330 min for pH normalisation, then niacinamide.",
+      "ok": false
+    },
+    {
+      "with": "Copper peptides",
+      "verdict": "Avoid layering",
+      "note": "Direct chelation reduces both. Use on opposite ends of routine.",
+      "ok": false
+    }
+  ],
+  "products": [
+    {
+      "brand": "Minimalist",
+      "name": "Niacinamide 10% + Matmarine",
+      "tier": "A",
+      "score": 84,
+      "note": "Best-in-class Indian formulation. Clean vehicle, real concentration."
+    },
+    {
+      "brand": "Paula's Choice",
+      "name": "10% Niacinamide Booster",
+      "tier": "A",
+      "score": 86,
+      "note": "Reference Western product. Higher cost-per-mL."
+    },
+    {
+      "brand": "The Ordinary",
+      "name": "Niacinamide 10% + Zinc 1%",
+      "tier": "B",
+      "score": 70,
+      "note": "Cheapest entry. Pilling reports common; zinc serves no proven benefit."
+    },
+    {
+      "brand": "CeraVe",
+      "name": "PM Facial Lotion",
+      "tier": "A",
+      "score": 81,
+      "note": "Niacinamide 4% in a barrier-rebuilding moisturiser. Quietly excellent."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Does niacinamide really 'flush' vitamin C?",
+      "a": "No. The original 1960s study used pure niacin (not niacinamide) at lab-grade purity and aggressive heat. Modern cosmetic formulations show no clinically meaningful loss when layered correctly."
+    },
+    {
+      "q": "What's the right concentration?",
+      "a": "4\u20135% covers barrier and oil control. 10% is the upper useful limit for pigment work. Beyond 10% the irritation curve overtakes the benefit curve in our experience."
+    },
+    {
+      "q": "Can I use it twice a day?",
+      "a": "Yes. Niacinamide is one of the few actives where AM + PM use makes sense. We recommend a 4\u20135% in a moisturiser for AM, and a 10% serum on PM pigment days."
+    },
+    {
+      "q": "Will it help my acne?",
+      "a": "Mildly. The sebum reduction is real; the anti-inflammatory effect is real. But it is not a substitute for a retinoid or BPO. Treat it as the supporting cast."
+    }
+  ],
+  "relatedIngredients": [
+    "l-ascorbic-acid",
+    "tranexamic-acid",
+    "retinol",
+    "ceramides"
+  ]
+}

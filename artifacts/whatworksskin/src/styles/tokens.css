@@ -1,0 +1,126 @@
+/* What Works Skin — design tokens
+ * Ported byte-for-byte from artifacts/mockup-sandbox/src/components/mockups/evidently/_theme.ts
+ * Do not edit the values without updating the catalogue too. */
+@import "tailwindcss";
+
+:root {
+  --paper: #fafaf7;
+  --paper2: #f4f2eb;
+  --paper3: #efece3;
+  --ink: #111214;
+  --ink-soft: #2a2c33;
+  --muted: #4c4e54;
+  --muted-soft: #686a70;
+  --rule: #e4e2db;
+  --rule-soft: #ecebe4;
+  --accent: #0f766e;
+  --accent-soft: #e6f4f2;
+  --accent-deep: #0b5852;
+  --tier-a: #047857;
+  --tier-a-soft: #e6f4ee;
+  --tier-b: #b45309;
+  --tier-b-soft: #fdf2e3;
+  --tier-c: #475569;
+  --tier-c-soft: #eef1f4;
+  --tier-d: #9f1239;
+  --tier-d-soft: #fbe8ec;
+  --warning: #c2410c;
+  --warning-soft: #fdf3ec;
+  --danger: #9f1239;
+  --danger-soft: #fbe8ec;
+  --ok: #047857;
+  --ok-soft: #e6f4ee;
+  --invert-bg: #111214;
+  --invert-fg: #fafaf7;
+  --invert-muted: #6b6e75;
+  --invert-accent: #5eead4;
+
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --font-serif-ed: "Instrument Serif", "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0c0d0f;
+    --paper2: #131518;
+    --paper3: #1b1d21;
+    --ink: #f5f4f0;
+    --ink-soft: #dcdad2;
+    --muted: #8d9099;
+    --muted-soft: #6e717a;
+    --rule: #23262d;
+    --rule-soft: #1a1c22;
+    --accent: #2dd4bf;
+    --accent-soft: #0f2d2a;
+    --accent-deep: #14b8a6;
+    --invert-bg: #fafaf7;
+    --invert-fg: #111214;
+    --invert-muted: #8d9099;
+    --invert-accent: #0f766e;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Tactile Card Upgrades */
+.card,
+.trend-card {
+  transition: transform 0.25s cubic-bezier(0.21, 0.6, 0.35, 1), background-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.card:hover,
+.trend-card:hover {
+  transform: translateY(-3px);
+  background-color: var(--paper2) !important;
+  box-shadow: 0 12px 30px -4px rgba(17, 18, 20, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  .card:hover,
+  .trend-card:hover {
+    box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.35);
+  }
+}

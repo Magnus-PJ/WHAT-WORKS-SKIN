@@ -1,0 +1,31 @@
+{
+  "methodology": {
+    "version": "v1.2",
+    "lastUpdated": "2026-04-02",
+    "changelog": [
+      {
+        "v": "v1.2",
+        "date": "2026-03-02",
+        "note": "Added § 4.2 — diagnostic routing weights. Split PIH from melasma."
+      },
+      {
+        "v": "v1.1",
+        "date": "2026-01-14",
+        "note": "Industry-funded study weighting reduced from 0.7× to 0.4×. Triggered re-grades on 31 verdicts."
+      },
+      {
+        "v": "v1.0",
+        "date": "2025-07-08",
+        "note": "Initial public methodology. Tier A/B/C/D rubric, sourcing standards, conflicts policy."
+      }
+    ]
+  },
+  "pages": {
+    "methodology": "2026-04-02",
+    "howWeRate": "2026-04-02",
+    "sources": "2026-04-18",
+    "corrections": "2026-04-18",
+    "editors": "2026-04-20",
+    "letters": "2026-04-11"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "slug": "post-laser",
+  "title": "The post-procedure week.",
+  "sub": "Recovery · Day 0–7",
+  "goal": "Recovery",
+  "time": "Weekly",
+  "skinType": "All",
+  "stepCount": 4,
+  "minutes": 8,
+  "cost": "₹ 4–8k",
+  "difficulty": "Beginner",
+  "body": "Centella, panthenol, occlusive seal. Day-by-day callouts for laser and microneedling.",
+  "reviewer": "Dr. Sundeep",
+  "pageRef": "P. 08",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · Recovery · Day 0–7",
+  "timeline": [
+    {
+      "d": "Day 0 (procedure day)",
+      "t": "Saline compresses + Cicaplast",
+      "body": "Cool saline-soaked gauze for 10 minutes every two hours. Cicaplast Baume B5+ as the only topical for the first 24 hours. Nothing else."
+    },
+    {
+      "d": "Days 1 – 3",
+      "t": "Gentle cleanser + occlusive only",
+      "body": "Lukewarm rinse with low-pH cleanser AM + PM. Re-apply Cicaplast or petrolatum 3–4× daily. Mineral SPF 50+ (zinc only) when going outside."
+    },
+    {
+      "d": "Days 4 – 7",
+      "t": "Add ceramide moisturiser",
+      "body": "Once peeling subsides, layer a ceramide cream after the occlusive. Centella ampoule optional for visible erythema."
+    },
+    {
+      "d": "Week 2",
+      "t": "Re-introduce hydrators",
+      "body": "Hyaluronic-acid serum, panthenol gels. Still no actives. Continue mineral-only SPF."
+    },
+    {
+      "d": "Weeks 3 – 4",
+      "t": "Re-introduce niacinamide",
+      "body": "Single active, 4–5%, AM + PM. Watch for any flush or sting; back off if either appears."
+    },
+    {
+      "d": "Week 4+",
+      "t": "Resume baseline routine",
+      "body": "Add back retinoids and acids one at a time, twice-weekly first, alternate-night by week 6. Resume normal SPF."
+    }
+  ],
+  "forbidden": [
+    {
+      "d": "0 – 7",
+      "what": "Retinoids of any class · AHA / BHA · Vitamin C / LAA · Tranexamic acid · Hydroquinone"
+    },
+    {
+      "d": "0 – 14",
+      "what": "Active fragrance · Foaming surfactants · Mechanical exfoliation · Hot water · Workouts that flush the face"
+    },
+    {
+      "d": "0 – 28",
+      "what": "Direct sun without mineral SPF 50 reapplied 3-hourly · Outdoor swimming pools · Saunas / hot yoga"
+    }
+  ]
+}

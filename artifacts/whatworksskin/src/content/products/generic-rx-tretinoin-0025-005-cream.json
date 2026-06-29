@@ -1,0 +1,83 @@
+{
+  "slug": "generic-rx-tretinoin-0025-005-cream",
+  "brand": "Generic (Rx)",
+  "name": "Tretinoin 0.025% / 0.05% Cream",
+  "tier": "A",
+  "pageRef": "P. 14",
+  "filed": "22 APR 2026",
+  "eyebrow": "Product · Retinoid · Prescription only",
+  "hero": "The reference topical retinoid. The most-evidenced active in dermatology. Costs less than a single influencer serum and outperforms all of them. The only barrier between most patients and visible improvement is whether they can adhere to the six-week retinisation period.",
+  "score": 86,
+  "maxScore": 100,
+  "scoreBreakdown": [
+    {
+      "k": "Formulation integrity",
+      "v": 23,
+      "max": 25,
+      "n": "Standardised pharma-grade. Vehicle differs by brand; cream beats gel for most Indian skin."
+    },
+    {
+      "k": "Evidence per claim",
+      "v": 25,
+      "max": 25,
+      "n": "The most-evidenced topical in dermatology. Pigment, acne, photoaging, all replicated."
+    },
+    {
+      "k": "Tolerability",
+      "v": 16,
+      "max": 25,
+      "n": "Predictable retinisation: weeks 2–6 of redness, peeling. Buffering and slow ramp resolve."
+    },
+    {
+      "k": "Value",
+      "v": 22,
+      "max": 25,
+      "n": "₹ 250 / 30 g. Cheapest serious actives in skincare."
+    }
+  ],
+  "ingredients": [
+    {
+      "i": "Tretinoin 0.025%",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Stearic acid",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Isopropyl myristate",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "Polyoxyl 40 stearate",
+      "role": "",
+      "note": ""
+    },
+    {
+      "i": "BHT",
+      "role": "",
+      "note": ""
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tretinoin vs adapalene vs retinol?",
+      "a": "Tretinoin is the strongest OTC-class retinoid (in India, prescription-only). Adapalene is gentler and OTC; retinol is the weakest, requiring conversion in skin. Match strength to tolerance and goals: severe acne or visible photoaging → tretinoin. Mild acne → adapalene. Maintenance / pre-emptive use → retinol."
+    },
+    {
+      "q": "Why did my acne get worse first?",
+      "a": "The 'tretinoin purge' is real for the first 4–6 weeks. Tretinoin accelerates microcomedone-to-pustule transit — meaning lesions that would have surfaced over months instead surface in weeks. Push through; patients who quit at week 4 miss the inflection. If the purge persists past 8 weeks, see a derm."
+    },
+    {
+      "q": "Can I use it with vitamin C?",
+      "a": "Yes, but split AM (vitamin C) and PM (tretinoin). Direct layering raises stability and tolerability concerns without practical benefit."
+    },
+    {
+      "q": "Pregnancy?",
+      "a": "No. Topical tretinoin is contraindicated in pregnancy and while trying to conceive. Switch to azelaic acid or bakuchiol."
+    }
+  ]
+}

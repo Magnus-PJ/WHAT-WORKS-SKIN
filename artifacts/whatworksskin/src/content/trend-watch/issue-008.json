@@ -1,0 +1,40 @@
+{
+  "slug": "issue-008",
+  "n": 8,
+  "date": "26 January 2026",
+  "year": 2026,
+  "headline": "The retinal vs retinol debate, again",
+  "dek": "A reader asked us to settle it. We read 31 studies. The answer depends on which question you mean.",
+  "signed": "Dr. Paul",
+  "pageRef": "P. 08",
+  "eyebrow": "Trend Watch · Issue 008 · 26 January 2026",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "Retinaldehyde 0.05%",
+      "tier": "A",
+      "verdict": "Holds Up",
+      "color": "",
+      "body": "Retinal sits one enzymatic step closer to retinoic acid than retinol does, and the comparator literature now consistently shows it producing equivalent endpoints at lower concentrations and shorter timelines. The ramping curve is gentler than tretinoin and steeper than retinol — exactly where intermediate-tolerance users belong. The remaining issue is formulation stability, which the better brands have largely solved with airless packaging.",
+      "bottom": "The most defensible 'between retinol and tretinoin' rung. Use 12 weeks before judging."
+    },
+    {
+      "n": "02",
+      "name": "Retinol 0.5% time-released",
+      "tier": "A",
+      "verdict": "Holds Up",
+      "color": "",
+      "body": "Encapsulation and microsphere delivery genuinely flatten the irritation curve while preserving efficacy. Reformulations from three serious brands now produce data that matches free retinol of equivalent strength on outcomes, with significantly less stinging. For sensitive-leaning skin building a retinoid habit, encapsulated 0.5% is now the easiest defensible entry.",
+      "bottom": "Worth the formulation premium for anyone who has stung off classic retinol before."
+    },
+    {
+      "n": "03",
+      "name": "OTC 'retinol esters'",
+      "tier": "D",
+      "verdict": "Misleading",
+      "color": "",
+      "body": "Retinyl palmitate and retinyl linoleate are technically retinoids, in the sense that water is technically a beverage. The conversion to retinoic acid is dilute, slow, and clinically irrelevant at the concentrations used. The reason these molecules dominate budget skincare is shelf-stability, not efficacy. Marketing them alongside true retinoids on the same shelf is the category's longest-running bait-and-switch.",
+      "bottom": "Technically retinoids. Functionally moisturisers. Skip."
+    }
+  ]
+}

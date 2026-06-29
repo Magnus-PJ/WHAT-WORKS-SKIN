@@ -1,0 +1,103 @@
+{
+  "slug": "oily-balance",
+  "title": "The oily-skin balance.",
+  "sub": "AM · Oily / Combination",
+  "goal": "Sensitive",
+  "time": "Morning",
+  "skinType": "Oily / Combination",
+  "stepCount": 4,
+  "minutes": 8,
+  "cost": "₹ 2–4k",
+  "difficulty": "Beginner",
+  "body": "Niacinamide 10%, gel moisturiser, fluid SPF. Skip the stripping toner; control sebum without dehydrating.",
+  "reviewer": "Dr. Paul",
+  "pageRef": "P. 16",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · AM · Oily / Combination",
+  "steps": [
+    {
+      "n": "01",
+      "time": "AM",
+      "title": "Gel cleanser, 30 seconds",
+      "sub": "Sulfate-free, balanced pH",
+      "body": "The most damaging mistake in oily-skin routines is over-cleansing. A short, balanced gel cleanser — without sulfates — clears the overnight sebum without triggering the rebound oil that follows a stripping wash.",
+      "products": [
+        {
+          "brand": "La Roche-Posay",
+          "name": "Effaclar Purifying Gel",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "CeraVe",
+          "name": "Foaming Facial Cleanser",
+          "note": "Budget",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "02",
+      "time": "AM",
+      "title": "Niacinamide 10%",
+      "sub": "Sebum control + tone",
+      "body": "The most-replicated topical for sebum reduction. The 10% concentration is where the gland-modulation data lives; lower concentrations work primarily on tone and pigment. Apply to slightly damp skin.",
+      "products": [
+        {
+          "brand": "Minimalist",
+          "name": "Niacinamide 10% + Zinc",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "The Ordinary",
+          "name": "Niacinamide 10% + Zinc 1%",
+          "note": "Budget",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "03",
+      "time": "AM",
+      "title": "Lightweight gel moisturiser",
+      "sub": "Glycerin + HA, no oils",
+      "body": "Skipping moisturiser is the second-most-common oily-skin mistake — it triggers compensatory oil production. A water-gel with glycerin and hyaluronic acid hydrates without adding sebum, and 'finishes' the surface so SPF goes on cleanly.",
+      "products": [
+        {
+          "brand": "Neutrogena",
+          "name": "Hydro Boost Water Gel",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Plum",
+          "name": "Green Tea Gel Moisturiser",
+          "note": "Budget",
+          "tier": "B"
+        }
+      ]
+    },
+    {
+      "n": "04",
+      "time": "AM",
+      "title": "Fluid SPF 50, matte finish",
+      "sub": "PA++++, no chemical heaviness",
+      "body": "The new generation of fluid sunscreens — both mineral and chemical — give true SPF 50 protection without the heaviness that oily skin associates with sunscreen. Matte-finish formulations sit clean under makeup and resist mid-day shine without blotting paper rituals.",
+      "products": [
+        {
+          "brand": "La Roche-Posay",
+          "name": "Anthelios UV-Mune Oil-Control",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Beauty of Joseon",
+          "name": "Relief Sun Rice + Probiotics",
+          "note": "Premium",
+          "tier": "A"
+        }
+      ]
+    }
+  ]
+}

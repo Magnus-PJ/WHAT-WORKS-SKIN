@@ -1,0 +1,212 @@
+{
+  "slug": "l-ascorbic-acid",
+  "name": "L-ascorbic acid",
+  "number": "03 / 28",
+  "filed": "16 APR 2026",
+  "eyebrowKicker": "Ingredient \u00b7 Antioxidant \u00b7 L-ascorbic acid (vitamin C)",
+  "tier": "A",
+  "featured": true,
+  "headlineSize": 116,
+  "tagline": {
+    "italic": "The most-bought antioxidant.",
+    "rest": "The most-misused, too."
+  },
+  "lead": "Pure vitamin C \u2014 the L-stereoisomer \u2014 is the reference daytime antioxidant. It only works when the formulation lives at pH \u2264 3.5, in opaque packaging, freshly purchased, and applied to dry skin under SPF. Every \"underwhelming\" vitamin C result we audit fails one of those four conditions.",
+  "atGlance": [
+    [
+      "INCI",
+      "Ascorbic acid"
+    ],
+    [
+      "Family",
+      "Water-soluble antioxidant"
+    ],
+    [
+      "Active range",
+      "10 \u2013 20%"
+    ],
+    [
+      "pH window",
+      "\u2264 3.5 (LAA)"
+    ],
+    [
+      "Pregnancy-safe",
+      "Yes (topical)"
+    ],
+    [
+      "Photo-stable?",
+      "No \u2014 opaque packaging only"
+    ],
+    [
+      "Shelf-life",
+      "3 months once opened"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul \u00b7 last reviewed 16-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "What it is"
+    ],
+    [
+      "02",
+      "Why pH and pairing decide everything"
+    ],
+    [
+      "03",
+      "Evidence overview"
+    ],
+    [
+      "04",
+      "Forms compared (LAA, MAP, SAP, glucoside, ester)"
+    ],
+    [
+      "05",
+      "Concentration & vehicle"
+    ],
+    [
+      "06",
+      "Storage & oxidation"
+    ],
+    [
+      "07",
+      "On our shelf"
+    ],
+    [
+      "08",
+      "FAQ"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "L",
+    "title": {
+      "plain": "What L-ascorbic acid",
+      "italic": "actually is."
+    },
+    "body": "-ascorbic acid is vitamin C in its biologically active L-stereoisomer. It is the only form the human cell uses directly \u2014 every other \"vitamin C\" on a label is a derivative that must convert to LAA inside the skin, with conversion rates ranging from genuine to negligible. The molecule is simultaneously skincare's most useful antioxidant and its most temperamental one: pH-dependent for absorption, oxygen-sensitive in storage, and easily inactivated by water, heat, and time on a shelf.",
+    "body2": "When formulated correctly \u2014 the SkinCeuticals C E Ferulic patent of 15% LAA, 1% \u03b1-tocopherol, 0.5% ferulic acid at pH \u2264 3.5 is the reference \u2014 it provides the strongest published in-vivo evidence for any over-the-counter daytime antioxidant. When formulated badly, you have brown water in a clear bottle."
+  },
+  "mechanism": [
+    {
+      "k": "Buy small",
+      "b": "30 mL bottle. Anything more is waste once you account for oxidation kinetics."
+    },
+    {
+      "k": "Store cool, dark",
+      "b": "Refrigerator is overkill but a closed cabinet is mandatory. Light and warmth halve shelf-life."
+    },
+    {
+      "k": "Watch the colour",
+      "b": "Pale straw \u2192 orange \u2192 amber \u2192 bin. Once amber, the antioxidant is now a pro-oxidant."
+    }
+  ],
+  "evidence": [
+    {
+      "c": "Photoprotection adjunct",
+      "n": "RCTs vs vehicle, with SPF",
+      "w": "84%",
+      "note": "Doubles SPF biological-endpoint protection in some designs. Use under SPF, not instead."
+    },
+    {
+      "c": "Pigment / lightening",
+      "n": "RCTs in melasma & PIH",
+      "w": "62%",
+      "note": "Slower than azelaic. Strong adjunct, weak monotherapy."
+    },
+    {
+      "c": "Collagen synthesis",
+      "n": "Bioengineering + biopsy",
+      "w": "70%",
+      "note": "Cofactor for prolyl hydroxylase. Modest visible firmness benefit at \u226510%."
+    },
+    {
+      "c": "Wrinkle reduction",
+      "n": "12-week RCTs",
+      "w": "48%",
+      "note": "Real but modest. Pair with retinoid PM for cumulative effect."
+    }
+  ],
+  "concentration": [
+    {
+      "c": "10%",
+      "v": "Entry-level serum",
+      "b": "Effective at pH \u2264 3.5. The reasonable starting point if LAA is new."
+    },
+    {
+      "c": "15%",
+      "v": "Reference (Pinnell trio)",
+      "b": "The dose the C E Ferulic studies were built around. Sweet spot for most."
+    },
+    {
+      "c": "20%",
+      "v": "Upper bound",
+      "b": "Marginal additional benefit; vehicle pH and tolerance often cap real-world use."
+    },
+    {
+      "c": "Derivatives",
+      "v": "MAP / SAP / glucoside",
+      "b": "Gentler, slower, and pH-flexible. Use when LAA is not tolerated."
+    }
+  ],
+  "products": [
+    {
+      "brand": "SkinCeuticals",
+      "name": "C E Ferulic",
+      "tier": "A",
+      "score": 88,
+      "note": "The reference. 15% LAA + 1% E + 0.5% ferulic. Stability and dose both delivered."
+    },
+    {
+      "brand": "Maelove",
+      "name": "Glow Maker",
+      "tier": "A",
+      "score": 84,
+      "note": "Same trinity formulation at one-fifth the price. Excellent value entry."
+    },
+    {
+      "brand": "Klairs",
+      "name": "Freshly Juiced Vitamin Drop",
+      "tier": "B",
+      "score": 72,
+      "note": "5% LAA at pH 4.5. Gentler ramp-up product."
+    },
+    {
+      "brand": "The Ordinary",
+      "name": "Ascorbyl Glucoside Solution 12%",
+      "tier": "B",
+      "score": 70,
+      "note": "Pregnancy / sensitive alternative. No LAA shock."
+    }
+  ],
+  "faq": [
+    {
+      "q": "How do I tell if my vitamin C has gone off?",
+      "a": "Colour. Fresh LAA is pale straw to light yellow. Once it turns orange, then brown, the active has oxidised to dehydroascorbic acid and beyond. Brown C is dead C \u2014 and trace iron in skincare can theoretically generate free radicals when applied. Bin it."
+    },
+    {
+      "q": "Why does my serum sting at the start?",
+      "a": "LAA at pH 3.0\u20133.5 stings normally on application. The sting should fade within five minutes. If it persists, your barrier is the bottleneck \u2014 back off frequency and rebuild with niacinamide for two weeks."
+    },
+    {
+      "q": "Can I really not use it with niacinamide?",
+      "a": "You can. The 'no-go' rule was based on a 1960s study using niacin (not niacinamide) at extreme heat. Modern formulations layer fine. Apply C first, give it five minutes, then niacinamide."
+    },
+    {
+      "q": "Morning or night?",
+      "a": "Morning, primarily \u2014 the photoprotection adjunct is its strongest claim. PM use is fine if you are pairing with a retinoid for collagen support."
+    }
+  ],
+  "relatedIngredients": [
+    "niacinamide",
+    "tranexamic-acid",
+    "alpha-arbutin",
+    "uv-filters"
+  ],
+  "reviewer": {
+    "name": "Dr. Paul",
+    "title": "Reviewed by"
+  }
+}

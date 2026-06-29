@@ -1,0 +1,85 @@
+{
+  "slug": "fungal-acne",
+  "name": "Fungal acne (Malassezia folliculitis)",
+  "family": "Acne",
+  "eyebrow": "Concern · Acne · Malassezia folliculitis",
+  "dek": "Malassezia folliculitis — small, monomorphic, itchy papules on the forehead, chest, and back that look like acne and respond to none of the acne treatments. Fungal, not bacterial. Different category, different protocol.",
+  "oneliner": "Won't respond to BHA. Needs antifungals — diagnosis first.",
+  "reviewer": "Dr. Paul",
+  "pageRef": "P. 27",
+  "filed": "22 APR 2026",
+  "hero1": "The acne",
+  "hero2": "that isn't acne.",
+  "bottom": "The single most important step is recognising the category. Treating Malassezia with adapalene + BPO for six months is a common, expensive, and frustrating dead end.",
+  "triggers": [
+    {
+      "k": "Uniform 1–2mm papules, all the same size",
+      "w": "92%",
+      "n": "The defining sign. True acne lesions vary in size; Malassezia lesions are monomorphic."
+    },
+    {
+      "k": "Distribution: forehead, hairline, chest, back",
+      "w": "85%",
+      "n": "The sebaceous-rich, sweat-rich zones. Particularly common in humid climates and after gym sessions."
+    },
+    {
+      "k": "Itchy, not painful",
+      "w": "78%",
+      "n": "True acne is usually painful or sore; fungal acne itches. Patients often describe scratching in their sleep."
+    },
+    {
+      "k": "Worsens on antibiotic acne treatment",
+      "w": "58%",
+      "n": "The diagnostic giveaway. If clindamycin makes things worse, you are not treating bacteria."
+    }
+  ],
+  "ingredients": [
+    {
+      "name": "Ketoconazole 2% shampoo (as wash)",
+      "tier": "A",
+      "role": "Antifungal",
+      "evidence": "First-line. Apply to wet skin, lather, leave 5 minutes, rinse. 3× per week."
+    },
+    {
+      "name": "Selenium sulphide 2.5% wash",
+      "tier": "A",
+      "role": "Antifungal",
+      "evidence": "Equivalent to ketoconazole for body sites. Useful for chest and back."
+    },
+    {
+      "name": "Zinc pyrithione 1% wash",
+      "tier": "B",
+      "role": "Antifungal + bactericidal",
+      "evidence": "Gentler; daily-use alternative once cleared. Maintenance role."
+    },
+    {
+      "name": "Itraconazole oral (clinic)",
+      "tier": "A",
+      "role": "Systemic antifungal",
+      "evidence": "For widespread or stubborn cases. 1-week course usually clears."
+    },
+    {
+      "name": "Squalane / oat-based moisturisers",
+      "tier": "A",
+      "role": "Malassezia-friendly",
+      "evidence": "Avoid esters, fatty alcohols, oleic-rich oils — Malassezia feeds on C11–C24 fatty acids."
+    }
+  ],
+  "phases": [
+    {
+      "w": "Week 1–4",
+      "t": "Antifungal washes",
+      "b": "Ketoconazole 2% wash on affected sites 3× per week, 5-minute dwell. Switch all moisturisers to Malassezia-friendly options."
+    },
+    {
+      "w": "Week 4–8",
+      "t": "Reassess",
+      "b": "If 60–80% improved, continue another 4 weeks then transition to weekly maintenance. If unchanged, see a clinician for itraconazole."
+    },
+    {
+      "w": "Month 3+",
+      "t": "Maintenance",
+      "b": "Weekly ketoconazole wash; humidity precautions; immediate post-gym shower. Recurrence is common; expect to maintain."
+    }
+  ]
+}

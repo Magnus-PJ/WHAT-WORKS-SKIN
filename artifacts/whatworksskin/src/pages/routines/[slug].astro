@@ -1,0 +1,24 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import RoutineBrief from "@/components/RoutineBrief.astro";
+
+export async function getStaticPaths() {
+  const routines = await getCollection("routines");
+  return routines.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { id: entry.id },
+  }));
+}
+
+const { id } = Astro.props;
+const entry = await getEntry("routines", id);
+if (!entry) {
+  throw new Error(`Routine not found: ${id}`);
+}
+const data = entry.data;
+const description = `${data.title} — ${data.sub}. ${data.body ?? ""}`.slice(0, 180);
+---
+<Base title={`${data.title} — ${data.sub}`} description={description}>
+  <RoutineBrief data={data} />
+</Base>

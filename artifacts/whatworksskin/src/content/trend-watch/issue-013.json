@@ -1,0 +1,44 @@
+{
+  "slug": "issue-013",
+  "n": 13,
+  "date": "06 April 2026",
+  "year": 2026,
+  "headline": "Snail mucin, the rise of polyglutamic acid, and 'skin cycling' redux",
+  "dek": "When a TikTok regimen meets a peer-reviewed paper. Neither wins outright.",
+  "signed": "Dr. Paul",
+  "pageRef": "P. 13",
+  "eyebrow": "Trend Watch · Issue 013 · 06 April 2026",
+  "verdicts": [
+    {
+      "n": "01",
+      "name": "Snail Mucin (Cosrx Advanced Snail 96)",
+      "tier": "B",
+      "verdict": "Mostly Worth It",
+      "color": "",
+      "body": [
+        "Snail-secretion filtrate (SSF) at 96% — see our ",
+        { "text": "snail mucin brief", "kind": "ingredient", "slug": "snail-mucin" },
+        " for the full read — is a humectant + glycoprotein cocktail with a small but replicated hydration and barrier-repair signal. The K-beauty cult treats it as a hero; the literature treats it as a competent moisturiser. Use as a hydrating layer in dry weather; it is not, however, an active ingredient and will not displace niacinamide or ceramides."
+      ],
+      "bottom": "Worth the ₹ 700–1,200 if you genuinely enjoy the texture; not worth the K-beauty premium beyond that."
+    },
+    {
+      "n": "02",
+      "name": "Polyglutamic Acid",
+      "tier": "B",
+      "verdict": "Real, Modest",
+      "color": "",
+      "body": "PGA is a high-molecular-weight humectant that forms a thin film on skin and reportedly holds 4× the water of hyaluronic acid in vitro. The in-vivo data is positive but small. As a secondary humectant it works fine — but it is not the 'next-gen HA' some marketing implies. Hyaluronic acid + glycerin is cheaper and reaches similar endpoints.",
+      "bottom": "Useful in dry climates; redundant in humid ones. Not a must-buy."
+    },
+    {
+      "n": "03",
+      "name": "Skin Cycling (Whitney Bowe)",
+      "tier": "A",
+      "verdict": "Excellent Idea",
+      "color": "",
+      "body": "The protocol — exfoliant Night 1, retinoid Night 2, recovery nights 3 and 4, repeat — is essentially a structured way to ladder a beginner into actives without barrier injury. There is nothing radical here; it's how derms have always introduced retinoids. The contribution is the naming and the schedule, both of which are genuinely useful.",
+      "bottom": "Adopt the framework. Skip the branded products."
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "slug": "evening-primrose",
+  "name": "Evening primrose oil",
+  "family": "Barrier & inflammation",
+  "target": "Atopic skin",
+  "tier": "C",
+  "dose": "500–1000 mg/d × 12 wk",
+  "rxOnly": false,
+  "oneliner": "GLA precursor. Mixed eczema data; safer than spectacular.",
+  "pageRef": "P. 26",
+  "filed": "17 APR 2026",
+  "eyebrow": "Supplement · Barrier & inflammation · Evening primrose oil",
+  "headline": "Evening primrose",
+  "dek": "Evening primrose oil delivers gamma-linolenic acid (GLA), a precursor to prostaglandins involved in skin barrier function. The eczema literature is mixed: positive in early small trials, less convincing in the larger Cochrane reviews. A safer-than-spectacular molecule with a defensible role in mild atopic skin.",
+  "subheadA": "GLA precursor.",
+  "subheadB": "Mixed eczema data.",
+  "bottom": "A modest, safe, defensible adjunct for mild atopic skin; not a primary treatment. The Cochrane verdict is honest; the case for trying it is reasonable.",
+  "evidence": [
+    {
+      "c": "Atopic dermatitis (Cochrane review)",
+      "n": "Pooled meta-analysis",
+      "w": "35%",
+      "note": "The 2013 Cochrane review concluded oral evening primrose oil does not meaningfully improve eczema vs placebo. Earlier small trials were more positive."
+    },
+    {
+      "c": "Atopic dermatitis (small RCTs)",
+      "n": "Heterogeneous",
+      "w": "50%",
+      "note": "Several small positive trials; methodologically weaker. Reasonable trial in mild cases."
+    },
+    {
+      "c": "Cyclic mastalgia (premenstrual breast pain)",
+      "n": "Replicated",
+      "w": "65%",
+      "note": "Better-supported off-label use than the eczema indication."
+    },
+    {
+      "c": "Hot flushes / menopause",
+      "n": "Mixed",
+      "w": "40%",
+      "note": "Inconsistent. Not a primary recommendation for menopausal symptoms."
+    }
+  ],
+  "forms": [
+    {
+      "f": "EPO 500 mg (45–60 mg GLA)",
+      "abs": "Good",
+      "note": "Standard low-dose. Two capsules twice daily for atopic skin trial."
+    },
+    {
+      "f": "EPO 1000 mg (90–120 mg GLA)",
+      "abs": "Good",
+      "note": "Higher per-capsule dose. Useful for hitting the trial protocol with fewer capsules."
+    },
+    {
+      "f": "Borage oil (higher GLA per capsule)",
+      "abs": "Good",
+      "note": "Cheaper alternative source of GLA. Equivalent endpoints in head-to-head trials."
+    },
+    {
+      "f": "Black currant seed oil",
+      "abs": "Good",
+      "note": "Vegetarian / vegan-friendly GLA source. Less-studied than EPO but mechanistically equivalent."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Why is the Cochrane verdict so flat?",
+      "a": "The pooled analysis weighted more recent, larger, methodologically tighter trials, which generally showed null or marginal effects. The earlier positive trials had smaller sample sizes and less rigorous methodology. Both data sets exist; we present both honestly."
+    },
+    {
+      "q": "Should I trial it?",
+      "a": "Reasonable in mild atopic skin where the topical-only protocol has plateaued. 12 weeks at the published dose. If no measurable effect, the supplement is not your bottleneck — pivot to topical optimisation, allergen audit, or systemic options if appropriate."
+    },
+    {
+      "q": "Can I combine with omega-3?",
+      "a": "Yes. The two work via partly different prostaglandin pathways; combination is reasonable. Most atopic protocols that include EPO also include 1–2 g EPA+DHA omega-3."
+    },
+    {
+      "q": "Side effects?",
+      "a": "Generally very well-tolerated. Mild GI upset is the most common. Theoretical bleeding-risk concern at high doses with anticoagulants; clinically rarely an issue. Stop one week before elective surgery as a precaution."
+    }
+  ]
+}

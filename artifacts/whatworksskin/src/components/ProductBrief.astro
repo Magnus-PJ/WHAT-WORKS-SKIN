@@ -1,0 +1,441 @@
+---
+import SiteHeader from "./SiteHeader.astro";
+import ThinContentBanner from "./ThinContentBanner.astro";
+import SiteFooter from "./SiteFooter.astro";
+import Breadcrumbs from "./Breadcrumbs.astro";
+import PaperEffects from "./PaperEffects.astro";
+import AmbientFlask from "./AmbientFlask.astro";
+import TierBadge from "./TierBadge.astro";
+import MaybeLink from "./MaybeLink.astro";
+import { url, home } from "@/lib/url";
+import {
+  findIngredientSlug,
+  findProductSlug,
+  getProductBacklinks,
+} from "@/lib/links";
+import { citationIdForSource } from "@/lib/citations";
+import CitedSourcesBlock from "./CitedSourcesBlock.astro";
+
+type Tier = "A" | "B" | "C" | "D";
+
+export interface Props {
+  data: {
+    slug: string;
+    brand: string;
+    name: string;
+    tier: Tier;
+    category?: string;
+    tagline?: string;
+    reviewer?: string;
+    pageRef?: string;
+    filed?: string;
+    eyebrow?: string;
+    hero?: string;
+    score?: number;
+    maxScore?: number;
+    scoreBreakdown?: { k: string; v?: number; max?: number; n?: string }[];
+    ingredients?: { i?: string; name?: string; role?: string; tier?: Tier; note?: string }[];
+    useCases?: { k: string; b: string }[];
+    facts?: [string, string][];
+    alts?: { brand?: string; name?: string; tier?: Tier; score?: number; note?: string }[];
+    faq?: { q: string; a: string }[];
+    sources?: { n: string; w?: string }[];
+  };
+}
+const { data } = Astro.props;
+// Resolve ingredient rows to ingredient brief slugs and alt-product
+// cards to product brief slugs so each can become a clickable link
+// when a brief exists. Also collect the concerns and routines that
+// reference this product so the brief can lead readers back to the
+// problems it solves and the routines that include it.
+const ingLinks: (string | undefined)[] = data.ingredients
+  ? await Promise.all(
+      data.ingredients.map((ing) => findIngredientSlug(ing.i ?? ing.name)),
+    )
+  : [];
+const altLinks: (string | undefined)[] = data.alts
+  ? await Promise.all(
+      data.alts.map((a) => findProductSlug(a.brand, a.name)),
+    )
+  : [];
+const backlinks = await getProductBacklinks(data.slug);
+const hasBacklinks =
+  backlinks.concerns.length > 0 || backlinks.routines.length > 0;
+---
+<div class="page">
+  <ThinContentBanner kind="products" slug={data.slug} />
+  <SiteHeader active="Products" />
+  <Breadcrumbs trail={[
+    { label: "Home", href: home },
+    { label: "Products", href: url("products") },
+    { label: `${data.brand} · ${data.name}` },
+  ]} />
+
+  <section class="hero">
+    <PaperEffects vignette columns columnsOpacity={0.32} />
+    <div class="flask"><AmbientFlask size={520} opacity={0.06} /></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-main">
+          <div class="hero-eyebrow-row">
+            <p class="eyebrow eyebrow-accent">{data.eyebrow ?? `Product · ${data.brand}`}</p>
+            {data.pageRef && <span class="hero-pageref">{data.pageRef} · REVIEW</span>}
+          </div>
+          <p class="brand-line">{data.category ? `${data.brand} · ${data.category}` : data.brand}</p>
+          <h1 class="hero-h1">{data.name}.</h1>
+          {data.tagline && <p class="hero-tagline-line"><span class="ital">{data.tagline}</span></p>}
+          {data.hero && <p class="hero-lead">{data.hero}</p>}
+          {data.reviewer && <p class="hero-byline">Reviewed by <span class="hero-byline-name">{data.reviewer}</span></p>}
+        </div>
+        <aside class="hero-aside">
+          <div class="card">
+            <div class="card-head"><p class="eyebrow eyebrow-accent">Verdict</p><TierBadge tier={data.tier} size="md" /></div>
+            <dl>
+              {typeof data.score === "number" && (
+                <div class="kv kv-score">
+                  <dt>Score</dt>
+                  <dd><span class="score-big">{data.score}</span><span class="score-max">⁄{data.maxScore ?? 100}</span></dd>
+                </div>
+              )}
+              {data.facts && data.facts.slice(0, 6).map(([k, v]) => (
+                <div class="kv"><dt>{k}</dt><dd>{v}</dd></div>
+              ))}
+              {data.filed && <div class="kv"><dt>Filed</dt><dd>{data.filed}</dd></div>}
+            </dl>
+            <p
+              class="bk-caption"
+              aria-label={`Featured in ${backlinks.concerns.length} concerns and ${backlinks.routines.length} routines`}
+            >
+              <span class="bk-caption-label">Featured in</span>
+              {backlinks.concerns.length > 0 ? (
+                <a class="bk-caption-link" href="#linked-concerns">
+                  <span class="bk-caption-n on">{backlinks.concerns.length}</span> concerns
+                </a>
+              ) : (
+                <><span class="bk-caption-n">{backlinks.concerns.length}</span> concerns</>
+              )}
+              <span class="bk-caption-dot" aria-hidden="true">·</span>
+              {backlinks.routines.length > 0 ? (
+                <a class="bk-caption-link" href="#linked-routines">
+                  <span class="bk-caption-n on">{backlinks.routines.length}</span> routines
+                </a>
+              ) : (
+                <><span class="bk-caption-n">{backlinks.routines.length}</span> routines</>
+              )}
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="body-col">
+      {data.scoreBreakdown && data.scoreBreakdown.length > 0 && (
+        <article>
+          <p class="folio">— § 01</p>
+          <h2 class="h-display">The <span class="ital">scorecard.</span></h2>
+          <div class="scores">
+            {data.scoreBreakdown.map((row) => {
+              const pct = row.v && row.max ? Math.round((row.v / row.max) * 100) : 0;
+              return (
+                <div class="sc-row">
+                  <div class="sc-key">
+                    <div class="sc-k">{row.k}</div>
+                    {row.n && <div class="sc-note">{row.n}</div>}
+                  </div>
+                  <div class="sc-bar-wrap">
+                    <div class="ev-bar"><div class="ev-bar-fill" style={`width:${pct}%`} /></div>
+                  </div>
+                  <div class="sc-v">{row.v}<span class="sc-v-max">⁄{row.max}</span></div>
+                </div>
+              );
+            })}
+          </div>
+        </article>
+      )}
+
+      {data.ingredients && data.ingredients.length > 0 && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article>
+            <p class="folio">— § 02</p>
+            <h2 class="h-display">The <span class="ital">ingredients.</span></h2>
+            <div class="ing-table">
+              <div class="ing-head"><div>Tier</div><div>Ingredient</div><div>Role</div><div>Note</div></div>
+              {data.ingredients.map((ing, idx) => {
+                const slug = ingLinks[idx];
+                return (
+                  <MaybeLink
+                    href={slug ? url(`ingredients/${slug}`) : undefined}
+                    class={`ing-row${slug ? " ing-row-link" : ""}`}
+                  >
+                    <div>{ing.tier && <TierBadge tier={ing.tier} />}</div>
+                    <div class="ing-name">{ing.i ?? ing.name}{slug && <span class="link-arrow" aria-hidden="true"> →</span>}</div>
+                    <div class="ing-role">{ing.role}</div>
+                    <div class="ing-note">{ing.note}</div>
+                  </MaybeLink>
+                );
+              })}
+            </div>
+          </article>
+        </>
+      )}
+
+      {data.useCases && data.useCases.length > 0 && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article>
+            <p class="folio">— § 03</p>
+            <h2 class="h-display">When to <span class="ital">reach for it.</span></h2>
+            <ul class="use-grid">
+              {data.useCases.map((u) => (
+                <li class="use-card">
+                  <h3 class="use-title">{u.k}</h3>
+                  <p class="use-body">{u.b}</p>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </>
+      )}
+
+      {data.alts && data.alts.length > 0 && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article>
+            <p class="folio">— § 04</p>
+            <h2 class="h-display">If <span class="ital">not this.</span></h2>
+            <div class="cards">
+              {data.alts.map((a, idx) => {
+                const slug = altLinks[idx];
+                return (
+                  <MaybeLink
+                    href={slug ? url(`products/${slug}`) : undefined}
+                    class={`card-cell${slug ? " card-cell-link" : ""}`}
+                  >
+                    <div class="shelf-head">
+                      <span class="shelf-brand">{a.brand}</span>
+                      {a.tier && <TierBadge tier={a.tier} />}
+                    </div>
+                    <div class="shelf-name">{a.name}{slug && <span class="link-arrow" aria-hidden="true"> →</span>}</div>
+                    {typeof a.score === "number" && <p class="shelf-score">{a.score}<span class="shelf-score-max">⁄100</span></p>}
+                    {a.note && <p class="shelf-note">{a.note}</p>}
+                  </MaybeLink>
+                );
+              })}
+            </div>
+          </article>
+        </>
+      )}
+
+      {hasBacklinks && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article>
+            <p class="folio">— Cross-references</p>
+            <h2 class="h-display">Where it <span class="ital">appears.</span></h2>
+            <div class="backlinks">
+              {backlinks.concerns.length > 0 && (
+                <div class="bk-col" id="linked-concerns">
+                  <p class="eyebrow eyebrow-accent">Concerns it solves</p>
+                  <ul class="bk-list">
+                    {backlinks.concerns.map((c) => (
+                      <li>
+                        <a class="bk-link" href={url(`concerns/${c.slug}`)}>
+                          <span class="bk-name">{c.name}</span>
+                          <span class="bk-arrow" aria-hidden="true">→</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {backlinks.routines.length > 0 && (
+                <div class="bk-col" id="linked-routines">
+                  <p class="eyebrow eyebrow-accent">Routines that include it</p>
+                  <ul class="bk-list">
+                    {backlinks.routines.map((r) => (
+                      <li>
+                        <a class="bk-link" href={url(`routines/${r.slug}`)}>
+                          <span class="bk-name">{r.title}</span>
+                          <span class="bk-sub">{r.sub}{r.stepTitle ? ` · ${r.stepTitle}` : ""}</span>
+                          <span class="bk-arrow" aria-hidden="true">→</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </article>
+        </>
+      )}
+
+      {data.faq && data.faq.length > 0 && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article>
+            <p class="folio">— § 05</p>
+            <h2 class="h-display">Frequently <span class="ital">asked.</span></h2>
+            <div class="faq">
+              {data.faq.map((f, i) => (
+                <details class="faq-item" open={i === 0}>
+                  <summary><span class="faq-q">{f.q}</span><span class="faq-chev" aria-hidden="true">⌄</span></summary>
+                  <p class="faq-a">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </article>
+        </>
+      )}
+
+      {data.sources && data.sources.length > 0 && (
+        <>
+          <div class="asterism"><span class="rule" /><span class="ast">⁂</span><span class="rule" /></div>
+          <article>
+            <p class="folio">— § 06</p>
+            <h2 class="h-display">Sources <span class="ital">consulted.</span></h2>
+            <ol class="src-list">
+              {data.sources.map((s) => (
+                <li class="src-row">
+                  {s.w && <span class="src-tag">{s.w}</span>}
+                  <span class="src-cite">{s.n}</span>
+                  <a class="src-link" href={url(`sources#${citationIdForSource(s)}`)}>On /sources →</a>
+                </li>
+              ))}
+            </ol>
+          </article>
+        </>
+      )}
+    </div>
+  </div>
+  <div class="container"><CitedSourcesBlock ids={(data as { citations?: string[] }).citations} /></div>
+  <SiteFooter />
+</div>
+
+<style>
+  .page { position: relative; background: var(--paper); color: var(--ink); font-family: var(--font-sans); }
+  .container { margin-inline: auto; padding-inline: 32px; max-width: 1200px; }
+  .eyebrow { margin: 0; font-family: var(--font-sans); font-size: 10.5px; letter-spacing: 0.18em; font-weight: 600; text-transform: uppercase; color: var(--muted); }
+  .eyebrow-accent { color: var(--accent); }
+  .ital { font-style: italic; color: var(--accent); font-family: var(--font-serif-ed); }
+  .folio { margin: 0; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--muted-soft); }
+  .h-display { margin: 8px 0 0; font-family: var(--font-serif); font-size: 52px; line-height: 1; font-weight: 400; font-variation-settings: "opsz" 144, "SOFT" 30; color: var(--ink); letter-spacing: -0.025em; }
+  .asterism { display: flex; align-items: center; justify-content: center; gap: 24px; padding-block: 40px; }
+  .asterism .rule { height: 1px; width: 96px; background: var(--rule); display: block; }
+  .asterism .ast { font-family: var(--font-serif); font-size: 22px; color: var(--muted); letter-spacing: 0.4em; font-variation-settings: "opsz" 144; }
+
+  .hero { position: relative; z-index: 10; overflow: hidden; border-bottom: 1px solid var(--rule); }
+  .flask { position: absolute; right: -64px; top: -64px; z-index: 0; }
+  .hero-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 40px; padding-block: 96px; position: relative; }
+  .hero-main { grid-column: span 12 / span 12; }
+  @media (min-width: 1024px) { .hero-main { grid-column: span 8 / span 8; padding-left: 48px; } }
+  .hero-eyebrow-row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--rule); padding-bottom: 16px; }
+  .hero-pageref { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); }
+  .brand-line { margin: 32px 0 0; font-family: var(--font-sans); font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .hero-h1 { margin: 12px 0 0; font-family: var(--font-serif); font-size: clamp(48px, 8vw, 88px); line-height: 1; letter-spacing: -0.04em; font-weight: 400; color: var(--ink); font-variation-settings: "opsz" 144, "SOFT" 30; }
+  .hero-tagline-line { margin: 18px 0 0; font-family: var(--font-serif-ed); font-size: 28px; font-style: italic; color: var(--accent); letter-spacing: -0.02em; line-height: 1.1; }
+  .hero-lead { margin: 28px 0 0; max-width: 36rem; font-family: var(--font-serif); font-size: 19px; line-height: 1.6; color: var(--ink-soft); }
+  .hero-byline { margin: 28px 0 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; color: var(--muted-soft); text-transform: uppercase; }
+  .hero-byline-name { font-family: var(--font-serif); font-style: italic; text-transform: none; letter-spacing: 0; font-size: 14px; color: var(--accent); margin-left: 6px; }
+
+  .hero-aside { grid-column: span 12 / span 12; }
+  @media (min-width: 1024px) { .hero-aside { grid-column: span 4 / span 4; display: flex; align-items: flex-end; } }
+  .card { width: 100%; border: 1px solid var(--rule); background: var(--paper); }
+  .card-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--rule); background: var(--paper2); }
+  dl { margin: 0; padding: 0; }
+  .kv { padding: 12px 24px; border-bottom: 1px solid var(--rule-soft); }
+  .kv:last-child { border-bottom: 0; }
+  .kv dt { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; color: var(--muted-soft); text-transform: uppercase; }
+  .kv dd { margin: 4px 0 0; font-family: var(--font-serif); font-size: 14.5px; color: var(--ink); line-height: 1.45; }
+  .kv-score dd { font-size: 16px; }
+  .score-big { font-family: var(--font-serif); font-size: 36px; color: var(--ink); letter-spacing: -0.02em; font-variation-settings: "opsz" 144; }
+  .score-max { font-size: 13px; color: var(--muted-soft); margin-left: 4px; }
+  /* link-coverage caption — same mono treatment as the catalogue index card */
+  .bk-caption { margin: 0; padding: 14px 24px; border-top: 1px solid var(--rule-soft); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted-soft); text-transform: uppercase; line-height: 1.4; }
+  .bk-caption-label { margin-right: 4px; }
+  .bk-caption-n { font-weight: 600; color: var(--muted-soft); margin-right: 2px; }
+  .bk-caption-n.on { color: var(--accent); }
+  .bk-caption-dot { margin: 0 6px; color: var(--muted-soft); }
+  .bk-caption-link { color: inherit; text-decoration: none; border-bottom: 1px dotted transparent; transition: border-color 0.15s ease, color 0.15s ease; }
+  .bk-caption-link:hover { border-bottom-color: var(--accent); color: var(--accent); }
+  .bk-caption-link:hover .bk-caption-n.on { color: var(--accent); }
+  :target { scroll-margin-top: 24px; }
+
+  .body-col { padding-block: 80px; }
+  article { margin-block: 32px; }
+
+  .scores { margin-top: 36px; display: flex; flex-direction: column; gap: 20px; }
+  .sc-row { display: grid; grid-template-columns: 1fr; gap: 14px; align-items: start; }
+  @media (min-width: 768px) { .sc-row { grid-template-columns: 4fr 5fr 100px; } }
+  .sc-k { font-family: var(--font-serif); font-size: 19px; color: var(--ink); font-variation-settings: "opsz" 144; }
+  .sc-note { margin-top: 6px; font-family: var(--font-serif); font-size: 13.5px; color: var(--muted); font-style: italic; line-height: 1.5; }
+  .ev-bar { height: 6px; width: 100%; background: var(--rule-soft); }
+  .ev-bar-fill { height: 100%; background: var(--accent); }
+  .sc-v { font-family: var(--font-serif); font-size: 24px; color: var(--ink); letter-spacing: -0.02em; text-align: right; }
+  .sc-v-max { font-size: 11px; color: var(--muted-soft); margin-left: 2px; }
+
+  .ing-table { margin-top: 36px; border: 1px solid var(--rule); background: var(--paper); }
+  .ing-head, .ing-row { display: grid; grid-template-columns: 80px 2fr 2fr 4fr; gap: 16px; padding: 16px 20px; align-items: center; border-bottom: 1px solid var(--rule-soft); }
+  .ing-head { background: var(--paper2); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted-soft); text-transform: uppercase; }
+  .ing-row:last-child { border-bottom: 0; }
+  .ing-row-link { color: inherit; text-decoration: none; transition: background 0.15s ease; }
+  .ing-row-link:hover { background: var(--paper2); }
+  .ing-row-link .ing-name { color: var(--accent); }
+  .link-arrow { font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-left: 4px; }
+  .ing-name { font-family: var(--font-serif); font-size: 16px; color: var(--ink); }
+  .ing-role { font-family: var(--font-sans); font-size: 13px; color: var(--muted); }
+  .ing-note { font-family: var(--font-serif); font-size: 14px; color: var(--ink-soft); font-style: italic; line-height: 1.5; }
+
+  /* use-cases */
+  .use-grid { list-style: none; margin: 36px 0 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 768px) { .use-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .use-card { padding: 24px; background: var(--paper); border: 1px solid var(--rule); }
+  .use-title { margin: 0; font-family: var(--font-serif); font-size: 22px; line-height: 1.15; color: var(--ink); font-variation-settings: "opsz" 144, "SOFT" 30; font-weight: 400; letter-spacing: -0.015em; }
+  .use-body { margin: 14px 0 0; font-family: var(--font-serif); font-size: 15.5px; line-height: 1.6; color: var(--ink-soft); }
+
+  .backlinks { margin-top: 36px; display: grid; grid-template-columns: 1fr; gap: 32px; }
+  @media (min-width: 768px) { .backlinks { grid-template-columns: 1fr 1fr; gap: 48px; } }
+  .bk-col .eyebrow { margin: 0 0 14px; }
+  .bk-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  .bk-list li { border-bottom: 1px solid var(--rule-soft); }
+  .bk-list li:last-child { border-bottom: 1px solid var(--rule); }
+  .bk-link { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 12px; padding: 14px 4px; color: inherit; text-decoration: none; font-family: var(--font-serif); transition: padding 0.15s ease; }
+  .bk-link:hover { padding-left: 10px; padding-right: 10px; background: var(--paper2); }
+  .bk-link .bk-name { font-size: 17px; color: var(--ink); }
+  .bk-link:hover .bk-name { color: var(--accent); }
+  .bk-link .bk-sub { display: block; grid-column: 1 / -1; margin-top: 2px; font-family: var(--font-sans); font-size: 12px; color: var(--muted); }
+  .bk-link .bk-arrow { font-family: var(--font-mono); font-size: 12px; color: var(--accent); }
+
+  .cards { margin-top: 36px; display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+  @media (min-width: 768px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  .card-cell { padding: 24px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--paper); }
+  .card-cell-link { color: inherit; text-decoration: none; transition: background 0.15s ease; display: block; }
+  .card-cell-link:hover { background: var(--paper2); }
+  .card-cell-link .shelf-name { color: var(--accent); }
+  .shelf-head { display: flex; align-items: center; justify-content: space-between; }
+  .shelf-brand { font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+  .shelf-name { margin-top: 8px; font-family: var(--font-serif); font-size: 18px; color: var(--ink); }
+  .shelf-score { margin: 8px 0 0; font-family: var(--font-serif); font-size: 22px; color: var(--accent); font-variation-settings: "opsz" 144; letter-spacing: -0.02em; }
+  .shelf-score-max { font-size: 11px; color: var(--muted-soft); margin-left: 2px; font-family: var(--font-mono); }
+  .shelf-note { margin: 12px 0 0; font-family: var(--font-serif); font-size: 14.5px; color: var(--muted); font-style: italic; line-height: 1.5; }
+
+  /* sources */
+  .src-list { list-style: none; margin: 36px 0 0; padding: 0; counter-reset: src; border-top: 1px solid var(--rule); }
+  .src-row { counter-increment: src; display: flex; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--rule-soft); align-items: baseline; }
+  .src-row::before { content: counter(src, decimal-leading-zero); flex: 0 0 36px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; color: var(--muted-soft); }
+  .src-tag { display: inline-block; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; margin-right: 10px; flex: 0 0 auto; }
+  .src-cite { font-family: var(--font-serif); font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; font-style: italic; flex: 1 1 auto; }
+  .src-link { flex: 0 0 auto; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; text-decoration: none; align-self: center; }
+  .src-link:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+  .faq { margin-top: 24px; border: 1px solid var(--rule); }
+  .faq-item { border-bottom: 1px solid var(--rule-soft); }
+  .faq-item:last-child { border-bottom: 0; }
+  .faq-item summary { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; cursor: pointer; list-style: none; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-q { font-family: var(--font-serif); font-size: 17px; color: var(--ink); }
+  .faq-chev { color: var(--muted-soft); }
+  .faq-a { padding: 0 24px 24px; margin: 0; font-family: var(--font-serif); font-size: 15.5px; color: var(--ink-soft); line-height: 1.6; }
+</style>

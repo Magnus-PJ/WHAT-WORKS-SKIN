@@ -1,0 +1,186 @@
+{
+  "slug": "bakuchiol",
+  "name": "Bakuchiol",
+  "number": "19 / 28",
+  "filed": "18 APR 2026",
+  "eyebrowKicker": "Ingredient · Meroterpene · Bakuchiol",
+  "tier": "B",
+  "headlineSize": 124,
+  "tagline": {
+    "italic": "One small RCT.",
+    "rest": "Two billion marketing dollars."
+  },
+  "lead": "Often called \"plant retinol.\" It is not a retinoid, not pharmacologically related to retinoids, and not as well-evidenced as retinoids. It is, however, a quietly useful anti-aging active for people who genuinely cannot tolerate them — pregnancy, severe sensitivity, post-procedure recovery. Calibrate expectations accordingly.",
+  "atGlance": [
+    [
+      "INCI",
+      "Bakuchiol"
+    ],
+    [
+      "Family",
+      "Meroterpene phenol"
+    ],
+    [
+      "Source",
+      "Psoralea corylifolia seeds"
+    ],
+    [
+      "Useful range",
+      "0.5 – 1.0%"
+    ],
+    [
+      "pH window",
+      "Vehicle-flexible"
+    ],
+    [
+      "Pregnancy-safe",
+      "Likely yes (limited data)"
+    ],
+    [
+      "Photo-stable",
+      "Yes"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul · 18-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "What it is — and what it isn't"
+    ],
+    [
+      "02",
+      "The retinol-comparison study, parsed"
+    ],
+    [
+      "03",
+      "Evidence overview"
+    ],
+    [
+      "04",
+      "Concentration & vehicle"
+    ],
+    [
+      "05",
+      "Who it's actually for"
+    ],
+    [
+      "06",
+      "Pairings & conflicts"
+    ],
+    [
+      "07",
+      "On our shelf"
+    ],
+    [
+      "08",
+      "FAQ"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "B",
+    "title": {
+      "plain": "What bakuchiol",
+      "italic": "actually is."
+    },
+    "body": "akuchiol is a phenolic meroterpene extracted from the seeds of Psoralea corylifolia, a plant with a long history in Ayurveda and traditional Chinese medicine. Its current cosmetic celebrity rests almost entirely on a single 2019 randomised trial by Dhaliwal et al. that compared 0.5% bakuchiol against 0.5% retinol over 12 weeks and found broadly similar wrinkle and pigment endpoints with substantially less irritation. It is a real, replicable result — but a single trial is not the same as a 30-year evidence base. Industry has, predictably, treated the citation as if it were both."
+  },
+  "evidence": [
+    {
+      "c": "Wrinkle reduction (vs retinol)",
+      "n": "Dhaliwal 2019 RCT, n=44",
+      "w": "55%",
+      "note": "Comparable wrinkle improvement, less irritation. Important caveat: small trial, single mfr.-funded follow-ups."
+    },
+    {
+      "c": "Pigment / dyspigmentation",
+      "n": "Same trial, secondary",
+      "w": "48%",
+      "note": "Modest improvement at 12 weeks. Slower than tretinoin or azelaic."
+    },
+    {
+      "c": "Tolerability",
+      "n": "Self-reported VAS",
+      "w": "88%",
+      "note": "The headline finding. Stinging, peeling, redness all dramatically lower than retinol arm."
+    },
+    {
+      "c": "Photo-stability",
+      "n": "In vitro",
+      "w": "82%",
+      "note": "Photo-stable — usable AM, unlike most retinoids."
+    }
+  ],
+  "concentration": [
+    {
+      "c": "0.5%",
+      "v": "Reference dose",
+      "b": "Matches the Dhaliwal RCT arm. Twice-daily, 12 weeks."
+    },
+    {
+      "c": "1.0%",
+      "v": "Upper useful limit",
+      "b": "Marginal additional benefit; rising vehicle and oxidation issues."
+    }
+  ],
+  "products": [
+    {
+      "brand": "Biossance",
+      "name": "Squalane + Phyto-Retinol Serum",
+      "tier": "B",
+      "score": 78,
+      "note": "Best-formulated bakuchiol on the Indian market. 1% in clean vehicle."
+    },
+    {
+      "brand": "The Inkey List",
+      "name": "Bakuchiol",
+      "tier": "B",
+      "score": 74,
+      "note": "1% in oil. Affordable entry; oil-vehicle limits stacking."
+    },
+    {
+      "brand": "Minimalist",
+      "name": "Bakuchiol 1%",
+      "tier": "B",
+      "score": 72,
+      "note": "Indian-brand standout. Reasonable price, real concentration."
+    },
+    {
+      "brand": "Ole Henriksen",
+      "name": "Goodnight Glow",
+      "tier": "C",
+      "score": 64,
+      "note": "Bakuchiol + AHA blend. Clever marketing, diluted dose."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Is bakuchiol really 'plant retinol'?",
+      "a": "No. It is a meroterpene from Psoralea corylifolia with no structural similarity to retinoids. The marketing claim rests entirely on one 12-week, single-centre, manufacturer-supported trial showing similar wrinkle endpoints. Calling it a retinol is shorthand for 'sometimes produces similar visible results.' It is not a chemical equivalent."
+    },
+    {
+      "q": "Should I switch from retinol to bakuchiol?",
+      "a": "Only if you cannot tolerate retinoids. Retinol and tretinoin still have decades more evidence and stronger pigment, acne, and collagen endpoints. Bakuchiol is the right choice when retinoids are not — pregnancy, severe sensitivity, post-procedure rebuild."
+    },
+    {
+      "q": "Can I use it AM and PM?",
+      "a": "Yes. Photo-stable, no photosensitivity. The closest thing to a 'use anytime' anti-aging active."
+    },
+    {
+      "q": "Does it really not cause irritation?",
+      "a": "It causes meaningfully less than retinoids in most people. 'No irritation' is overstated — psoraleas as a family have a small but real photosensitisation signal we still want longer follow-up on."
+    }
+  ],
+  "relatedIngredients": [
+    "retinol",
+    "tretinoin",
+    { "slug": "peptides-signal", "sub": "Peptides" },
+    "niacinamide"
+  ],
+  "reviewer": {
+    "name": "Dr. Paul",
+    "title": "Reviewed by"
+  }
+}

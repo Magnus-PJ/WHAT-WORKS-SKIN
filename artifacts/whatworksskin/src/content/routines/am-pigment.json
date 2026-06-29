@@ -1,0 +1,124 @@
+{
+  "slug": "am-pigment",
+  "featured": true,
+  "title": "Four steps. Twelve minutes.",
+  "sub": "AM · Pigment-prone",
+  "goal": "Pigmentation",
+  "time": "Morning",
+  "skinType": "All Fitzpatricks",
+  "stepCount": 4,
+  "minutes": 12,
+  "cost": "₹ 4–7k",
+  "difficulty": "Beginner",
+  "body": "Cleanse, antioxidant, pigment-blocker, SPF. The single most-recommended morning protocol on the site.",
+  "reviewer": "Dr. Sundeep",
+  "pageRef": "P. 04",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · AM · Pigment-prone",
+  "steps": [
+    {
+      "n": "01",
+      "t": "0:00",
+      "time": "On waking",
+      "title": "Cleanse",
+      "sub": "Low-foam, low-pH cleanser",
+      "body": "Skip the heavy foaming wash in the morning. A low-pH gel preserves the acid mantle that built up overnight and prevents the early-AM barrier dip we see in pigment-prone skin.",
+      "products": [
+        {
+          "brand": "CeraVe",
+          "name": "Hydrating Cleanser",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Cetaphil",
+          "name": "Gentle Skin Cleanser",
+          "note": "Sensitive",
+          "tier": "A"
+        }
+      ],
+      "activeKey": "—",
+      "activeVal": "Surfactants",
+      "activePh": "5.5",
+      "waitMins": 1
+    },
+    {
+      "n": "02",
+      "t": "0:02",
+      "time": "After patting dry",
+      "title": "Antioxidant serum",
+      "sub": "L-ascorbic acid 10–15% (or alternative)",
+      "body": "Vitamin C provides daytime free-radical defence and amplifies SPF efficacy. For pigment-prone skin, this is the layer that does the slow work no SPF alone can.",
+      "products": [
+        {
+          "brand": "SkinCeuticals",
+          "name": "C E Ferulic",
+          "note": "Reference",
+          "tier": "A"
+        },
+        {
+          "brand": "The Ordinary",
+          "name": "Ascorbyl Glucoside Solution 12%",
+          "note": "Sensitive alternative",
+          "tier": "B"
+        }
+      ],
+      "activeKey": "L-ascorbic acid",
+      "activeVal": "10–15%",
+      "activePh": "≤ 3.5",
+      "waitMins": 5
+    },
+    {
+      "n": "03",
+      "t": "0:08",
+      "time": "Once C is dry",
+      "title": "Pigment-targeted treatment",
+      "sub": "Tranexamic acid + niacinamide",
+      "body": "On melasma and stubborn PIH, the daytime pigment-blocker layer is what closes the gap retinoid nights cannot. Tranexamic acid + niacinamide is the most evidence-aligned combination available OTC in India.",
+      "products": [
+        {
+          "brand": "Minimalist",
+          "name": "Tranexamic 03%",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "The Ordinary",
+          "name": "Alpha Arbutin 2% + HA",
+          "note": "Pregnancy alt.",
+          "tier": "B"
+        }
+      ],
+      "activeKey": "Tranexamic acid",
+      "activeVal": "3%",
+      "activePh": "5.5–6.5",
+      "waitMins": 2
+    },
+    {
+      "n": "04",
+      "t": "0:10",
+      "time": "Always last",
+      "title": "Sun protection",
+      "sub": "Broad-spectrum, high UVA-PF SPF 50+",
+      "body": "Long-UVA is what drives pigment relapse. Use the highest UVA-PF fluid you can afford, two finger-lengths to the face, every day, indoors and out.",
+      "products": [
+        {
+          "brand": "La Roche-Posay",
+          "name": "UVMune 400 Invisible Fluid",
+          "note": "Highest UVA-PF",
+          "tier": "A"
+        },
+        {
+          "brand": "Re'equil",
+          "name": "Oxybenzone & OMC Free SPF 50",
+          "note": "Budget pick",
+          "tier": "B"
+        }
+      ],
+      "activeKey": "Mexoryl 400 + Tinosorb",
+      "activeVal": "UVA-PF 46",
+      "activePh": "—",
+      "waitMins": 0
+    }
+  ]
+}

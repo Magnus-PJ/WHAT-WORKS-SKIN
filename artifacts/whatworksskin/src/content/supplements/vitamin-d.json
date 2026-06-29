@@ -1,0 +1,84 @@
+{
+  "slug": "vitamin-d",
+  "name": "Vitamin D",
+  "family": "Barrier & inflammation",
+  "target": "Eczema · acne",
+  "tier": "B",
+  "dose": "Per 25(OH)D level",
+  "rxOnly": false,
+  "oneliner": "Test before supplementing. Most Indian adults are insufficient.",
+  "pageRef": "P. 18",
+  "filed": "17 APR 2026",
+  "eyebrow": "Supplement · Barrier & inflammation · Vitamin D",
+  "headline": "Vitamin D",
+  "dek": "Insufficiency is genuinely common in adults across India — including in those with substantial sun exposure — for reasons that have to do with skin pigment, sunscreen use, and behavioural patterns. The eczema and acne literature is mixed; the case for repletion in confirmed deficiency is unambiguous.",
+  "subheadA": "Test 25(OH)D first.",
+  "subheadB": "Most Indian adults are insufficient.",
+  "bottom": "The cheapest blood test in the supplement aisle. Test before supplementing; replete to target; then maintain with the lowest effective dose.",
+  "evidence": [
+    {
+      "c": "Atopic dermatitis (with deficiency)",
+      "n": "Multiple RCTs",
+      "w": "70%",
+      "note": "Repletion meaningfully reduces flare severity in patients with low baseline 25(OH)D. Less effect in already-replete patients."
+    },
+    {
+      "c": "Acne severity",
+      "n": "Mixed observational",
+      "w": "45%",
+      "note": "Lower 25(OH)D associated with more severe acne in observational studies. Repletion trials are smaller and less consistent."
+    },
+    {
+      "c": "Hair shedding (with deficiency)",
+      "n": "Case series",
+      "w": "55%",
+      "note": "Real association in observational data. Repletion can support recovery alongside iron and ferritin work."
+    },
+    {
+      "c": "Skin lightening / brightening",
+      "n": "—",
+      "w": "10%",
+      "note": "Not the indication. Marketing claim that the literature does not support."
+    }
+  ],
+  "forms": [
+    {
+      "f": "Cholecalciferol (D3) 1000 IU/d",
+      "abs": "Good",
+      "note": "Most-studied form. Daily dosing matches the kinetic profile better than mega-doses."
+    },
+    {
+      "f": "Cholecalciferol 60,000 IU weekly",
+      "abs": "Good",
+      "note": "Common Indian prescription protocol. Convenient; equivalent endpoints to daily."
+    },
+    {
+      "f": "Cholecalciferol 60,000 IU monthly",
+      "abs": "Good",
+      "note": "Maintenance after repletion. Adjust to achieve target 25(OH)D."
+    },
+    {
+      "f": "Ergocalciferol (D2)",
+      "abs": "Moderate",
+      "note": "Vegetarian source (fungi-derived). Less efficient at raising 25(OH)D than D3."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Why are Indian adults so often insufficient?",
+      "a": "A combination of pigmented skin (which makes more UV exposure necessary for the same vitamin D synthesis), modern indoor lifestyles, sunscreen use, traditional clothing patterns in some communities, and insufficient dietary fortification. Population studies repeatedly show 60–80% of Indian adults below the 30 ng/mL threshold."
+    },
+    {
+      "q": "What target should I aim for?",
+      "a": "Most dermatology references suggest 30–50 ng/mL (75–125 nmol/L) of 25(OH)D as the maintenance target. Below 20 ng/mL is overt deficiency requiring loading-dose protocols. Above 80 ng/mL is unnecessary and approaches the safety ceiling."
+    },
+    {
+      "q": "How long until effect?",
+      "a": "25(OH)D normalises in 8–12 weeks of consistent supplementation. Skin endpoints (eczema flare reduction, hair recovery) take an additional 8–12 weeks beyond that. Plan for 6 months total before judging."
+    },
+    {
+      "q": "Toxicity concern?",
+      "a": "Real but at much higher chronic doses than skin protocols use. Sustained intake above 10,000 IU/d for months can cause hypercalcemia. The standard 1000 IU/d or weekly 60,000 IU regimens sit well below the toxicity threshold."
+    }
+  ]
+}

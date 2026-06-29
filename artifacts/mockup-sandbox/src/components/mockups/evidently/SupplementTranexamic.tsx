@@ -1,0 +1,37 @@
+// SupplementTranexamic — Oral tranexamic acid for melasma.
+
+import React from "react";
+import { SupplementPage } from "./_supplementTemplate";
+
+const SupplementTranexamic: React.FC = () => (
+  <SupplementPage
+    family="Photoprotection"
+    name="Tranexamic acid (oral)"
+    page="P. 02"
+    eyebrow="Supplement · Photoprotection · Tranexamic"
+    hero="Tranexamic."
+    subheadA="Real melasma data."
+    subheadB="VTE-screen first."
+    dek="The supplement that genuinely shifted prescribing in 2025. A plasmin inhibitor with consistent 8–12 week melasma endpoints across multiple RCTs. Not a beauty supplement; a course of treatment with a real risk profile that requires screening."
+    evidence={[
+      { c: "Melasma severity (MASI score)", n: "Three 2024–25 RCTs, 250 mg × 2/d", w: "85%", note: "Consistent, replicated reduction in pigment over 8–12 weeks. Pairs cleanly with topical hydroquinone and azelaic." },
+      { c: "Melasma adjunct to laser", n: "Comparator trials", w: "75%", note: "Reduces post-laser PIH risk and rebound pigmentation. The peri-procedure data is now strong." },
+      { c: "PIH (post-acne)", n: "Small RCTs", w: "55%", note: "Promising adjunct in skin of colour. Less robust than melasma data; reasonable trial." },
+      { c: "General 'glow' / brightening", n: "—", w: "10%", note: "Not the indication. Use topical actives for non-melasma tone work." },
+    ]}
+    forms={[
+      { f: "Tranexamic 250 mg tablet", abs: "Standard", note: "Two tablets daily, 12 hours apart. Course of 8–12 weeks; reassess." },
+      { f: "Tranexamic 500 mg tablet", abs: "Standard", note: "Used in heavier menstrual bleeding indications; melasma protocol uses lower per-dose strength." },
+      { f: "Tranexamic 5% topical", abs: "Topical only", note: "Adjunct, not replacement. Useful in pregnancy when oral is contraindicated." },
+    ]}
+    faq={[
+      { q: "What is the screening before starting?", a: "Any personal or family history of venous thromboembolism, stroke, retinal vein occlusion, or active anticoagulation use is a contraindication. Smokers, women on combined oral contraceptives, and those with thrombophilias need a dermatologist-led decision. Most healthy adults can take it; the screen exists to find the small minority who cannot." },
+      { q: "How long does the course run?", a: "8–12 weeks for the initial course. If there is meaningful response, a maintenance dose of 250 mg/d may continue for another 8–12 weeks. Indefinite use is rarely indicated; most patients cycle off and rely on topicals plus SPF for maintenance." },
+      { q: "Can I combine with topical hydroquinone?", a: "Yes — the standard combination protocol is oral tranexamic + topical hydroquinone 4% + tretinoin (the modified Kligman cocktail), with rigorous SPF. Combination outperforms any single arm in melasma trials." },
+      { q: "Side effects to watch for?", a: "GI upset is the most common (5–10%). Thrombotic events are rare in screened patients but the reason for the screen. Headache and menstrual irregularity occur in a small minority." },
+    ]}
+    bottom="The single supplement most worth a dermatology consultation in 2026. Useful, well-studied, and decisively a treatment — not a wellness product."
+  />
+);
+
+export default SupplementTranexamic;

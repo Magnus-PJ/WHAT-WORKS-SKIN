@@ -1,0 +1,230 @@
+{
+  "slug": "propolis",
+  "name": "Propolis",
+  "number": "24 / 28",
+  "filed": "18 APR 2026",
+  "eyebrowKicker": "Ingredient · Bee resin · Propolis",
+  "tier": "C",
+  "headlineSize": 124,
+  "tagline": {
+    "italic": "Useful, niche,",
+    "rest": "and worth knowing your allergens."
+  },
+  "lead": "A bee-collected resin with mild antimicrobial and anti-inflammatory activity. Useful as a supportive ingredient in acne-prone or sensitive routines — but the contact-allergy rate is meaningfully higher than for most cosmetic actives. Patch test before commitment.",
+  "atGlance": [
+    [
+      "INCI",
+      "Propolis Extract"
+    ],
+    [
+      "Family",
+      "Bee-derived resin"
+    ],
+    [
+      "Useful range",
+      "0.5 – 5% (typical), up to 80% in essences"
+    ],
+    [
+      "Vehicle",
+      "Honey-based ampoule, essence, cream"
+    ],
+    [
+      "Pregnancy-safe",
+      "Generally yes (topical, after patch test)"
+    ],
+    [
+      "Photo-stable",
+      "Yes"
+    ],
+    [
+      "Reviewer",
+      "Dr. Paul · 18-Apr-2026"
+    ]
+  ],
+  "toc": [
+    [
+      "01",
+      "What it is"
+    ],
+    [
+      "02",
+      "What it does"
+    ],
+    [
+      "03",
+      "Evidence overview"
+    ],
+    [
+      "04",
+      "Concentration & vehicle"
+    ],
+    [
+      "05",
+      "The allergy question"
+    ],
+    [
+      "06",
+      "Pairings & conflicts"
+    ],
+    [
+      "07",
+      "On our shelf"
+    ],
+    [
+      "08",
+      "FAQ"
+    ]
+  ],
+  "whatItIs": {
+    "dropCap": "P",
+    "title": {
+      "plain": "What propolis",
+      "italic": "actually is."
+    },
+    "body": "ropolis is a sticky resin honeybees produce by collecting plant exudates and mixing them with their own enzymes. The bees use it as a hive sealant and antimicrobial coating. The cosmetic-relevant fraction includes flavonoids (galangin, pinocembrin, chrysin), phenolic acids (caffeic, ferulic), and terpenoids — most of which have measurable antioxidant and antimicrobial activity in vitro.",
+    "body2": "The composition varies meaningfully by region and bee species, which is why brand-to-brand consistency is harder to evaluate than for synthetic ingredients. Korean and Brazilian propolis are the two most-studied sources in modern cosmetic literature."
+  },
+  "mechanism": [
+    {
+      "k": "Antimicrobial",
+      "b": "Active against C. acnes, S. aureus, and several skin yeasts in vitro. Cosmetic translation is supportive, not therapeutic."
+    },
+    {
+      "k": "Antioxidant",
+      "b": "Flavonoid fraction scavenges ROS; modest topical effect compared to vitamin C."
+    },
+    {
+      "k": "Anti-inflammatory",
+      "b": "Reduces NF-κB and COX-2 signalling; useful for mild redness and post-acne calm."
+    }
+  ],
+  "evidence": [
+    {
+      "c": "Inflammatory acne (mild)",
+      "n": "Smaller RCTs",
+      "w": "58%",
+      "note": "Useful adjunct in mild comedonal/inflammatory acne; not first-line."
+    },
+    {
+      "c": "Wound healing",
+      "n": "Clinical & oral history",
+      "w": "70%",
+      "note": "Long pharmacy use in superficial wounds and burns; cosmetic translation modest."
+    },
+    {
+      "c": "Soothing / sensitivity",
+      "n": "Cohort",
+      "w": "60%",
+      "note": "Real and replicable on barrier-compromised skin (after passing patch test)."
+    },
+    {
+      "c": "Anti-aging (direct)",
+      "n": "Insufficient",
+      "w": "30%",
+      "note": "Not the role."
+    }
+  ],
+  "concentration": [
+    {
+      "c": "0.5 – 1%",
+      "v": "Supportive",
+      "b": "Background ingredient in mixed formulations."
+    },
+    {
+      "c": "5 – 20%",
+      "v": "Targeted serum",
+      "b": "Therapeutic fraction for acne and sensitive skin."
+    },
+    {
+      "c": "50 – 80%",
+      "v": "Essence / ampoule",
+      "b": "K-beauty staple format. Daily-use, layering-friendly."
+    }
+  ],
+  "pairings": [
+    {
+      "with": "Niacinamide",
+      "verdict": "Excellent",
+      "note": "Both anti-inflammatory; complementary mechanisms.",
+      "ok": true
+    },
+    {
+      "with": "Centella",
+      "verdict": "Synergistic",
+      "note": "Standard K-beauty soothing combo for sensitive skin.",
+      "ok": true
+    },
+    {
+      "with": "Retinoids",
+      "verdict": "Compatible",
+      "note": "PM retinoid, AM propolis. Useful for retinoid onboarding.",
+      "ok": true
+    },
+    {
+      "with": "Active acids",
+      "verdict": "Wait",
+      "note": "Apply acid, normalise pH, then propolis essence as calming layer.",
+      "ok": false
+    },
+    {
+      "with": "Bee allergy / venom sensitivity",
+      "verdict": "Avoid",
+      "note": "Cross-reactivity is real. Always patch test; avoid entirely if severe bee allergy.",
+      "ok": false
+    }
+  ],
+  "products": [
+    {
+      "brand": "Beauty of Joseon",
+      "name": "Glow Serum (Propolis + Niacinamide)",
+      "tier": "A",
+      "score": 84,
+      "note": "Reference Korean propolis serum. 60% propolis, niacinamide bonus, fair price."
+    },
+    {
+      "brand": "COSRX",
+      "name": "Full Fit Propolis Light Ampoule",
+      "tier": "B",
+      "score": 80,
+      "note": "73% propolis. Honest dose, sticky-honey vehicle some love."
+    },
+    {
+      "brand": "I'm From",
+      "name": "Honey Mask",
+      "tier": "B",
+      "score": 76,
+      "note": "Honey + propolis wash-off mask. Weekly soothing layer rather than daily-use."
+    },
+    {
+      "brand": "Some By Mi",
+      "name": "Propolis Essence",
+      "tier": "C",
+      "score": 68,
+      "note": "Mixed-active vehicle dilutes the case."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Will propolis clear my acne?",
+      "a": "It is supportive, not curative. For mild congestion and post-acne calm, useful. For moderate-to-severe acne, you need adapalene, BPO, or a dermatologist."
+    },
+    {
+      "q": "How worried should I be about contact allergy?",
+      "a": "More than you would be for most cosmetic actives. The allergen rate in propolis is meaningfully higher than for niacinamide or HA. Patch test on your forearm for 48 hours before face application."
+    },
+    {
+      "q": "Is it vegan?",
+      "a": "No — it is harvested from beehives. Cruelty-free claims depend on harvesting methods and sustainability of the apiary."
+    },
+    {
+      "q": "Korean or Brazilian?",
+      "a": "Brazilian green propolis has the highest published antioxidant content; Korean propolis dominates the K-beauty essence market. Both work; consistency is what matters."
+    }
+  ],
+  "relatedIngredients": [
+    "centella",
+    "niacinamide",
+    "panthenol",
+    "snail-mucin"
+  ]
+}

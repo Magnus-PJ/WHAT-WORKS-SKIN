@@ -1,0 +1,167 @@
+---
+// Shared catalogue sort toggle. Renders the `.sort-bar` markup, owns
+// the styles, and ships one client-side reorder script that operates
+// on every `[data-sortable-grid]` already on the page. Cards must
+// carry `data-default-index` (original editorial order, reset per
+// grid) plus `data-link-count` and/or `data-paired-count` for the
+// non-default modes.
+//
+// Each catalogue index passes its own button labels (e.g. "Default"
+// vs "A–Z" vs "By tier") via `buttons`. The first entry is treated
+// as the default sort key — usually `"default"`, but the component
+// does not require that name.
+//
+// `aria-label` overrides the default "Sort catalogue" label on the
+// `<div role="group">` for callers that want a more specific label.
+//
+// `active` is the sort mode the page rendered the cards in
+// (server-side). When omitted we fall back to whatever `?sort=…`
+// resolves to, then to the default. Pages that pre-sort their cards
+// at SSR (so a shared `?sort=…` link arrives already sorted, no
+// hydration flash) should pass the same value here so the active
+// button matches the rendered order.
+export interface SortButton {
+  mode: string;
+  label: string;
+}
+
+interface Props {
+  buttons: SortButton[];
+  ariaLabel?: string;
+  active?: string;
+}
+
+const { buttons, ariaLabel = "Sort catalogue", active } = Astro.props;
+const defaultMode = buttons[0]?.mode ?? "default";
+const validModes = buttons.map((b) => b.mode);
+const fromUrl = Astro.url.searchParams.get("sort");
+const activeMode =
+  active && validModes.includes(active)
+    ? active
+    : fromUrl && validModes.includes(fromUrl)
+      ? fromUrl
+      : defaultMode;
+---
+<div class="sort-bar" role="group" aria-label={ariaLabel} data-sort-default={defaultMode}>
+  <span class="sort-label">Sort</span>
+  {buttons.map((b) => {
+    const isActive = b.mode === activeMode;
+    return (
+      <button
+        type="button"
+        class={`sort-btn${isActive ? " is-active" : ""}`}
+        data-sort-btn={b.mode}
+        aria-pressed={isActive}
+      >{b.label}</button>
+    );
+  })}
+</div>
+
+<script is:inline>
+  // Client-side sort toggle. Reorders cards already rendered on the
+  // page using `data-link-count` / `data-paired-count` (the same
+  // coverage counts the cards display) and `data-default-index` (the
+  // original editorial order within each grid) — no new server data
+  // is fetched. The `paired` branch is a no-op on catalogues whose
+  // cards don't carry `data-paired-count`, so this single script
+  // serves every catalogue index.
+  //
+  // The active sort is also reflected into the URL via `?sort=…` so a
+  // reader can share their tuned view by copying the address bar.
+  // We `pushState` on click (so back/forward steps through the
+  // reader's filter history) and `replaceState` is intentionally
+  // avoided — the SSR markup already matches the URL's sort, so the
+  // first paint never needs a rewrite.
+  //
+  // `is:inline` keeps the script as-is in the page; without it Astro
+  // emits a `<script src="/src/...">` tag that escapes this artifact's
+  // `/whatworksskin/` base prefix in dev mode and 404s.
+  (function () {
+    const grids = document.querySelectorAll("[data-sortable-grid]");
+    const bar = document.querySelector(".sort-bar[data-sort-default]");
+    if (!bar) return;
+    const buttons = document.querySelectorAll("[data-sort-btn]");
+    const validModes = Array.from(buttons).map(function (b) {
+      return b.dataset.sortBtn;
+    });
+    const defaultMode = bar.dataset.sortDefault || "default";
+
+    function applySort(mode) {
+      grids.forEach(function (grid) {
+        const items = Array.from(grid.children);
+        items.sort(function (a, b) {
+          if (mode === "links") {
+            const ca = Number(a.dataset.linkCount || 0);
+            const cb = Number(b.dataset.linkCount || 0);
+            if (cb !== ca) return cb - ca;
+          } else if (mode === "paired") {
+            const ca = Number(a.dataset.pairedCount || 0);
+            const cb = Number(b.dataset.pairedCount || 0);
+            if (cb !== ca) return cb - ca;
+          }
+          return (
+            Number(a.dataset.defaultIndex || 0) -
+            Number(b.dataset.defaultIndex || 0)
+          );
+        });
+        items.forEach(function (it) {
+          grid.appendChild(it);
+        });
+      });
+      buttons.forEach(function (b) {
+        const active = b.dataset.sortBtn === mode;
+        b.classList.toggle("is-active", active);
+        b.setAttribute("aria-pressed", String(active));
+      });
+    }
+
+    function modeFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const m = params.get("sort");
+      return m && validModes.indexOf(m) !== -1 ? m : defaultMode;
+    }
+
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        const mode = b.dataset.sortBtn || defaultMode;
+        applySort(mode);
+        // Reflect active sort into the URL so the view is shareable.
+        // Drop the param entirely when we're back at the default so
+        // the canonical URL stays clean.
+        const url = new URL(window.location.href);
+        if (mode === defaultMode) {
+          url.searchParams.delete("sort");
+        } else {
+          url.searchParams.set("sort", mode);
+        }
+        const next =
+          url.pathname +
+          (url.search ? url.search : "") +
+          (url.hash ? url.hash : "");
+        const current =
+          window.location.pathname +
+          window.location.search +
+          window.location.hash;
+        if (next !== current) {
+          window.history.pushState({ wwsSort: mode }, "", next);
+        }
+      });
+    });
+
+    window.addEventListener("popstate", function () {
+      applySort(modeFromUrl());
+    });
+  })();
+</script>
+
+<style>
+  /* Sort toggle — mono caption styling consistent with the .links and
+     .card-foot / .meta captions on each catalogue card; active state
+     uses the editorial accent. */
+  .sort-bar { margin: 40px 0 0; display: flex; align-items: baseline; gap: 18px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted-soft); }
+  .sort-label { color: var(--muted-soft); }
+  .sort-btn { background: transparent; border: 0; padding: 4px 0; font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--muted-soft); cursor: pointer; border-bottom: 1px solid transparent; transition: color 0.15s ease, border-color 0.15s ease; }
+  .sort-btn:hover { color: var(--ink); }
+  .sort-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); }
+  .sort-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+</style>

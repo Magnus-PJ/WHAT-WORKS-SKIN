@@ -1,0 +1,82 @@
+{
+  "slug": "weekly-bha",
+  "title": "The weekly BHA reset.",
+  "sub": "Weekly · Pore reset",
+  "goal": "Acne",
+  "time": "Weekly",
+  "skinType": "Oily / Combination",
+  "stepCount": 3,
+  "minutes": 15,
+  "cost": "₹ 2k",
+  "difficulty": "Intermediate",
+  "body": "Clay mask, 2% BHA dwell, barrier seal. Resets without retinoid stacking.",
+  "reviewer": "Dr. Paul",
+  "pageRef": "P. 11",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · Weekly · Pore reset",
+  "steps": [
+    {
+      "n": "01",
+      "time": "Step 1",
+      "title": "Kaolin clay mask",
+      "sub": "10 minutes, do not let dry fully",
+      "body": "A 10-minute clay mask draws sebum and surface debris without the over-drying that comes from leaving it on until cracking. Apply to clean, slightly damp skin. The mask should still feel cool when you remove it.",
+      "products": [
+        {
+          "brand": "L'Oréal",
+          "name": "Pure Clay Detox Mask",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Innisfree",
+          "name": "Volcanic Pore Clay Mask",
+          "note": "Premium",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "02",
+      "time": "Step 2",
+      "title": "BHA 2% leave-on",
+      "sub": "15-minute dwell, do not rinse",
+      "body": "After the clay mask is removed, apply a thin layer of 2% salicylic acid to dry skin. Allow it to dwell for 15 minutes — this is the active step that delivers the actual exfoliation. Do not stack with retinoids on the same night.",
+      "products": [
+        {
+          "brand": "Paula's Choice",
+          "name": "Skin Perfecting 2% BHA Liquid",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "The Ordinary",
+          "name": "Salicylic Acid 2% Solution",
+          "note": "Budget",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "03",
+      "time": "Step 3",
+      "title": "Barrier seal moisturiser",
+      "sub": "Generous, ceramide-rich",
+      "body": "After the BHA dwell, apply a thicker-than-usual layer of ceramide moisturiser. The night of the reset is not the night to add anything else — no retinoid, no acid serum, no fragrance. The point is recovery as much as exfoliation.",
+      "products": [
+        {
+          "brand": "CeraVe",
+          "name": "Moisturising Cream",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Bioderma",
+          "name": "Atoderm Cream",
+          "note": "Premium",
+          "tier": "A"
+        }
+      ]
+    }
+  ]
+}

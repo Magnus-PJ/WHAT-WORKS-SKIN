@@ -1,0 +1,82 @@
+{
+  "slug": "pregnancy-pm",
+  "title": "Pregnancy-safe evening.",
+  "sub": "PM · Pregnancy",
+  "goal": "Pregnancy",
+  "time": "Evening",
+  "skinType": "All",
+  "stepCount": 3,
+  "minutes": 6,
+  "cost": "₹ 2–4k",
+  "difficulty": "Beginner",
+  "body": "Cleanse, azelaic 10%, ceramide cream. The list of what you can do, not what you can't.",
+  "reviewer": "Dr. Sundeep",
+  "pageRef": "P. 15",
+  "filed": "20 APR 2026",
+  "eyebrow": "Routine · PM · Pregnancy",
+  "steps": [
+    {
+      "n": "01",
+      "time": "PM",
+      "title": "Gentle cream cleanser",
+      "sub": "Same as AM, fragrance-free",
+      "body": "Pregnancy is not the time to introduce a double cleanse. A single cream cleanser, lukewarm water, 30 seconds. If you wear mineral SPF + makeup, an oil cleanser before is fine — but check the ingredient list for retinyl palmitate, which crops up in some 'anti-aging' oils.",
+      "products": [
+        {
+          "brand": "Cetaphil",
+          "name": "Gentle Skin Cleanser",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Vanicream",
+          "name": "Gentle Facial Cleanser",
+          "note": "Sensitive",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "02",
+      "time": "PM",
+      "title": "Azelaic acid 10%",
+      "sub": "Pregnancy-safe active",
+      "body": "The single active most worth keeping in pregnancy. Azelaic addresses both melasma and pregnancy-related acne flares without the safety questions of a retinoid or BHA. Apply to dry skin, wait 5 minutes before moisturiser. Stinging is normal in the first two weeks; usually resolves.",
+      "products": [
+        {
+          "brand": "The Ordinary",
+          "name": "Azelaic Acid Suspension 10%",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "Deconstruct",
+          "name": "Azelaic + SAP Serum",
+          "note": "Premium",
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "n": "03",
+      "time": "PM",
+      "title": "Ceramide cream",
+      "sub": "Generous, occlusive enough",
+      "body": "Pregnancy dryness — particularly in the second trimester — responds to a slightly richer ceramide cream than your usual moisturiser. The barrier is your front line; protect it with a thicker layer at night.",
+      "products": [
+        {
+          "brand": "CeraVe",
+          "name": "Moisturising Cream",
+          "note": "Default",
+          "tier": "A"
+        },
+        {
+          "brand": "La Roche-Posay",
+          "name": "Toleriane Riche",
+          "note": "Premium",
+          "tier": "A"
+        }
+      ]
+    }
+  ]
+}
